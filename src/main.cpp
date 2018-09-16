@@ -15,56 +15,55 @@
 
 namespace bpo = boost::program_options;
 namespace bfs = boost::filesystem;
-using namespace std;
 
 int main(int argc, char *argv[])
 {
    try {
       bfs::path currentInitialDir(bfs::initial_path());
       bfs::path MCTspecFileName;
-      bpo::options_description descr(APPNAME " - Test Generator - ");
-      descr.add_options()("help,h", "produce help message")(
+      bpo::options_description descr(APPNAME " - Exam Generator - ");
+      descr.add_options()("help,h", "show help message")(
          "version,v", "print version string")("specification,s",
-                                              bpo::value<string>(),
+                                              bpo::value<std::string>(),
                                               "input specification file")(
          "hct,t", "execute hard coded specification");
       bpo::variables_map var_map;
       bpo::store(bpo::parse_command_line(argc, argv, descr), var_map);
 
       if (var_map.count("help")) {
-         clog << descr << endl;
+         std::clog << descr << std::endl;
          return 1;
       }
       if (var_map.count("version")) {
-         clog << VERSION << endl;
+         std::clog << VERSION << std::endl;
          return 1;
       }
       if (var_map.count("specification")) {
-         MCTspecFileName = var_map["specification"].as<string>();
+         MCTspecFileName = var_map["specification"].as<std::string>();
       } else {
-         clog << "\nERROR: input specification file name missing\n\n";
-         clog << descr << endl;
+         std::clog << "\nERROR: input specification file name missing\n\n"
+                   << descr << std::endl;
          return 1;
       }
 
-      cout << "- " << APPNAME << " v" << VERSION << " started in "
-           << currentInitialDir << endl
-           << endl;
+      std::cout << "- " << APPNAME << " v" << VERSION << " started in "
+                << currentInitialDir << std::endl
+                << std::endl;
 
       const bfs::path LaTeXoutputDir("MCTlatex");
       const bfs::path LaTeXgeneratedFileName(LaTeXoutputDir /
                                              "MCTgenerated.tex");
       const bfs::path LaTeXdocFileName("MCTdoc.tex");
-      const string LaTeXcommand(
+      const std::string LaTeXcommand(
          "pdflatex -enable-write18 \"-output-directory=" +
          LaTeXoutputDir.string() + "\" " +
          (LaTeXoutputDir / LaTeXdocFileName).string());
 
       bfs::ofstream LaTeXgeneratedFile(LaTeXgeneratedFileName);
       if (!LaTeXgeneratedFile) {
-         cerr << "%%$##^((*& " << LaTeXgeneratedFileName << " not opened"
-              << endl;
-         cin.get();
+         std::cerr << "%%$##^((*& " << LaTeXgeneratedFileName
+                   << " not opened" << std::endl;
+         std::cin.get();
          exit(1);
       }
       if (var_map.count("hct")) {
@@ -73,9 +72,9 @@ int main(int argc, char *argv[])
       }
       bfs::ifstream MCTspecFile(MCTspecFileName);
       if (!MCTspecFile) {
-         cerr << "*&^*&^%^&% MCTspecFile: " << MCTspecFileName
-              << " not opened" << endl;
-         cin.get();
+         std::cerr << "ERROR: MCTspecFile " << MCTspecFileName
+                   << " not opened" << std::endl;
+         std::cin.get();
          exit(1);
       }
 
@@ -86,33 +85,33 @@ int main(int argc, char *argv[])
 
       // if (!scriptedTests.empty())
       // {
-      //   cout << "- Generating scripted MCT's" << endl;
+      //   std::cout << "- Generating scripted MCT's" << std::endl;
 
       //   for_each(scriptedTests.begin(), scriptedTests.end(),
       //   [&LaTeXgeneratedFile](std::shared_ptr<GenMCTs>& st) {
       //   st->generate(LaTeXgeneratedFile); } );
       //   LaTeXgeneratedFile.close();
 
-      //   cout << "- LaTeX file generated\n";
-      //   cout << "- Started PDF file generation\n";
+      //   std::cout << "- LaTeX file generated\n";
+      //   std::cout << "- Started PDF file generation\n";
       //   // Generate DVI file
       //   system(LaTeXcommand.c_str());
-      //   cout << "\n- PDF file generated\n\n";
+      //   std::cout << "\n- PDF file generated\n\n";
       // }
       // else
       // {
-      //   cout << "\n- No PDF file generated\n\n";
+      //   std::cout << "\n- No PDF file generated\n\n";
       // }
    } catch (const std::bad_alloc &ba) {
-      clog << "\n\t OUT OF MEMORY " << ba.what() << endl;
+      std::clog << "\n\t OUT OF MEMORY " << ba.what() << std::endl;
    } catch (const std::exception &e) {
-      clog << "\n\t" << e.what() << endl;
+      std::clog << "\n\t" << e.what() << std::endl;
    } catch (...) {
-      clog << "\n\tUNKNOWN EXCEPTION" << endl;
+      std::clog << "\n\tUNKNOWN EXCEPTION" << std::endl;
    }
 
-   cout << "\nBye... :-) \n\n";
-   cin.get();
+   std::cout << "\nBye... :-) \n\n";
+   std::cin.get();
 
    return 0;
 }
