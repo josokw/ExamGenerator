@@ -48,3 +48,6 @@ CTestTestfile.cmake
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Executable
+bin/ExamGenerator
