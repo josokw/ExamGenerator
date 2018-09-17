@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
    try {
       bfs::path currentInitialDir(bfs::initial_path());
       bfs::path MCTspecFileName;
-      bpo::options_description descr(APPNAME " - Exam Generator - ");
+      bpo::options_description descr(APPNAME " v" VERSION ":");
       descr.add_options()("help,h", "show help message")(
          "version,v", "print version string")("specification,s",
                                               bpo::value<std::string>(),
@@ -32,23 +32,22 @@ int main(int argc, char *argv[])
 
       if (var_map.count("help")) {
          std::clog << descr << std::endl;
-         return 1;
+         return 0;
       }
       if (var_map.count("version")) {
          std::clog << VERSION << std::endl;
-         return 1;
+         return 0;
       }
       if (var_map.count("specification")) {
          MCTspecFileName = var_map["specification"].as<std::string>();
       } else {
-         std::clog << "\nERROR: input specification file name missing\n\n"
+         std::cerr << "\n\tERROR: input specification file name missing\n\n"
                    << descr << std::endl;
          return 1;
       }
 
       std::cout << "- " << APPNAME << " v" << VERSION << " started in "
-                << currentInitialDir << std::endl
-                << std::endl;
+                << currentInitialDir << std::endl;
 
       const bfs::path LaTeXoutputDir("MCTlatex");
       const bfs::path LaTeXgeneratedFileName(LaTeXoutputDir /
@@ -61,9 +60,8 @@ int main(int argc, char *argv[])
 
       bfs::ofstream LaTeXgeneratedFile(LaTeXgeneratedFileName);
       if (!LaTeXgeneratedFile) {
-         std::cerr << "%%$##^((*& " << LaTeXgeneratedFileName
-                   << " not opened" << std::endl;
-         std::cin.get();
+         std::cerr << "\n\tERROR: " << LaTeXgeneratedFileName
+                   << " not opened\n\n";
          exit(1);
       }
       if (var_map.count("hct")) {
@@ -73,7 +71,7 @@ int main(int argc, char *argv[])
       bfs::ifstream MCTspecFile(MCTspecFileName);
       if (!MCTspecFile) {
          std::cerr << "ERROR: MCTspecFile " << MCTspecFileName
-                   << " not opened" << std::endl;
+                   << " not opened\n\n";
          std::cin.get();
          exit(1);
       }
@@ -102,12 +100,15 @@ int main(int argc, char *argv[])
       // {
       //   std::cout << "\n- No PDF file generated\n\n";
       // }
-   } catch (const std::bad_alloc &ba) {
-      std::clog << "\n\t OUT OF MEMORY " << ba.what() << std::endl;
-   } catch (const std::exception &e) {
-      std::clog << "\n\t" << e.what() << std::endl;
-   } catch (...) {
-      std::clog << "\n\tUNKNOWN EXCEPTION" << std::endl;
+   }
+   catch (const std::bad_alloc &ba) {
+      std::cerr << "\n\tOUT OF MEMORY " << ba.what() << std::endl;
+   }
+   catch (const std::exception &e) {
+      std::cerr << "\n\t" << e.what() << std::endl;
+   }
+   catch (...) {
+      std::cerr << "\n\tUNKNOWN EXCEPTION" << std::endl;
    }
 
    std::cout << "\nBye... :-) \n\n";
