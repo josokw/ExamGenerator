@@ -51,3 +51,6 @@ CTestTestfile.cmake
 
 # Executable
 bin/ExamGenerator
+
+# Loging
+ExamGenerator.log

@@ -9,6 +9,7 @@ set(CMAKE_CXX_FLAGS "-g -Wall -Wextra")
 find_package(Boost COMPONENTS system filesystem program_options REQUIRED)
 
 include_directories(src)
+include_directories(logger)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
 message("==== Source dir: ${CMAKE_SOURCE_DIR}")
@@ -18,6 +19,10 @@ file(
     RELATIVE ${CMAKE_SOURCE_DIR}
     src/*.cpp
     src/*.h
+    logger/*.cpp 
+    logger/*.h 
+    examGen/*.cpp
+    examGen/*.h
 )
 
 message("==== ExamGenerator sources: ${EXAMGENERATOR_SOURCES}")

@@ -4,6 +4,7 @@
 #include "Log.h"
 
 #include <chrono>
+#include <iostream>
 
 Logger &Logger::instance()
 {
@@ -20,13 +21,13 @@ Logger::~Logger()
 
 void Logger::setFilename(const std::string &filename)
 {
-   // SET_FNAME("Logger::setFilename()");
+   SET_FNAME("Logger::setFilename()");
    logFile_.close();
    logFile_.open(filename.c_str());
    if (logFile_) {
       logFilename_ = filename;
    }
-   // LOGI("LOGGER filename: " + m_filename.c_str());
+   LOGI("LOGGER filename: " + logFilename_.c_str());
 }
 
 void Logger::log(const std::string &message)
@@ -46,7 +47,11 @@ void Logger::log(const char *message)
 Logger::Logger()
    : logMutex_{}
    , logFilename_{APPNAME ".log"}
-   , logFile_{}
+   , logFile_{logFilename_}
    , inDebugMode_{false}
 {
+   setDebugMode();
+   if (!logFile_) {
+      std::cerr << "\n\tERROR cannot create logfile\n";
+   }
 }
