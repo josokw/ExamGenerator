@@ -1,4 +1,5 @@
 #include "AppInfo.h"
+#include "Log.h"
 #include <algorithm>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -19,6 +20,8 @@ namespace bfs = boost::filesystem;
 int main(int argc, char *argv[])
 {
    try {
+      LOGI("Start");
+
       bfs::path currentInitialDir(bfs::initial_path());
       bfs::path MCTspecFileName;
       bpo::options_description descr(APPNAME " v" VERSION ":");
