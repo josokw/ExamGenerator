@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
          return 0;
       }
       if (var_map.count("version")) {
-         std::clog << VERSION << std::endl;
+         std::clog << APPNAME " v" VERSION << std::endl;
          return 0;
       }
       if (var_map.count("seed")) {

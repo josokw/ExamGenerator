@@ -3,13 +3,13 @@
 
 #include <string>
 
-#define LOG(msg) log(std::string(__func__) + " " + msg)
-#define LOGE(msg) log("E    " + std::string(__func__) + " " + msg)
-#define LOGW(msg) log(" W   " + std::string(__func) + " " + msg)
-#define LOGI(msg) log("  I  " + std::string(__func__) + " " + msg)
-#define LOGD(msg) logDebug("   D " + std::string(__func__) + " " + msg)
+#define LOG(msg) log(std::string(__func__) + "() " + msg)
+#define LOGE(msg) log("E    " + std::string(__func__) + "() " + msg)
+#define LOGW(msg) log(" W   " + std::string(__func) + "() " + msg)
+#define LOGI(msg) log("  I  " + std::string(__func__) + "() " + msg)
+#define LOGD(msg) logDebug("   D " + std::string(__func__) + "() " + msg)
 #define LOGCI(condition, msg)                                                  \
-   log(condition, "  I  " + std::string(__func__) + " " + msg)
+   log(condition, "  I  " + std::string(__func__) + "() " + msg)
 
 void log(const std::string &msg);
 void log(const char *msg);
