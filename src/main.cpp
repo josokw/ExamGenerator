@@ -24,12 +24,16 @@ int main(int argc, char *argv[])
 
       bfs::path currentInitialDir(bfs::initial_path());
       bfs::path MCTspecFileName;
-      bpo::options_description descr(APPNAME " v" VERSION ":");
-      descr.add_options()("help,h", "show help message")(
-         "version,v", "print version string")("specification,s",
-                                              bpo::value<std::string>(),
-                                              "input specification file")(
-         "hct,t", "execute hard coded specification");
+      bpo::options_description descr(APPNAME " v" VERSION);
+
+      descr.add_options()("help,h", "show help message");
+      descr.add_options()("version,v", "print version string");
+      descr.add_options()("seed,s", bpo::value<long int>(),
+                          "input seed random generator");
+      descr.add_options()("exam,e", bpo::value<std::string>(),
+                          "input exam specification file");
+      descr.add_options()("hct,t", "execute hard coded specification");
+
       bpo::variables_map var_map;
       bpo::store(bpo::parse_command_line(argc, argv, descr), var_map);
 
@@ -41,8 +45,12 @@ int main(int argc, char *argv[])
          std::clog << VERSION << std::endl;
          return 0;
       }
-      if (var_map.count("specification")) {
-         MCTspecFileName = var_map["specification"].as<std::string>();
+      if (var_map.count("seed")) {
+         auto seed = var_map["seed"].as<long int>();
+         LOGI("seed = " + std::to_string(seed));
+      }
+      if (var_map.count("exam")) {
+         MCTspecFileName = var_map["exam"].as<std::string>();
       } else {
          std::cerr << "\n\tERROR: input specification file name missing\n\n"
                    << descr << std::endl;
