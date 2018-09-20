@@ -20,7 +20,7 @@ namespace bfs = boost::filesystem;
 int main(int argc, char *argv[])
 {
    try {
-      LOGI("Start");
+      LOGI(APPNAME " v" VERSION " started");
 
       bfs::path currentInitialDir(bfs::initial_path());
       bfs::path MCTspecFileName;

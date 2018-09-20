@@ -14,14 +14,14 @@ Logger &Logger::instance()
 
 Logger::~Logger()
 {
-   SET_FNAME("Logger::~Logger()");
+//    SET_FNAME("Logger::~Logger()");
    LOGI("LOGGER closed");
    logFile_.close();
 }
 
 void Logger::setFilename(const std::string &filename)
 {
-   SET_FNAME("Logger::setFilename()");
+//    SET_FNAME("Logger::setFilename()");
    logFile_.close();
    logFile_.open(filename.c_str());
    if (logFile_) {
