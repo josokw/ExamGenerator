@@ -1,23 +1,23 @@
 #include "GenNull.h"
 
-GenNULL::GenNULL()
+GenNull::GenNull()
    : IGenerator()
 {
-   type_ = "GENNULL";
+   type_ = "GenNull";
 }
 
-IGenPtr_t GenNULL::copy() const
+IGenPtr_t GenNull::copy() const
 {
-   std::shared_ptr<GenNULL> p(new GenNULL(*this));
+   std::shared_ptr<GenNull> p(new GenNull(*this));
    return p;
 }
 
-void GenNULL::generate(std::ostream &os)
+void GenNull::generate(std::ostream &os)
 {
-   os << "$<$NULL$>$";
+   os << "$<$GenNUll$>$";
 }
 
-std::ostream &GenNULL::write(std::ostream &os, int level) const
+std::ostream &GenNull::write(std::ostream &os, int level) const
 {
    IGenerator::write(os, level);
    os << "\n";

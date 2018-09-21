@@ -10,13 +10,13 @@
 /// gives consistent and predictable behavior for the null situation.
 ///
 /// Class invariant: TRUE
-class GenNULL : public IGenerator
+class GenNull : public IGenerator
 {
 public:
-   static const GenNULL GEN_NULL();
+   static const GenNull GEN_NULL();
 
-   GenNULL();
-   virtual ~GenNULL() = default;
+   GenNull();
+   virtual ~GenNull() = default;
 
    virtual IGenPtr_t copy() const;
    virtual void generate(std::ostream &os);

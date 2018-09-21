@@ -3,6 +3,7 @@
 
 #include "ExcInfo.h"
 #include "IGenerator.h"
+#include "Log.h"
 
 std::ostream &operator<<(std::ostream &os, const IGenerator &iGen)
 {
@@ -18,6 +19,7 @@ IGenerator::IGenerator()
    , id_("NOT-DEFINED")
    , difficultyLevel_(0)
 {
+     LOGD("initialised");
 }
 
 IGenerator::IGenerator(const std::string &id)
