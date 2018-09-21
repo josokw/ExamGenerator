@@ -4,7 +4,11 @@ set(PROJECTNAME ExamGenerator)
 project(${PROJECTNAME})
 message("==== Projectname: ${PROJECTNAME}")
 
-set(CMAKE_CXX_FLAGS "-g -Wall -Wextra -Wpedantic")
+set(CMAKE_CXX_FLAGS "-g -Wall -Wextra -Wpedantic -Wold-style-cast \
+    -Winit-self -Wno-unused -Wshadow \
+    -Wno-parentheses -Wlogical-op -Wredundant-decls \
+    -Wcast-align -Wsign-promo -Wmissing-include-dirs \
+    -Woverloaded-virtual -Wctor-dtor-privacy")
 
 find_package(Boost COMPONENTS system filesystem program_options REQUIRED)
 
