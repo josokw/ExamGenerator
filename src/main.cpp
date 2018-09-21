@@ -1,9 +1,11 @@
 #include "AppInfo.h"
 #include "GenCodeText.h"
+#include "GenHeader.h"
 #include "GenNull.h"
 #include "GenText.h"
 #include "Log.h"
 #include "RandomProfile.h"
+// #include "hcExam01.h"
 
 #include <algorithm>
 #include <boost/filesystem.hpp>
@@ -37,7 +39,7 @@ int main(int argc, char *argv[])
                           "input seed random generator");
       descr.add_options()("exam,e", bpo::value<std::string>(),
                           "input exam specification file");
-      descr.add_options()("hct,t", "execute hard coded specification");
+      descr.add_options()("hce,c", "execute hard coded exam");
 
       bpo::variables_map var_map;
       bpo::store(bpo::parse_command_line(argc, argv, descr), var_map);
@@ -80,10 +82,10 @@ int main(int argc, char *argv[])
       //                << " not opened\n\n";
       //      exit(1);
       //   }
-      if (var_map.count("hct")) {
-         //   MCTgenTests::test1(LaTeXgeneratedFile);
-         //   MCTgenTests::testAll(LaTeXgeneratedFile);
-      }
+      //   if (var_map.count("hct")) {
+      //   MCTgenTests::test1(LaTeXgeneratedFile);
+      //   MCTgenTests::testAll(LaTeXgeneratedFile);
+
       bfs::ifstream MCTspecFile(MCTspecFileName);
       //   if (!MCTspecFile) {
       //      std::cerr << "ERROR: MCTspecFile " << MCTspecFileName
@@ -91,6 +93,11 @@ int main(int argc, char *argv[])
       //      std::cin.get();
       //      exit(1);
       //   }
+
+      if (var_map.count("hce")) {
+         LOGD("Hard coded exam");
+         //   hcExam01(LaTeXgeneratedFile);
+      }
 
       Random::range_t rng{2, 6};
       RandomProfile rf;
@@ -103,6 +110,11 @@ int main(int argc, char *argv[])
 
       GenNull genNull;
       std::cout << genNull << std::endl;
+
+      GenHeader genHeader;
+      genHeader.School = "HAN Engineering";
+      std::cout << genHeader << std::endl;
+
       GenText genText{"Hello text"};
       std::cout << genText << std::endl;
       GenCodeText genCodeText{"C", "int main() { }"};
@@ -133,6 +145,7 @@ int main(int argc, char *argv[])
       //   std::cout << "\n- No PDF file generated\n\n";
       // }
    }
+
    catch (const std::bad_alloc &ba) {
       std::cerr << "\n\tOUT OF MEMORY " << ba.what() << std::endl;
    }
@@ -142,9 +155,7 @@ int main(int argc, char *argv[])
    catch (...) {
       std::cerr << "\n\tUNKNOWN EXCEPTION" << std::endl;
    }
-
    std::cout << "\nBye... :-) \n\n";
-   //    std::cin.get();
 
    return 0;
 }
