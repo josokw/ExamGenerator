@@ -4,12 +4,13 @@ set(PROJECTNAME ExamGenerator)
 project(${PROJECTNAME})
 message("==== Projectname: ${PROJECTNAME}")
 
-set(CMAKE_CXX_FLAGS "-g -Wall -Wextra")
+set(CMAKE_CXX_FLAGS "-g -Wall -Wextra -Wpedantic")
 
 find_package(Boost COMPONENTS system filesystem program_options REQUIRED)
 
 include_directories(src)
 include_directories(logger)
+include_directories(examGen)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
 message("==== Source dir: ${CMAKE_SOURCE_DIR}")

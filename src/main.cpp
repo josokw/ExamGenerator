@@ -1,5 +1,8 @@
 #include "AppInfo.h"
 #include "Log.h"
+#include "RandomProfile.h"
+#include "GenNull.h"
+
 #include <algorithm>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -52,9 +55,9 @@ int main(int argc, char *argv[])
       if (var_map.count("exam")) {
          MCTspecFileName = var_map["exam"].as<std::string>();
       } else {
-         std::cerr << "\n\tERROR: input specification file name missing\n\n"
-                   << descr << std::endl;
-         return 1;
+        //  std::cerr << "\n\tERROR: input specification file name missing\n\n"
+        //            << descr << std::endl;
+        //  return 1;
       }
 
       std::cout << "- " << APPNAME << " v" << VERSION << " started in "
@@ -70,22 +73,34 @@ int main(int argc, char *argv[])
          (LaTeXoutputDir / LaTeXdocFileName).string());
 
       bfs::ofstream LaTeXgeneratedFile(LaTeXgeneratedFileName);
-      if (!LaTeXgeneratedFile) {
-         std::cerr << "\n\tERROR: " << LaTeXgeneratedFileName
-                   << " not opened\n\n";
-         exit(1);
-      }
+      //   if (!LaTeXgeneratedFile) {
+      //      std::cerr << "\n\tERROR: " << LaTeXgeneratedFileName
+      //                << " not opened\n\n";
+      //      exit(1);
+      //   }
       if (var_map.count("hct")) {
          //   MCTgenTests::test1(LaTeXgeneratedFile);
          //   MCTgenTests::testAll(LaTeXgeneratedFile);
       }
       bfs::ifstream MCTspecFile(MCTspecFileName);
-      if (!MCTspecFile) {
-         std::cerr << "ERROR: MCTspecFile " << MCTspecFileName
-                   << " not opened\n\n";
-         std::cin.get();
-         exit(1);
+      //   if (!MCTspecFile) {
+      //      std::cerr << "ERROR: MCTspecFile " << MCTspecFileName
+      //                << " not opened\n\n";
+      //      std::cin.get();
+      //      exit(1);
+      //   }
+
+      Random::range_t rng{2, 6};
+      RandomProfile rf;
+
+      rf.generate(rng);
+      auto r = rf.getProfile();
+      for (auto i : r) {
+         std::cout << i << std::endl;
       }
+
+      GenNULL genNull;
+      std::cout << genNull << std::endl;
 
       // Start MC test construction scripted
       // Reader reader(MCTspecFile);
@@ -123,7 +138,7 @@ int main(int argc, char *argv[])
    }
 
    std::cout << "\nBye... :-) \n\n";
-   std::cin.get();
+   //    std::cin.get();
 
    return 0;
 }
