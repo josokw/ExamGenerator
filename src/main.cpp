@@ -1,7 +1,9 @@
 #include "AppInfo.h"
+#include "GenCodeText.h"
+#include "GenNull.h"
+#include "GenText.h"
 #include "Log.h"
 #include "RandomProfile.h"
-#include "GenNull.h"
 
 #include <algorithm>
 #include <boost/filesystem.hpp>
@@ -55,9 +57,9 @@ int main(int argc, char *argv[])
       if (var_map.count("exam")) {
          MCTspecFileName = var_map["exam"].as<std::string>();
       } else {
-        //  std::cerr << "\n\tERROR: input specification file name missing\n\n"
-        //            << descr << std::endl;
-        //  return 1;
+         //  std::cerr << "\n\tERROR: input specification file name missing\n\n"
+         //            << descr << std::endl;
+         //  return 1;
       }
 
       std::cout << "- " << APPNAME << " v" << VERSION << " started in "
@@ -99,8 +101,12 @@ int main(int argc, char *argv[])
          std::cout << i << std::endl;
       }
 
-      GenNULL genNull;
+      GenNull genNull;
       std::cout << genNull << std::endl;
+      GenText genText{"Hello text"};
+      std::cout << genText << std::endl;
+      GenCodeText genCodeText{"C", "int main() { }"};
+      std::cout << genCodeText << std::endl;
 
       // Start MC test construction scripted
       // Reader reader(MCTspecFile);
