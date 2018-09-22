@@ -5,7 +5,7 @@
 #include "GenText.h"
 #include "Log.h"
 #include "RandomProfile.h"
-// #include "hcExam01.h"
+#include "hcExam/hcExam01.h"
 
 #include <algorithm>
 #include <boost/filesystem.hpp>
@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
 
       if (var_map.count("hce")) {
          LOGD("Hard coded exam");
-         //   hcExam01(LaTeXgeneratedFile);
+         hcExam01(LaTeXgeneratedFile);
       }
 
       Random::range_t rng{2, 6};
