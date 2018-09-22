@@ -59,5 +59,7 @@ void hcExam01(std::ofstream &LaTeXfile)
 
    //    pMCtst->add(pI);
 
+   //    pMCtst->generate(TexFile);
+
    LOGD("Generating LaTeX ready");
 }
