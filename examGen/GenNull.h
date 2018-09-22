@@ -11,8 +11,6 @@
 class GenNull : public IGenerator
 {
 public:
-   static const GenNull GEN_NULL();
-
    GenNull();
    virtual ~GenNull() = default;
 

@@ -1,9 +1,11 @@
 #include "GenNull.h"
+#include "Log.h"
 
 GenNull::GenNull()
    : IGenerator()
 {
    type_ = "GenNull";
+   LOGD("initialised");
 }
 
 IGenPtr_t GenNull::copy() const
