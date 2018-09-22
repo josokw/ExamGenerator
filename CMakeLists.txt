@@ -28,8 +28,8 @@ file(
     logger/*.h 
     examGen/*.cpp
     examGen/*.h
-    hcExam/*.cpp
-    hcExam/*.h
+    src/hcExam/*.cpp
+    src/hcExam/*.h
 )
 
 message("==== ExamGenerator sources: ${EXAMGENERATOR_SOURCES}")
