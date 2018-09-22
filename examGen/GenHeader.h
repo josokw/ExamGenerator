@@ -1,12 +1,13 @@
 #ifndef GENHEADER_H
 #define GENHEADER_H
 
-#include <string>
-
 #include "IGenerator.h"
 
-/// Represents a header of a MC exam document.
-/// Every MC exam must have its own header.
+#include <string>
+
+/// Represents a header of an exam document. Every exam must have its own
+/// header.
+///
 /// Class invariant: TRUE
 class GenHeader : public IGenerator
 {
@@ -15,9 +16,9 @@ public:
    GenHeader(const std::string &id);
    virtual ~GenHeader();
 
-   virtual IGenPtr_t copy() const;
-   virtual void generate(std::ostream &os);
-   virtual std::ostream &write(std::ostream &os, int level = 0) const;
+   virtual IGenPtr_t copy() const override;
+   virtual void generate(std::ostream &os) override;
+   virtual std::ostream &write(std::ostream &os, int level = 0) const override;
 
    std::string School;
    std::string Course;

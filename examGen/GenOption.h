@@ -12,9 +12,9 @@ public:
    virtual ~GenOption();
 
    virtual IGenPtr_t copy() const;
-   virtual void add(IGenPtr_t pGen);
-   virtual void generate(std::ostream &os);
-   virtual std::ostream &write(std::ostream &os, int level = 0) const;
+   virtual void add(IGenPtr_t pGen) override;
+   virtual void generate(std::ostream &os) override;
+   virtual std::ostream &write(std::ostream &os, int level = 0) const override;
 
    bool getIsCorrect() const { return isCorrect_; }
    void setIsCorrect() const { isCorrect_ = true; }

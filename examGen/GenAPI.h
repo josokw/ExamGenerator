@@ -3,7 +3,7 @@
 
 #include "IGenerator.h"
 
-/// Generates an API description containing: return type, signature and
+/// Generates an API function description containing: return type, signature and
 /// description.
 class GenAPI : public IGenerator
 {
@@ -12,9 +12,9 @@ public:
           const std::string &description);
    virtual ~GenAPI();
 
-   virtual IGenPtr_t copy() const;
-   virtual void generate(std::ostream &os);
-   virtual std::ostream &write(std::ostream &os, int level = 0) const;
+   virtual IGenPtr_t copy() const override;
+   virtual void generate(std::ostream &os) override;
+   virtual std::ostream &write(std::ostream &os, int level = 0) const override;
 
 private:
    std::string returnType_;

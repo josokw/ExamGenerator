@@ -1,8 +1,6 @@
 #ifndef GENNULL_H
 #define GENNULL_H
 
-#include <string>
-
 #include "IGenerator.h"
 
 /// A class according to the Null Object Pattern.
@@ -18,9 +16,9 @@ public:
    GenNull();
    virtual ~GenNull() = default;
 
-   virtual IGenPtr_t copy() const;
-   virtual void generate(std::ostream &os);
-   virtual std::ostream &write(std::ostream &os, int level = 0) const;
+   virtual IGenPtr_t copy() const override;
+   virtual void generate(std::ostream &os) override;
+   virtual std::ostream &write(std::ostream &os, int level = 0) const override;
 };
 
 #endif

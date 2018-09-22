@@ -1,8 +1,6 @@
 #ifndef GENOPTIONS_H
 #define GENOPTIONS_H
 
-#include <string>
-
 #include "GenComposite.h"
 
 class GenOption;
@@ -18,9 +16,9 @@ public:
    virtual ~GenOptions();
 
    virtual IGenPtr_t copy() const;
-   virtual void add(IGenPtr_t pGen);
-   virtual void generate(std::ostream &os);
-   virtual std::ostream &write(std::ostream &os, int level = 0) const;
+   virtual void add(IGenPtr_t pGen) override;
+   virtual void generate(std::ostream &os) override;
+   virtual std::ostream &write(std::ostream &os, int level = 0) const override;
 
    /// Add an option
    void add(std::shared_ptr<GenOption> &pOption, bool isCorrect = false);

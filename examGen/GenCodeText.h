@@ -12,9 +12,9 @@ public:
                const std::string &codeText);
    virtual ~GenCodeText();
 
-   virtual IGenPtr_t copy() const;
-   virtual void generate(std::ostream &os);
-   virtual std::ostream &write(std::ostream &os, int level = 0) const;
+   virtual IGenPtr_t copy() const override;
+   virtual void generate(std::ostream &os) override;
+   virtual std::ostream &write(std::ostream &os, int level = 0) const override;
 
 private:
    const std::string programmingLanguage_;

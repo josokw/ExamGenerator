@@ -32,7 +32,7 @@ public:
 
 private:
    static int nExams_s;
-   std::vector<message_t> &messages;
+   std::vector<message_t> &messages_;
    bool HeaderIsAdded;
    std::shared_ptr<GenItem> pLastAddedItem;
    int indexLastAddedItem;

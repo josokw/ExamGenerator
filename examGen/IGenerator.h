@@ -1,12 +1,12 @@
 #ifndef IGENERATOR_H
 #define IGENERATOR_H
 
+#include "RandomProfile.h"
+
 #include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
-
-#include "RandomProfile.h"
 
 class IGenerator;
 

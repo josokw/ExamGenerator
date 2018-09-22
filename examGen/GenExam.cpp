@@ -18,7 +18,7 @@ int GenExam::nExams_s = 0;
 
 GenExam::GenExam(std::vector<message_t> &messages)
    : GenComposite()
-   , messages(messages)
+   , messages_(messages)
    , HeaderIsAdded(false)
    , pLastAddedItem()
    , indexLastAddedItem(0)
@@ -61,7 +61,7 @@ void GenExam::add(IGenPtr_t pGen)
             generators_.push_back(pGen);
             HeaderIsAdded = true;
          } else {
-            messages.push_back(message_t('E', 0, 0,
+            messages_.push_back(message_t('E', 0, 0,
                                                  "A header in MCT '" + getID() +
                                                     "' is already added"));
          }
@@ -69,7 +69,7 @@ void GenExam::add(IGenPtr_t pGen)
          if (std::shared_ptr<GenItem> pItem =
                 std::dynamic_pointer_cast<GenItem>(pGen)) {
             if (!HeaderIsAdded) {
-               messages.push_back(message_t(
+               messages_.push_back(message_t(
                   'E', 0, 0, "A header in MCT '" + getID() + "' is missing"));
             }
 
@@ -90,12 +90,12 @@ void GenExam::add(IGenPtr_t pGen)
                ++indexLastAddedItem;
                pItem->setIndex(indexLastAddedItem);
                if (nIsCorrect == 0) {
-                  messages.push_back(message_t(
+                  messages_.push_back(message_t(
                      'E', 0, 0,
                      "No option for item '" + pItem->getID() + "' is correct"));
                }
             } else {
-               messages.push_back(message_t(
+               messages_.push_back(message_t(
                   'E', 0, 0, "No GenOptions object available."));
             }
          } else {

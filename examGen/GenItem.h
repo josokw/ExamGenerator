@@ -1,12 +1,12 @@
 #ifndef GENITEM_H
 #define GENITEM_H
 
+#include "GenComposite.h"
+#include "RandomProfile.h"
+
 #include <memory>
 #include <string>
 #include <vector>
-
-#include "GenComposite.h"
-#include "RandomProfile.h"
 
 class GenStem;
 class GenOption;
@@ -14,7 +14,7 @@ class GenOption;
 /// Represents an multiple choice (MC) test item.
 /// An item always contains 1 stem #GenStem and several options in a #GenOptions
 /// object. Client code must set the index, setIndex(), used in the generated
-/// text. Options can be randomly shuffled before generating if this option
+/// text. Options can be randomly shuffled before generating, if this option
 /// switched on by calling #shuffleON().
 class GenItem : public GenComposite
 {
@@ -23,10 +23,10 @@ public:
    GenItem(const std::string &id);
    virtual ~GenItem();
 
-   virtual IGenPtr_t copy() const;
-   virtual void add(IGenPtr_t pGen);
-   virtual void generate(std::ostream &os);
-   virtual std::ostream &write(std::ostream &os, int Level = 0) const;
+   virtual IGenPtr_t copy() const override;
+   virtual void add(IGenPtr_t pGen) override;
+   virtual void generate(std::ostream &os) override;
+   virtual std::ostream &write(std::ostream &os, int Level = 0) const override;
 
    void addToStem(IGenPtr_t pGen);
    void setIndex(int index);
@@ -43,7 +43,7 @@ public:
    void sortOptions();
 
 protected:
-   virtual void prepare();
+   virtual void prepare() override;
 
 private:
    int index_;

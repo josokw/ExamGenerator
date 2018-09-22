@@ -6,10 +6,9 @@
 
 #include "IGenerator.h"
 
-/// Composite generator class (abstract base class),
-/// aggregates pointers to 0..n other generator objects
-/// (instantiations of #IGenerator derived classes).
-/// According to composite design pattern.
+/// Composite generator class (abstract base class), aggregates pointers 
+/// to 0..n other generator objects (instantiations of #IGenerator derived 
+/// classes). According to composite design pattern.
 ///
 /// Class invariant: #generators_ contains no null pointers.
 class GenComposite : public IGenerator
