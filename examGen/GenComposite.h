@@ -20,8 +20,8 @@ public:
 
    virtual IGenPtr_t copy() const = 0;
    virtual void add(IGenPtr_t pGen) = 0;
-   virtual void generate(std::ostream &os);
-   virtual std::ostream &write(std::ostream &os, int level = 0) const;
+   virtual void generate(std::ostream &os) override;
+   virtual std::ostream &write(std::ostream &os, int level = 0) const override;
 
    IGenPtr_t operator[](int index) { return generators_.at(index); }
    std::vector<IGenPtr_t> &getGenerators() { return generators_; }
