@@ -23,6 +23,7 @@ GenSolution::~GenSolution()
 
 IGenPtr_t GenSolution::copy() const
 {
+   LOGD("");
    std::shared_ptr<GenSolution> p(new GenSolution(*this));
    return p;
 }
@@ -41,12 +42,13 @@ std::ostream &GenSolution::write(std::ostream &os, int Level) const
 
 void GenSolution::prepare()
 {
+   LOGD("start");
    auto size = pExam_->size();
    for (size_t i = 0; i < size; ++i) {
       IGenPtr_t pIGen = (*pExam_)[i];
       if (std::shared_ptr<GenItem> pItem =
              std::dynamic_pointer_cast<GenItem>(pIGen)) {
-         // cout << *(*pExam_)[i] << endl;
+         std::cerr << *(*pExam_)[i] << std::endl;
          std::shared_ptr<GenOptions> pOptions =
             std::static_pointer_cast<GenOptions>((*pItem)[1]);
          for (size_t k = 0; k < pOptions->getGenerators().size(); ++k) {
@@ -59,11 +61,12 @@ void GenSolution::prepare()
          }
       }
    }
-   // cout << *this << endl;
+   std::cerr << *this << std::endl;
 }
 
 void GenSolution::generate(std::ostream &os)
 {
+   LOGD("start");
    prepare();
 
    os << "\n% Solution generation for MCT '" + pExam_->getID() + "'\n";

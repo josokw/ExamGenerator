@@ -94,10 +94,10 @@ int main(int argc, char *argv[])
       //      exit(1);
       //   }
 
-      if (var_map.count("hce")) {
+     if (var_map.count("hce")) {
          LOGD("Hard coded exam");
          hcExamDummy(LaTeXgeneratedFile);
-      }
+     }
 
       Random::range_t rng{2, 6};
       RandomProfile rf;
