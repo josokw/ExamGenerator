@@ -18,8 +18,6 @@
 #include <sstream>
 #include <string>
 #include <vector>
-//#include "GenMCTs.h"
-//#include "MCTgenTests.h"
 //#include "Reader.h"
 
 namespace bpo = boost::program_options;

@@ -44,7 +44,7 @@ void Logger::log(const char *message)
 
 Logger::Logger()
    : logMutex_{}
-   , logFilename_{LOGFILENAME}
+   , logFilename_{APPNAME ".log"}
    , logFile_{logFilename_}
    , inDebugMode_{false}
 {

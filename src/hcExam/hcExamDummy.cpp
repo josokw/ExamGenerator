@@ -77,6 +77,7 @@ void hcExamDummy(std::ofstream &LaTeXfile)
    //    std::shared_ptr<GenOption> pO4;
    //    std::shared_ptr<GenImage> pImg;
    {
+      // Header ----------------------------------------------------------------
       auto pHeader = std::make_shared<GenHeader>();
       pHeader->setID("h1");
       pHeader->School = "School dummy";
@@ -84,10 +85,10 @@ void hcExamDummy(std::ofstream &LaTeXfile)
       pHeader->Lecturer = "Code Warrier";
       pHeader->Date = "1th January 2020";
       pHeader->BoxedText = "Success!";
-      // pMCtst->add(pHeader);
 
-      // Item #1
-      // ------------------------------------------------------------------
+      pExam->add(pHeader);
+
+      // Item #1 ---------------------------------------------------------------
       auto pItem = std::make_shared<GenItem>();
       pItem->setID("I1");
       auto pText = std::make_shared<GenText>(
@@ -131,7 +132,7 @@ void hcExamDummy(std::ofstream &LaTeXfile)
       pExam->add(pItem);
    }
 
-   // Generate final exam LaTeX text -------------------------------------------
+   // Generate exam LaTeX text -------------------------------------------------
    pExam->generate(LaTeXfile);
 
    LOGD("Generating LaTeX ready");
