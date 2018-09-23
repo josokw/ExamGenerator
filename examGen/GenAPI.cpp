@@ -22,7 +22,7 @@ GenAPI::~GenAPI()
 
 IGenPtr_t GenAPI::copy() const
 {
-   std::shared_ptr<GenAPI> p(
+   std::unique_ptr<GenAPI> p(
       new GenAPI(returnType_, signature_, description_));
    return p;
 }

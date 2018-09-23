@@ -16,10 +16,11 @@ class GenComposite : public IGenerator
 public:
    GenComposite();
    GenComposite(const std::string &id);
+   GenComposite(const GenComposite &other) = default;
    virtual ~GenComposite();
 
    virtual IGenPtr_t copy() const = 0;
-   virtual void add(IGenPtr_t pGen) = 0;
+   virtual void add(IGenPtr_t pGen);
    virtual void generate(std::ostream &os) override;
    virtual std::ostream &write(std::ostream &os, int level = 0) const override;
 

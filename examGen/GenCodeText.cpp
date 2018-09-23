@@ -20,7 +20,7 @@ GenCodeText::~GenCodeText()
 
 IGenPtr_t GenCodeText::copy() const
 {
-   std::shared_ptr<GenCodeText> p(new GenCodeText(*this));
+   std::unique_ptr<GenCodeText> p(new GenCodeText(*this));
    return p;
 }
 

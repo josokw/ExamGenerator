@@ -3,9 +3,9 @@
 
 #include "GenComposite.h"
 
-#include <vector>
-#include <tuple>
 #include <string>
+#include <tuple>
+#include <vector>
 
 class GenHeader;
 class GenItem;
@@ -13,7 +13,7 @@ class GenSolution;
 class GenText;
 class GenJava;
 
-typedef std::tuple<char, int, const char*, std::string> message_t;
+typedef std::tuple<char, int, const char *, std::string> message_t;
 
 /// Generator for a exam, contains all kind of other generators (according to
 /// composite pattern).
@@ -21,6 +21,7 @@ class GenExam : public GenComposite
 {
 public:
    GenExam(std::vector<message_t> &messages);
+   GenExam(const GenExam &other) = default;
    virtual ~GenExam();
 
    virtual IGenPtr_t copy() const override;

@@ -26,6 +26,7 @@ GenExam::GenExam(std::vector<message_t> &messages)
 {
    type_ = "GenExam";
    ++nExams_s;
+   LOGD("initialised");
 }
 
 GenExam::~GenExam()
@@ -55,19 +56,17 @@ std::ostream &GenExam::write(std::ostream &os, int level) const
 void GenExam::add(IGenPtr_t pGen)
 {
    try {
-      if (std::shared_ptr<GenHeader> pHeader =
-             std::dynamic_pointer_cast<GenHeader>(pGen)) {
+      if (auto pHeader = std::dynamic_pointer_cast<GenHeader>(pGen)) {
          if (!HeaderIsAdded) {
             generators_.push_back(pGen);
             HeaderIsAdded = true;
          } else {
-            messages_.push_back(message_t('E', 0, 0,
-                                                 "A header in MCT '" + getID() +
-                                                    "' is already added"));
+            messages_.push_back(
+               message_t('E', 0, 0,
+                         "A header in MCT '" + getID() + "' is already added"));
          }
       } else {
-         if (std::shared_ptr<GenItem> pItem =
-                std::dynamic_pointer_cast<GenItem>(pGen)) {
+         if (auto pItem = std::dynamic_pointer_cast<GenItem>(pGen)) {
             if (!HeaderIsAdded) {
                messages_.push_back(message_t(
                   'E', 0, 0, "A header in MCT '" + getID() + "' is missing"));
@@ -75,10 +74,10 @@ void GenExam::add(IGenPtr_t pGen)
 
             // Start counting number of correct options, should be >= 1.
             int nIsCorrect = 0;
-            if (std::shared_ptr<GenOptions> pOptions =
+            if (auto pOptions =
                    std::dynamic_pointer_cast<GenOptions>((*pItem)[1])) {
                for (size_t i = 0; i < pOptions->size(); ++i) {
-                  if (std::shared_ptr<GenOption> pOption =
+                  if (auto pOption =
                          std::dynamic_pointer_cast<GenOption>((*pOptions)[i])) {
                      if (pOption->getIsCorrect()) {
                         ++nIsCorrect;
@@ -95,27 +94,25 @@ void GenExam::add(IGenPtr_t pGen)
                      "No option for item '" + pItem->getID() + "' is correct"));
                }
             } else {
-               messages_.push_back(message_t(
-                  'E', 0, 0, "No GenOptions object available."));
+               messages_.push_back(
+                  message_t('E', 0, 0, "No GenOptions object available."));
             }
          } else {
-            if (std::shared_ptr<GenOption> pOption =
-                   std::dynamic_pointer_cast<GenOption>(pGen)) {
+            if (auto pOption = std::dynamic_pointer_cast<GenOption>(pGen)) {
                generators_.push_back(pGen);
             } else {
-               if (std::shared_ptr<GenText> pText =
-                      std::dynamic_pointer_cast<GenText>(pGen)) {
+               if (auto pText = std::dynamic_pointer_cast<GenText>(pGen)) {
                   generators_.push_back(pGen);
                } else {
-                  if (std::shared_ptr<GenCodeText> pJava =
+                  if (auto pCodeText =
                          std::dynamic_pointer_cast<GenCodeText>(pGen)) {
                      generators_.push_back(pGen);
                   } else {
-                     if (std::shared_ptr<GenImage> pImage =
+                     if (auto pImage =
                             std::dynamic_pointer_cast<GenImage>(pGen)) {
                         generators_.push_back(pGen);
                      } else {
-                        if (std::shared_ptr<GenSelector> pSelector =
+                        if (auto pSelector =
                                std::dynamic_pointer_cast<GenSelector>(pGen)) {
                            // Do not add a Selector object but add Selector
                            // contents
@@ -124,7 +121,7 @@ void GenExam::add(IGenPtr_t pGen)
                            }
                            // cout << *this << endl;
                         } else {
-                           if (std::shared_ptr<GenSolution> pSol =
+                           if (auto pSol =
                                   std::dynamic_pointer_cast<GenSolution>(
                                      pGen)) {
                               if (indexLastAddedItem > 0) {

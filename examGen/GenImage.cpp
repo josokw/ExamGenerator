@@ -18,8 +18,8 @@ GenImage::~GenImage()
 
 IGenPtr_t GenImage::copy() const
 {
-   std::shared_ptr<GenImage> p(new GenImage(fileName_));
-   return p;
+   std::unique_ptr<GenImage> p(new GenImage(fileName_));
+   return std::move(p);
 }
 
 void GenImage::generate(std::ostream &os)

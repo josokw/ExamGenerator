@@ -15,7 +15,7 @@ public:
    GenOptions();
    virtual ~GenOptions();
 
-   virtual IGenPtr_t copy() const;
+   virtual IGenPtr_t copy() const override;
    virtual void add(IGenPtr_t pGen) override;
    virtual void generate(std::ostream &os) override;
    virtual std::ostream &write(std::ostream &os, int level = 0) const override;

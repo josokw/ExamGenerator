@@ -44,6 +44,7 @@
 // rutrum at purus ac, gravida porttitor velit. Donec molestie et odio in
 // fermentum. Aliquam in sapien eu nisl varius pulvinar.
 
+#include "GenExam.h"
 #include "GenHeader.h"
 #include "GenItem.h"
 #include "GenOption.h"
@@ -59,10 +60,10 @@ void hcExamDummy(std::ofstream &LaTeXfile)
 
    const bool IS_CORRECT{true};
 
-   //    std::vector<message_t> messages;
+   std::vector<message_t> messages;
 
-   //    std::shared_ptr<GenMCTs> pMCtst(new GenMCTs(messages));
-   //    pMCtst->setID("Hard coded test1");
+   std::shared_ptr<GenExam> pExam(new GenExam(messages));
+   pExam->setID("Hard coded exam dummy");
 
    //    std::shared_ptr<GenItem> pI;
    //    std::shared_ptr<GenText> pT1;
@@ -76,7 +77,7 @@ void hcExamDummy(std::ofstream &LaTeXfile)
    //    std::shared_ptr<GenOption> pO4;
    //    std::shared_ptr<GenImage> pImg;
 
-   auto pHeader = std::make_unique<GenHeader>();
+   auto pHeader = std::make_shared<GenHeader>();
    pHeader->setID("h1");
    pHeader->School = "School dummy";
    pHeader->Course = "Magic dummy";
@@ -86,27 +87,27 @@ void hcExamDummy(std::ofstream &LaTeXfile)
    // pMCtst->add(pHeader);
 
    // Item #1 ------------------------------------------------------------------
-   auto pItem = std::make_unique<GenItem>();
+   auto pItem = std::make_shared<GenItem>();
    pItem->setID("I1");
-   auto pText1 = std::make_unique<GenText>(
+   auto pText1 = std::make_shared<GenText>(
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus "
       "fermentum nibh nunc, non viverra sapien volutpat sit amet. Maecenas at "
       "arcu?");
-   auto pO1 = std::make_unique<GenOption>("Option 1");
-   auto pO2 = std::make_unique<GenOption>("Option 2");
-   auto pO3 = std::make_unique<GenOption>("Option 3");
-   auto pO4 = std::make_unique<GenOption>("Option 4");
+   auto pO1 = std::make_shared<GenOption>("Option 1.");
+   auto pO2 = std::make_shared<GenOption>("Option 2..");
+   auto pO3 = std::make_shared<GenOption>("Option 3...");
+   auto pO4 = std::make_shared<GenOption>("Option 4....");
 
-   //    pItem->addToStem(pText1);
-   //    pItem->addToOptions(pO1);
-   //    pItem->addToOptions(pO2);
-   //    pItem->addToOptions(pO3, IS_CORRECT);
-   //    pItem->addToOptions(pO4);
-   //    pItem->shuffleON();
+   pItem->addToStem(pText1);
+   pItem->addToOptions(pO1);
+   pItem->addToOptions(pO2);
+   pItem->addToOptions(pO3, IS_CORRECT);
+   pItem->addToOptions(pO4);
+   pItem->shuffleON();
 
-   //    pMCtst->add(pI);
+   pExam->add(pItem);
 
-   //    pMCtst->generate(TexFile);
+   //    pExam->generate(LaTeXfile);
 
    LOGD("Generating LaTeX ready");
 }

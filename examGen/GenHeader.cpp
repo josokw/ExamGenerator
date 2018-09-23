@@ -34,7 +34,7 @@ GenHeader::~GenHeader()
 
 IGenPtr_t GenHeader::copy() const
 {
-   std::shared_ptr<GenHeader> p(new GenHeader(*this));
+   std::unique_ptr<GenHeader> p(new GenHeader(*this));
    return p;
 }
 

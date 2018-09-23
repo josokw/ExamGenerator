@@ -30,7 +30,7 @@ void hcExam01(std::ofstream &LaTeXfile)
    //    std::shared_ptr<GenOption> pO4;
    //    std::shared_ptr<GenImage> pImg;
 
-   auto pHeader = std::make_unique<GenHeader>();
+   auto pHeader = std::make_shared<GenHeader>();
    pHeader->setID("h1");
    pHeader->School = "HAN Engineering";
    pHeader->Course = "Introduction C programming";

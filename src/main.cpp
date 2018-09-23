@@ -5,7 +5,7 @@
 #include "GenText.h"
 #include "Log.h"
 #include "RandomProfile.h"
-#include "hcExam/hcExam01.h"
+#include "hcExam/hcExamDummy.h"
 
 #include <algorithm>
 #include <boost/filesystem.hpp>
@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
 
       if (var_map.count("hce")) {
          LOGD("Hard coded exam");
-         hcExam01(LaTeXgeneratedFile);
+         hcExamDummy(LaTeXgeneratedFile);
       }
 
       Random::range_t rng{2, 6};
@@ -107,18 +107,6 @@ int main(int argc, char *argv[])
       for (auto i : r) {
          std::cout << i << std::endl;
       }
-
-      GenNull genNull;
-      std::cout << genNull << std::endl;
-
-      GenHeader genHeader;
-      genHeader.School = "HAN Engineering";
-      std::cout << genHeader << std::endl;
-
-      GenText genText{"Hello text"};
-      std::cout << genText << std::endl;
-      GenCodeText genCodeText{"C", "int main() { }"};
-      std::cout << genCodeText << std::endl;
 
       // Start MC test construction scripted
       // Reader reader(MCTspecFile);
