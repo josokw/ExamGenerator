@@ -93,8 +93,7 @@ void hcExamDummy(std::ofstream &LaTeXfile)
       auto pText = std::make_shared<GenText>(
          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus "
          "fermentum nibh nunc, non viverra sapien volutpat sit amet. Maecenas "
-         "at "
-         "arcu?");
+         "at arcu?");
       auto pO1 = std::make_shared<GenOption>("Option 1.");
       auto pO2 = std::make_shared<GenOption>("Option 2..");
       auto pO3 = std::make_shared<GenOption>("Option 3...");
@@ -117,10 +116,10 @@ void hcExamDummy(std::ofstream &LaTeXfile)
          "Fusce in magna erat. Cras turpis est, posuere id arcu ut, semper "
          "lobortis dui. Phasellus urna turpis, pharetra eu ipsum sodales, "
          "venenatis sodales enim?");
-      auto pO1 = std::make_shared<GenOption>("Option 1.");
-      auto pO2 = std::make_shared<GenOption>("Option 2..");
-      auto pO3 = std::make_shared<GenOption>("Option 3...");
-      auto pO4 = std::make_shared<GenOption>("Option 4....");
+      auto pO1 = std::make_shared<GenOption>("Shuffle Option 1.");
+      auto pO2 = std::make_shared<GenOption>("Shuffle Option 2..");
+      auto pO3 = std::make_shared<GenOption>("Shuffle Option 3...");
+      auto pO4 = std::make_shared<GenOption>("Shuffle Option 4....");
 
       pItem->addToStem(pText);
       pItem->addToOptions(pO1);

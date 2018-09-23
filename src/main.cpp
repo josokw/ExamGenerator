@@ -5,6 +5,7 @@
 #include "GenText.h"
 #include "Log.h"
 #include "RandomProfile.h"
+#include "ExamGeneratorConfig.h"
 #include "hcExam/hcExamDummy.h"
 
 #include <algorithm>
@@ -67,10 +68,10 @@ int main(int argc, char *argv[])
       std::cout << "- " << APPNAME << " v" << VERSION << " started in "
                 << currentInitialDir << std::endl;
 
-      const bfs::path LaTeXoutputDir("MCTlatex");
+      const bfs::path LaTeXoutputDir(".");
       const bfs::path LaTeXgeneratedFileName(LaTeXoutputDir /
                                              "MCTgenerated.tex");
-      const bfs::path LaTeXdocFileName("MCTdoc.tex");
+      const bfs::path LaTeXdocFileName(LATEXFILENAME);
       const std::string LaTeXcommand(
          "pdflatex -enable-write18 \"-output-directory=" +
          LaTeXoutputDir.string() + "\" " +
@@ -99,14 +100,14 @@ int main(int argc, char *argv[])
          hcExamDummy(LaTeXgeneratedFile);
      }
 
-      Random::range_t rng{2, 6};
-      RandomProfile rf;
+    //   Random::range_t rng{2, 6};
+    //   RandomProfile rf;
 
-      rf.generate(rng);
-      auto r = rf.getProfile();
-      for (auto i : r) {
-         std::cout << i << std::endl;
-      }
+    //   rf.generate(rng);
+    //   auto r = rf.getProfile();
+    //   for (auto i : r) {
+    //      std::cout << i << std::endl;
+    //   }
 
       // Start MC test construction scripted
       // Reader reader(MCTspecFile);

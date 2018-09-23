@@ -7,6 +7,7 @@
 
 /// Class Logger is responsible for logging messages to a log file.
 /// Implemented according to the singleton pattern.
+/// Writing to the log file is protected by a mutex.
 class Logger
 {
 public:

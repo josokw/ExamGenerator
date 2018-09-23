@@ -1,6 +1,6 @@
 #include "Logger.h"
-#include "AppInfo.h"
 #include "ClocksTimers.h"
+#include "ExamGeneratorConfig.h"
 #include "Log.h"
 
 #include <chrono>
@@ -44,7 +44,7 @@ void Logger::log(const char *message)
 
 Logger::Logger()
    : logMutex_{}
-   , logFilename_{APPNAME ".log"}
+   , logFilename_{LOGFILENAME}
    , logFile_{logFilename_}
    , inDebugMode_{false}
 {
