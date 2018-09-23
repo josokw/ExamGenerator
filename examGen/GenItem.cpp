@@ -14,8 +14,6 @@
 #include <string>
 #include <typeinfo>
 
-using namespace std;
-
 // static bool lessLength(IGenPtr_t& i1, IGenPtr_t& i2)
 //{
 //  size_t s1 = (std::static_pointer_cast<GenOption>(i1))->size();
@@ -83,16 +81,16 @@ void GenItem::add(IGenPtr_t pGen)
                }
 
                else {
-                  throw runtime_error(__AT__ "GenItem: type '" +
-                                      string(typeid(pGen).name()) +
-                                      "' not allowed for adding");
+                  throw std::runtime_error(__AT__ "GenItem: type '" +
+                                           std::string(typeid(pGen).name()) +
+                                           "' not allowed for adding");
                }
             }
          }
       }
    }
-   catch (runtime_error &X) {
-      clog << X.what() << endl;
+   catch (std::runtime_error &X) {
+      std::cerr << X.what() << std::endl;
    }
 }
 
@@ -140,15 +138,15 @@ void GenItem::addToStem(IGenPtr_t pGen)
             if (dynamic_cast<GenAPI *>(p)) {
                generators_[0]->add(pGen);
             } else {
-               throw runtime_error(__AT__ "GenItem: type '" +
-                                   string(typeid(pGen).name()) +
-                                   "' not allowed for adding to stem");
+               throw std::runtime_error(__AT__ "GenItem: type '" +
+                                        std::string(typeid(pGen).name()) +
+                                        "' not allowed for adding to stem");
             }
          }
       }
    }
-   catch (runtime_error &e) {
-      clog << e.what() << endl;
+   catch (std::runtime_error &e) {
+      std::cerr << e.what() << std::endl;
    }
 }
 
@@ -157,9 +155,9 @@ void GenItem::setAsLastItem() const
    isLastItem_ = true;
 }
 
-void GenItem::addToOptions(std::shared_ptr<GenOption> pOption, bool IsCorrect)
+void GenItem::addToOptions(std::shared_ptr<GenOption> pOption, bool isCorrect)
 {
-   if (IsCorrect) {
+   if (isCorrect) {
       pOption->setIsCorrect();
    }
    generators_[1]->add(IGenPtr_t(pOption));
