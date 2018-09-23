@@ -73,9 +73,9 @@ void GenExam::add(IGenPtr_t pGen)
             }
 
             // Start counting number of correct options, should be >= 1.
-            int nIsCorrect = 0;
             if (auto pOptions =
                    std::dynamic_pointer_cast<GenOptions>((*pItem)[1])) {
+               int nIsCorrect = 0;
                for (size_t i = 0; i < pOptions->size(); ++i) {
                   if (auto pOption =
                          std::dynamic_pointer_cast<GenOption>((*pOptions)[i])) {
