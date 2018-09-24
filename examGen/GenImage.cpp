@@ -13,13 +13,14 @@ GenImage::GenImage(const std::string &fileName)
 
 GenImage::~GenImage()
 {
-   // IGenerator::write(clog) << " ##### DTOR" << endl;
+   LOGD(id_);
 }
 
 IGenPtr_t GenImage::copy() const
 {
-   std::unique_ptr<GenImage> p(new GenImage(fileName_));
-   return std::move(p);
+   LOGD(id_);
+   std::shared_ptr<GenImage> p(new GenImage(fileName_));
+   return p;
 }
 
 void GenImage::generate(std::ostream &os)
