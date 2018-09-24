@@ -10,7 +10,7 @@ GenComposite::GenComposite()
    , generators_{}
 {
    type_ = "GenComposite";
-   LOGD("initialised");
+   LOGD(id_ + " initialised");
 }
 
 GenComposite::GenComposite(const std::string &id)
@@ -18,7 +18,7 @@ GenComposite::GenComposite(const std::string &id)
    , generators_{}
 {
    type_ = "GenComposite";
-   LOGD("initialised");
+   LOGD(id_ + " initialised");
 }
 
 GenComposite::~GenComposite()

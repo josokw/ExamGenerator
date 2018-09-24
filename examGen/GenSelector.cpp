@@ -9,14 +9,14 @@ GenSelector::GenSelector()
    : GenComposite()
 {
    type_ = "GenSelector";
-   LOGD("initialised");
+   LOGD(id_ + " initialised");
 }
 
 GenSelector::GenSelector(const std::string &id)
    : GenComposite(id)
 {
    type_ = "GenSelector";
-   LOGD("initialised");
+   LOGD(id_ + " initialised");
 }
 
 GenSelector::~GenSelector()

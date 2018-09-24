@@ -13,7 +13,7 @@ GenSolution::GenSolution(GenExam *pExam)
    , solutions_{}
 {
    type_ = "GenSolution";
-   LOGD("initialised");
+   LOGD(id_ + " initialised");
 }
 
 GenSolution::~GenSolution()

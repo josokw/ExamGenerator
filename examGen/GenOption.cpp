@@ -12,7 +12,7 @@ GenOption::GenOption(const std::string &text)
    , text_(text)
 {
    type_ = "GenOption";
-   LOGD("initialised");
+   LOGD(id_ + " initialised");
 }
 
 GenOption::~GenOption()

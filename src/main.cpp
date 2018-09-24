@@ -1,11 +1,11 @@
 #include "AppInfo.h"
+#include "ExamGeneratorConfig.h"
 #include "GenCodeText.h"
 #include "GenHeader.h"
 #include "GenNull.h"
 #include "GenText.h"
 #include "Log.h"
 #include "RandomProfile.h"
-#include "ExamGeneratorConfig.h"
 #include "hcExam/hcExamDummy.h"
 
 #include <algorithm>
@@ -93,19 +93,21 @@ int main(int argc, char *argv[])
       //      exit(1);
       //   }
 
-     if (var_map.count("hce")) {
+      if (var_map.count("hce")) {
          LOGD("Hard coded exam");
          hcExamDummy(LaTeXgeneratedFile);
-     }
+      }
 
-    //   Random::range_t rng{2, 6};
-    //   RandomProfile rf;
+      Random::range_t rng{2, 6};
+      RandomProfile rf;
 
-    //   rf.generate(rng);
-    //   auto r = rf.getProfile();
-    //   for (auto i : r) {
-    //      std::cout << i << std::endl;
-    //   }
+      for (int count = 0; count < 10; ++count) {
+         rf.generate(rng);
+      }
+      //   auto r = rf.getProfile();
+      //   for (auto i : r) {
+      //      std::cout << i << std::endl;
+      //   }
 
       // Start MC test construction scripted
       // Reader reader(MCTspecFile);

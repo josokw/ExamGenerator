@@ -1,8 +1,7 @@
 #include <string>
 
 #include "GenCodeText.h"
-
-using namespace std;
+#include "Log.h"
 
 GenCodeText::GenCodeText(const std::string &programmingLanguage,
                          const std::string &codeText)
@@ -11,6 +10,7 @@ GenCodeText::GenCodeText(const std::string &programmingLanguage,
    , codeText_{codeText}
 {
    type_ = "GenCodeText";
+   LOGD(id_ + " initialised");
 }
 
 GenCodeText::~GenCodeText()

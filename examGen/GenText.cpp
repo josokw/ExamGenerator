@@ -9,7 +9,7 @@ GenText::GenText(const std::string& text)
   : text_(text)
 {
   type_ = "GenText";
-  LOGD("initialised");
+  LOGD(id_ + " initialised");
 }
 
 GenText::~GenText()

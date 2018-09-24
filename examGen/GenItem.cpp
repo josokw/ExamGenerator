@@ -31,7 +31,7 @@ GenItem::GenItem()
    type_ = "GenItem";
    generators_.push_back(std::unique_ptr<GenStem>(new GenStem()));
    generators_.push_back(std::unique_ptr<GenOptions>(new GenOptions()));
-   LOGD("initialised");
+   LOGD(id_ + "initialised");
 }
 
 GenItem::GenItem(const std::string &id)
@@ -44,7 +44,7 @@ GenItem::GenItem(const std::string &id)
    type_ = "GenItem";
    generators_.push_back(std::shared_ptr<GenStem>(new GenStem()));
    generators_.push_back(std::shared_ptr<GenOptions>(new GenOptions()));
-   LOGD("initialised");
+   LOGD(id_ + " initialised");
 }
 
 GenItem::~GenItem()

@@ -5,7 +5,7 @@ GenNull::GenNull()
    : IGenerator()
 {
    type_ = "GenNull";
-   LOGD("initialised");
+   LOGD(id_ + " initialised");
 }
 
 IGenPtr_t GenNull::copy() const

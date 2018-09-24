@@ -1,4 +1,6 @@
 #include "RandomProfile.h"
+#include "Log.h"
+
 #include <algorithm>
 #include <cmath>
 #include <list>
@@ -14,6 +16,7 @@ RandomProfile::RandomProfile()
    , random0_8_{8}
    , random0_9_{9}
 {
+   LOGD("initialised");
 }
 
 RandomProfile::RandomProfile(unsigned long seed)
@@ -27,6 +30,7 @@ RandomProfile::RandomProfile(unsigned long seed)
    , random0_8_{8, seed}
    , random0_9_{9, seed}
 {
+   LOGD("initialised");
 }
 
 void RandomProfile::generate(const std::vector<Random::range_t> &ranges)
@@ -50,9 +54,9 @@ void RandomProfile::generate(std::vector<fullR_t> &fullRs)
 int RandomProfile::generate(const Random::range_t &range)
 {
    int result = 0;
-   int RangeWidth = abs(range.second - range.first);
+   int rangeWidth = abs(range.second - range.first);
 
-   switch (RangeWidth) {
+   switch (rangeWidth) {
       case 1:
          result = random0_1_.generate() + range.first;
          break;
@@ -84,6 +88,8 @@ int RandomProfile::generate(const Random::range_t &range)
          // throw
          break;
    }
+   LOGD("Random value = " + std::to_string(result));
+
    return result;
 }
 

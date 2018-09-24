@@ -26,7 +26,7 @@ GenExam::GenExam(std::vector<message_t> &messages)
 {
    type_ = "GenExam";
    ++nExams_s;
-   LOGD("initialised");
+   LOGD(id_ + " initialised");
 }
 
 GenExam::~GenExam()

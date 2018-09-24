@@ -5,14 +5,14 @@
 #include "GenCodeText.h"
 #include "GenStem.h"
 #include "GenText.h"
-
-using namespace std;
+#include "Log.h"
 
 GenStem::GenStem()
    : GenComposite()
    , index_{0}
 {
    type_ = "GenStem";
+   LOGD(id_ + " initialised");
 }
 
 GenStem::~GenStem()
@@ -41,13 +41,13 @@ void GenStem::add(IGenPtr_t pGen)
             if (GenAPI *pAPI = dynamic_cast<GenAPI *>(p)) {
                generators_.push_back(pGen);
             } else {
-               throw runtime_error(__AT__ "Type not allowed for adding");
+               throw std::runtime_error(__AT__ "Type not allowed for adding");
             }
          }
       }
    }
-   catch (exception &X) {
-      clog << X.what() << endl;
+   catch (std::exception &X) {
+      std::cerr << X.what() << std::endl;
    }
 }
 

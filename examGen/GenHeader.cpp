@@ -24,7 +24,7 @@ GenHeader::GenHeader(const std::string &id)
    , BoxedText("")
 {
    type_ = "GenHeader";
-   LOGD("initialised");
+   LOGD(id_ + " initialised");
 }
 
 GenHeader::~GenHeader()

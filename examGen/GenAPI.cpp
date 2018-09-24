@@ -12,7 +12,7 @@ GenAPI::GenAPI(const std::string &returnType, const std::string &signature,
    , description_(description)
 {
    type_ = "GenAPI";
-   LOGD("initialised");
+   LOGD(id_ + " initialised");
 }
 
 GenAPI::~GenAPI()

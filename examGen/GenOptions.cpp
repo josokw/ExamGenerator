@@ -7,14 +7,16 @@
 #include "GenOptions.h"
 #include "Log.h"
 
-using namespace std;
+namespace {
 
-static bool lessLength(IGenPtr_t i1, IGenPtr_t i2)
+bool lessLength(IGenPtr_t i1, IGenPtr_t i2)
 {
-   size_t s1 = (static_pointer_cast<GenOption>(i1))->size();
-   size_t s2 = (static_pointer_cast<GenOption>(i2))->size();
+   size_t s1 = (std::static_pointer_cast<GenOption>(i1))->size();
+   size_t s2 = (std::static_pointer_cast<GenOption>(i2))->size();
    return s1 < s2;
 }
+
+} // namespace
 
 GenOptions::GenOptions()
    : GenComposite()
@@ -22,7 +24,7 @@ GenOptions::GenOptions()
    , postProcessing_{}
 {
    type_ = "GenOptions";
-   LOGD("initialised");
+   LOGD(id_ + " initialised");
 }
 
 GenOptions::~GenOptions()
@@ -49,8 +51,8 @@ void GenOptions::add(IGenPtr_t pGen)
             __AT__ "GenOptions: added type not allowed for adding");
       }
    }
-   catch (exception &X) {
-      clog << X.what() << endl;
+   catch (std::exception &X) {
+      std::cerr << X.what() << std::endl;
    }
 }
 
@@ -88,12 +90,12 @@ void GenOptions::add(std::shared_ptr<GenOption> &pOption, bool isCorrect)
 void GenOptions::shuffle()
 {
    static Random R(10);
-   random_shuffle(GenComposite::getGenerators().begin(),
-                  GenComposite::getGenerators().end(), R);
+   std::random_shuffle(GenComposite::getGenerators().begin(),
+                       GenComposite::getGenerators().end(), R);
 }
 
 void GenOptions::sort()
 {
-   stable_sort(GenComposite::getGenerators().begin(),
-               GenComposite::getGenerators().end(), lessLength);
+   std::stable_sort(GenComposite::getGenerators().begin(),
+                    GenComposite::getGenerators().end(), lessLength);
 }
