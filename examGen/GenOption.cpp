@@ -12,12 +12,12 @@ GenOption::GenOption(const std::string &text)
    , text_(text)
 {
    type_ = "GenOption";
-   LOGD(id_ + " initialised");
+   LOGD(id_ + ", initialised");
 }
 
 GenOption::~GenOption()
 {
-    LOGD(id_);
+   LOGD(id_);
 }
 
 IGenPtr_t GenOption::copy() const
@@ -30,6 +30,7 @@ IGenPtr_t GenOption::copy() const
 
 void GenOption::add(IGenPtr_t pGen)
 {
+   LOGD(id_);
    try {
       if (std::shared_ptr<GenText> pText =
              std::dynamic_pointer_cast<GenText>(pGen)) {
@@ -65,6 +66,6 @@ std::ostream &GenOption::write(std::ostream &os, int level) const
          << "\n";
    }
    GenComposite::write(os, level + 1);
-   
+
    return os;
 }

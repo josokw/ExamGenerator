@@ -96,9 +96,13 @@ void hcExamDummy(std::ofstream &LaTeXfile)
          "fermentum nibh nunc, non viverra sapien volutpat sit amet. Maecenas "
          "at arcu?");
       auto pO1 = std::make_shared<GenOption>("Option 1.");
+      pO1->setID("01.1");
       auto pO2 = std::make_shared<GenOption>("Option 2..");
+      pO2->setID("01.2");
       auto pO3 = std::make_shared<GenOption>("Option 3...");
+      pO3->setID("01.3");
       auto pO4 = std::make_shared<GenOption>("Option 4....");
+      pO4->setID("01.4");
 
       pItem->addToStem(pText);
       pItem->addToOptions(pO1);
@@ -131,7 +135,7 @@ void hcExamDummy(std::ofstream &LaTeXfile)
       pItem->addToOptions(pO2, IS_CORRECT);
       pItem->addToOptions(pO3);
       pItem->addToOptions(pO4);
-      // pItem->shuffleON();
+      pItem->shuffleON();
 
       pExam->add(pItem);
    }

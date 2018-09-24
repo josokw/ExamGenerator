@@ -29,11 +29,12 @@ GenOptions::GenOptions()
 
 GenOptions::~GenOptions()
 {
-   // IGenerator::write(clog) << " ##### DTOR" << endl;
+   LOGD(id_);
 }
 
 IGenPtr_t GenOptions::copy() const
 {
+   LOGD(id_);
    std::shared_ptr<GenOptions> p(new GenOptions(*this));
    for_each(p->generators_.begin(), p->generators_.end(),
             [](IGenPtr_t &pGen) { pGen = pGen->copy(); });
@@ -42,6 +43,7 @@ IGenPtr_t GenOptions::copy() const
 
 void GenOptions::add(IGenPtr_t pGen)
 {
+   LOGD(id_);
    try {
       if (std::shared_ptr<GenOption> pOption =
              std::dynamic_pointer_cast<GenOption>(pGen)) {
@@ -58,6 +60,7 @@ void GenOptions::add(IGenPtr_t pGen)
 
 void GenOptions::generate(std::ostream &os)
 {
+   LOGD(id_);
    if (!preProcessing_.empty()) {
       os << preProcessing_ << "\n";
    }
@@ -65,7 +68,11 @@ void GenOptions::generate(std::ostream &os)
    os << "\n\\begin{enumerate}[label=\\Alph*.]\n";
    for (size_t i = 0; i < generators_.size(); ++i) {
       os << "\\item\n";
-      generators_[i]->generate(os);
+      if (generators_[i] != nullptr) {
+         generators_[i]->generate(os);
+      } else {
+         LOGE(id_ + ", generators_[i] == nullptr");
+      }
    }
    os << "\\end{enumerate}\n\\vskip 5mm\n";
    if (!postProcessing_.empty()) {

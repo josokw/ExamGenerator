@@ -8,7 +8,7 @@ GenImage::GenImage(const std::string &fileName)
    , caption_{}
 {
    type_ = "Image";
-   LOGD(id_ + " initialised");
+   LOGD(id_ + ", initialised");
 }
 
 GenImage::~GenImage()

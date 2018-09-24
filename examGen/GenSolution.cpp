@@ -13,17 +13,17 @@ GenSolution::GenSolution(GenExam *pExam)
    , solutions_{}
 {
    type_ = "GenSolution";
-   LOGD(id_ + " initialised");
+   LOGD(id_ + ", initialised");
 }
 
 GenSolution::~GenSolution()
 {
-   // IGenerator::write(clog) << " ##### DTOR" << endl;
+   LOGD(id_);
 }
 
 IGenPtr_t GenSolution::copy() const
 {
-   LOGD("");
+   LOGD(id_);
    std::shared_ptr<GenSolution> p(new GenSolution(*this));
    return p;
 }
@@ -42,7 +42,7 @@ std::ostream &GenSolution::write(std::ostream &os, int Level) const
 
 void GenSolution::prepare()
 {
-   LOGD("start");
+   LOGD(id_);
    auto size = pExam_->size();
    for (size_t i = 0; i < size; ++i) {
       IGenPtr_t pIGen = (*pExam_)[i];
@@ -66,7 +66,7 @@ void GenSolution::prepare()
 
 void GenSolution::generate(std::ostream &os)
 {
-   LOGD("start");
+   LOGD(id_);
    prepare();
 
    os << "\n% Solution generation for MCT '" + pExam_->getID() + "'\n";

@@ -39,12 +39,14 @@ IGenerator::~IGenerator()
 
 void IGenerator::add(IGenPtr_t pGen)
 {
+   LOGE(id_);
    throw std::runtime_error( //__AT__
       "Leaf object type in composite: no adding allowed");
 }
 
 std::ostream &IGenerator::write(std::ostream &os, int level) const
 {
+   LOGD(id_);
    const std::string INDENTATION(level * 2, ' ');
    os << INDENTATION << type_ << " '" << id_ << "' " << this;
    return os;
