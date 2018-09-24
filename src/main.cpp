@@ -104,10 +104,10 @@ int main(int argc, char *argv[])
       for (int count = 0; count < 10; ++count) {
          rf.generate(rng);
       }
-      //   auto r = rf.getProfile();
-      //   for (auto i : r) {
-      //      std::cout << i << std::endl;
-      //   }
+      auto r = rf.getProfile();
+      for (auto i : r) {
+         std::cout << i << std::endl;
+      }
 
       // Start MC test construction scripted
       // Reader reader(MCTspecFile);

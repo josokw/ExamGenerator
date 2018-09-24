@@ -26,16 +26,21 @@ GenExam::GenExam(std::vector<message_t> &messages)
 {
    type_ = "GenExam";
    ++nExams_s;
-   LOGD(id_ + " initialised");
+
+   LOGD(id_ + ", initialised, nExams_s = " + std::to_string(nExams_s));
 }
 
 GenExam::~GenExam()
 {
-   //  IGenerator::write(clog) << " ##### DTOR" << endl;
+   --nExams_s;
+
+   LOGD(id_ + ", nExams_s = " + std::to_string(nExams_s));
 }
 
 IGenPtr_t GenExam::copy() const
 {
+   LOGD(id_);
+
    std::shared_ptr<GenExam> p(new GenExam(*this));
    for_each(p->generators_.begin(), p->generators_.end(),
             [](IGenPtr_t &pGen) { pGen = pGen->copy(); });
@@ -45,6 +50,8 @@ IGenPtr_t GenExam::copy() const
 
 std::ostream &GenExam::write(std::ostream &os, int level) const
 {
+   LOGD(id_);
+
    IGenerator::write(os, level);
    os << ": size = " << generators_.size() << "\n";
    GenComposite::write(os, level + 1);
@@ -55,6 +62,8 @@ std::ostream &GenExam::write(std::ostream &os, int level) const
 
 void GenExam::add(IGenPtr_t pGen)
 {
+   LOGD(id_);
+
    try {
       if (auto pHeader = std::dynamic_pointer_cast<GenHeader>(pGen)) {
          if (!HeaderIsAdded) {
@@ -156,11 +165,14 @@ void GenExam::add(IGenPtr_t pGen)
 
 void GenExam::setLastItem()
 {
+   LOGD(id_);
+
    pLastAddedItem->setAsLastItem();
 }
 
 void GenExam::generate(std::ostream &os)
 {
+   LOGD(id_);
    // GenItem::clearIndexCount();
    if (pLastAddedItem) {
       pLastAddedItem->setAsLastItem();

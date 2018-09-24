@@ -118,16 +118,20 @@ void hcExamDummy(std::ofstream &LaTeXfile)
          "lobortis dui. Phasellus urna turpis, pharetra eu ipsum sodales, "
          "venenatis sodales enim?");
       auto pO1 = std::make_shared<GenOption>("Shuffle Option 1.");
+      pO1->setID("02.1");
       auto pO2 = std::make_shared<GenOption>("Shuffle Option 2..");
+      pO2->setID("02.2");
       auto pO3 = std::make_shared<GenOption>("Shuffle Option 3...");
+      pO3->setID("02.3");
       auto pO4 = std::make_shared<GenOption>("Shuffle Option 4....");
+      pO4->setID("02.4");
 
       pItem->addToStem(pText);
       pItem->addToOptions(pO1);
       pItem->addToOptions(pO2, IS_CORRECT);
       pItem->addToOptions(pO3);
       pItem->addToOptions(pO4);
-      //   pItem->shuffleON();
+      // pItem->shuffleON();
 
       pExam->add(pItem);
    }

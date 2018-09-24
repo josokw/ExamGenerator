@@ -19,7 +19,7 @@ IGenerator::IGenerator()
    , id_("NOT-DEFINED")
    , difficultyLevel_(0)
 {
-   LOGD(id_ + " initialised");
+   LOGD(id_ + ", initialised");
 }
 
 IGenerator::IGenerator(const std::string &id)
@@ -29,12 +29,12 @@ IGenerator::IGenerator(const std::string &id)
    , id_(id)
    , difficultyLevel_(0)
 {
-   LOGD(id_ + " initialised");
+   LOGD(id_ + ", initialised");
 }
 
 IGenerator::~IGenerator()
 {
-   // IGenerator::write(clog) << " ##### DTOR IGenerator" << endl;
+   LOGD(id_);
 }
 
 void IGenerator::add(IGenPtr_t pGen)

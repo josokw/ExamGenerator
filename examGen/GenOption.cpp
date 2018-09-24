@@ -17,7 +17,7 @@ GenOption::GenOption(const std::string &text)
 
 GenOption::~GenOption()
 {
-   // IGenerator::write(clog) << " ##### DTOR" << endl;
+    LOGD(id_);
 }
 
 IGenPtr_t GenOption::copy() const

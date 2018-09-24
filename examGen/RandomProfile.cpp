@@ -16,7 +16,7 @@ RandomProfile::RandomProfile()
    , random0_8_{8}
    , random0_9_{9}
 {
-   LOGD("initialised");
+   LOGD(", initialised");
 }
 
 RandomProfile::RandomProfile(unsigned long seed)
@@ -30,11 +30,13 @@ RandomProfile::RandomProfile(unsigned long seed)
    , random0_8_{8, seed}
    , random0_9_{9, seed}
 {
-   LOGD("initialised");
+   LOGD(", initialised, seed = " + std::to_string(seed));
 }
 
 void RandomProfile::generate(const std::vector<Random::range_t> &ranges)
 {
+   LOGD("");
+
    profile_.clear();
    for (auto &r : ranges) {
       profile_.push_back(generate(r));
@@ -49,6 +51,8 @@ void RandomProfile::generate(const std::vector<Random::range_t> &ranges)
 void RandomProfile::generate(std::vector<fullR_t> &fullRs)
 {
    int result = generate(std::get<0>(fullRs[0]));
+   
+   LOGD("result = " + std::to_string(result));
 }
 
 int RandomProfile::generate(const Random::range_t &range)
@@ -88,7 +92,8 @@ int RandomProfile::generate(const Random::range_t &range)
          // throw
          break;
    }
-   LOGD("Random value = " + std::to_string(result));
+
+   LOGD("Random value (range) = " + std::to_string(result));
 
    return result;
 }
@@ -115,6 +120,8 @@ int RandomProfile::generate(fullR_t &fullR)
    }
    std::get<1>(fullR) = result;
    std::get<2>(fullR).push_front(result);
+
+   LOGD("Random value (fullR) = " + std::to_string(result));
 
    return result;
 }

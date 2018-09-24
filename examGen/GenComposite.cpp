@@ -10,7 +10,7 @@ GenComposite::GenComposite()
    , generators_{}
 {
    type_ = "GenComposite";
-   LOGD(id_ + " initialised");
+   LOGD(id_ + ", initialised");
 }
 
 GenComposite::GenComposite(const std::string &id)
@@ -18,7 +18,7 @@ GenComposite::GenComposite(const std::string &id)
    , generators_{}
 {
    type_ = "GenComposite";
-   LOGD(id_ + " initialised");
+   LOGD(id_ + ", initialised");
 }
 
 GenComposite::~GenComposite()
@@ -36,7 +36,11 @@ std::ostream &GenComposite::write(std::ostream &os, int level) const
    IGenerator::write(os, level);
    os << "\n";
    for (auto &gen : generators_) {
-      gen->write(os, level + 1);
+      if (gen == nullptr) {
+         LOGE("gen == nullptr");
+      } else {
+         gen->write(os, level + 1);
+      }
    }
    //    for_each(generators_.begin(), generators_.end(),
    //             [&os, &level](IGenPtr_t g) { g->write(os, level + 1); });
@@ -46,8 +50,12 @@ std::ostream &GenComposite::write(std::ostream &os, int level) const
 void GenComposite::generate(std::ostream &os)
 {
    for (auto &gen : generators_) {
-      gen->prepare();
-      gen->generate(os);
+      if (gen == nullptr) {
+         LOGE("gen == nullptr");
+      } else {
+         gen->prepare();
+         gen->generate(os);
+      }
    }
    //    for_each(generators_.begin(), generators_.end(), [&os](IGenPtr_t g) {
    //       g->prepare();
