@@ -117,10 +117,18 @@ void GenItem::generate(std::ostream &os)
 
    // Generate stem
    os << "\\filbreak\n\\item\n";
-   generators_[0]->generate(os);
+   if (generators_[0] == nullptr) {
+      LOGE(id_ + ", generators[0] == nullptr");
+   } else {
+      generators_[0]->generate(os);
+   }
 
    // Generate options
-   generators_[1]->generate(os);
+   if (generators_[1] == nullptr) {
+      LOGE(id_ + ", generators[1] == nullptr");
+   } else {
+      generators_[1]->generate(os);
+   }
    os << "\\filbreak\n";
 
    if (isLastItem_) {

@@ -53,8 +53,15 @@ void GenStem::add(IGenPtr_t pGen)
 
 void GenStem::generate(std::ostream &os)
 {
-   for_each(generators_.begin(), generators_.end(),
-            [&os](IGenPtr_t &g) { g->generate(os); });
+   for (auto &gen : generators_) {
+      if (gen == nullptr) {
+         LOGE(id_ + ", gen == nullptr");
+      } else {
+         gen->generate(os);
+      }
+   }
+   //    for_each(generators_.begin(), generators_.end(),
+   //             [&os](IGenPtr_t &g) { g->generate(os); });
 }
 
 std::ostream &GenStem::write(std::ostream &os, int level) const

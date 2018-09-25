@@ -48,6 +48,7 @@
 #include "GenHeader.h"
 #include "GenItem.h"
 #include "GenOption.h"
+#include "GenSolution.h"
 #include "GenText.h"
 #include "Log.h"
 #include "hcExam01.h"
@@ -116,7 +117,7 @@ void hcExamDummy(std::ofstream &LaTeXfile)
       pExam->add(pItem);
    }
 
-   std::cerr << "\n" << *pExam << std:: endl;
+   std::cerr << "\n" << *pExam << std::endl;
 
    // Item #2 ------------------------------------------------------------------
    {
@@ -142,11 +143,44 @@ void hcExamDummy(std::ofstream &LaTeXfile)
       pItem->addToOptions(pO2, IS_CORRECT);
       pItem->addToOptions(pO3);
       pItem->addToOptions(pO4);
-      //pItem->shuffleON();
+      pItem->shuffleON();
 
       pExam->add(pItem);
    }
-   std::cerr << "\n" << *pExam << std:: endl;
+   std::cerr << "\n" << *pExam << std::endl;
+
+   // Item #3 ------------------------------------------------------------------
+   {
+      auto pItem = std::make_shared<GenItem>();
+      pItem->setID("I3");
+      auto pText = std::make_shared<GenText>(
+         "Fusce in magna erat. Cras turpis est, semper "
+         "lobortis dui. Phasellus urna turpis, eu ipsum sodales, "
+         "venenatis sodales enim?");
+      pText->setID("I3.text");
+      pItem->addToStem(pText);
+
+      auto pO1 = std::make_shared<GenOption>("Shuffle Option 1.");
+      pO1->setID("03.1");
+      auto pO2 = std::make_shared<GenOption>("Shuffle Option 2..");
+      pO2->setID("03.2");
+      auto pO3 = std::make_shared<GenOption>("Shuffle Option 3...");
+      pO3->setID("03.3");
+      auto pO4 = std::make_shared<GenOption>("Shuffle Option 4....");
+      pO4->setID("03.4");
+
+      pItem->addToOptions(pO1, IS_CORRECT);
+      pItem->addToOptions(pO2);
+      pItem->addToOptions(pO3);
+      pItem->addToOptions(pO4);
+      pItem->shuffleON();
+
+      pExam->add(pItem);
+   }
+
+   //GenSolution genSOl(pExam);
+
+   std::cerr << "\n" << *pExam << std::endl;
 
    // Generate exam LaTeX text -------------------------------------------------
    pExam->generate(LaTeXfile);

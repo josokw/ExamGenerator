@@ -97,8 +97,20 @@ void GenOptions::add(std::shared_ptr<GenOption> &pOption, bool isCorrect)
 void GenOptions::shuffle()
 {
    static Random R(10);
+
+   //    for (auto &gen : GenComposite::getGenerators()) {
+   //       std::cerr << gen->getID() << std::endl;
+   //    }
+
+   //    std::random_shuffle(GenComposite::getGenerators().begin(),
+   //                        GenComposite::getGenerators().end(), R);
+
    std::random_shuffle(GenComposite::getGenerators().begin(),
-                       GenComposite::getGenerators().end(), R);
+                       GenComposite::getGenerators().end());
+
+   //    for (auto &gen : GenComposite::getGenerators()) {
+   //       std::cerr << gen->getID() << std::endl;
+   //    }
 }
 
 void GenOptions::sort()
