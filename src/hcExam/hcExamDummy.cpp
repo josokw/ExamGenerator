@@ -91,10 +91,14 @@ void hcExamDummy(std::ofstream &LaTeXfile)
       // Item #1 ---------------------------------------------------------------
       auto pItem = std::make_shared<GenItem>();
       pItem->setID("I1");
+
       auto pText = std::make_shared<GenText>(
          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus "
          "fermentum nibh nunc, non viverra sapien volutpat sit amet. Maecenas "
          "at arcu?");
+      pText->setID("I1.text");
+      pItem->addToStem(pText);
+
       auto pO1 = std::make_shared<GenOption>("Option 1.");
       pO1->setID("01.1");
       auto pO2 = std::make_shared<GenOption>("Option 2..");
@@ -104,7 +108,6 @@ void hcExamDummy(std::ofstream &LaTeXfile)
       auto pO4 = std::make_shared<GenOption>("Option 4....");
       pO4->setID("01.4");
 
-      pItem->addToStem(pText);
       pItem->addToOptions(pO1);
       pItem->addToOptions(pO2);
       pItem->addToOptions(pO3, IS_CORRECT);
@@ -112,6 +115,8 @@ void hcExamDummy(std::ofstream &LaTeXfile)
 
       pExam->add(pItem);
    }
+
+   std::cerr << "\n" << *pExam << std:: endl;
 
    // Item #2 ------------------------------------------------------------------
    {
@@ -121,6 +126,9 @@ void hcExamDummy(std::ofstream &LaTeXfile)
          "Fusce in magna erat. Cras turpis est, posuere id arcu ut, semper "
          "lobortis dui. Phasellus urna turpis, pharetra eu ipsum sodales, "
          "venenatis sodales enim?");
+      pText->setID("I2.text");
+      pItem->addToStem(pText);
+
       auto pO1 = std::make_shared<GenOption>("Shuffle Option 1.");
       pO1->setID("02.1");
       auto pO2 = std::make_shared<GenOption>("Shuffle Option 2..");
@@ -130,15 +138,15 @@ void hcExamDummy(std::ofstream &LaTeXfile)
       auto pO4 = std::make_shared<GenOption>("Shuffle Option 4....");
       pO4->setID("02.4");
 
-      pItem->addToStem(pText);
       pItem->addToOptions(pO1);
       pItem->addToOptions(pO2, IS_CORRECT);
       pItem->addToOptions(pO3);
       pItem->addToOptions(pO4);
-      pItem->shuffleON();
+      //pItem->shuffleON();
 
       pExam->add(pItem);
    }
+   std::cerr << "\n" << *pExam << std:: endl;
 
    // Generate exam LaTeX text -------------------------------------------------
    pExam->generate(LaTeXfile);

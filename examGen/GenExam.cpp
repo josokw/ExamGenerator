@@ -47,7 +47,7 @@ IGenPtr_t GenExam::copy() const
    //    }
    for_each(p->generators_.begin(), p->generators_.end(), [](IGenPtr_t &pGen) {
       if (pGen == nullptr) {
-         //LOGE(id_ + ", pGen == nullptr");
+         // LOGE(id_ + ", pGen == nullptr");
       } else {
          pGen = pGen->copy();
       }
@@ -192,7 +192,16 @@ void GenExam::generate(std::ostream &os)
    std::shared_ptr<GenSolution> pGenSol(new GenSolution(this));
    pGenSol->setID(getID() + ".solution");
    add(pGenSol);
-   for_each(generators_.begin(), generators_.end(),
-            [&os](std::shared_ptr<IGenerator> &gen) { gen->generate(os); });
+
+   for (auto &gen : generators_) {
+      if (gen == nullptr) {
+         LOGE(id_ + ", gen == nulptr");
+      } else {
+         gen->generate(os);
+      }
+   }
+   //    for_each(generators_.begin(), generators_.end(),
+   //             [&os](std::shared_ptr<IGenerator> &gen) { gen->generate(os);
+   //             });
    os << "\n% End of exam '" << getID() << "' generation\n\n";
 }
