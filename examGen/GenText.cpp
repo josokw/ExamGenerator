@@ -6,7 +6,8 @@
 using namespace std;
 
 GenText::GenText(const std::string& text)
-  : text_(text)
+  : IGenerator{},
+  text_{text}
 {
   type_ = "GenText";
   LOGD(id_ + " initialised");
