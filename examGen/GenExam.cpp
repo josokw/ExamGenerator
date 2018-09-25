@@ -42,8 +42,16 @@ IGenPtr_t GenExam::copy() const
    LOGD(id_);
 
    std::shared_ptr<GenExam> p(new GenExam(*this));
-   for_each(p->generators_.begin(), p->generators_.end(),
-            [](IGenPtr_t &pGen) { pGen = pGen->copy(); });
+   //    for (auto &gen : generators_) {
+   //       gen = gen->copy();
+   //    }
+   for_each(p->generators_.begin(), p->generators_.end(), [](IGenPtr_t &pGen) {
+      if (pGen == nullptr) {
+         //LOGE(id_ + ", pGen == nullptr");
+      } else {
+         pGen = pGen->copy();
+      }
+   });
 
    return p;
 }
