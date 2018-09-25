@@ -10,6 +10,10 @@
 #define LOGD(msg) logDebug("   D " + std::string(__func__) + "() " + msg)
 #define LOGCI(condition, msg)                                                  \
    log(condition, "  I  " + std::string(__func__) + "() " + msg)
+#define LOGCW(condition, msg)                                                  \
+   log(condition, " W   " + std::string(__func__) + "() " + msg)
+#define LOGCE(condition, msg)                                                  \
+   log(condition, "E    " + std::string(__func__) + "() " + msg)
 
 void log(const std::string &msg);
 void log(const char *msg);
