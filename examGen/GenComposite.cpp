@@ -6,7 +6,7 @@
 #include "Log.h"
 
 GenComposite::GenComposite()
-   : IGenerator()
+   : IGenerator{}
    , generators_{}
 {
    type_ = "GenComposite";
@@ -23,11 +23,12 @@ GenComposite::GenComposite(const std::string &id)
 
 GenComposite::~GenComposite()
 {
-   // IGenerator::write(clog) << " ##### DTOR COMPOSITE" << endl;
+   LOGD(id_);
 }
 
 void GenComposite::add(IGenPtr_t pGen)
 {
+   LOGCW(pGen == nullptr, id_);
    generators_.push_back(pGen);
 }
 
@@ -37,7 +38,7 @@ std::ostream &GenComposite::write(std::ostream &os, int level) const
    os << "\n";
    for (auto &gen : generators_) {
       if (gen == nullptr) {
-         LOGE("gen == nullptr");
+         LOGE(id_ + ", gen == nullptr");
       } else {
          gen->write(os, level + 1);
       }
@@ -61,4 +62,16 @@ void GenComposite::generate(std::ostream &os)
    //       g->prepare();
    //       g->generate(os);
    //    });
+}
+
+bool GenComposite::generatorsCheck() const
+{
+   bool isOk{true};
+   for (auto &ptr : generators_) {
+      if (ptr == nullptr) {
+         isOk = false;
+         break;
+      }
+   }
+   return isOk;
 }
