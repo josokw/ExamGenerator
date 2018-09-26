@@ -15,6 +15,8 @@ find_package(Boost COMPONENTS system filesystem program_options REQUIRED)
 include_directories(src)
 include_directories(logger)
 include_directories(examGen)
+include_directories(parser)
+include_directories(src/hcExam)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
 message("==== Source dir: ${CMAKE_SOURCE_DIR}")
@@ -28,6 +30,8 @@ file(
     logger/*.h 
     examGen/*.cpp
     examGen/*.h
+    parser/*.cpp 
+    parser/*.h 
     src/hcExam/*.cpp
     src/hcExam/*.h
 )

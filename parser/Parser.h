@@ -17,13 +17,13 @@
 #include "AppInfo.h"
 #include "GenAPI.h"
 #include "GenCodeText.h"
+#include "GenExam.h"
+#include "GenExams.h"
 #include "GenHeader.h"
 #include "GenImage.h"
 #include "GenItem.h"
 #include "GenLogicDiagramAON.h"
 #include "GenLogicDiagramAOXN.h"
-#include "GenExam.h"
-#include "GenExams.h"
 #include "GenNestedFor.h"
 #include "GenOption.h"
 #include "GenSelector.h"
@@ -649,8 +649,8 @@ struct MCTestBuilder {
                   }
                }
                if (parList.size() > 0) {
-                  int r =
-                     randomProfile.generate(Random::range_t(0, parList.size() - 1));
+                  int r = randomProfile.generate(
+                     Random::range_t(0, parList.size() - 1));
                   std::cout << "--- Info r:"
                             << " " << r << std::endl;
                   boost::spirit::classic::add(
