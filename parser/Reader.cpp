@@ -5,8 +5,6 @@
 
 #include <algorithm>
 
-using namespace std;
-
 namespace bsp = boost::spirit::classic;
 
 Reader::Reader(std::istream &inputSpec)
@@ -72,18 +70,18 @@ std::vector<std::shared_ptr<GenExams>> Reader::parse()
 
    for (size_t i = 0; i < messages.size(); ++i) {
       int lineNumber = 0;
-      if (messages[i].get<2>() != 0) {
+      if (std::get<2>(messages[i]) != 0) {
          lineNumber = count(static_cast<const char *>(&textSpec[0]),
-                            messages[i].get<2>(), '\n') +
+                            std::get<2>(messages[i]), '\n') +
                       1;
       }
-      messages[i].get<1>() = lineNumber;
+      std::get<1>(messages[i]) = lineNumber;
    }
 
    for (size_t i = 0; i < messages.size(); ++i) {
-      clog << messages[i].get<0>() << " line " << messages[i].get<1>() << ": "
-           << messages[i].get<3>() << endl;
-      if (messages[i].get<0>() == 'E') {
+      clog << std::get<0>(messages[i]) << " line " << std::get<1>(messages[i]) << ": "
+           << std::get<3>(messages[i]) << endl;
+      if (std::get<0>(messages[i]) == 'E') {
          pb.Product.clear();
       }
    }
