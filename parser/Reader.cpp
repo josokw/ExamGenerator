@@ -5,7 +5,6 @@
 
 #include <algorithm>
 
-using namespace std;
 namespace bsp = boost::spirit::classic;
 
 Reader::Reader(std::istream &inputSpec)
