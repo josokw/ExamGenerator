@@ -4,18 +4,20 @@
 #include <ctime>
 
 Random::Random(int N)
-   : m_UniformInt(0, N)
-   , m_Mt(static_cast<unsigned long>(std::time(0)))
-   , generate(m_Mt, m_UniformInt)
+   : seed_{static_cast<unsigned long>(std::time(0))}
+   , m_UniformInt{0, N}
+   , mt19937_{seed_}
+   , generate(mt19937_, m_UniformInt)
 {
    LOGD("initialised, N = " + std::to_string(N) +
         " seed = " + std::to_string(seed_));
 }
 
 Random::Random(int N, unsigned long seed)
-   : m_UniformInt(0, N)
-   , m_Mt(seed)
-   , generate(m_Mt, m_UniformInt)
+   : seed_{seed}
+   , m_UniformInt(0, N)
+   , mt19937_(seed_)
+   , generate(mt19937_, m_UniformInt)
 {
    LOGD("initialised, N = " + std::to_string(N) +
         " seed = " + std::to_string(seed_));

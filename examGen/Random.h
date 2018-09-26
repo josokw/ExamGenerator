@@ -9,8 +9,9 @@
 class Random
 {
 private:
+   unsigned long int seed_;
    boost::uniform_int<int> m_UniformInt;
-   boost::mt19937 m_Mt;
+   boost::mt19937 mt19937_;
 
 public:
    using range_t = std::pair<int, int>;
@@ -29,9 +30,6 @@ public:
    {
       return static_cast<std::ptrdiff_t>(generate());
    }
-
-private:
-   int seed_;
 };
 
 #endif

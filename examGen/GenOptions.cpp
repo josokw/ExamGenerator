@@ -105,8 +105,8 @@ void GenOptions::shuffle()
    //    std::random_shuffle(GenComposite::getGenerators().begin(),
    //                        GenComposite::getGenerators().end(), R);
 
-   std::random_shuffle(GenComposite::getGenerators().begin(),
-                       GenComposite::getGenerators().end());
+   std::random_shuffle(begin(GenComposite::getGenerators()),
+                       end(GenComposite::getGenerators()));
 
    //    for (auto &gen : GenComposite::getGenerators()) {
    //       std::cerr << gen->getID() << std::endl;
@@ -115,6 +115,6 @@ void GenOptions::shuffle()
 
 void GenOptions::sort()
 {
-   std::stable_sort(GenComposite::getGenerators().begin(),
-                    GenComposite::getGenerators().end(), lessLength);
+   std::stable_sort(begin(GenComposite::getGenerators()),
+                    end(GenComposite::getGenerators()), lessLength);
 }

@@ -57,7 +57,7 @@
 
 void hcExamDummy(std::ofstream &LaTeXfile)
 {
-   LOGD("Generating LaTeX started");
+   LOGI("Generating LaTeX file started");
 
    const bool IS_CORRECT{true};
 
@@ -66,17 +66,6 @@ void hcExamDummy(std::ofstream &LaTeXfile)
    std::shared_ptr<GenExam> pExam(new GenExam(messages));
    pExam->setID("Hard coded exam dummy");
 
-   //    std::shared_ptr<GenItem> pI;
-   //    std::shared_ptr<GenText> pT1;
-   //    std::shared_ptr<GenText> pT2;
-   //    std::shared_ptr<GenText> pT3;
-   //    std::shared_ptr<GenJava> pJ1;
-   //    std::shared_ptr<GenJava> pJ2;
-   //    std::shared_ptr<GenOption> pO1;
-   //    std::shared_ptr<GenOption> pO2;
-   //    std::shared_ptr<GenOption> pO3;
-   //    std::shared_ptr<GenOption> pO4;
-   //    std::shared_ptr<GenImage> pImg;
    {
       // Header ----------------------------------------------------------------
       auto pHeader = std::make_shared<GenHeader>();
@@ -147,6 +136,7 @@ void hcExamDummy(std::ofstream &LaTeXfile)
 
       pExam->add(pItem);
    }
+
    std::cerr << "\n" << *pExam << std::endl;
 
    // Item #3 ------------------------------------------------------------------
@@ -160,30 +150,28 @@ void hcExamDummy(std::ofstream &LaTeXfile)
       pText->setID("I3.text");
       pItem->addToStem(pText);
 
-      auto pO1 = std::make_shared<GenOption>("Shuffle Option 1.");
+      auto pO1 = std::make_shared<GenOption>("Sort Option 1.");
       pO1->setID("03.1");
-      auto pO2 = std::make_shared<GenOption>("Shuffle Option 2..");
+      auto pO2 = std::make_shared<GenOption>("Sort Option 2............");
       pO2->setID("03.2");
-      auto pO3 = std::make_shared<GenOption>("Shuffle Option 3...");
+      auto pO3 = std::make_shared<GenOption>("Sort Option 3......");
       pO3->setID("03.3");
-      auto pO4 = std::make_shared<GenOption>("Shuffle Option 4....");
+      auto pO4 = std::make_shared<GenOption>("Sort Option 4....");
       pO4->setID("03.4");
 
-      pItem->addToOptions(pO1, IS_CORRECT);
+      pItem->addToOptions(pO1);
       pItem->addToOptions(pO2);
       pItem->addToOptions(pO3);
-      pItem->addToOptions(pO4);
-      pItem->shuffleON();
+      pItem->addToOptions(pO4, IS_CORRECT);
+      pItem->sortOptions();
 
       pExam->add(pItem);
    }
-
-   //GenSolution genSOl(pExam);
 
    std::cerr << "\n" << *pExam << std::endl;
 
    // Generate exam LaTeX text -------------------------------------------------
    pExam->generate(LaTeXfile);
 
-   LOGD("Generating LaTeX ready");
+   LOGI("Generating LaTeX file is ready");
 }
