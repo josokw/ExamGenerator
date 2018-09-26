@@ -44,6 +44,8 @@
 // rutrum at purus ac, gravida porttitor velit. Donec molestie et odio in
 // fermentum. Aliquam in sapien eu nisl varius pulvinar.
 
+#include "GenAPI.h"
+#include "GenCodeText.h"
 #include "GenExam.h"
 #include "GenHeader.h"
 #include "GenItem.h"
@@ -169,6 +171,79 @@ void hcExamDummy(std::ofstream &LaTeXfile)
    }
 
    std::cerr << "\n" << *pExam << std::endl;
+
+   // Item #4a
+   // ------------------------------------------------------------------
+   {
+      auto pItem = std::make_shared<GenItem>();
+      pItem->setID("I4a");
+      auto pText = std::make_shared<GenText>(
+         "Fusce in magna erat. Cras turpis est, semper "
+         "lobortis dui. Phasellus urna turpis, eu ipsum sodales, "
+         "venenatis sodales enim?");
+      pText->setID("I3.text");
+      pItem->addToStem(pText);
+
+      auto pO1 = std::make_shared<GenOption>("Sort Option 1.");
+      pO1->setID("03.1");
+      auto pO2 = std::make_shared<GenOption>("Sort Option 2............");
+      pO2->setID("03.2");
+      auto pO3 = std::make_shared<GenOption>("Sort Option 3......");
+      pO3->setID("03.3");
+      auto pO4 = std::make_shared<GenOption>("Sort Option 4....");
+      pO4->setID("03.4");
+
+      pItem->addToOptions(pO1);
+      pItem->addToOptions(pO2);
+      pItem->addToOptions(pO3);
+      pItem->addToOptions(pO4, IS_CORRECT);
+      pItem->sortOptions();
+
+      pExam->add(pItem);
+   }
+
+   // Item #4b
+   // ------------------------------------------------------------------
+   {
+      auto pItem = std::make_shared<GenItem>();
+      pItem->setID("I4b");
+      auto pText = std::make_shared<GenText>(
+         "Fusce in magna erat. Cras turpis est, semper "
+         "lobortis dui. Phasellus urna turpis, eu ipsum sodales, "
+         "venenatis sodales enim?");
+      pText->setID(pItem->getID() + ".text");
+      pItem->addToStem(pText);
+
+      auto pAPI = std::make_shared<GenAPI>("int", "multiply(int a, int b);",
+                                           "Mutiplies two integers");
+      pAPI->setID(pItem->getID() + ".code");
+      pItem->addToStem(pAPI);
+      auto pCodeText =
+         std::make_shared<GenCodeText>("c",
+                                       "int main()\n"
+                                       "{\n"
+                                       "   printf(\"Hello\");\n"
+                                       "}\n"
+                                       "\n");
+      pItem->addToStem(pCodeText);
+
+      auto pO1 = std::make_shared<GenOption>("Sort Option 1.");
+      pO1->setID("04b.1");
+      auto pO2 = std::make_shared<GenOption>("Sort Option 2............");
+      pO2->setID("04b.2");
+      auto pO3 = std::make_shared<GenOption>("Sort Option 3......");
+      pO3->setID("04b.3");
+      auto pO4 = std::make_shared<GenOption>("Sort Option 4....");
+      pO4->setID("04b.4");
+
+      pItem->addToOptions(pO1);
+      pItem->addToOptions(pO2);
+      pItem->addToOptions(pO3);
+      pItem->addToOptions(pO4, IS_CORRECT);
+      pItem->sortOptions();
+
+      pExam->add(pItem);
+   }
 
    // Generate exam LaTeX text -------------------------------------------------
    pExam->generate(LaTeXfile);
