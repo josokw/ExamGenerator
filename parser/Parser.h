@@ -1,19 +1,6 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include <boost/bind.hpp>
-#include <boost/function.hpp>
-#include <boost/spirit/include/classic_confix.hpp>
-#include <boost/spirit/include/classic_core.hpp>
-#include <boost/spirit/include/classic_escape_char.hpp>
-#include <boost/spirit/include/classic_if.hpp>
-#include <boost/spirit/include/classic_lists.hpp>
-#include <boost/spirit/include/classic_symbols.hpp>
-#include <iostream>
-#include <stdexcept>
-#include <string>
-#include <vector>
-
 #include "AppInfo.h"
 #include "GenAPI.h"
 #include "GenCodeText.h"
@@ -36,6 +23,19 @@
 #include "RandomProfile.h"
 #include "Reader.h"
 #include "Util.h"
+
+#include <boost/bind.hpp>
+#include <boost/function.hpp>
+#include <boost/spirit/include/classic_confix.hpp>
+#include <boost/spirit/include/classic_core.hpp>
+#include <boost/spirit/include/classic_escape_char.hpp>
+#include <boost/spirit/include/classic_if.hpp>
+#include <boost/spirit/include/classic_lists.hpp>
+#include <boost/spirit/include/classic_symbols.hpp>
+#include <iostream>
+#include <stdexcept>
+#include <string>
+#include <vector>
 
 using namespace std;
 using namespace boost::spirit::classic;
@@ -156,9 +156,9 @@ struct MCTestBuilder {
    }
 
    // Helper functions
-   bool idGeneratorIsUnique(const string &id, const char *begin,
+   bool idGeneratorIsUnique(const std::string &id, const char *begin,
                             const char *end);
-   IGenPtr_t *idGeneratorIsAvailable(const string &id, const char *begin,
+   IGenPtr_t *idGeneratorIsAvailable(const std::string &id, const char *begin,
                                      const char *end);
    // Error function
    void do_errorMessage(const char *begin, const char *end);
@@ -166,14 +166,14 @@ struct MCTestBuilder {
    void do_initText(const char *begin, const char *end)
    {
       // removes leading and trailing "
-      text = string(begin + 1, end - 1);
+      text = std::string(begin + 1, end - 1);
    }
 
    void do_addChar(const char begin) { text += begin; }
 
    void do_concatText(const char *begin, const char *end)
    {
-      text += string(begin + 1, end - 1);
+      text += std::string(begin + 1, end - 1);
    }
 
    void do_addNewLine(const char * /* begin */, const char * /* end */)
@@ -256,10 +256,10 @@ struct MCTestBuilder {
             std::static_pointer_cast<IGenerator>(p_actualItem));
          itemScope = id.c_str();
          boost::spirit::classic::add(generators_p,
-                                     (id + string(".level")).c_str(),
+                                     (id + std::string(".level")).c_str(),
                                      (IGenPtr_t)((*p_actualItem)[0]));
          boost::spirit::classic::add(generators_p,
-                                     (id + string(".stem")).c_str(),
+                                     (id + std::string(".stem")).c_str(),
                                      (IGenPtr_t)((*p_actualItem)[0]));
          genFactory.addGenerator(id, p_actualItem);
       }
@@ -360,8 +360,8 @@ struct MCTestBuilder {
             }
          }
       }
-      catch (runtime_error &X) {
-         clog << X.what() << endl;
+      catch (std::runtime_error &X) {
+         std::cerr << X.what() << std::endl;
       }
    }
 
@@ -565,11 +565,11 @@ struct MCTestBuilder {
             parList.clear();
             messages.push_back(Reader::message_t(
                'E', 0, begin,
-               "Function '" + string(begin, end) + "' does not exists!"));
+               "Function '" + std::string(begin, end) + "' does not exists!"));
          }
       }
-      catch (runtime_error &X) {
-         clog << X.what() << endl;
+      catch (std::runtime_error &X) {
+         std::cerr << X.what() << std::endl;
       }
    }
 
@@ -592,10 +592,10 @@ struct MCTestBuilder {
                      parList.clear();
                   } else {
                      parList.clear();
-                     messages.push_back(
-                        Reader::message_t('E', 0, begin,
-                                          "Function '" + string(begin, end) +
-                                             "' does not exists!"));
+                     messages.push_back(Reader::message_t(
+                        'E', 0, begin,
+                        "Function '" + std::string(begin, end) +
+                           "' does not exists!"));
                   }
                }
             } else {
@@ -606,7 +606,7 @@ struct MCTestBuilder {
                      if (parList.size() != 1) {
                         messages.push_back(Reader::message_t(
                            'E', 0, begin,
-                           "Number of parameters '" + string(begin, end) +
+                           "Number of parameters '" + std::string(begin, end) +
                               "' should be 1"));
                      }
                      int par1 = atoi(parList[0].c_str());
@@ -614,10 +614,10 @@ struct MCTestBuilder {
                      parList.clear();
                   } else {
                      parList.clear();
-                     messages.push_back(
-                        Reader::message_t('E', 0, begin,
-                                          "Function '" + string(begin, end) +
-                                             "' does not exists!"));
+                     messages.push_back(Reader::message_t(
+                        'E', 0, begin,
+                        "Function '" + std::string(begin, end) +
+                           "' does not exists!"));
                   }
                }
             }
@@ -626,8 +626,8 @@ struct MCTestBuilder {
                'E', 0, begin, "'" + lhs + "' does not exists!"));
          }
       }
-      catch (runtime_error &X) {
-         clog << X.what() << endl;
+      catch (std::runtime_error &X) {
+         std::cerr << X.what() << std::endl;
       }
    }
 
@@ -661,8 +661,8 @@ struct MCTestBuilder {
          }
          parList.clear();
       }
-      catch (runtime_error &X) {
-         clog << X.what() << endl;
+      catch (std::runtime_error &X) {
+         std::cerr << X.what() << std::endl;
       }
    }
 
@@ -714,7 +714,7 @@ struct MCTspecParser : public grammar<MCTspecParser> {
          strlit<> RPAREN(")");
          strlit<> SEMI(";");
 
-         string TEST;
+         std::string TEST;
 
          // GenMCT
          // 1 Header

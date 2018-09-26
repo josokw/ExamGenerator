@@ -5,6 +5,7 @@
 
 #include <algorithm>
 
+using namespace std;
 namespace bsp = boost::spirit::classic;
 
 Reader::Reader(std::istream &inputSpec)
@@ -20,8 +21,8 @@ void Reader::clear()
 
 void Reader::read()
 {
-   input >> noskipws;
-   copy(istream_iterator<char>(input), istream_iterator<char>(),
+   input >> std::noskipws;
+   copy(std::istream_iterator<char>(input), std::istream_iterator<char>(),
         back_inserter(textSpec));
    textSpec.push_back(0);
    for (auto c : textSpec) {
@@ -37,8 +38,8 @@ std::vector<std::shared_ptr<GenExams>> Reader::parse()
    MCTspecParser parser(pb);
 
    try {
-      const static string LINE(75, '-');
-      cout << endl << "- Parsing started" << endl;
+      const static std::string LINE(75, '-');
+      std::cout << endl << "- Parsing started" << endl;
       cout << LINE << "\n";
 
       bsp::parse_info<> info = bsp::parse(&textSpec[0], parser, skip);
@@ -79,8 +80,9 @@ std::vector<std::shared_ptr<GenExams>> Reader::parse()
    }
 
    for (size_t i = 0; i < messages.size(); ++i) {
-      clog << std::get<0>(messages[i]) << " line " << std::get<1>(messages[i])
-           << ": " << std::get<3>(messages[i]) << endl;
+      std::cout << std::get<0>(messages[i]) << " line "
+                << std::get<1>(messages[i]) << ": " << std::get<3>(messages[i])
+                << std::endl;
       if (std::get<0>(messages[i]) == 'E') {
          pb.Product.clear();
       }
