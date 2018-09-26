@@ -17,13 +17,12 @@ GenAPI::GenAPI(const std::string &returnType, const std::string &signature,
 
 GenAPI::~GenAPI()
 {
-   // IGenerator::write(clog) << " ##### DTOR" << endl;
+   LOGD(id_);
 }
 
 IGenPtr_t GenAPI::copy() const
 {
-   std::unique_ptr<GenAPI> p(
-      new GenAPI(returnType_, signature_, description_));
+   std::shared_ptr<GenAPI> p(new GenAPI(returnType_, signature_, description_));
    return p;
 }
 
