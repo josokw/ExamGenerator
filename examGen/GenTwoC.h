@@ -35,8 +35,8 @@ private:
    std::shared_ptr<GenOption> m_pO3;
    std::shared_ptr<GenOption> m_pO4;
 
-   int N;
-   std::string BinaryN;
+   int N_;
+   std::string binaryN_;
 };
 
 #endif
