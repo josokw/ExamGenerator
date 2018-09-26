@@ -79,8 +79,8 @@ std::vector<std::shared_ptr<GenExams>> Reader::parse()
    }
 
    for (size_t i = 0; i < messages.size(); ++i) {
-      clog << std::get<0>(messages[i]) << " line " << std::get<1>(messages[i]) << ": "
-           << std::get<3>(messages[i]) << endl;
+      clog << std::get<0>(messages[i]) << " line " << std::get<1>(messages[i])
+           << ": " << std::get<3>(messages[i]) << endl;
       if (std::get<0>(messages[i]) == 'E') {
          pb.Product.clear();
       }
