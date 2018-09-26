@@ -35,7 +35,8 @@ std::ostream &GenSolution::write(std::ostream &os, int Level) const
       << "\n";
    os << "\\\\Oplossing:\n";
    for (size_t i = 0; i < solutions_.size(); ++i) {
-      os << "\\\\ " << (i + 1) << ". " << (char)('A' + solutions_[i]) << "\n";
+      os << "\\\\ " << (i + 1) << ". " << static_cast<char>('A' + solutions_[i])
+         << "\n";
    }
    return os;
 }
@@ -75,7 +76,8 @@ void GenSolution::generate(std::ostream &os)
       << "\n";
    os << "\\\\Oplossing:\n";
    for (size_t i = 0; i < solutions_.size(); ++i) {
-      os << "\\\\ " << (i + 1) << ". " << (char)('A' + solutions_[i]) << "\n";
+      os << "\\\\ " << (i + 1) << ". " << static_cast<char>('A' + solutions_[i])
+         << "\n";
    }
    os << "\\\\ " << std::string(40, '-')
       << std::string(2 + pExam_->getID().size(), '-') << "\n";
