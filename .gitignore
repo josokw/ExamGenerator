@@ -54,3 +54,5 @@ bin/ExamGenerator
 
 # Loging
 ExamGenerator.log
+
+examGen/IGenerator
