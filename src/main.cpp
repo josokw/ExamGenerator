@@ -30,15 +30,15 @@ int main(int argc, char *argv[])
       LOGI(APPNAME " v" VERSION " started");
 
       bfs::path currentInitialDir(bfs::initial_path());
-      bfs::path MCTspecFileName;
-      bpo::options_description descr(APPNAME " v" VERSION);
+      bfs::path ExamScriptFileName;
+      bpo::options_description descr("\n" APPNAME " v" VERSION);
 
       descr.add_options()("help,h", "show help message");
       descr.add_options()("version,v", "print version string");
       descr.add_options()("seed,s", bpo::value<long int>(),
-                          "input seed random generator");
+                          "input seed for random generator");
       descr.add_options()("exam,e", bpo::value<std::string>(),
-                          "input exam specification file");
+                          "input exam specification file name");
       descr.add_options()("hce,c", "execute hard coded exam");
 
       bpo::variables_map var_map;
@@ -57,9 +57,9 @@ int main(int argc, char *argv[])
          LOGI("seed = " + std::to_string(seed));
       }
       if (var_map.count("exam")) {
-         MCTspecFileName = var_map["exam"].as<std::string>();
+         ExamScriptFileName = var_map["exam"].as<std::string>();
       } else {
-         std::cerr << "\n\tERROR: input specification file name missing\n\n"
+         std::cerr << "\n\tERROR: input exam specification file name missing\n"
                    << descr << std::endl;
          return 1;
       }
@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
 
       const bfs::path LaTeXoutputDir(".");
       const bfs::path LaTeXgeneratedFileName(LaTeXoutputDir /
-                                             "MCTgenerated.tex");
+                                             "generatedExam.tex");
       const bfs::path LaTeXdocFileName(LATEXFILENAME);
       const std::string LaTeXcommand(
          "pdflatex -enable-write18 \"-output-directory=" +
@@ -80,38 +80,23 @@ int main(int argc, char *argv[])
       if (!LaTeXgeneratedFile) {
          std::cerr << "\n\tERROR: " << LaTeXgeneratedFileName
                    << " not opened\n\n";
-         exit(1);
+         exit(EXIT_FAILURE);
       }
-      //   if (var_map.count("hct")) {
-      //   MCTgenTests::test1(LaTeXgeneratedFile);
-      //   MCTgenTests::testAll(LaTeXgeneratedFile);
 
-      bfs::ifstream MCTspecFile(MCTspecFileName);
-      //   if (!MCTspecFile) {
-      //      std::cerr << "ERROR: MCTspecFile " << MCTspecFileName
-      //                << " not opened\n\n";
-      //      std::cin.get();
-      //      exit(1);
-      //   }
+      bfs::ifstream ExamScriptFile(ExamScriptFileName);
+      if (!ExamScriptFile) {
+         std::cerr << "\n\tERROR: exam script file '" << ExamScriptFileName
+                   << "' not opened\n\n";
+         exit(EXIT_FAILURE);
+      }
 
       if (var_map.count("hce")) {
          LOGD("Hard coded exam");
          hcExamDummy(LaTeXgeneratedFile);
       }
 
-      Random::range_t rng{2, 6};
-      RandomProfile rf;
-
-      for (int count = 0; count < 10; ++count) {
-         rf.generate(rng);
-      }
-      auto r = rf.getProfile();
-      for (auto i : r) {
-         std::cout << i << std::endl;
-      }
-
-      // Start exam construction based on scripted
-      Reader reader(MCTspecFile);
+      // Start generating exam based on script
+      Reader reader(ExamScriptFile);
       reader.read();
       std::vector<std::shared_ptr<GenExams>> scriptedTests(reader.parse());
 
@@ -122,26 +107,27 @@ int main(int argc, char *argv[])
                   [&LaTeXgeneratedFile](std::shared_ptr<GenExams> &st) {
                      st->generate(LaTeXgeneratedFile);
                   });
+
          LaTeXgeneratedFile.close();
 
          std::cout << "- LaTeX file generated\n";
-         std::cout << "- Started PDF file generation\n";
+         std::cout << "- Started PDF exam file generation\n";
          // Generate DVI file
          system(LaTeXcommand.c_str());
-         std::cout << "\n- PDF file generated\n\n";
+         std::cout << "\n- PDF exam file generated\n\n";
       } else {
-         std::cout << "\n- No PDF file generated\n\n";
+         std::cout << "\n- No PDF exam file generated\n\n";
       }
    }
 
    catch (const std::bad_alloc &ba) {
-      std::cerr << "\n\tOUT OF MEMORY " << ba.what() << std::endl;
+      std::cerr << "\n\tERROR: OUT OF MEMORY " << ba.what() << std::endl;
    }
    catch (const std::exception &e) {
-      std::cerr << "\n\t" << e.what() << std::endl;
+      std::cerr << "\n\tERROR: " << e.what() << std::endl;
    }
    catch (...) {
-      std::cerr << "\n\tUNKNOWN EXCEPTION" << std::endl;
+      std::cerr << "\n\tERROR: UNKNOWN EXCEPTION" << std::endl;
    }
    std::cout << "\nBye... :-) \n\n";
 
