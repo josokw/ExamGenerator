@@ -1,11 +1,13 @@
 #include "AppInfo.h"
 #include "ExamGeneratorConfig.h"
 #include "GenCodeText.h"
+#include "GenExams.h"
 #include "GenHeader.h"
 #include "GenNull.h"
 #include "GenText.h"
 #include "Log.h"
 #include "RandomProfile.h"
+#include "Reader.h"
 #include "hcExam/hcExamDummy.h"
 
 #include <algorithm>
@@ -18,7 +20,6 @@
 #include <sstream>
 #include <string>
 #include <vector>
-//#include "Reader.h"
 
 namespace bpo = boost::program_options;
 namespace bfs = boost::filesystem;
@@ -58,9 +59,9 @@ int main(int argc, char *argv[])
       if (var_map.count("exam")) {
          MCTspecFileName = var_map["exam"].as<std::string>();
       } else {
-         //  std::cerr << "\n\tERROR: input specification file name missing\n\n"
-         //            << descr << std::endl;
-         //  return 1;
+         std::cerr << "\n\tERROR: input specification file name missing\n\n"
+                   << descr << std::endl;
+         return 1;
       }
 
       std::cout << "- " << APPNAME << " v" << VERSION << " started in "
@@ -76,11 +77,11 @@ int main(int argc, char *argv[])
          (LaTeXoutputDir / LaTeXdocFileName).string());
 
       bfs::ofstream LaTeXgeneratedFile(LaTeXgeneratedFileName);
-      //   if (!LaTeXgeneratedFile) {
-      //      std::cerr << "\n\tERROR: " << LaTeXgeneratedFileName
-      //                << " not opened\n\n";
-      //      exit(1);
-      //   }
+      if (!LaTeXgeneratedFile) {
+         std::cerr << "\n\tERROR: " << LaTeXgeneratedFileName
+                   << " not opened\n\n";
+         exit(1);
+      }
       //   if (var_map.count("hct")) {
       //   MCTgenTests::test1(LaTeXgeneratedFile);
       //   MCTgenTests::testAll(LaTeXgeneratedFile);
@@ -109,30 +110,28 @@ int main(int argc, char *argv[])
          std::cout << i << std::endl;
       }
 
-      // Start MC test construction scripted
-      // Reader reader(MCTspecFile);
-      // reader.read();
-      // vector<std::shared_ptr<GenMCTs>> scriptedTests(reader.parse());
+      // Start exam construction based on scripted
+      Reader reader(MCTspecFile);
+      reader.read();
+      std::vector<std::shared_ptr<GenExams>> scriptedTests(reader.parse());
 
-      // if (!scriptedTests.empty())
-      // {
-      //   std::cout << "- Generating scripted MCT's" << std::endl;
+      if (!scriptedTests.empty()) {
+         std::cout << "- Generating scripted MCT's" << std::endl;
 
-      //   for_each(scriptedTests.begin(), scriptedTests.end(),
-      //   [&LaTeXgeneratedFile](std::shared_ptr<GenMCTs>& st) {
-      //   st->generate(LaTeXgeneratedFile); } );
-      //   LaTeXgeneratedFile.close();
+         for_each(scriptedTests.begin(), scriptedTests.end(),
+                  [&LaTeXgeneratedFile](std::shared_ptr<GenExams> &st) {
+                     st->generate(LaTeXgeneratedFile);
+                  });
+         LaTeXgeneratedFile.close();
 
-      //   std::cout << "- LaTeX file generated\n";
-      //   std::cout << "- Started PDF file generation\n";
-      //   // Generate DVI file
-      //   system(LaTeXcommand.c_str());
-      //   std::cout << "\n- PDF file generated\n\n";
-      // }
-      // else
-      // {
-      //   std::cout << "\n- No PDF file generated\n\n";
-      // }
+         std::cout << "- LaTeX file generated\n";
+         std::cout << "- Started PDF file generation\n";
+         // Generate DVI file
+         system(LaTeXcommand.c_str());
+         std::cout << "\n- PDF file generated\n\n";
+      } else {
+         std::cout << "\n- No PDF file generated\n\n";
+      }
    }
 
    catch (const std::bad_alloc &ba) {
