@@ -10,7 +10,7 @@ class Random
 {
 private:
    unsigned long int seed_;
-   boost::uniform_int<int> m_UniformInt;
+   boost::uniform_int<int> uniformInt_;
    boost::mt19937 mt19937_;
 
 public:

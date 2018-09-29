@@ -28,12 +28,12 @@ protected:
 private:
    static std::tuple<Random::range_t, int, std::list<int>, int> s_R0;
 
-   std::shared_ptr<GenText> m_pText;
-   std::shared_ptr<GenCodeText> m_pJava;
-   std::shared_ptr<GenOption> m_pO1;
-   std::shared_ptr<GenOption> m_pO2;
-   std::shared_ptr<GenOption> m_pO3;
-   std::shared_ptr<GenOption> m_pO4;
+   std::shared_ptr<GenText> pText_;
+   std::shared_ptr<GenCodeText> pCode_;
+   std::shared_ptr<GenOption> pO1_;
+   std::shared_ptr<GenOption> pO2_;
+   std::shared_ptr<GenOption> pO3_;
+   std::shared_ptr<GenOption> pO4_;
 
    int N_;
    std::string binaryN_;
