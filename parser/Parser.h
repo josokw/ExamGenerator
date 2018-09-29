@@ -38,6 +38,7 @@
 #include <vector>
 
 using namespace boost::spirit::classic;
+//using bsc = boost::spirit::classic;
 
 // Errors to check for during the parse
 enum {
@@ -50,11 +51,11 @@ enum {
 
 /// This structure contains all semantic actions of the parser.
 struct MCTestBuilder {
-   std::vector<Reader::message_t> &messages;
+   std::vector<Reader::message_t> &messages_;
    RandomProfile randomProfile;
    size_t error;
    std::vector<std::shared_ptr<GenExams>> Product;
-   int level;
+   int level_;
    std::string type;
    std::string text;
    std::string lhs;
@@ -69,7 +70,7 @@ struct MCTestBuilder {
    int par;
    int actualOptionIndex;
    std::shared_ptr<GenOption> p_actualOption;
-   bool isArrayElement;
+   bool isArrayElement_;
 
    symbols<std::string> vars_p;
    symbols<IGenPtr_t> generators_p;
@@ -106,9 +107,9 @@ struct MCTestBuilder {
    MCTestBuilder *self() { return this; }
 
    MCTestBuilder(std::vector<Reader::message_t> &messages)
-      : messages(messages)
-      , error(NO_ERROR)
-      , isArrayElement(false)
+      : messages_{messages}
+      , error{NO_ERROR}
+      , isArrayElement_{false}
       , errorMessage(std::bind(&MCTestBuilder::do_errorMessage, self(),
                                std::placeholders::_1, std::placeholders::_2))
       , initText(std::bind(&MCTestBuilder::do_initText, self(),
@@ -216,7 +217,7 @@ struct MCTestBuilder {
       }
       auto p = find(vars_p, lhs.c_str());
       if (p) {
-         messages.push_back(Reader::message_t(
+         messages_.push_back(Reader::message_t(
             'E', 0, begin, "Constant '" + lhs + "' already exists!"));
       } else {
          boost::spirit::classic::add(vars_p, lhs.c_str(), rhs);
@@ -228,11 +229,11 @@ struct MCTestBuilder {
    void do_createMCT(const char *begin, const char *end)
    {
       if (!itemScope.empty()) {
-         messages.push_back(Reader::message_t(
+         messages_.push_back(Reader::message_t(
             'E', 0, begin, "MCT '" + id + "' should be declared global!"));
       } else {
          if (idGeneratorIsUnique(id, begin, end)) {
-            std::shared_ptr<GenExams> pMCTs(new GenExams(messages, 1));
+            std::shared_ptr<GenExams> pMCTs(new GenExams(messages_, 1));
             pMCTs->setID(id);
             boost::spirit::classic::add(
                generators_p, id.c_str(),
@@ -247,12 +248,12 @@ struct MCTestBuilder {
       std::vector<std::shared_ptr<GenExams>> &ProductLocal(Product);
 
       if (!itemScope.empty()) {
-         messages.push_back(Reader::message_t(
+         messages_.push_back(Reader::message_t(
             'E', 0, begin,
             "MCT array '" + id + "' should be declared global!"));
       } else {
          if (idGeneratorIsUnique(id, begin, end)) {
-            std::shared_ptr<GenExams> pMCTs(new GenExams(messages, par));
+            std::shared_ptr<GenExams> pMCTs(new GenExams(messages_, par));
             pMCTs->setID(id);
             boost::spirit::classic::add(
                generators_p, id.c_str(),
@@ -318,7 +319,7 @@ struct MCTestBuilder {
                            generators_p, id.c_str(),
                            std::static_pointer_cast<IGenerator>(pNF));
                      } else {
-                        messages.push_back(Reader::message_t(
+                        messages_.push_back(Reader::message_t(
                            'E', 0, begin, "Type '" + type + "' unknown"));
                      }
                   }
@@ -369,7 +370,7 @@ struct MCTestBuilder {
                    dynamic_cast<GenOption *>((*ppIGen).get())) {
                pOption->setIsCorrect();
             } else {
-               messages.push_back(Reader::message_t(
+               messages_.push_back(Reader::message_t(
                   'E', 0, begin,
                   "Option '" + lhs + "' could not set to be correct"));
             }
@@ -415,7 +416,7 @@ struct MCTestBuilder {
                            generators_p, id.c_str(),
                            std::static_pointer_cast<IGenerator>(pI));
                      } else {
-                        messages.push_back(Reader::message_t(
+                        messages_.push_back(Reader::message_t(
                            'E', 0, begin,
                            "API '" + rhs + "' must have 3 parameters!"));
                      }
@@ -451,7 +452,7 @@ struct MCTestBuilder {
    {
       addItemScope(lhs);
       if (auto ppGenLHS = idGeneratorIsAvailable(lhs, begin, end)) {
-         (*ppGenLHS)->setLevel(level);
+         (*ppGenLHS)->setLevel(level_);
       }
    }
 
@@ -464,12 +465,12 @@ struct MCTestBuilder {
       addItemScope(rhs);
       if (auto ppGenLHS = idGeneratorIsAvailable(lhs, begin, end)) {
          if (auto ppGenRHS = idGeneratorIsAvailable(rhs, begin, end)) {
-            if (isArrayElement) {
-               isArrayElement = false;
+            if (isArrayElement_) {
+               isArrayElement_ = false;
                if ((*ppGenLHS)->getType() == "Exams[]") {
                   auto pGenMCTs = static_cast<GenExams *>((*ppGenLHS).get());
                   if (par > (pGenMCTs->size() - 1)) {
-                     messages.push_back(Reader::message_t(
+                     messages_.push_back(Reader::message_t(
                         'E', 0, begin,
                         "Array index of '" + lhs + "' exceeds array size."));
                   } else {
@@ -486,7 +487,7 @@ struct MCTestBuilder {
                      }
                   }
                } else {
-                  messages.push_back(Reader::message_t(
+                  messages_.push_back(Reader::message_t(
                      'E', 0, begin, "'" + lhs + "' is not an array type!"));
                }
             } else {
@@ -517,7 +518,7 @@ struct MCTestBuilder {
          if (auto ppGenRHS = idGeneratorIsAvailable(rhs, begin, end)) {
             if ((*ppGenRHS)->getType() == "GenSelector") {
                if (parList.size() != 1) {
-                  messages.push_back(Reader::message_t(
+                  messages_.push_back(Reader::message_t(
                      'E', 0, begin,
                      "Functor '" + rhs + "' must have 1 parameter!"));
                } else {
@@ -526,14 +527,14 @@ struct MCTestBuilder {
                   auto par1 = atoi(parList[0].c_str());
                   if (par1 > pGenSelector->sizeAll()) {
                      par1 = pGenSelector->sizeAll();
-                     messages.push_back(Reader::message_t(
+                     messages_.push_back(Reader::message_t(
                         'W', 0, begin,
                         "Functor '" + rhs +
                            "' parameter value limited to size of Selector"));
                   }
                   if (par1 <= 0) {
                      par1 = 0;
-                     messages.push_back(Reader::message_t(
+                     messages_.push_back(Reader::message_t(
                         'E', 0, begin,
                         "Functor '" + rhs +
                            "' must have parameter value > 0 !"));
@@ -551,7 +552,7 @@ struct MCTestBuilder {
                   }
                }
             } else {
-               messages.push_back(Reader::message_t(
+               messages_.push_back(Reader::message_t(
                   'E', 0, begin, "Functor for '" + rhs + "' not available."));
             }
          }
@@ -570,7 +571,7 @@ struct MCTestBuilder {
 
          if (function_id == "shuffleON") {
             if (parList.size() != 0) {
-               messages.push_back(Reader::message_t(
+               messages_.push_back(Reader::message_t(
                   'E', 0, begin,
                   "Function '" + function_id + "' must have 0 parameters!"));
             } else {
@@ -579,7 +580,7 @@ struct MCTestBuilder {
             }
          } else {
             parList.clear();
-            messages.push_back(Reader::message_t(
+            messages_.push_back(Reader::message_t(
                'E', 0, begin,
                "Function '" + std::string(begin, end) + "' does not exists!"));
          }
@@ -609,7 +610,7 @@ struct MCTestBuilder {
                      parList.clear();
                   } else {
                      parList.clear();
-                     messages.push_back(Reader::message_t(
+                     messages_.push_back(Reader::message_t(
                         'E', 0, begin,
                         "Function '" + std::string(begin, end) +
                            "' does not exists!"));
@@ -621,7 +622,7 @@ struct MCTestBuilder {
                   /// @todo Parameter type checking
                   if (function_id == "selectR") {
                      if (parList.size() != 1) {
-                        messages.push_back(Reader::message_t(
+                        messages_.push_back(Reader::message_t(
                            'E', 0, begin,
                            "Number of parameters '" + std::string(begin, end) +
                               "' should be 1"));
@@ -631,7 +632,7 @@ struct MCTestBuilder {
                      parList.clear();
                   } else {
                      parList.clear();
-                     messages.push_back(Reader::message_t(
+                     messages_.push_back(Reader::message_t(
                         'E', 0, begin,
                         "Function '" + std::string(begin, end) +
                            "' does not exists!"));
@@ -639,7 +640,7 @@ struct MCTestBuilder {
                }
             }
          } else {
-            messages.push_back(Reader::message_t(
+            messages_.push_back(Reader::message_t(
                'E', 0, begin, "'" + lhs + "' does not exists!"));
          }
       }
@@ -799,7 +800,7 @@ struct MCTspecParser : public grammar<MCTspecParser> {
 
          levelAssignment =
             (strlit<>("level")[assign_a(pb.lhs)] >> assignment_op >>
-             int_p[assign_a(pb.level)] >> SEMIexpected[pb.setLevelOfItem]);
+             int_p[assign_a(pb.level_)] >> SEMIexpected[pb.setLevelOfItem]);
 
          stemAssignment =
             (strlit<>("stem")[assign_a(pb.lhs)] >> assignment_op >> textLines >>
@@ -845,7 +846,7 @@ struct MCTspecParser : public grammar<MCTspecParser> {
 
          Add = (optionId | id)[assign_a(pb.lhs)] >>
                if_p(ch_p('['))[uint_p[assign_a(pb.par)] >>
-                               ch_p(']')[assign_a(pb.isArrayElement, true)]] >>
+                               ch_p(']')[assign_a(pb.isArrayElement_, true)]] >>
                strlit<>("+=") >> id[assign_a(pb.rhs)] >>
                if_p(LPAREN >> CSV >> RPAREN)[SEMI[pb.addFunctorResultToGen]]
                   .else_p[SEMI[pb.addGenToGen]];
