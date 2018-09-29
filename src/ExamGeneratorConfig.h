@@ -5,7 +5,7 @@
 
 #include <string>
 
-const std::string LOGFILENAME{APPNAME ".log"};
-const std::string LATEXFILENAME{"ExamGenerator.tex"};
+const std::string LOG_FILENAME{APPNAME ".log"};
+const std::string EXAM_LATEX_FILENAME{"../LaTeX/examDoc.tex"};
 
 #endif

@@ -1,6 +1,19 @@
 #ifndef PARSER_H
 #define PARSER_H
 
+#include <boost/bind.hpp>
+#include <boost/function.hpp>
+#include <boost/spirit/include/classic_confix.hpp>
+#include <boost/spirit/include/classic_core.hpp>
+#include <boost/spirit/include/classic_escape_char.hpp>
+#include <boost/spirit/include/classic_if.hpp>
+#include <boost/spirit/include/classic_lists.hpp>
+#include <boost/spirit/include/classic_symbols.hpp>
+#include <iostream>
+#include <stdexcept>
+#include <string>
+#include <vector>
+
 #include "AppInfo.h"
 #include "GenAPI.h"
 #include "GenCodeText.h"
@@ -23,19 +36,6 @@
 #include "RandomProfile.h"
 #include "Reader.h"
 #include "Util.h"
-
-#include <boost/bind.hpp>
-#include <boost/function.hpp>
-#include <boost/spirit/include/classic_confix.hpp>
-#include <boost/spirit/include/classic_core.hpp>
-#include <boost/spirit/include/classic_escape_char.hpp>
-#include <boost/spirit/include/classic_if.hpp>
-#include <boost/spirit/include/classic_lists.hpp>
-#include <boost/spirit/include/classic_symbols.hpp>
-#include <iostream>
-#include <stdexcept>
-#include <string>
-#include <vector>
 
 using namespace std;
 using namespace boost::spirit::classic;
@@ -118,11 +118,11 @@ struct MCTestBuilder {
       , addNewLine(boost::bind(&MCTestBuilder::do_addNewLine, self(), _1, _2))
       , addNewCodeLine(
            boost::bind(&MCTestBuilder::do_addNewCodeLine, self(), _1, _2))
-      , createObject(
-           boost::bind(&MCTestBuilder::do_createObject, self(), _1, _2))
       , createMCT(boost::bind(&MCTestBuilder::do_createMCT, self(), _1, _2))
       , createMCTs(boost::bind(&MCTestBuilder::do_createMCTs, self(), _1, _2))
       , createItem(boost::bind(&MCTestBuilder::do_createItem, self(), _1, _2))
+      , createObject(
+           boost::bind(&MCTestBuilder::do_createObject, self(), _1, _2))
       , createHeader(
            boost::bind(&MCTestBuilder::do_createHeader, self(), _1, _2))
       , createOption(
@@ -156,9 +156,9 @@ struct MCTestBuilder {
    }
 
    // Helper functions
-   bool idGeneratorIsUnique(const std::string &id, const char *begin,
+   bool idGeneratorIsUnique(const string &id, const char *begin,
                             const char *end);
-   IGenPtr_t *idGeneratorIsAvailable(const std::string &id, const char *begin,
+   IGenPtr_t *idGeneratorIsAvailable(const string &id, const char *begin,
                                      const char *end);
    // Error function
    void do_errorMessage(const char *begin, const char *end);
@@ -166,14 +166,14 @@ struct MCTestBuilder {
    void do_initText(const char *begin, const char *end)
    {
       // removes leading and trailing "
-      text = std::string(begin + 1, end - 1);
+      text = string(begin + 1, end - 1);
    }
 
    void do_addChar(const char begin) { text += begin; }
 
    void do_concatText(const char *begin, const char *end)
    {
-      text += std::string(begin + 1, end - 1);
+      text += string(begin + 1, end - 1);
    }
 
    void do_addNewLine(const char * /* begin */, const char * /* end */)
@@ -214,35 +214,35 @@ struct MCTestBuilder {
    {
       if (!itemScope.empty()) {
          messages.push_back(Reader::message_t(
-            'E', 0, begin, "Exam '" + id + "' should be declared global!"));
+            'E', 0, begin, "MCT '" + id + "' should be declared global!"));
       } else {
          if (idGeneratorIsUnique(id, begin, end)) {
-            std::shared_ptr<GenExams> pExams(new GenExams(messages, 1));
-            pExams->setID(id);
+            std::shared_ptr<GenExams> pMCTs(new GenExams(messages, 1));
+            pMCTs->setID(id);
             boost::spirit::classic::add(
                generators_p, id.c_str(),
-               std::static_pointer_cast<IGenerator>(pExams));
-            Product.push_back(pExams);
+               std::static_pointer_cast<IGenerator>(pMCTs));
+            Product.push_back(pMCTs);
          }
       }
    }
 
    void do_createMCTs(const char *begin, const char *end)
    {
-      // std::vector<std::shared_ptr<GenExams>>& ProductLocal(Product);
+      std::vector<std::shared_ptr<GenExams>> &ProductLocal(Product);
 
       if (!itemScope.empty()) {
          messages.push_back(Reader::message_t(
             'E', 0, begin,
-            "Exam array '" + id + "' should be declared global!"));
+            "MCT array '" + id + "' should be declared global!"));
       } else {
          if (idGeneratorIsUnique(id, begin, end)) {
-            std::shared_ptr<GenExams> pExams(new GenExams(messages, par));
-            pExams->setID(id);
+            std::shared_ptr<GenExams> pMCTs(new GenExams(messages, par));
+            pMCTs->setID(id);
             boost::spirit::classic::add(
                generators_p, id.c_str(),
-               std::static_pointer_cast<IGenerator>(pExams));
-            Product.push_back(pExams);
+               std::static_pointer_cast<IGenerator>(pMCTs));
+            Product.push_back(pMCTs);
          }
       }
    }
@@ -256,10 +256,10 @@ struct MCTestBuilder {
             std::static_pointer_cast<IGenerator>(p_actualItem));
          itemScope = id.c_str();
          boost::spirit::classic::add(generators_p,
-                                     (id + std::string(".level")).c_str(),
+                                     (id + string(".level")).c_str(),
                                      (IGenPtr_t)((*p_actualItem)[0]));
          boost::spirit::classic::add(generators_p,
-                                     (id + std::string(".stem")).c_str(),
+                                     (id + string(".stem")).c_str(),
                                      (IGenPtr_t)((*p_actualItem)[0]));
          genFactory.addGenerator(id, p_actualItem);
       }
@@ -360,8 +360,8 @@ struct MCTestBuilder {
             }
          }
       }
-      catch (std::runtime_error &X) {
-         std::cerr << X.what() << std::endl;
+      catch (runtime_error &X) {
+         clog << X.what() << endl;
       }
    }
 
@@ -369,28 +369,28 @@ struct MCTestBuilder {
    {
       addItemScope(id);
       if (idGeneratorIsUnique(id, begin, end)) {
-         if (type == "GenHeader") {
+         if (type == "Header") {
             std::shared_ptr<GenHeader> pH(new GenHeader(id));
             boost::spirit::classic::add(
                generators_p, id.c_str(),
                std::static_pointer_cast<IGenerator>(pH));
             p_actualHeader = pH;
          } else {
-            if (type == "GenCodeText") {
-               std::shared_ptr<GenCodeText> pJ(new GenCodeText("c", text));
+            if (type == "Java") {
+               std::shared_ptr<GenCodeText> pJ(new GenCodeText("java", text));
                pJ->setID(id);
                boost::spirit::classic::add(
                   generators_p, id.c_str(),
                   std::static_pointer_cast<IGenerator>(pJ));
             } else {
-               if (type == "GenImage") {
+               if (type == "Image") {
                   std::shared_ptr<GenImage> pI(new GenImage(text));
                   pI->setID(id);
                   boost::spirit::classic::add(
                      generators_p, id.c_str(),
                      std::static_pointer_cast<IGenerator>(pI));
                } else {
-                  if (type == "GenAPIdoc") {
+                  if (type == "APIdoc") {
                      if (parList.size() == 3) {
                         std::shared_ptr<GenAPI> pI(
                            new GenAPI(parList[0], parList[1], parList[2]));
@@ -450,9 +450,9 @@ struct MCTestBuilder {
          if (auto ppGenRHS = idGeneratorIsAvailable(rhs, begin, end)) {
             if (isArrayElement) {
                isArrayElement = false;
-               if ((*ppGenLHS)->getType() == "MCT[]") {
-                  auto pGenExams = static_cast<GenExams *>((*ppGenLHS).get());
-                  if (par > (pGenExams->size() - 1)) {
+               if ((*ppGenLHS)->getType() == "Exams[]") {
+                  auto pGenMCTs = static_cast<GenExams *>((*ppGenLHS).get());
+                  if (par > (pGenMCTs->size() - 1)) {
                      messages.push_back(Reader::message_t(
                         'E', 0, begin,
                         "Array index of '" + lhs + "' exceeds array size."));
@@ -461,12 +461,12 @@ struct MCTestBuilder {
                         auto pGenSelector =
                            static_cast<GenSelector *>((*ppGenRHS).get());
                         pGenSelector->selectR(1);
-                        (*pGenExams)[par]->add(*ppGenRHS);
+                        (*pGenMCTs)[par]->add(*ppGenRHS);
                      } else {
                         /// @todo Remove prepare(), only used by #GenTwoC
                         (*ppGenRHS)->prepare();
                         auto pGenRHScopy = (*ppGenRHS)->copy();
-                        (*pGenExams)[par]->add(pGenRHScopy);
+                        (*pGenMCTs)[par]->add(pGenRHScopy);
                      }
                   }
                } else {
@@ -499,7 +499,7 @@ struct MCTestBuilder {
                     parList.end());
       if (auto ppGenLHS = idGeneratorIsAvailable(lhs, begin, end)) {
          if (auto ppGenRHS = idGeneratorIsAvailable(rhs, begin, end)) {
-            if ((*ppGenRHS)->getType() == "Selector") {
+            if ((*ppGenRHS)->getType() == "GenSelector") {
                if (parList.size() != 1) {
                   messages.push_back(Reader::message_t(
                      'E', 0, begin,
@@ -523,11 +523,11 @@ struct MCTestBuilder {
                            "' must have parameter value > 0 !"));
                   }
                   if ((*ppGenLHS)->getType() == "Exam[]") {
-                     auto pGenExam = static_cast<GenExams *>((*ppGenLHS).get());
-                     auto nMCT = pGenExam->size();
+                     auto pGenMCT = static_cast<GenExams *>((*ppGenLHS).get());
+                     auto nMCT = pGenMCT->size();
                      for (size_t i = 0; i < nMCT; ++i) {
                         pGenSelector->selectR(par1);
-                        pGenExam->getGenerators()[i]->add(*ppGenRHS);
+                        pGenMCT->getGenerators()[i]->add(*ppGenRHS);
                      }
                   } else {
                      pGenSelector->selectR(par1);
@@ -565,11 +565,11 @@ struct MCTestBuilder {
             parList.clear();
             messages.push_back(Reader::message_t(
                'E', 0, begin,
-               "Function '" + std::string(begin, end) + "' does not exists!"));
+               "Function '" + string(begin, end) + "' does not exists!"));
          }
       }
-      catch (std::runtime_error &X) {
-         std::cerr << X.what() << std::endl;
+      catch (runtime_error &X) {
+         clog << X.what() << endl;
       }
    }
 
@@ -592,10 +592,10 @@ struct MCTestBuilder {
                      parList.clear();
                   } else {
                      parList.clear();
-                     messages.push_back(Reader::message_t(
-                        'E', 0, begin,
-                        "Function '" + std::string(begin, end) +
-                           "' does not exists!"));
+                     messages.push_back(
+                        Reader::message_t('E', 0, begin,
+                                          "Function '" + string(begin, end) +
+                                             "' does not exists!"));
                   }
                }
             } else {
@@ -606,7 +606,7 @@ struct MCTestBuilder {
                      if (parList.size() != 1) {
                         messages.push_back(Reader::message_t(
                            'E', 0, begin,
-                           "Number of parameters '" + std::string(begin, end) +
+                           "Number of parameters '" + string(begin, end) +
                               "' should be 1"));
                      }
                      int par1 = atoi(parList[0].c_str());
@@ -614,10 +614,10 @@ struct MCTestBuilder {
                      parList.clear();
                   } else {
                      parList.clear();
-                     messages.push_back(Reader::message_t(
-                        'E', 0, begin,
-                        "Function '" + std::string(begin, end) +
-                           "' does not exists!"));
+                     messages.push_back(
+                        Reader::message_t('E', 0, begin,
+                                          "Function '" + string(begin, end) +
+                                             "' does not exists!"));
                   }
                }
             }
@@ -626,8 +626,8 @@ struct MCTestBuilder {
                'E', 0, begin, "'" + lhs + "' does not exists!"));
          }
       }
-      catch (std::runtime_error &X) {
-         std::cerr << X.what() << std::endl;
+      catch (runtime_error &X) {
+         clog << X.what() << endl;
       }
    }
 
@@ -639,8 +639,8 @@ struct MCTestBuilder {
                        parList.end());
 
          if (type == "Item") {
-            if (idGeneratorIsUnique(id, begin, end)) {
-               // IGenPtr_t* ppGenLHS2(0);
+            if (auto ppIGenLHS = idGeneratorIsUnique(id, begin, end)) {
+               IGenPtr_t *ppGenLHS2(0);
                vector<IGenPtr_t> pGens;
                for (size_t i = 0; i < parList.size(); ++i) {
                   if (auto ppGenLHS2 =
@@ -661,8 +661,8 @@ struct MCTestBuilder {
          }
          parList.clear();
       }
-      catch (std::runtime_error &X) {
-         std::cerr << X.what() << std::endl;
+      catch (runtime_error &X) {
+         clog << X.what() << endl;
       }
    }
 
@@ -684,7 +684,7 @@ struct skipparser : public grammar<skipparser> {
    template <typename ScannerT> struct definition {
       rule<ScannerT> skip;
 
-      definition(skipparser const & /* self */)
+      definition(skipparser const &self)
       {
          skip = comment_p("//") | eol_p[&linecount] | blank_p;
       }
@@ -714,7 +714,7 @@ struct MCTspecParser : public grammar<MCTspecParser> {
          strlit<> RPAREN(")");
          strlit<> SEMI(";");
 
-         std::string TEST;
+         string TEST;
 
          // GenMCT
          // 1 Header

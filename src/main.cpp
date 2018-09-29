@@ -44,6 +44,8 @@ int main(int argc, char *argv[])
       bpo::variables_map var_map;
       bpo::store(bpo::parse_command_line(argc, argv, descr), var_map);
 
+      LOGI("Current dir: " + currentInitialDir.string());
+
       if (var_map.count("help")) {
          std::clog << descr << std::endl;
          return 0;
@@ -61,6 +63,7 @@ int main(int argc, char *argv[])
       } else {
          std::cerr << "\n\tERROR: input exam specification file name missing\n"
                    << descr << std::endl;
+         LOGE("Exam script file name missing");
          return 1;
       }
 
@@ -70,7 +73,7 @@ int main(int argc, char *argv[])
       const bfs::path LaTeXoutputDir(".");
       const bfs::path LaTeXgeneratedFileName(LaTeXoutputDir /
                                              "generatedExam.tex");
-      const bfs::path LaTeXdocFileName(LATEXFILENAME);
+      const bfs::path LaTeXdocFileName(EXAM_LATEX_FILENAME);
       const std::string LaTeXcommand(
          "pdflatex -enable-write18 \"-output-directory=" +
          LaTeXoutputDir.string() + "\" " +
@@ -91,17 +94,18 @@ int main(int argc, char *argv[])
       }
 
       if (var_map.count("hce")) {
-         LOGD("Hard coded exam");
+         LOGI("Hard coded exam");
          hcExamDummy(LaTeXgeneratedFile);
       }
 
       // Start generating exam based on script
+      LOGI("Start reading exam script: " + ExamScriptFileName.string());
       Reader reader(ExamScriptFile);
       reader.read();
       std::vector<std::shared_ptr<GenExams>> scriptedTests(reader.parse());
 
       if (!scriptedTests.empty()) {
-         std::cout << "- Generating scripted MCT's" << std::endl;
+         std::cout << "- Generating scripted exams" << std::endl;
 
          for_each(scriptedTests.begin(), scriptedTests.end(),
                   [&LaTeXgeneratedFile](std::shared_ptr<GenExams> &st) {
@@ -109,9 +113,11 @@ int main(int argc, char *argv[])
                   });
 
          LaTeXgeneratedFile.close();
+         LOGI("Generated LaTeX file: " + LaTeXgeneratedFileName.string());
 
          std::cout << "- LaTeX file generated\n";
          std::cout << "- Started PDF exam file generation\n";
+         LOGI("LaTeX to pdf command: " + LaTeXcommand);
          // Generate DVI file
          system(LaTeXcommand.c_str());
          std::cout << "\n- PDF exam file generated\n\n";
@@ -119,16 +125,20 @@ int main(int argc, char *argv[])
          std::cout << "\n- No PDF exam file generated\n\n";
       }
    }
-
    catch (const std::bad_alloc &ba) {
       std::cerr << "\n\tERROR: OUT OF MEMORY " << ba.what() << std::endl;
+      LOGE("ERROR: Out of memory " + ba.what());
    }
    catch (const std::exception &e) {
       std::cerr << "\n\tERROR: " << e.what() << std::endl;
+      LOGE("ERROR: Out of memory " + e.what());
    }
    catch (...) {
       std::cerr << "\n\tERROR: UNKNOWN EXCEPTION" << std::endl;
+      LOGE("ERROR: UNKNOWN EXCEPTION");
    }
+
+   LOGI("Bye... :-)");
    std::cout << "\nBye... :-) \n\n";
 
    return 0;
