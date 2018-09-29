@@ -38,7 +38,7 @@
 #include <vector>
 
 using namespace boost::spirit::classic;
-//using bsc = boost::spirit::classic;
+// using bsc = boost::spirit::classic;
 
 // Errors to check for during the parse
 enum {
@@ -67,7 +67,7 @@ struct MCTestBuilder {
    std::shared_ptr<GenHeader> p_actualHeader;
    std::string function_id;
    std::vector<std::string> parList;
-   int par;
+   size_t par_;
    int actualOptionIndex;
    std::shared_ptr<GenOption> p_actualOption;
    bool isArrayElement_;
@@ -253,7 +253,7 @@ struct MCTestBuilder {
             "MCT array '" + id + "' should be declared global!"));
       } else {
          if (idGeneratorIsUnique(id, begin, end)) {
-            std::shared_ptr<GenExams> pMCTs(new GenExams(messages_, par));
+            std::shared_ptr<GenExams> pMCTs(new GenExams(messages_, par_));
             pMCTs->setID(id);
             boost::spirit::classic::add(
                generators_p, id.c_str(),
@@ -469,7 +469,7 @@ struct MCTestBuilder {
                isArrayElement_ = false;
                if ((*ppGenLHS)->getType() == "Exams[]") {
                   auto pGenMCTs = static_cast<GenExams *>((*ppGenLHS).get());
-                  if (par > (pGenMCTs->size() - 1)) {
+                  if (par_ > (pGenMCTs->size() - 1)) {
                      messages_.push_back(Reader::message_t(
                         'E', 0, begin,
                         "Array index of '" + lhs + "' exceeds array size."));
@@ -478,12 +478,12 @@ struct MCTestBuilder {
                         auto pGenSelector =
                            static_cast<GenSelector *>((*ppGenRHS).get());
                         pGenSelector->selectR(1);
-                        (*pGenMCTs)[par]->add(*ppGenRHS);
+                        (*pGenMCTs)[par_]->add(*ppGenRHS);
                      } else {
                         /// @todo Remove prepare(), only used by #GenTwoC
                         (*ppGenRHS)->prepare();
                         auto pGenRHScopy = (*ppGenRHS)->copy();
-                        (*pGenMCTs)[par]->add(pGenRHScopy);
+                        (*pGenMCTs)[par_]->add(pGenRHScopy);
                      }
                   }
                } else {
@@ -761,7 +761,7 @@ struct MCTspecParser : public grammar<MCTspecParser> {
             (strlit<>("MCT")[assign_a(pb.type)] >> id[assign_a(pb.id)] >>
              SEMI[pb.createMCT]) |
             (strlit<>("MCT")[assign_a(pb.type)] >> id[assign_a(pb.id)] >>
-             ch_p('[') >> (uint_p[assign_a(pb.par)] |
+             ch_p('[') >> (uint_p[assign_a(pb.par_)] |
                            Error[assign_a(pb.error, ERR_UNSIGNEDINT_EXPECTED)]
                                 [pb.errorMessage]) >>
              (ch_p(']') |
@@ -845,7 +845,7 @@ struct MCTspecParser : public grammar<MCTspecParser> {
          //(AddGenerator | AddFunctorResult | AddMemberFunctionResult);
 
          Add = (optionId | id)[assign_a(pb.lhs)] >>
-               if_p(ch_p('['))[uint_p[assign_a(pb.par)] >>
+               if_p(ch_p('['))[uint_p[assign_a(pb.par_)] >>
                                ch_p(']')[assign_a(pb.isArrayElement_, true)]] >>
                strlit<>("+=") >> id[assign_a(pb.rhs)] >>
                if_p(LPAREN >> CSV >> RPAREN)[SEMI[pb.addFunctorResultToGen]]
