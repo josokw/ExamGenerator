@@ -15,7 +15,8 @@ void linecount(const char *, const char *)
 }
 
 // Helper functions
-bool MCTestBuilder::idGeneratorIsUnique(const string &id, const char *begin,
+bool MCTestBuilder::idGeneratorIsUnique(const std::string &id,
+                                        const char *begin,
                                         const char * /* end */)
 {
    auto isUnique = true;
@@ -27,7 +28,7 @@ bool MCTestBuilder::idGeneratorIsUnique(const string &id, const char *begin,
    return isUnique;
 }
 
-IGenPtr_t *MCTestBuilder::idGeneratorIsAvailable(const string &id,
+IGenPtr_t *MCTestBuilder::idGeneratorIsAvailable(const std::string &id,
                                                  const char *begin,
                                                  const char * /* end */)
 {

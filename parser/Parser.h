@@ -1,19 +1,6 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include <boost/bind.hpp>
-#include <boost/function.hpp>
-#include <boost/spirit/include/classic_confix.hpp>
-#include <boost/spirit/include/classic_core.hpp>
-#include <boost/spirit/include/classic_escape_char.hpp>
-#include <boost/spirit/include/classic_if.hpp>
-#include <boost/spirit/include/classic_lists.hpp>
-#include <boost/spirit/include/classic_symbols.hpp>
-#include <iostream>
-#include <stdexcept>
-#include <string>
-#include <vector>
-
 #include "AppInfo.h"
 #include "GenAPI.h"
 #include "GenCodeText.h"
@@ -32,12 +19,24 @@
 #include "GenText.h"
 #include "GenTwoC.h"
 #include "GeneratorFactory.h"
+#include "Log.h"
 #include "Random.h"
 #include "RandomProfile.h"
 #include "Reader.h"
 #include "Util.h"
 
-using namespace std;
+#include <boost/spirit/include/classic_confix.hpp>
+#include <boost/spirit/include/classic_core.hpp>
+#include <boost/spirit/include/classic_escape_char.hpp>
+#include <boost/spirit/include/classic_if.hpp>
+#include <boost/spirit/include/classic_lists.hpp>
+#include <boost/spirit/include/classic_symbols.hpp>
+#include <functional>
+#include <iostream>
+#include <stdexcept>
+#include <string>
+#include <vector>
+
 using namespace boost::spirit::classic;
 
 // Errors to check for during the parse
@@ -77,32 +76,32 @@ struct MCTestBuilder {
 
    GeneratorFactory genFactory;
 
-   boost::function<void(const char *, const char *)> errorMessage;
-   boost::function<void(const char *, const char *)> initText;
-   boost::function<void(const char)> addChar;
-   boost::function<void(const char *, const char *)> concatText;
-   boost::function<void(const char *, const char *)> addNewLine;
-   boost::function<void(const char *, const char *)> addNewCodeLine;
-   boost::function<void(const char *, const char *)> createObject;
-   boost::function<void(const char *, const char *)> createMCT;
-   boost::function<void(const char *, const char *)> createMCTs;
-   boost::function<void(const char *, const char *)> createItem;
-   boost::function<void(const char *, const char *)> createHeader;
-   boost::function<void(const char *, const char *)> createOption;
-   boost::function<void(const char *, const char *)> setOptionCorrect;
-   boost::function<void(const char *, const char *)> createGen;
-   boost::function<void(const char)> resetItemScope;
-   boost::function<void(const char *, const char *)> assignment;
-   boost::function<void(std::string &)> retrieve;
-   boost::function<void(const char *, const char *)> addTextToGen;
-   boost::function<void(const char *, const char *)> addTextToStem;
-   boost::function<void(const char *, const char *)> setLevelOfItem;
-   boost::function<void(const char *, const char *)> addGenToGen;
-   boost::function<void(const char *, const char *)> addFunctorResultToGen;
-   boost::function<void(const char *, const char *)> endOfSpec;
-   boost::function<void(const char *, const char *)> localFunctionCall;
-   boost::function<void(const char *, const char *)> memberFunctionCall;
-   boost::function<void(const char *, const char *)> functionCall;
+   std::function<void(const char *, const char *)> errorMessage;
+   std::function<void(const char *, const char *)> initText;
+   std::function<void(const char)> addChar;
+   std::function<void(const char *, const char *)> concatText;
+   std::function<void(const char *, const char *)> addNewLine;
+   std::function<void(const char *, const char *)> addNewCodeLine;
+   std::function<void(const char *, const char *)> createObject;
+   std::function<void(const char *, const char *)> createMCT;
+   std::function<void(const char *, const char *)> createMCTs;
+   std::function<void(const char *, const char *)> createItem;
+   std::function<void(const char *, const char *)> createHeader;
+   std::function<void(const char *, const char *)> createOption;
+   std::function<void(const char *, const char *)> setOptionCorrect;
+   std::function<void(const char *, const char *)> createGen;
+   std::function<void(const char)> resetItemScope;
+   std::function<void(const char *, const char *)> assignment;
+   std::function<void(std::string &)> retrieve;
+   std::function<void(const char *, const char *)> addTextToGen;
+   std::function<void(const char *, const char *)> addTextToStem;
+   std::function<void(const char *, const char *)> setLevelOfItem;
+   std::function<void(const char *, const char *)> addGenToGen;
+   std::function<void(const char *, const char *)> addFunctorResultToGen;
+   std::function<void(const char *, const char *)> endOfSpec;
+   std::function<void(const char *, const char *)> localFunctionCall;
+   std::function<void(const char *, const char *)> memberFunctionCall;
+   std::function<void(const char *, const char *)> functionCall;
 
    MCTestBuilder *self() { return this; }
 
@@ -110,55 +109,71 @@ struct MCTestBuilder {
       : messages(messages)
       , error(NO_ERROR)
       , isArrayElement(false)
-      , errorMessage(
-           boost::bind(&MCTestBuilder::do_errorMessage, self(), _1, _2))
-      , initText(boost::bind(&MCTestBuilder::do_initText, self(), _1, _2))
-      , addChar(boost::bind(&MCTestBuilder::do_addChar, self(), _1))
-      , concatText(boost::bind(&MCTestBuilder::do_concatText, self(), _1, _2))
-      , addNewLine(boost::bind(&MCTestBuilder::do_addNewLine, self(), _1, _2))
-      , addNewCodeLine(
-           boost::bind(&MCTestBuilder::do_addNewCodeLine, self(), _1, _2))
-      , createMCT(boost::bind(&MCTestBuilder::do_createMCT, self(), _1, _2))
-      , createMCTs(boost::bind(&MCTestBuilder::do_createMCTs, self(), _1, _2))
-      , createItem(boost::bind(&MCTestBuilder::do_createItem, self(), _1, _2))
-      , createObject(
-           boost::bind(&MCTestBuilder::do_createObject, self(), _1, _2))
-      , createHeader(
-           boost::bind(&MCTestBuilder::do_createHeader, self(), _1, _2))
-      , createOption(
-           boost::bind(&MCTestBuilder::do_createOption, self(), _1, _2))
-      , setOptionCorrect(
-           boost::bind(&MCTestBuilder::do_setOptionCorrect, self(), _1, _2))
-      , createGen(boost::bind(&MCTestBuilder::do_createGen, self(), _1, _2))
-      , resetItemScope(
-           boost::bind(&MCTestBuilder::do_resetItemScope, self(), _1))
-      , assignment(boost::bind(&MCTestBuilder::do_assignment, self(), _1, _2))
-      , retrieve(boost::bind(&MCTestBuilder::do_retrieve, self(), _1))
-      , addTextToGen(
-           boost::bind(&MCTestBuilder::do_addTextToGen, self(), _1, _2))
-      , addTextToStem(
-           boost::bind(&MCTestBuilder::do_addTextToStem, self(), _1, _2))
-      , setLevelOfItem(
-           boost::bind(&MCTestBuilder::do_setLevelOfItem, self(), _1, _2))
-      , addGenToGen(boost::bind(&MCTestBuilder::do_addGenToGen, self(), _1, _2))
-      , addFunctorResultToGen(boost::bind(
-           &MCTestBuilder::do_addFunctorResultToGen, self(), _1, _2))
-      , endOfSpec(boost::bind(&MCTestBuilder::do_endOfSpec, self(), _1, _2))
-      , localFunctionCall(
-           boost::bind(&MCTestBuilder::do_localFunctionCall, self(), _1, _2))
-      , memberFunctionCall(
-           boost::bind(&MCTestBuilder::do_memberFunctionCall, self(), _1, _2))
-      , functionCall(
-           boost::bind(&MCTestBuilder::do_functionCall, self(), _1, _2))
+      , errorMessage(std::bind(&MCTestBuilder::do_errorMessage, self(),
+                               std::placeholders::_1, std::placeholders::_2))
+      , initText(std::bind(&MCTestBuilder::do_initText, self(),
+                           std::placeholders::_1, std::placeholders::_2))
+      , addChar(
+           std::bind(&MCTestBuilder::do_addChar, self(), std::placeholders::_1))
+      , concatText(std::bind(&MCTestBuilder::do_concatText, self(),
+                             std::placeholders::_1, std::placeholders::_2))
+      , addNewLine(std::bind(&MCTestBuilder::do_addNewLine, self(),
+                             std::placeholders::_1, std::placeholders::_2))
+      , addNewCodeLine(std::bind(&MCTestBuilder::do_addNewCodeLine, self(),
+                                 std::placeholders::_1, std::placeholders::_2))
+      , createMCT(std::bind(&MCTestBuilder::do_createMCT, self(),
+                            std::placeholders::_1, std::placeholders::_2))
+      , createMCTs(std::bind(&MCTestBuilder::do_createMCTs, self(),
+                             std::placeholders::_1, std::placeholders::_2))
+      , createItem(std::bind(&MCTestBuilder::do_createItem, self(),
+                             std::placeholders::_1, std::placeholders::_2))
+      , createObject(std::bind(&MCTestBuilder::do_createObject, self(),
+                               std::placeholders::_1, std::placeholders::_2))
+      , createHeader(std::bind(&MCTestBuilder::do_createHeader, self(),
+                               std::placeholders::_1, std::placeholders::_2))
+      , createOption(std::bind(&MCTestBuilder::do_createOption, self(),
+                               std::placeholders::_1, std::placeholders::_2))
+      , setOptionCorrect(std::bind(&MCTestBuilder::do_setOptionCorrect, self(),
+                                   std::placeholders::_1,
+                                   std::placeholders::_2))
+      , createGen(std::bind(&MCTestBuilder::do_createGen, self(),
+                            std::placeholders::_1, std::placeholders::_2))
+      , resetItemScope(std::bind(&MCTestBuilder::do_resetItemScope, self(),
+                                 std::placeholders::_1))
+      , assignment(std::bind(&MCTestBuilder::do_assignment, self(),
+                             std::placeholders::_1, std::placeholders::_2))
+      , retrieve(std::bind(&MCTestBuilder::do_retrieve, self(),
+                           std::placeholders::_1))
+      , addTextToGen(std::bind(&MCTestBuilder::do_addTextToGen, self(),
+                               std::placeholders::_1, std::placeholders::_2))
+      , addTextToStem(std::bind(&MCTestBuilder::do_addTextToStem, self(),
+                                std::placeholders::_1, std::placeholders::_2))
+      , setLevelOfItem(std::bind(&MCTestBuilder::do_setLevelOfItem, self(),
+                                 std::placeholders::_1, std::placeholders::_2))
+      , addGenToGen(std::bind(&MCTestBuilder::do_addGenToGen, self(),
+                              std::placeholders::_1, std::placeholders::_2))
+      , addFunctorResultToGen(
+           std::bind(&MCTestBuilder::do_addFunctorResultToGen, self(),
+                     std::placeholders::_1, std::placeholders::_2))
+      , endOfSpec(std::bind(&MCTestBuilder::do_endOfSpec, self(),
+                            std::placeholders::_1, std::placeholders::_2))
+      , localFunctionCall(std::bind(&MCTestBuilder::do_localFunctionCall,
+                                    self(), std::placeholders::_1,
+                                    std::placeholders::_2))
+      , memberFunctionCall(std::bind(&MCTestBuilder::do_memberFunctionCall,
+                                     self(), std::placeholders::_1,
+                                     std::placeholders::_2))
+      , functionCall(std::bind(&MCTestBuilder::do_functionCall, self(),
+                               std::placeholders::_1, std::placeholders::_2))
    {
       vars_p.add("AppName", APPNAME);
       vars_p.add("Version", VERSION);
    }
 
    // Helper functions
-   bool idGeneratorIsUnique(const string &id, const char *begin,
+   bool idGeneratorIsUnique(const std::string &id, const char *begin,
                             const char *end);
-   IGenPtr_t *idGeneratorIsAvailable(const string &id, const char *begin,
+   IGenPtr_t *idGeneratorIsAvailable(const std::string &id, const char *begin,
                                      const char *end);
    // Error function
    void do_errorMessage(const char *begin, const char *end);
@@ -166,14 +181,14 @@ struct MCTestBuilder {
    void do_initText(const char *begin, const char *end)
    {
       // removes leading and trailing "
-      text = string(begin + 1, end - 1);
+      text = std::string(begin + 1, end - 1);
    }
 
    void do_addChar(const char begin) { text += begin; }
 
    void do_concatText(const char *begin, const char *end)
    {
-      text += string(begin + 1, end - 1);
+      text += std::string(begin + 1, end - 1);
    }
 
    void do_addNewLine(const char * /* begin */, const char * /* end */)
@@ -256,10 +271,10 @@ struct MCTestBuilder {
             std::static_pointer_cast<IGenerator>(p_actualItem));
          itemScope = id.c_str();
          boost::spirit::classic::add(generators_p,
-                                     (id + string(".level")).c_str(),
+                                     (id + std::string(".level")).c_str(),
                                      (IGenPtr_t)((*p_actualItem)[0]));
          boost::spirit::classic::add(generators_p,
-                                     (id + string(".stem")).c_str(),
+                                     (id + std::string(".stem")).c_str(),
                                      (IGenPtr_t)((*p_actualItem)[0]));
          genFactory.addGenerator(id, p_actualItem);
       }
@@ -360,8 +375,9 @@ struct MCTestBuilder {
             }
          }
       }
-      catch (runtime_error &X) {
-         clog << X.what() << endl;
+      catch (std::runtime_error &X) {
+         std::cerr << X.what() << std::endl;
+         LOGE(X.what());
       }
    }
 
@@ -565,11 +581,12 @@ struct MCTestBuilder {
             parList.clear();
             messages.push_back(Reader::message_t(
                'E', 0, begin,
-               "Function '" + string(begin, end) + "' does not exists!"));
+               "Function '" + std::string(begin, end) + "' does not exists!"));
          }
       }
-      catch (runtime_error &X) {
-         clog << X.what() << endl;
+      catch (std::runtime_error &X) {
+         std::cerr << X.what() << std::endl;
+         LOGE(X.what());
       }
    }
 
@@ -592,10 +609,10 @@ struct MCTestBuilder {
                      parList.clear();
                   } else {
                      parList.clear();
-                     messages.push_back(
-                        Reader::message_t('E', 0, begin,
-                                          "Function '" + string(begin, end) +
-                                             "' does not exists!"));
+                     messages.push_back(Reader::message_t(
+                        'E', 0, begin,
+                        "Function '" + std::string(begin, end) +
+                           "' does not exists!"));
                   }
                }
             } else {
@@ -606,7 +623,7 @@ struct MCTestBuilder {
                      if (parList.size() != 1) {
                         messages.push_back(Reader::message_t(
                            'E', 0, begin,
-                           "Number of parameters '" + string(begin, end) +
+                           "Number of parameters '" + std::string(begin, end) +
                               "' should be 1"));
                      }
                      int par1 = atoi(parList[0].c_str());
@@ -614,10 +631,10 @@ struct MCTestBuilder {
                      parList.clear();
                   } else {
                      parList.clear();
-                     messages.push_back(
-                        Reader::message_t('E', 0, begin,
-                                          "Function '" + string(begin, end) +
-                                             "' does not exists!"));
+                     messages.push_back(Reader::message_t(
+                        'E', 0, begin,
+                        "Function '" + std::string(begin, end) +
+                           "' does not exists!"));
                   }
                }
             }
@@ -626,8 +643,9 @@ struct MCTestBuilder {
                'E', 0, begin, "'" + lhs + "' does not exists!"));
          }
       }
-      catch (runtime_error &X) {
-         clog << X.what() << endl;
+      catch (std::runtime_error &X) {
+         std::cerr << X.what() << std::endl;
+         LOGE(X.what());
       }
    }
 
@@ -641,7 +659,7 @@ struct MCTestBuilder {
          if (type == "Item") {
             if (auto ppIGenLHS = idGeneratorIsUnique(id, begin, end)) {
                IGenPtr_t *ppGenLHS2(0);
-               vector<IGenPtr_t> pGens;
+               std::vector<IGenPtr_t> pGens;
                for (size_t i = 0; i < parList.size(); ++i) {
                   if (auto ppGenLHS2 =
                          idGeneratorIsAvailable(parList[i], begin, end)) {
@@ -661,8 +679,8 @@ struct MCTestBuilder {
          }
          parList.clear();
       }
-      catch (runtime_error &X) {
-         clog << X.what() << endl;
+      catch (std::runtime_error &X) {
+         std::cerr << X.what() << std::endl;
       }
    }
 
@@ -714,7 +732,7 @@ struct MCTspecParser : public grammar<MCTspecParser> {
          strlit<> RPAREN(")");
          strlit<> SEMI(";");
 
-         string TEST;
+         std::string TEST;
 
          // GenMCT
          // 1 Header
