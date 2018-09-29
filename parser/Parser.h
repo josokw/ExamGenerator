@@ -37,7 +37,6 @@
 #include <string>
 #include <vector>
 
-using namespace boost::spirit::classic;
 namespace bsc = boost::spirit::classic;
 
 // Errors to check for during the parse
@@ -72,8 +71,8 @@ struct MCTestBuilder {
    std::shared_ptr<GenOption> p_actualOption;
    bool isArrayElement_;
 
-   symbols<std::string> vars_p;
-   symbols<IGenPtr_t> generators_p;
+   bsc::symbols<std::string> vars_p;
+   bsc::symbols<IGenPtr_t> generators_p;
 
    GeneratorFactory genFactory;
 
@@ -643,7 +642,7 @@ struct MCTestBuilder {
 
          if (type == "Item") {
             if (auto ppIGenLHS = idGeneratorIsUnique(id_, begin, end)) {
-               //IGenPtr_t *ppGenLHS2(0);
+               // IGenPtr_t *ppGenLHS2(0);
                std::vector<IGenPtr_t> pGens;
                for (size_t i = 0; i < parList.size(); ++i) {
                   if (auto ppGenLHS2 =
@@ -682,20 +681,20 @@ extern int line;
 void print(const char *begin, const char *end);
 void linecount(const char *, const char *);
 
-struct skipparser : public grammar<skipparser> {
+struct skipparser : public bsc::grammar<skipparser> {
    template <typename ScannerT> struct definition {
-      rule<ScannerT> skip;
+      bsc::rule<ScannerT> skip;
 
       definition(skipparser const &self)
       {
-         skip = comment_p("//") | eol_p[&linecount] | blank_p;
+         skip = bsc::comment_p("//") | bsc::eol_p[&linecount] | bsc::blank_p;
       }
 
-      const rule<ScannerT> &start() { return skip; }
+      const bsc::rule<ScannerT> &start() { return skip; }
    };
 };
 
-struct MCTspecParser : public grammar<MCTspecParser> {
+struct MCTspecParser : public bsc::grammar<MCTspecParser> {
    MCTestBuilder &pb_;
 
    MCTspecParser(MCTestBuilder &pb)
@@ -711,10 +710,10 @@ struct MCTspecParser : public grammar<MCTspecParser> {
          keywords = "Item", "Header", "Text", "API", "Selector", "stem",
          "level";
 
-         strlit<> ASSIGN("=");
-         strlit<> LPAREN("(");
-         strlit<> RPAREN(")");
-         strlit<> SEMI(";");
+         bsc::strlit<> ASSIGN("=");
+         bsc::strlit<> LPAREN("(");
+         bsc::strlit<> RPAREN(")");
+         bsc::strlit<> SEMI(";");
 
          std::string TEST;
 
@@ -727,167 +726,178 @@ struct MCTspecParser : public grammar<MCTspecParser> {
          //       Option: Text + Java + APIdoc
          // Selector
 
-         main =
-            (+MCT |
-             Error[assign_a(pb.error, ERR_MCT_EXPECTED)][pb.errorMessage]) >>
-            *(Header | Item | Declaration | Java | Image | APIdoc | Add |
-              AddText | memberFunctionCall) >>
-            end_p[pb.endOfSpec];
+         main = (+MCT | Error[bsc::assign_a(pb.error, ERR_MCT_EXPECTED)]
+                             [pb.errorMessage]) >>
+                *(Header | Item | Declaration | Java | Image | APIdoc | Add |
+                  AddText | memberFunctionCall) >>
+                bsc::end_p[pb.endOfSpec];
 
-         Type = (strlit<>("Selector") | strlit<>("LogicDiagramAON") |
-                 strlit<>("LogicDiagramAOXN") | strlit<>("TwoC") |
-                 strlit<>("NestedFor"))[assign_a(pb.type)];
+         Type = (bsc::strlit<>("Selector") | bsc::strlit<>("LogicDiagramAON") |
+                 bsc::strlit<>("LogicDiagramAOXN") | bsc::strlit<>("TwoC") |
+                 bsc::strlit<>("NestedFor"))[bsc::assign_a(pb.type)];
 
-         Declaration = (Type >> id[assign_a(pb.id_)] >> SEMI)[pb.createObject];
+         Declaration =
+            (Type >> id[bsc::assign_a(pb.id_)] >> SEMI)[pb.createObject];
 
-         MCT =
-            (strlit<>("MCT")[assign_a(pb.type)] >> id[assign_a(pb.id_)] >>
-             SEMI[pb.createMCT]) |
-            (strlit<>("MCT")[assign_a(pb.type)] >> id[assign_a(pb.id_)] >>
-             ch_p('[') >> (uint_p[assign_a(pb.par_)] |
-                           Error[assign_a(pb.error, ERR_UNSIGNEDINT_EXPECTED)]
-                                [pb.errorMessage]) >>
-             (ch_p(']') |
-              Error[assign_a(pb.error, ERR_CLOSING_BRACKET_EXPECTED)]
-                   [pb.errorMessage]) >>
-             (SEMI[pb.createMCTs] |
-              Error[assign_a(pb.error, ERR_SEMICOLON_EXPECTED)]
-                   [pb.errorMessage]));
+         MCT = (bsc::strlit<>("MCT")[bsc::assign_a(pb.type)] >>
+                id[bsc::assign_a(pb.id_)] >> SEMI[pb.createMCT]) |
+               (bsc::strlit<>("MCT")[bsc::assign_a(pb.type)] >>
+                id[bsc::assign_a(pb.id_)] >> bsc::ch_p('[') >>
+                (bsc::int_p[bsc::assign_a(pb.par_)] |
+                 Error[bsc::assign_a(pb.error, ERR_UNSIGNEDINT_EXPECTED)]
+                      [pb.errorMessage]) >>
+                (bsc::ch_p(']') |
+                 Error[bsc::assign_a(pb.error, ERR_CLOSING_BRACKET_EXPECTED)]
+                      [pb.errorMessage]) >>
+                (SEMI[pb.createMCTs] |
+                 Error[bsc::assign_a(pb.error, ERR_SEMICOLON_EXPECTED)]
+                      [pb.errorMessage]));
 
-         Header = strlit<>("Header")[assign_a(pb.type)] >>
-                  id[assign_a(pb.id_)] >>
-                  // ch_p('(') >> arglist >> ch_p(')') >> eol_p >>
+         Header = bsc::strlit<>("Header")[bsc::assign_a(pb.type)] >>
+                  id[bsc::assign_a(pb.id_)] >>
+                  // bsc::ch_p('(') >> arglist >> bsc::ch_p(')') >> eol_p >>
                   HeaderBlock[pb.createHeader] >> SEMIexpected;
 
-         HeaderBlock = strlit<>("{") >> strlit<>("school") >> assignment_op >>
-                       textLines[assign_a(pb.tempHeader.School, pb.text)] >>
-                       SEMI >> strlit<>("course") >> assignment_op >>
-                       textLines[assign_a(pb.tempHeader.Course, pb.text)] >>
-                       SEMI >> strlit<>("lecturer") >> assignment_op >>
-                       textLines[assign_a(pb.tempHeader.Lecturer, pb.text)] >>
-                       SEMI >> strlit<>("date") >> assignment_op >>
-                       textLines[assign_a(pb.tempHeader.Date, pb.text)] >>
-                       SEMI >> strlit<>("boxedtext") >> assignment_op >>
-                       textLines[assign_a(pb.tempHeader.BoxedText, pb.text)] >>
-                       SEMI >> strlit<>("}");
+         HeaderBlock =
+            bsc::strlit<>("{") >> bsc::strlit<>("school") >> assignment_op >>
+            textLines[bsc::assign_a(pb.tempHeader.School, pb.text)] >> SEMI >>
+            bsc::strlit<>("course") >> assignment_op >>
+            textLines[bsc::assign_a(pb.tempHeader.Course, pb.text)] >> SEMI >>
+            bsc::strlit<>("lecturer") >> assignment_op >>
+            textLines[bsc::assign_a(pb.tempHeader.Lecturer, pb.text)] >> SEMI >>
+            bsc::strlit<>("date") >> assignment_op >>
+            textLines[bsc::assign_a(pb.tempHeader.Date, pb.text)] >> SEMI >>
+            bsc::strlit<>("boxedtext") >> assignment_op >>
+            textLines[bsc::assign_a(pb.tempHeader.BoxedText, pb.text)] >>
+            SEMI >> bsc::strlit<>("}");
 
-         Item = strlit<>("Item")[assign_a(pb.type)] >>
-                id[assign_a(pb.id_)][assign_a(pb.rhs)] >>
-                // ch_p('(') >> arglist >> ch_p(')')
+         Item = bsc::strlit<>("Item")[bsc::assign_a(pb.type)] >>
+                id[bsc::assign_a(pb.id_)][bsc::assign_a(pb.rhs)] >>
+                // bsc::ch_p('(') >> arglist >> bsc::ch_p(')')
                 (ItemBlock | itemAssignment[pb.functionCall]) >> SEMIexpected;
 
-         ItemBlock = strlit<>("{")[pb.createItem] >> !levelAssignment >>
+         ItemBlock = bsc::strlit<>("{")[pb.createItem] >> !levelAssignment >>
                      stemAssignment >> *(Java | APIdoc | optionAssignment |
                                          AddGenerator | AddText) >>
-                     *localFunctionCall >> ch_p('}')[pb.resetItemScope];
+                     *localFunctionCall >> bsc::ch_p('}')[pb.resetItemScope];
 
          levelAssignment =
-            (strlit<>("level")[assign_a(pb.lhs)] >> assignment_op >>
-             int_p[assign_a(pb.level_)] >> SEMIexpected[pb.setLevelOfItem]);
+            (bsc::strlit<>("level")[bsc::assign_a(pb.lhs)] >> assignment_op >>
+             bsc::int_p[bsc::assign_a(pb.level_)] >>
+             SEMIexpected[pb.setLevelOfItem]);
 
          stemAssignment =
-            (strlit<>("stem")[assign_a(pb.lhs)] >> assignment_op >> textLines >>
-             SEMIexpected[pb.addTextToStem]);
+            (bsc::strlit<>("stem")[bsc::assign_a(pb.lhs)] >> assignment_op >>
+             textLines >> SEMIexpected[pb.addTextToStem]);
 
-         Text = strlit<>("Text")[assign_a(pb.type)] >>
-                (id[assign_a(pb.lhs)] >> assignment_op >>
-                 +(textLine[assign_a(pb.rhs)] |
+         Text = bsc::strlit<>("Text")[bsc::assign_a(pb.type)] >>
+                (id[bsc::assign_a(pb.lhs)] >> assignment_op >>
+                 +(textLine[bsc::assign_a(pb.rhs)] |
                    pb.vars_p[pb.retrieve]))[pb.assignment];
 
-         Java = (strlit<>("Java")[assign_a(pb.type)] >>
-                 id[assign_a(pb.lhs)][assign_a(pb.id_)] >>
-                 assignment_op[assign_a(pb.text, "")] >> codeLines >>
+         Java = (bsc::strlit<>("Java")[bsc::assign_a(pb.type)] >>
+                 id[bsc::assign_a(pb.lhs)][bsc::assign_a(pb.id_)] >>
+                 assignment_op[bsc::assign_a(pb.text, "")] >> codeLines >>
                  SEMI)[pb.assignment][pb.createGen];
 
-         APIdoc = (strlit<>("APIdoc")[assign_a(pb.type)] >>
-                   id[assign_a(pb.lhs)][assign_a(pb.id_)] >> LPAREN >>
-                   textLine[push_back_a(pb.parList)] >> ch_p(',') >>
-                   textLine[push_back_a(pb.parList)] >> ch_p(',') >>
-                   textLine[push_back_a(pb.parList)] >> RPAREN >>
+         APIdoc = (bsc::strlit<>("APIdoc")[bsc::assign_a(pb.type)] >>
+                   id[bsc::assign_a(pb.lhs)][bsc::assign_a(pb.id_)] >> LPAREN >>
+                   textLine[bsc::push_back_a(pb.parList)] >> bsc::ch_p(',') >>
+                   textLine[bsc::push_back_a(pb.parList)] >> bsc::ch_p(',') >>
+                   textLine[bsc::push_back_a(pb.parList)] >> RPAREN >>
                    SEMI)[pb.assignment][pb.createGen];
 
-         Image = (strlit<>("Image")[assign_a(pb.type)] >>
-                  id[assign_a(pb.lhs)][assign_a(pb.id_)] >> assignment_op >>
-                  codeLines >> SEMI)[pb.assignment][pb.createGen];
+         Image =
+            (bsc::strlit<>("Image")[bsc::assign_a(pb.type)] >>
+             id[bsc::assign_a(pb.lhs)][bsc::assign_a(pb.id_)] >>
+             assignment_op >> codeLines >> SEMI)[pb.assignment][pb.createGen];
 
-         optionAssignment = optionId[assign_a(pb.lhs)] >> assignment_op >>
+         optionAssignment = optionId[bsc::assign_a(pb.lhs)] >> assignment_op >>
                             (textLines[pb.createOption] |
-                             strlit<>("correct")[pb.setOptionCorrect]) >>
+                             bsc::strlit<>("correct")[pb.setOptionCorrect]) >>
                             SEMI;
 
          /*levelAssignment =
-         (strlit<>("level")[assign_a(pb.type)] >>
-         id[assign_a(pb.lhs)][assign_a(pb.id_)] >> assignment_op >> >>
+         (bsc::strlit<>("level")[bsc::assign_a(pb.type)] >>
+         id[bsc::assign_a(pb.lhs)][bsc::assign_a(pb.id_)] >> assignment_op >> >>
          SEMI)[pb.assignment]
          ;*/
 
-         itemAssignment = assignment_op >> id[assign_a(pb.rhs)] >> LPAREN >>
-                          CSV >> RPAREN >> SEMIexpected;
+         itemAssignment = assignment_op >> id[bsc::assign_a(pb.rhs)] >>
+                          LPAREN >> CSV >> RPAREN >> SEMIexpected;
 
          // Add =
          //(AddGenerator | AddFunctorResult | AddMemberFunctionResult);
 
-         Add = (optionId | id)[assign_a(pb.lhs)] >>
-               if_p(ch_p('['))[uint_p[assign_a(pb.par_)] >>
-                               ch_p(']')[assign_a(pb.isArrayElement_, true)]] >>
-               strlit<>("+=") >> id[assign_a(pb.rhs)] >>
-               if_p(LPAREN >> CSV >> RPAREN)[SEMI[pb.addFunctorResultToGen]]
-                  .else_p[SEMI[pb.addGenToGen]];
+         Add =
+            (optionId | id)[bsc::assign_a(pb.lhs)] >>
+            bsc::if_p(bsc::ch_p(
+               '['))[bsc::int_p[bsc::assign_a(pb.par_)] >>
+                     bsc::ch_p(']')[bsc::assign_a(pb.isArrayElement_, true)]] >>
+            bsc::strlit<>("+=") >> id[bsc::assign_a(pb.rhs)] >>
+            bsc::if_p(LPAREN >> CSV >> RPAREN)[SEMI[pb.addFunctorResultToGen]]
+               .else_p[SEMI[pb.addGenToGen]];
 
-         AddGenerator = (optionId | id)[assign_a(pb.lhs)] >> strlit<>("+=") >>
-                        id[assign_a(pb.rhs)][pb.addGenToGen] >> SEMIexpected;
+         AddGenerator =
+            (optionId | id)[bsc::assign_a(pb.lhs)] >> bsc::strlit<>("+=") >>
+            id[bsc::assign_a(pb.rhs)][pb.addGenToGen] >> SEMIexpected;
 
-         AddFunctorResult = (optionId | id)[assign_a(pb.lhs)] >>
-                            strlit<>("+=") >> functorCall >> SEMIexpected;
+         AddFunctorResult = (optionId | id)[bsc::assign_a(pb.lhs)] >>
+                            bsc::strlit<>("+=") >> functorCall >> SEMIexpected;
 
-         AddMemberFunctionResult = (optionId | id)[assign_a(pb.lhs)] >>
-                                   strlit<>("+=") >> memberFunctionCall >>
+         AddMemberFunctionResult = (optionId | id)[bsc::assign_a(pb.lhs)] >>
+                                   bsc::strlit<>("+=") >> memberFunctionCall >>
                                    SEMIexpected;
 
-         AddText = id[assign_a(pb.lhs)] >> strlit<>("+=") >>
+         AddText = id[bsc::assign_a(pb.lhs)] >> bsc::strlit<>("+=") >>
                    textLines[pb.addTextToGen] >> SEMIexpected;
 
-         localFunctionCall = (id[assign_a(pb.function_id)] >> LPAREN >> CSV >>
-                              RPAREN >> SEMI)[pb.localFunctionCall];
+         localFunctionCall = (id[bsc::assign_a(pb.function_id)] >> LPAREN >>
+                              CSV >> RPAREN >> SEMI)[pb.localFunctionCall];
 
-         functorCall = id[assign_a(pb.rhs)] >> LPAREN >> CSV >>
+         functorCall = id[bsc::assign_a(pb.rhs)] >> LPAREN >> CSV >>
                        RPAREN[pb.addFunctorResultToGen];
 
-         memberFunctionCall = (id[assign_a(pb.lhs)] >> strlit<>(".") >>
-                               id[assign_a(pb.function_id)] >> LPAREN >> CSV >>
-                               RPAREN)[pb.memberFunctionCall];
+         memberFunctionCall =
+            (id[bsc::assign_a(pb.lhs)] >> bsc::strlit<>(".") >>
+             id[bsc::assign_a(pb.function_id)] >> LPAREN >> CSV >>
+             RPAREN)[pb.memberFunctionCall];
 
-         CSV = list_p((*id)[push_back_a(pb.parList)], ',') |
-               list_p(*(textLine[push_back_a(pb.parList)]), ',');
+         CSV = bsc::list_p((*id)[bsc::push_back_a(pb.parList)], ',') |
+               bsc::list_p(*(textLine[bsc::push_back_a(pb.parList)]), ',');
 
-         optionIndex = uint_p[assign_a(pb.actualOptionIndex)];
+         optionIndex = bsc::int_p[bsc::assign_a(pb.actualOptionIndex)];
 
-         arglist = !(id >> *(ch_p(',') >> id));
+         arglist = !(id >> *(bsc::ch_p(',') >> id));
 
-         id = lexeme_d[(alpha_p >> *(alnum_p | ch_p('_')))] | int_p;
+         id =
+            bsc::lexeme_d[(bsc::alpha_p >> *(bsc::alnum_p | bsc::ch_p('_')))] |
+            bsc::int_p;
 
-         optionId = lexeme_d[strlit<>("o[") >> optionIndex >> strlit<>("]")];
+         optionId = bsc::lexeme_d[bsc::strlit<>("o[") >> optionIndex >>
+                                  bsc::strlit<>("]")];
 
-         textLine = confix_p('"', *(anychar_p - ch_p('"') - eol_p), '"');
+         textLine = bsc::confix_p(
+            '"', *(bsc::anychar_p - bsc::ch_p('"') - bsc::eol_p), '"');
 
          textLines = textLine[pb.initText] >> *(textLine)[pb.concatText];
 
-         codeLine = confix_p('"', *(c_escape_ch_p)[pb.addChar], '"');
+         codeLine = bsc::confix_p('"', *(bsc::c_escape_ch_p)[pb.addChar], '"');
 
          codeLines = +codeLine[pb.addNewCodeLine];
 
-         assignment_op = ch_p('=');
+         assignment_op = bsc::ch_p('=');
 
          SEMIexpected =
-            (SEMI | Error[assign_a(pb.error, ERR_SEMICOLON_EXPECTED)]
+            (SEMI | Error[bsc::assign_a(pb.error, ERR_SEMICOLON_EXPECTED)]
                          [pb.errorMessage]);
 
-         Error = epsilon_p;
+         Error = bsc::epsilon_p;
       }
 
-      symbols<> keywords;
+      bsc::symbols<> keywords;
 
-      using rule_t = rule<ScannerT>;
+      using rule_t = bsc::rule<ScannerT>;
 
       rule_t main, Type, Declaration, MCT, Header, HeaderBlock, Item, ItemBlock,
          levelAssignment, stemAssignment, Text, Java, APIdoc, Image,
@@ -896,7 +906,7 @@ struct MCTspecParser : public grammar<MCTspecParser> {
          memberFunctionCall, CSV, optionIndex, arglist, id, optionId, textLine,
          textLines, codeLine, codeLines, assignment_op, SEMIexpected, Error;
 
-      rule<ScannerT> const &start() const { return main; }
+      bsc::rule<ScannerT> const &start() const { return main; }
    };
 };
 
