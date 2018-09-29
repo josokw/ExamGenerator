@@ -46,11 +46,11 @@ std::vector<std::shared_ptr<GenExams>> Reader::parse()
       if (info.full) {
          std::cout << LINE << "\n- Parsing ready\n" << LINE << "\n";
       } else {
-         size_t line = std::count(static_cast<const char *>(&textSpec[0]),
-                                  info.stop, '\n') +
-                       1;
+         auto lineFailure = std::count(static_cast<const char *>(&textSpec[0]),
+                                       info.stop, '\n') +
+                            1;
          std::cout << "\n\n";
-         std::cout << "*** Parsing failed at line: " << line << "\n";
+         std::cout << "*** Parsing failed at line: " << lineFailure << "\n";
          std::cout << "*** stopped at:\n" << info.stop << "\"\n\n";
 
          messages.push_back(
