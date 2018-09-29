@@ -33,7 +33,7 @@ std::ostream &GenSolution::write(std::ostream &os, int Level) const
    IGenerator::write(os, Level);
    os << ": for exam '" << pExam_->getID() << "' size " << solutions_.size()
       << "\n";
-   os << "\\\\Oplossing:\n";
+   os << "\\\\Answers:\n\n";
    for (size_t i = 0; i < solutions_.size(); ++i) {
       os << "\\\\ " << (i + 1) << ". " << static_cast<char>('A' + solutions_[i])
          << "\n";
@@ -70,11 +70,11 @@ void GenSolution::generate(std::ostream &os)
    LOGD(id_);
    prepare();
 
-   os << "\n% Solution generation for MCT '" + pExam_->getID() + "'\n";
+   os << "\n% Solution generation for exam '" + pExam_->getID() + "'\n";
    os << "\\cleardoublepage\n";
    os << "\\noindent " << std::string(40, '-') << "  " << pExam_->getID()
       << "\n";
-   os << "\\\\Oplossing:\n";
+   os << "\\\\Answers:\n";
    for (size_t i = 0; i < solutions_.size(); ++i) {
       os << "\\\\ " << (i + 1) << ". " << static_cast<char>('A' + solutions_[i])
          << "\n";

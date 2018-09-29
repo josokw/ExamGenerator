@@ -21,7 +21,7 @@ GenSelector::GenSelector(const std::string &id)
 
 GenSelector::~GenSelector()
 {
-   // IGenerator::write(clog) << " ##### DTOR" << endl;
+   LOGD(id_);
 }
 
 IGenPtr_t GenSelector::copy() const

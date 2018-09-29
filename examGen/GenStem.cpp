@@ -17,7 +17,7 @@ GenStem::GenStem()
 
 GenStem::~GenStem()
 {
-   // IGenerator::write(clog) << " ##### DTOR" << endl;
+   LOGD(id_);
 }
 
 IGenPtr_t GenStem::copy() const

@@ -11,8 +11,8 @@ namespace {
 
 bool lessLength(IGenPtr_t i1, IGenPtr_t i2)
 {
-   size_t s1 = (std::static_pointer_cast<GenOption>(i1))->size();
-   size_t s2 = (std::static_pointer_cast<GenOption>(i2))->size();
+   auto s1 = (std::static_pointer_cast<GenOption>(i1))->size();
+   auto s2 = (std::static_pointer_cast<GenOption>(i2))->size();
    return s1 < s2;
 }
 

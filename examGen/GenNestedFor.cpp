@@ -17,15 +17,15 @@ std::tuple<Random::Random::range_t, int, std::list<int>, int>
    GenNestedFor::s_R2(Random::range_t(2, 3), 0, std::list<int>(), 1);
 
 GenNestedFor::GenNestedFor()
-   : m_pText(new GenText("Wat is de waarde van Resultaat na uitvoering van het "
-                         "volgende programmafragment?"))
+   : m_pText(new GenText("What is the value of the variable $result$ after "
+                         "executing the following code block"))
    , m_pCodeText{}
    , m_pO1()
    , m_pO2()
    , m_pO3()
    , m_pO4()
 {
-   type_ = "NestedFor";
+   type_ = "GenNestedFor";
    addToStem(m_pText);
 
    int InitResultaat = randomProfile_s.generate(s_R0);
@@ -42,19 +42,19 @@ GenNestedFor::GenNestedFor()
    string sjMax{std::to_string(jMax)};
 
    m_pCodeText = std::shared_ptr<GenCodeText>(
-      new GenCodeText("java", "int Resultaat = " + sInitResultaat +
-                                 ";\n\n"
-                                 "for (int i = " +
-                                 siStart + "; i < " + siMax +
-                                 "; i++)\n"
-                                 "{\n"
-                                 "   for (int j = " +
-                                 sjStart + "; j < " + sjMax +
-                                 "; j++)\n"
-                                 "   {\n"
-                                 "      Resultaat = Resultaat * 2;\n"
-                                 "   }\n"
-                                 "}\n"));
+      new GenCodeText("c", "int result = " + sInitResultaat +
+                              ";\n\n"
+                              "for (int i = " +
+                              siStart + "; i < " + siMax +
+                              "; i++)\n"
+                              "{\n"
+                              "   for (int j = " +
+                              sjStart + "; j < " + sjMax +
+                              "; j++)\n"
+                              "   {\n"
+                              "      result = result * 2;\n"
+                              "   }\n"
+                              "}\n"));
 
    int Resultaat = correctAnswer(InitResultaat, iStart, jStart, iMax, jMax);
    string sResultaat = std::to_string(Resultaat);
