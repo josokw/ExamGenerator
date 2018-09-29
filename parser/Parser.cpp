@@ -20,7 +20,7 @@ bool MCTestBuilder::idGeneratorIsUnique(const std::string &id,
                                         const char * /* end */)
 {
    auto isUnique = true;
-   if (bsc::find(generators_p, id.c_str())) {
+   if (find(generators_p, id.c_str())) {
       messages_.push_back(Reader::message_t(
          'E', 0, begin, "Generator '" + id + "' already exists."));
       isUnique = false;
@@ -32,7 +32,7 @@ IGenPtr_t *MCTestBuilder::idGeneratorIsAvailable(const std::string &id,
                                                  const char *begin,
                                                  const char * /* end */)
 {
-   auto ppIGen = bsc::find(generators_p, id.c_str());
+   auto ppIGen = find(generators_p, id.c_str());
    if (0 == ppIGen) {
       messages_.push_back(Reader::message_t(
          'E', 0, begin, "Generator '" + id + "' does not exists."));
@@ -44,21 +44,21 @@ IGenPtr_t *MCTestBuilder::idGeneratorIsAvailable(const std::string &id,
 void MCTestBuilder::do_errorMessage(const char *begin, const char * /* end*/)
 {
    switch (error) {
-      case NO_ERROR:
+      case ERROR::NO:
          break;
-      case ERR_MCT_EXPECTED:
+      case ERROR::MCT_EXPECTED:
          messages_.push_back(Reader::message_t(
             'E', 0, begin, "MCT or MCT[] declaration expected."));
          break;
-      case ERR_CLOSING_BRACKET_EXPECTED:
+      case ERROR::CLOSING_BRACKET_EXPECTED:
          messages_.push_back(
             Reader::message_t('E', 0, begin, "Closing ] expected."));
          break;
-      case ERR_UNSIGNEDINT_EXPECTED:
+      case ERROR::UNSIGNEDINT_EXPECTED:
          messages_.push_back(
             Reader::message_t('E', 0, begin, "Integer value expected."));
          break;
-      case ERR_SEMICOLON_EXPECTED:
+      case ERROR::SEMICOLON_EXPECTED:
          messages_.push_back(Reader::message_t('E', 0, begin, "; expected."));
          break;
       default:

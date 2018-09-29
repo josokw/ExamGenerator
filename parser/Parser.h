@@ -39,20 +39,22 @@
 
 namespace bsc = boost::spirit::classic;
 
-// Errors to check for during the parse
-enum {
-   NO_ERROR = 0,
-   ERR_MCT_EXPECTED,
-   ERR_CLOSING_BRACKET_EXPECTED,
-   ERR_UNSIGNEDINT_EXPECTED,
-   ERR_SEMICOLON_EXPECTED
-};
-
 /// This structure contains all semantic actions of the parser.
 struct MCTestBuilder {
+
+   // Errors to check for during the parse
+   enum class ERROR {
+      NO = 0,
+      MCT_EXPECTED,
+      CLOSING_BRACKET_EXPECTED,
+      UNSIGNEDINT_EXPECTED,
+      SEMICOLON_EXPECTED
+   };
+
+   ERROR error{ERROR::NO};
    std::vector<Reader::message_t> &messages_;
+
    RandomProfile randomProfile;
-   size_t error;
    std::vector<std::shared_ptr<GenExams>> Product;
    int level_;
    std::string type;
@@ -106,63 +108,89 @@ struct MCTestBuilder {
    MCTestBuilder *self() { return this; }
 
    MCTestBuilder(std::vector<Reader::message_t> &messages)
-      : messages_{messages}
-      , error{NO_ERROR}
+      : error{ERROR::NO} 
+      , messages_{messages}
       , isArrayElement_{false}
+
       , errorMessage(std::bind(&MCTestBuilder::do_errorMessage, self(),
                                std::placeholders::_1, std::placeholders::_2))
+
       , initText(std::bind(&MCTestBuilder::do_initText, self(),
                            std::placeholders::_1, std::placeholders::_2))
+
       , addChar(
            std::bind(&MCTestBuilder::do_addChar, self(), std::placeholders::_1))
+
       , concatText(std::bind(&MCTestBuilder::do_concatText, self(),
                              std::placeholders::_1, std::placeholders::_2))
+
       , addNewLine(std::bind(&MCTestBuilder::do_addNewLine, self(),
                              std::placeholders::_1, std::placeholders::_2))
+
       , addNewCodeLine(std::bind(&MCTestBuilder::do_addNewCodeLine, self(),
                                  std::placeholders::_1, std::placeholders::_2))
+
       , createObject(std::bind(&MCTestBuilder::do_createObject, self(),
                                std::placeholders::_1, std::placeholders::_2))
+
       , createMCT(std::bind(&MCTestBuilder::do_createMCT, self(),
                             std::placeholders::_1, std::placeholders::_2))
+
       , createMCTs(std::bind(&MCTestBuilder::do_createMCTs, self(),
                              std::placeholders::_1, std::placeholders::_2))
+
       , createItem(std::bind(&MCTestBuilder::do_createItem, self(),
                              std::placeholders::_1, std::placeholders::_2))
+
       , createHeader(std::bind(&MCTestBuilder::do_createHeader, self(),
                                std::placeholders::_1, std::placeholders::_2))
+
       , createOption(std::bind(&MCTestBuilder::do_createOption, self(),
                                std::placeholders::_1, std::placeholders::_2))
+
       , setOptionCorrect(std::bind(&MCTestBuilder::do_setOptionCorrect, self(),
                                    std::placeholders::_1,
                                    std::placeholders::_2))
+
       , createGen(std::bind(&MCTestBuilder::do_createGen, self(),
                             std::placeholders::_1, std::placeholders::_2))
+
       , resetItemScope(std::bind(&MCTestBuilder::do_resetItemScope, self(),
                                  std::placeholders::_1))
+
       , assignment(std::bind(&MCTestBuilder::do_assignment, self(),
                              std::placeholders::_1, std::placeholders::_2))
+
       , retrieve(std::bind(&MCTestBuilder::do_retrieve, self(),
                            std::placeholders::_1))
+
       , addTextToGen(std::bind(&MCTestBuilder::do_addTextToGen, self(),
                                std::placeholders::_1, std::placeholders::_2))
+
       , addTextToStem(std::bind(&MCTestBuilder::do_addTextToStem, self(),
                                 std::placeholders::_1, std::placeholders::_2))
+
       , setLevelOfItem(std::bind(&MCTestBuilder::do_setLevelOfItem, self(),
                                  std::placeholders::_1, std::placeholders::_2))
+
       , addGenToGen(std::bind(&MCTestBuilder::do_addGenToGen, self(),
                               std::placeholders::_1, std::placeholders::_2))
+
       , addFunctorResultToGen(
            std::bind(&MCTestBuilder::do_addFunctorResultToGen, self(),
                      std::placeholders::_1, std::placeholders::_2))
+
       , endOfSpec(std::bind(&MCTestBuilder::do_endOfSpec, self(),
                             std::placeholders::_1, std::placeholders::_2))
+
       , localFunctionCall(std::bind(&MCTestBuilder::do_localFunctionCall,
                                     self(), std::placeholders::_1,
                                     std::placeholders::_2))
+
       , memberFunctionCall(std::bind(&MCTestBuilder::do_memberFunctionCall,
                                      self(), std::placeholders::_1,
                                      std::placeholders::_2))
+
       , functionCall(std::bind(&MCTestBuilder::do_functionCall, self(),
                                std::placeholders::_1, std::placeholders::_2))
    {
@@ -726,11 +754,13 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
          //       Option: Text + Java + APIdoc
          // Selector
 
-         main = (+MCT | Error[bsc::assign_a(pb.error, ERR_MCT_EXPECTED)]
-                             [pb.errorMessage]) >>
-                *(Header | Item | Declaration | Java | Image | APIdoc | Add |
-                  AddText | memberFunctionCall) >>
-                bsc::end_p[pb.endOfSpec];
+         main =
+            (+MCT |
+             Error[bsc::assign_a(pb.error, MCTestBuilder::ERROR::MCT_EXPECTED)]
+                  [pb.errorMessage]) >>
+            *(Header | Item | Declaration | Java | Image | APIdoc | Add |
+              AddText | memberFunctionCall) >>
+            bsc::end_p[pb.endOfSpec];
 
          Type = (bsc::strlit<>("Selector") | bsc::strlit<>("LogicDiagramAON") |
                  bsc::strlit<>("LogicDiagramAOXN") | bsc::strlit<>("TwoC") |
@@ -744,13 +774,16 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
                (bsc::strlit<>("MCT")[bsc::assign_a(pb.type)] >>
                 id[bsc::assign_a(pb.id_)] >> bsc::ch_p('[') >>
                 (bsc::int_p[bsc::assign_a(pb.par_)] |
-                 Error[bsc::assign_a(pb.error, ERR_UNSIGNEDINT_EXPECTED)]
+                 Error[bsc::assign_a(
+                    pb.error, MCTestBuilder::ERROR::UNSIGNEDINT_EXPECTED)]
                       [pb.errorMessage]) >>
                 (bsc::ch_p(']') |
-                 Error[bsc::assign_a(pb.error, ERR_CLOSING_BRACKET_EXPECTED)]
+                 Error[bsc::assign_a(
+                    pb.error, MCTestBuilder::ERROR::CLOSING_BRACKET_EXPECTED)]
                       [pb.errorMessage]) >>
                 (SEMI[pb.createMCTs] |
-                 Error[bsc::assign_a(pb.error, ERR_SEMICOLON_EXPECTED)]
+                 Error[bsc::assign_a(pb.error,
+                                     MCTestBuilder::ERROR::SEMICOLON_EXPECTED)]
                       [pb.errorMessage]));
 
          Header = bsc::strlit<>("Header")[bsc::assign_a(pb.type)] >>
@@ -889,7 +922,8 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
          assignment_op = bsc::ch_p('=');
 
          SEMIexpected =
-            (SEMI | Error[bsc::assign_a(pb.error, ERR_SEMICOLON_EXPECTED)]
+            (SEMI | Error[bsc::assign_a(
+                       pb.error, MCTestBuilder::ERROR::SEMICOLON_EXPECTED)]
                          [pb.errorMessage]);
 
          Error = bsc::epsilon_p;
@@ -899,8 +933,8 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
 
       using rule_t = bsc::rule<ScannerT>;
 
-      rule_t main, Type, Declaration, MCT, Header, HeaderBlock, Item, ItemBlock,
-         levelAssignment, stemAssignment, Text, Java, APIdoc, Image,
+      rule_t main, Type, Declaration, MCT, Header, HeaderBlock, Item,
+         ItemBlock, levelAssignment, stemAssignment, Text, Java, APIdoc, Image,
          optionAssignment, itemAssignment, Add, AddGenerator, AddFunctorResult,
          AddMemberFunctionResult, AddText, functorCall, localFunctionCall,
          memberFunctionCall, CSV, optionIndex, arglist, id, optionId, textLine,
