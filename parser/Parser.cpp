@@ -20,7 +20,7 @@ bool MCTestBuilder::idGeneratorIsUnique(const std::string &id,
                                         const char * /* end */)
 {
    auto isUnique = true;
-   if (find(generators_p, id.c_str())) {
+   if (bsc::find(generators_p, id.c_str())) {
       messages_.push_back(Reader::message_t(
          'E', 0, begin, "Generator '" + id + "' already exists."));
       isUnique = false;
@@ -32,7 +32,7 @@ IGenPtr_t *MCTestBuilder::idGeneratorIsAvailable(const std::string &id,
                                                  const char *begin,
                                                  const char * /* end */)
 {
-   auto ppIGen = find(generators_p, id.c_str());
+   auto ppIGen = bsc::find(generators_p, id.c_str());
    if (0 == ppIGen) {
       messages_.push_back(Reader::message_t(
          'E', 0, begin, "Generator '" + id + "' does not exists."));

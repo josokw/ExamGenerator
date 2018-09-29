@@ -38,7 +38,7 @@
 #include <vector>
 
 using namespace boost::spirit::classic;
-// using bsc = boost::spirit::classic;
+namespace bsc = boost::spirit::classic;
 
 // Errors to check for during the parse
 enum {
@@ -60,7 +60,7 @@ struct MCTestBuilder {
    std::string text;
    std::string lhs;
    std::string rhs;
-   std::string id;
+   std::string id_;
    std::string itemScope;
    std::shared_ptr<GenItem> p_actualItem;
    GenHeader tempHeader;
@@ -122,14 +122,14 @@ struct MCTestBuilder {
                              std::placeholders::_1, std::placeholders::_2))
       , addNewCodeLine(std::bind(&MCTestBuilder::do_addNewCodeLine, self(),
                                  std::placeholders::_1, std::placeholders::_2))
+      , createObject(std::bind(&MCTestBuilder::do_createObject, self(),
+                               std::placeholders::_1, std::placeholders::_2))
       , createMCT(std::bind(&MCTestBuilder::do_createMCT, self(),
                             std::placeholders::_1, std::placeholders::_2))
       , createMCTs(std::bind(&MCTestBuilder::do_createMCTs, self(),
                              std::placeholders::_1, std::placeholders::_2))
       , createItem(std::bind(&MCTestBuilder::do_createItem, self(),
                              std::placeholders::_1, std::placeholders::_2))
-      , createObject(std::bind(&MCTestBuilder::do_createObject, self(),
-                               std::placeholders::_1, std::placeholders::_2))
       , createHeader(std::bind(&MCTestBuilder::do_createHeader, self(),
                                std::placeholders::_1, std::placeholders::_2))
       , createOption(std::bind(&MCTestBuilder::do_createOption, self(),
@@ -215,12 +215,12 @@ struct MCTestBuilder {
       if (!itemScope.empty()) {
          lhs = itemScope + "." + lhs;
       }
-      auto p = find(vars_p, lhs.c_str());
+      auto p = bsc::find(vars_p, lhs.c_str());
       if (p) {
          messages_.push_back(Reader::message_t(
             'E', 0, begin, "Constant '" + lhs + "' already exists!"));
       } else {
-         boost::spirit::classic::add(vars_p, lhs.c_str(), rhs);
+         bsc::add(vars_p, lhs.c_str(), rhs);
       }
    }
 
@@ -230,14 +230,13 @@ struct MCTestBuilder {
    {
       if (!itemScope.empty()) {
          messages_.push_back(Reader::message_t(
-            'E', 0, begin, "MCT '" + id + "' should be declared global!"));
+            'E', 0, begin, "MCT '" + id_ + "' should be declared global!"));
       } else {
-         if (idGeneratorIsUnique(id, begin, end)) {
+         if (idGeneratorIsUnique(id_, begin, end)) {
             std::shared_ptr<GenExams> pMCTs(new GenExams(messages_, 1));
-            pMCTs->setID(id);
-            boost::spirit::classic::add(
-               generators_p, id.c_str(),
-               std::static_pointer_cast<IGenerator>(pMCTs));
+            pMCTs->setID(id_);
+            bsc::add(generators_p, id_.c_str(),
+                     std::static_pointer_cast<IGenerator>(pMCTs));
             Product.push_back(pMCTs);
          }
       }
@@ -250,14 +249,13 @@ struct MCTestBuilder {
       if (!itemScope.empty()) {
          messages_.push_back(Reader::message_t(
             'E', 0, begin,
-            "MCT array '" + id + "' should be declared global!"));
+            "MCT array '" + id_ + "' should be declared global!"));
       } else {
-         if (idGeneratorIsUnique(id, begin, end)) {
+         if (idGeneratorIsUnique(id_, begin, end)) {
             std::shared_ptr<GenExams> pMCTs(new GenExams(messages_, par_));
-            pMCTs->setID(id);
-            boost::spirit::classic::add(
-               generators_p, id.c_str(),
-               std::static_pointer_cast<IGenerator>(pMCTs));
+            pMCTs->setID(id_);
+            bsc::add(generators_p, id_.c_str(),
+                     std::static_pointer_cast<IGenerator>(pMCTs));
             Product.push_back(pMCTs);
          }
       }
@@ -265,59 +263,51 @@ struct MCTestBuilder {
 
    void do_createItem(const char *begin, const char *end)
    {
-      if (idGeneratorIsUnique(id, begin, end)) {
-         p_actualItem = std::shared_ptr<GenItem>(new GenItem(id));
-         boost::spirit::classic::add(
-            generators_p, id.c_str(),
-            std::static_pointer_cast<IGenerator>(p_actualItem));
-         itemScope = id.c_str();
-         boost::spirit::classic::add(generators_p,
-                                     (id + std::string(".level")).c_str(),
-                                     (IGenPtr_t)((*p_actualItem)[0]));
-         boost::spirit::classic::add(generators_p,
-                                     (id + std::string(".stem")).c_str(),
-                                     (IGenPtr_t)((*p_actualItem)[0]));
-         genFactory.addGenerator(id, p_actualItem);
+      if (idGeneratorIsUnique(id_, begin, end)) {
+         p_actualItem = std::shared_ptr<GenItem>(new GenItem(id_));
+         bsc::add(generators_p, id_.c_str(),
+                  std::static_pointer_cast<IGenerator>(p_actualItem));
+         itemScope = id_.c_str();
+         bsc::add(generators_p, (id_ + std::string(".level")).c_str(),
+                  static_cast<IGenPtr_t>((*p_actualItem)[0]));
+         bsc::add(generators_p, (id_ + std::string(".stem")).c_str(),
+                  static_cast<IGenPtr_t>((*p_actualItem)[0]));
+         genFactory.addGenerator(id_, p_actualItem);
       }
    }
 
    void do_createObject(const char *begin, const char *end)
    {
-      if (idGeneratorIsUnique(id, begin, end)) {
+      if (idGeneratorIsUnique(id_, begin, end)) {
          if (type == "Selector") {
-            std::shared_ptr<GenSelector> pS(new GenSelector(id));
-            boost::spirit::classic::add(
-               generators_p, id.c_str(),
-               std::static_pointer_cast<IGenerator>(pS));
+            std::shared_ptr<GenSelector> pS(new GenSelector(id_));
+            bsc::add(generators_p, id_.c_str(),
+                     std::static_pointer_cast<IGenerator>(pS));
          } else {
             if (type == "LogicDiagramAON") {
                std::shared_ptr<GenLogicDiagramAON> pL(new GenLogicDiagramAON);
-               pL->setID(id);
-               boost::spirit::classic::add(
-                  generators_p, id.c_str(),
-                  std::static_pointer_cast<IGenerator>(pL));
+               pL->setID(id_);
+               bsc::add(generators_p, id_.c_str(),
+                        std::static_pointer_cast<IGenerator>(pL));
             } else {
                if (type == "LogicDiagramAOXN") {
                   std::shared_ptr<GenLogicDiagramAOXN> pL(
                      new GenLogicDiagramAOXN);
-                  pL->setID(id);
-                  boost::spirit::classic::add(
-                     generators_p, id.c_str(),
-                     std::static_pointer_cast<IGenerator>(pL));
+                  pL->setID(id_);
+                  bsc::add(generators_p, id_.c_str(),
+                           std::static_pointer_cast<IGenerator>(pL));
                } else {
                   if (type == "TwoC") {
                      std::shared_ptr<GenTwoC> pTC(new GenTwoC);
-                     pTC->setID(id);
-                     boost::spirit::classic::add(
-                        generators_p, id.c_str(),
-                        std::static_pointer_cast<IGenerator>(pTC));
+                     pTC->setID(id_);
+                     bsc::add(generators_p, id_.c_str(),
+                              std::static_pointer_cast<IGenerator>(pTC));
                   } else {
                      if (type == "NestedFor") {
                         std::shared_ptr<GenNestedFor> pNF(new GenNestedFor);
-                        pNF->setID(id);
-                        boost::spirit::classic::add(
-                           generators_p, id.c_str(),
-                           std::static_pointer_cast<IGenerator>(pNF));
+                        pNF->setID(id_);
+                        bsc::add(generators_p, id_.c_str(),
+                                 std::static_pointer_cast<IGenerator>(pNF));
                      } else {
                         messages_.push_back(Reader::message_t(
                            'E', 0, begin, "Type '" + type + "' unknown"));
@@ -331,13 +321,12 @@ struct MCTestBuilder {
 
    void do_createHeader(const char *begin, const char *end)
    {
-      if (idGeneratorIsUnique(id, begin, end)) {
-         p_actualHeader = std::shared_ptr<GenHeader>(new GenHeader(id));
+      if (idGeneratorIsUnique(id_, begin, end)) {
+         p_actualHeader = std::shared_ptr<GenHeader>(new GenHeader(id_));
          *p_actualHeader = tempHeader;
-         p_actualHeader->setID(id);
-         boost::spirit::classic::add(
-            generators_p, id.c_str(),
-            std::static_pointer_cast<IGenerator>(p_actualHeader));
+         p_actualHeader->setID(id_);
+         bsc::add(generators_p, id_.c_str(),
+                  std::static_pointer_cast<IGenerator>(p_actualHeader));
       }
    }
 
@@ -347,9 +336,8 @@ struct MCTestBuilder {
       if (idGeneratorIsUnique(lhs, begin, end)) {
          p_actualOption = std::shared_ptr<GenOption>(new GenOption(text));
          p_actualOption->setID(lhs);
-         boost::spirit::classic::add(
-            generators_p, lhs.c_str(),
-            std::static_pointer_cast<IGenerator>(p_actualOption));
+         bsc::add(generators_p, lhs.c_str(),
+                  std::static_pointer_cast<IGenerator>(p_actualOption));
          // Add option to related item
          if (auto ppIGen = idGeneratorIsAvailable(itemScope, begin, end)) {
             if (std::shared_ptr<GenItem> pItem =
@@ -384,37 +372,33 @@ struct MCTestBuilder {
 
    void do_createGen(const char *begin, const char *end)
    {
-      addItemScope(id);
-      if (idGeneratorIsUnique(id, begin, end)) {
+      addItemScope(id_);
+      if (idGeneratorIsUnique(id_, begin, end)) {
          if (type == "Header") {
-            std::shared_ptr<GenHeader> pH(new GenHeader(id));
-            boost::spirit::classic::add(
-               generators_p, id.c_str(),
-               std::static_pointer_cast<IGenerator>(pH));
+            std::shared_ptr<GenHeader> pH(new GenHeader(id_));
+            bsc::add(generators_p, id_.c_str(),
+                     std::static_pointer_cast<IGenerator>(pH));
             p_actualHeader = pH;
          } else {
             if (type == "Java") {
                std::shared_ptr<GenCodeText> pJ(new GenCodeText("java", text));
-               pJ->setID(id);
-               boost::spirit::classic::add(
-                  generators_p, id.c_str(),
-                  std::static_pointer_cast<IGenerator>(pJ));
+               pJ->setID(id_);
+               bsc::add(generators_p, id_.c_str(),
+                        std::static_pointer_cast<IGenerator>(pJ));
             } else {
                if (type == "Image") {
                   std::shared_ptr<GenImage> pI(new GenImage(text));
-                  pI->setID(id);
-                  boost::spirit::classic::add(
-                     generators_p, id.c_str(),
-                     std::static_pointer_cast<IGenerator>(pI));
+                  pI->setID(id_);
+                  bsc::add(generators_p, id_.c_str(),
+                           std::static_pointer_cast<IGenerator>(pI));
                } else {
                   if (type == "APIdoc") {
                      if (parList.size() == 3) {
                         std::shared_ptr<GenAPI> pI(
                            new GenAPI(parList[0], parList[1], parList[2]));
-                        pI->setID(id);
-                        boost::spirit::classic::add(
-                           generators_p, id.c_str(),
-                           std::static_pointer_cast<IGenerator>(pI));
+                        pI->setID(id_);
+                        bsc::add(generators_p, id_.c_str(),
+                                 std::static_pointer_cast<IGenerator>(pI));
                      } else {
                         messages_.push_back(Reader::message_t(
                            'E', 0, begin,
@@ -658,8 +642,8 @@ struct MCTestBuilder {
                        parList.end());
 
          if (type == "Item") {
-            if (auto ppIGenLHS = idGeneratorIsUnique(id, begin, end)) {
-               IGenPtr_t *ppGenLHS2(0);
+            if (auto ppIGenLHS = idGeneratorIsUnique(id_, begin, end)) {
+               //IGenPtr_t *ppGenLHS2(0);
                std::vector<IGenPtr_t> pGens;
                for (size_t i = 0; i < parList.size(); ++i) {
                   if (auto ppGenLHS2 =
@@ -672,9 +656,8 @@ struct MCTestBuilder {
                      Random::range_t(0, parList.size() - 1));
                   std::cout << "--- Info r:"
                             << " " << r << std::endl;
-                  boost::spirit::classic::add(
-                     generators_p, id.c_str(),
-                     std::static_pointer_cast<IGenerator>(pGens.at(r)));
+                  bsc::add(generators_p, id_.c_str(),
+                           std::static_pointer_cast<IGenerator>(pGens.at(r)));
                }
             }
          }
@@ -755,12 +738,12 @@ struct MCTspecParser : public grammar<MCTspecParser> {
                  strlit<>("LogicDiagramAOXN") | strlit<>("TwoC") |
                  strlit<>("NestedFor"))[assign_a(pb.type)];
 
-         Declaration = (Type >> id[assign_a(pb.id)] >> SEMI)[pb.createObject];
+         Declaration = (Type >> id[assign_a(pb.id_)] >> SEMI)[pb.createObject];
 
          MCT =
-            (strlit<>("MCT")[assign_a(pb.type)] >> id[assign_a(pb.id)] >>
+            (strlit<>("MCT")[assign_a(pb.type)] >> id[assign_a(pb.id_)] >>
              SEMI[pb.createMCT]) |
-            (strlit<>("MCT")[assign_a(pb.type)] >> id[assign_a(pb.id)] >>
+            (strlit<>("MCT")[assign_a(pb.type)] >> id[assign_a(pb.id_)] >>
              ch_p('[') >> (uint_p[assign_a(pb.par_)] |
                            Error[assign_a(pb.error, ERR_UNSIGNEDINT_EXPECTED)]
                                 [pb.errorMessage]) >>
@@ -772,7 +755,7 @@ struct MCTspecParser : public grammar<MCTspecParser> {
                    [pb.errorMessage]));
 
          Header = strlit<>("Header")[assign_a(pb.type)] >>
-                  id[assign_a(pb.id)] >>
+                  id[assign_a(pb.id_)] >>
                   // ch_p('(') >> arglist >> ch_p(')') >> eol_p >>
                   HeaderBlock[pb.createHeader] >> SEMIexpected;
 
@@ -789,7 +772,7 @@ struct MCTspecParser : public grammar<MCTspecParser> {
                        SEMI >> strlit<>("}");
 
          Item = strlit<>("Item")[assign_a(pb.type)] >>
-                id[assign_a(pb.id)][assign_a(pb.rhs)] >>
+                id[assign_a(pb.id_)][assign_a(pb.rhs)] >>
                 // ch_p('(') >> arglist >> ch_p(')')
                 (ItemBlock | itemAssignment[pb.functionCall]) >> SEMIexpected;
 
@@ -812,19 +795,19 @@ struct MCTspecParser : public grammar<MCTspecParser> {
                    pb.vars_p[pb.retrieve]))[pb.assignment];
 
          Java = (strlit<>("Java")[assign_a(pb.type)] >>
-                 id[assign_a(pb.lhs)][assign_a(pb.id)] >>
+                 id[assign_a(pb.lhs)][assign_a(pb.id_)] >>
                  assignment_op[assign_a(pb.text, "")] >> codeLines >>
                  SEMI)[pb.assignment][pb.createGen];
 
          APIdoc = (strlit<>("APIdoc")[assign_a(pb.type)] >>
-                   id[assign_a(pb.lhs)][assign_a(pb.id)] >> LPAREN >>
+                   id[assign_a(pb.lhs)][assign_a(pb.id_)] >> LPAREN >>
                    textLine[push_back_a(pb.parList)] >> ch_p(',') >>
                    textLine[push_back_a(pb.parList)] >> ch_p(',') >>
                    textLine[push_back_a(pb.parList)] >> RPAREN >>
                    SEMI)[pb.assignment][pb.createGen];
 
          Image = (strlit<>("Image")[assign_a(pb.type)] >>
-                  id[assign_a(pb.lhs)][assign_a(pb.id)] >> assignment_op >>
+                  id[assign_a(pb.lhs)][assign_a(pb.id_)] >> assignment_op >>
                   codeLines >> SEMI)[pb.assignment][pb.createGen];
 
          optionAssignment = optionId[assign_a(pb.lhs)] >> assignment_op >>
@@ -834,7 +817,7 @@ struct MCTspecParser : public grammar<MCTspecParser> {
 
          /*levelAssignment =
          (strlit<>("level")[assign_a(pb.type)] >>
-         id[assign_a(pb.lhs)][assign_a(pb.id)] >> assignment_op >> >>
+         id[assign_a(pb.lhs)][assign_a(pb.id_)] >> assignment_op >> >>
          SEMI)[pb.assignment]
          ;*/
 
@@ -904,7 +887,8 @@ struct MCTspecParser : public grammar<MCTspecParser> {
 
       symbols<> keywords;
 
-      typedef rule<ScannerT> rule_t;
+      using rule_t = rule<ScannerT>;
+
       rule_t main, Type, Declaration, MCT, Header, HeaderBlock, Item, ItemBlock,
          levelAssignment, stemAssignment, Text, Java, APIdoc, Image,
          optionAssignment, itemAssignment, Add, AddGenerator, AddFunctorResult,
