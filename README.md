@@ -10,3 +10,16 @@ This application reads a text script containing multiple choise questions
 and compiles a LaTeX file.
 
 A random generator is used to construct the questions and the answers.
+
+## Building: using CMake and make
+
+The application need the Boost Spirit Classic library.
+
+Use *CMake* and *make* to build the application:
+
+    mkdir build
+    cd build
+    cmake ..
+    make
+
+The excutable can be found in the *bin* directory.
