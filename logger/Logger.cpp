@@ -28,6 +28,14 @@ void Logger::setFilename(const std::string &filename)
    LOGI("LOGGER filename: " + logFilename_.c_str());
 }
 
+void Logger::setDebugMode(bool on)
+{
+   inDebugMode_ = on;
+   if (inDebugMode_) {
+      LOGI("LOGGER in debug mode");
+   }
+}
+
 void Logger::log(const std::string &message)
 {
    std::lock_guard<std::mutex> lock(logMutex_);
@@ -49,7 +57,10 @@ Logger::Logger()
    , inDebugMode_{false}
 {
    setDebugMode();
+
    if (!logFile_) {
       std::cerr << "\n\tERROR cannot create logfile\n";
+   } else {
+      LOGI("LOGGER filename: " + logFilename_.c_str());
    }
 }

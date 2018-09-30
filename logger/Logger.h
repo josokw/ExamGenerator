@@ -18,7 +18,7 @@ public:
    virtual ~Logger();
 
    void setFilename(const std::string &filename);
-   void setDebugMode(bool on = true) { inDebugMode_ = on; }
+   void setDebugMode(bool on = true);
    void log(const std::string &message);
    void log(const char *message);
    void logDebug(const std::string &message)
