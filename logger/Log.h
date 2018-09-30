@@ -5,7 +5,7 @@
 
 #define LOG(msg) log(std::string(__func__) + "() " + msg)
 #define LOGE(msg) log("E    " + std::string(__func__) + "() " + msg)
-#define LOGW(msg) log(" W   " + std::string(__func) + "() " + msg)
+#define LOGW(msg) log(" W   " + std::string(__func__) + "() " + msg)
 #define LOGI(msg) log("  I  " + std::string(__func__) + "() " + msg)
 #define LOGD(msg) logDebug("   D " + std::string(__func__) + "() " + msg)
 
