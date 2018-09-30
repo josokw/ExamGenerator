@@ -43,25 +43,19 @@ std::ostream &GenComposite::write(std::ostream &os, int level) const
          gen->write(os, level + 1);
       }
    }
-   //    for_each(generators_.begin(), generators_.end(),
-   //             [&os, &level](IGenPtr_t g) { g->write(os, level + 1); });
+
    return os;
 }
 
 void GenComposite::generate(std::ostream &os)
 {
    for (auto &gen : generators_) {
-      if (gen == nullptr) {
-         LOGE("gen == nullptr");
-      } else {
+      LOGCW(gen == nullptr, id_);
+      if (gen != nullptr) {
          gen->prepare();
          gen->generate(os);
       }
    }
-   //    for_each(generators_.begin(), generators_.end(), [&os](IGenPtr_t g) {
-   //       g->prepare();
-   //       g->generate(os);
-   //    });
 }
 
 bool GenComposite::generatorsCheck() const
@@ -73,5 +67,7 @@ bool GenComposite::generatorsCheck() const
          break;
       }
    }
+
+   LOGCW(!isOk, id_);
    return isOk;
 }

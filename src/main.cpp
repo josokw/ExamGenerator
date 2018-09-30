@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
       } else {
          std::cerr << "\n\tERROR: input exam specification file name missing\n"
                    << descr << std::endl;
-         LOGE("Exam script file name missing");
+         LOGE("Exam script file name missing in command line");
          return 1;
       }
 
@@ -73,6 +73,9 @@ int main(int argc, char *argv[])
       const bfs::path LaTeXoutputDir(".");
       const bfs::path LaTeXgeneratedFileName(LaTeXoutputDir /
                                              "generatedExam.tex");
+      LOGI("Generated LaTex file: " +
+           (LaTeXoutputDir / "generatedExam.tex").string());
+
       const bfs::path LaTeXdocFileName(EXAM_LATEX_FILENAME);
       const std::string LaTeXcommand(
          "pdflatex -enable-write18 \"-output-directory=" +
@@ -107,6 +110,8 @@ int main(int argc, char *argv[])
       if (!scriptedTests.empty()) {
          std::cout << "- Generating scripted exams" << std::endl;
 
+         LOGI("Start generating LaTeX file: " +
+              LaTeXgeneratedFileName.string());
          for_each(scriptedTests.begin(), scriptedTests.end(),
                   [&LaTeXgeneratedFile](std::shared_ptr<GenExams> &st) {
                      st->generate(LaTeXgeneratedFile);

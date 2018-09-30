@@ -41,6 +41,8 @@ void GenStem::add(IGenPtr_t pGen)
             if (GenAPI *pAPI = dynamic_cast<GenAPI *>(p)) {
                generators_.push_back(pGen);
             } else {
+               LOGE(id_ + ", " + pGen->getType() +
+                    " generator type not allowed for adding");
                throw std::runtime_error(__AT__ "Type not allowed for adding");
             }
          }
@@ -60,8 +62,6 @@ void GenStem::generate(std::ostream &os)
          gen->generate(os);
       }
    }
-   //    for_each(generators_.begin(), generators_.end(),
-   //             [&os](IGenPtr_t &g) { g->generate(os); });
 }
 
 std::ostream &GenStem::write(std::ostream &os, int level) const
