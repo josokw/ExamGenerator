@@ -108,7 +108,7 @@ struct MCTestBuilder {
    MCTestBuilder *self() { return this; }
 
    MCTestBuilder(std::vector<Reader::message_t> &messages)
-      : error{ERROR::NO} 
+      : error{ERROR::NO}
       , messages_{messages}
       , isArrayElement_{false}
 
@@ -244,6 +244,7 @@ struct MCTestBuilder {
       }
       auto p = bsc::find(vars_p, lhs.c_str());
       if (p) {
+         LOGE(id_ + ", constant '" + lhs + "' already exists!");
          messages_.push_back(Reader::message_t(
             'E', 0, begin, "Constant '" + lhs + "' already exists!"));
       } else {
@@ -256,6 +257,7 @@ struct MCTestBuilder {
    void do_createMCT(const char *begin, const char *end)
    {
       if (!itemScope.empty()) {
+         LOGE(id_ + ", MCT '" + id_ + "' should be declared global!");
          messages_.push_back(Reader::message_t(
             'E', 0, begin, "MCT '" + id_ + "' should be declared global!"));
       } else {
@@ -336,6 +338,7 @@ struct MCTestBuilder {
                         bsc::add(generators_p, id_.c_str(),
                                  std::static_pointer_cast<IGenerator>(pNF));
                      } else {
+
                         messages_.push_back(Reader::message_t(
                            'E', 0, begin, "Type '" + type + "' unknown"));
                      }
@@ -563,6 +566,7 @@ struct MCTestBuilder {
                   }
                }
             } else {
+               LOGE(id_ + ", functor for '" + rhs + "' not available");
                messages_.push_back(Reader::message_t(
                   'E', 0, begin, "Functor for '" + rhs + "' not available."));
             }
@@ -582,6 +586,8 @@ struct MCTestBuilder {
 
          if (function_id == "shuffleON") {
             if (parList.size() != 0) {
+               LOGE(id_ + ", function '" + function_id +
+                    "' must have 0 parameters!");
                messages_.push_back(Reader::message_t(
                   'E', 0, begin,
                   "Function '" + function_id + "' must have 0 parameters!"));
@@ -591,6 +597,8 @@ struct MCTestBuilder {
             }
          } else {
             parList.clear();
+            LOGE(id_ + ", function '" + std::string(begin, end) +
+                 "' does not exists!");
             messages_.push_back(Reader::message_t(
                'E', 0, begin,
                "Function '" + std::string(begin, end) + "' does not exists!"));
@@ -621,6 +629,8 @@ struct MCTestBuilder {
                      parList.clear();
                   } else {
                      parList.clear();
+                     LOGE(id_ + ", function '" + std::string(begin, end) +
+                          "' does not exists!");
                      messages_.push_back(Reader::message_t(
                         'E', 0, begin,
                         "Function '" + std::string(begin, end) +
@@ -643,6 +653,8 @@ struct MCTestBuilder {
                      parList.clear();
                   } else {
                      parList.clear();
+                     LOGE(id_ + ", function '" + std::string(begin, end) +
+                          "' does not exists!");
                      messages_.push_back(Reader::message_t(
                         'E', 0, begin,
                         "Function '" + std::string(begin, end) +
@@ -651,6 +663,7 @@ struct MCTestBuilder {
                }
             }
          } else {
+            LOGE(id_ + ", function '" + lhs + "' does not exists!");
             messages_.push_back(Reader::message_t(
                'E', 0, begin, "'" + lhs + "' does not exists!"));
          }
@@ -933,8 +946,8 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
 
       using rule_t = bsc::rule<ScannerT>;
 
-      rule_t main, Type, Declaration, MCT, Header, HeaderBlock, Item,
-         ItemBlock, levelAssignment, stemAssignment, Text, Java, APIdoc, Image,
+      rule_t main, Type, Declaration, MCT, Header, HeaderBlock, Item, ItemBlock,
+         levelAssignment, stemAssignment, Text, Java, APIdoc, Image,
          optionAssignment, itemAssignment, Add, AddGenerator, AddFunctorResult,
          AddMemberFunctionResult, AddText, functorCall, localFunctionCall,
          memberFunctionCall, CSV, optionIndex, arglist, id, optionId, textLine,
