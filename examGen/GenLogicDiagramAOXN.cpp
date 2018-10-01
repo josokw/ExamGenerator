@@ -31,7 +31,7 @@ GenLogicDiagramAOXN::GenLogicDiagramAOXN()
    , notF(boost::bind(&GenLogicDiagramAOXN::not_, self(), _1))
    , equF(boost::bind(&GenLogicDiagramAOXN::equ, self(), _1))
 {
-   type_ = "LogicDiagramAOXN";
+   type_ = "GenLogicDiagramAOXN";
    generators_[0]->add(m_pText);
    setPreProOptions("\\begin{multicols}{4}{\n");
    setPostProOptions("\n}\n\\end{multicols}\n");
@@ -178,11 +178,6 @@ GenLogicDiagramAOXN::GenLogicDiagramAOXN()
    addToOptions(m_pO2);
    addToOptions(m_pO3);
    addToOptions(m_pO4);
-}
-
-GenLogicDiagramAOXN::~GenLogicDiagramAOXN()
-{
-   // IGenerator::write(clog) << " ##### DTOR" << endl;
 }
 
 void GenLogicDiagramAOXN::prepare() {}

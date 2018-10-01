@@ -29,7 +29,7 @@ GenOptions::GenOptions()
 
 IGenPtr_t GenOptions::copy() const
 {
-   LOGD(id_);
+   LOGD(type_ + ": " + id_);
    std::shared_ptr<GenOptions> p(new GenOptions(*this));
    for_each(p->generators_.begin(), p->generators_.end(),
             [](IGenPtr_t &pGen) { pGen = pGen->copy(); });
@@ -38,7 +38,7 @@ IGenPtr_t GenOptions::copy() const
 
 void GenOptions::add(IGenPtr_t pGen)
 {
-   LOGD(id_);
+   LOGD(type_ + ": " + id_);
    try {
       if (std::shared_ptr<GenOption> pOption =
              std::dynamic_pointer_cast<GenOption>(pGen)) {
@@ -55,7 +55,7 @@ void GenOptions::add(IGenPtr_t pGen)
 
 void GenOptions::generate(std::ostream &os)
 {
-   LOGD(id_);
+   LOGD(type_ + ": " + id_);
    if (!preProcessing_.empty()) {
       os << preProcessing_ << "\n";
    }
@@ -91,6 +91,8 @@ void GenOptions::add(std::shared_ptr<GenOption> &pOption, bool isCorrect)
 
 void GenOptions::shuffle()
 {
+   LOGD(type_ + ": " + id_);
+
    static Random R(10);
 
    //    for (auto &gen : GenComposite::getGenerators()) {
@@ -110,6 +112,7 @@ void GenOptions::shuffle()
 
 void GenOptions::sort()
 {
+   LOGD(type_ + ": " + id_);
    std::stable_sort(begin(GenComposite::getGenerators()),
                     end(GenComposite::getGenerators()), lessLength);
 }

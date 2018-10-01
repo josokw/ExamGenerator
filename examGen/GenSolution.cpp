@@ -18,7 +18,7 @@ GenSolution::GenSolution(GenExam *pExam)
 
 IGenPtr_t GenSolution::copy() const
 {
-   LOGD(id_);
+   LOGD(type_ + ": " + id_);
    std::shared_ptr<GenSolution> p(new GenSolution(*this));
    return p;
 }
@@ -38,7 +38,7 @@ std::ostream &GenSolution::write(std::ostream &os, int Level) const
 
 void GenSolution::prepare()
 {
-   LOGD(id_);
+   LOGD(type_ + ": " + id_);
    auto size = pExam_->size();
    for (size_t i = 0; i < size; ++i) {
       IGenPtr_t pIGen = (*pExam_)[i];

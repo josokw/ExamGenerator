@@ -71,11 +71,6 @@ GenNestedFor::GenNestedFor()
    addToOptions(m_pO4, "32" == sResultaat);
 }
 
-GenNestedFor::~GenNestedFor()
-{
-   // IGenerator::write(clog) << " ##### DTOR" << endl;
-}
-
 void GenNestedFor::prepare() {}
 
 int GenNestedFor::correctAnswer(int InitValue, int iStart, int jStart, int iMax,

@@ -28,7 +28,7 @@ GenLogicDiagramAON::GenLogicDiagramAON()
    , notF(boost::bind(&GenLogicDiagramAON::not_, self(), _1))
    , equF(boost::bind(&GenLogicDiagramAON::equ, self(), _1))
 {
-   type_ = "LogicDiagramAON";
+   type_ = "GenLogicDiagramAON";
    generators_[0]->add(m_pText);
    setPreProOptions("\\begin{multicols}{4}{\n");
    setPostProOptions("\n}\n\\end{multicols}\n");
@@ -175,11 +175,6 @@ GenLogicDiagramAON::GenLogicDiagramAON()
    addToOptions(m_pO2);
    addToOptions(m_pO3);
    addToOptions(m_pO4);
-}
-
-GenLogicDiagramAON::~GenLogicDiagramAON()
-{
-   // IGenerator::write(clog) << " ##### DTOR" << endl;
 }
 
 // IGenPtr_t GenLogicDiagramAON::copy() const

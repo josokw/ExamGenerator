@@ -20,7 +20,7 @@ class GenLogicDiagramAOXN : public GenItem
 {
 public:
    GenLogicDiagramAOXN();
-   virtual ~GenLogicDiagramAOXN();
+   virtual ~GenLogicDiagramAOXN() = default;
 
    // virtual IGenPtr_t copy();
    // virtual std::ostream& write(std::ostream& os, int Level = 0) const;

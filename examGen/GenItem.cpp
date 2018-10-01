@@ -51,8 +51,7 @@ GenItem::GenItem(const std::string &id)
 
 IGenPtr_t GenItem::copy() const
 {
-   LOGD(id_);
-
+   LOGD(type_ + ": " + id_);
    std::shared_ptr<GenItem> p(new GenItem(*this));
    for_each(p->generators_.begin(), p->generators_.end(),
             [](IGenPtr_t &pGen) { pGen = pGen->copy(); });
@@ -61,8 +60,7 @@ IGenPtr_t GenItem::copy() const
 
 void GenItem::add(IGenPtr_t pGen)
 {
-   LOGD(id_);
-
+   LOGD(type_ + ": " + id_);
    try {
       if (std::shared_ptr<GenStem> pStem =
              std::dynamic_pointer_cast<GenStem>(pGen)) {
@@ -97,8 +95,7 @@ void GenItem::add(IGenPtr_t pGen)
 
 void GenItem::generate(std::ostream &os)
 {
-   LOGD(id_);
-
+   LOGD(type_ + ": " + id_);
    prepare();
 
    os << "\n% Item '" << getID() << "' generation: stem + options";
@@ -113,14 +110,14 @@ void GenItem::generate(std::ostream &os)
    // Generate stem
    os << "\\filbreak\n\\item\n";
    if (generators_[0] == nullptr) {
-      LOGE(id_ + ", generators[0] == nullptr");
+      LOGE(type_ + ": " + id_ + ", generators[0] == nullptr");
    } else {
       generators_[0]->generate(os);
    }
 
    // Generate options
    if (generators_[1] == nullptr) {
-      LOGE(id_ + ", generators[1] == nullptr");
+      LOGE(type_ + ": " + id_ + ", generators[1] == nullptr");
    } else {
       generators_[1]->generate(os);
    }
@@ -133,13 +130,13 @@ void GenItem::generate(std::ostream &os)
 
 void GenItem::setIndex(int index)
 {
+   LOGD(type_ + ": " + id_ + ", index = " + std::to_string(index));
    index_ = index;
 }
 
 void GenItem::addToStem(IGenPtr_t pGen)
 {
-   LOGD(id_);
-
+   LOGD(type_ + ": " + id_);
    try {
       IGenerator *p = pGen.get();
       if (dynamic_cast<GenText *>(p)) {

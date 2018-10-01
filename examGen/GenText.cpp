@@ -28,6 +28,6 @@ std::ostream &GenText::write(std::ostream &os, int Level) const
 
 void GenText::generate(std::ostream &os)
 {
-   LOGD(id_ + ", text = " + text_.substr(0, 15) + "...");
+   LOGD(type_ + ": " + id_ + ", text = " + text_.substr(0, 15) + "...");
    os << '{' << text_ << '}';
 }

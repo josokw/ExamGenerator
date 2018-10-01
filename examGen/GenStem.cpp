@@ -25,6 +25,7 @@ IGenPtr_t GenStem::copy() const
 
 void GenStem::add(IGenPtr_t pGen)
 {
+   LOGD(type_ + ": " + id_);
    try {
       auto *p = pGen.get();
       if (GenText *pText = dynamic_cast<GenText *>(p)) {
@@ -36,7 +37,7 @@ void GenStem::add(IGenPtr_t pGen)
             if (GenAPI *pAPI = dynamic_cast<GenAPI *>(p)) {
                generators_.push_back(pGen);
             } else {
-               LOGE(id_ + ", " + pGen->getType() +
+               LOGE(type_ + ": " + id_ + ", " + pGen->getType() +
                     " generator type not allowed for adding");
                throw std::runtime_error(__AT__ "Type not allowed for adding");
             }
@@ -50,6 +51,7 @@ void GenStem::add(IGenPtr_t pGen)
 
 void GenStem::generate(std::ostream &os)
 {
+   LOGD(type_ + ": " + id_);
    for (auto &gen : generators_) {
       if (gen == nullptr) {
          LOGE(id_ + ", gen == nullptr");

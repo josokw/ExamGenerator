@@ -26,32 +26,30 @@ GenExam::GenExam(std::vector<message_t> &messages)
 {
    type_ = "GenExam";
    ++nExams_s;
-
    LOGD(id_ + ", initialised, nExams_s = " + std::to_string(nExams_s));
 }
 
 GenExam::~GenExam()
 {
    --nExams_s;
-
    LOGD(id_ + ", nExams_s = " + std::to_string(nExams_s));
 }
 
 IGenPtr_t GenExam::copy() const
 {
-   LOGD(id_);
-
+   LOGD(type_ + ": " + id_);
    std::shared_ptr<GenExam> p(new GenExam(*this));
    //    for (auto &gen : generators_) {
    //       gen = gen->copy();
    //    }
-   for_each(p->generators_.begin(), p->generators_.end(), [](IGenPtr_t &pGen) {
-      if (pGen == nullptr) {
-         // LOGE(id_ + ", pGen == nullptr");
-      } else {
-         pGen = pGen->copy();
-      }
-   });
+   for_each(p->generators_.begin(), p->generators_.end(),
+            [this](IGenPtr_t &pGen) {
+               if (pGen == nullptr) {
+                  LOGW(type_ + ": " + id_ + ", pGen == nullptr");
+               } else {
+                  pGen = pGen->copy();
+               }
+            });
 
    return p;
 }
@@ -68,7 +66,7 @@ std::ostream &GenExam::write(std::ostream &os, int level) const
 
 void GenExam::add(IGenPtr_t pGen)
 {
-   LOGD(id_);
+   LOGD(type_ + ": " + id_);
 
    try {
       if (auto pHeader = std::dynamic_pointer_cast<GenHeader>(pGen)) {
@@ -76,15 +74,14 @@ void GenExam::add(IGenPtr_t pGen)
             generators_.push_back(pGen);
             HeaderIsAdded = true;
          } else {
-            messages_.push_back(
-               message_t('E', 0, 0,
-                         "A header in MCT '" + getID() + "' is already added"));
+            messages_.push_back(message_t(
+               'E', 0, 0, "A header '" + getID() + "' is already added"));
          }
       } else {
          if (auto pItem = std::dynamic_pointer_cast<GenItem>(pGen)) {
             if (!HeaderIsAdded) {
                messages_.push_back(message_t(
-                  'E', 0, 0, "A header in MCT '" + getID() + "' is missing"));
+                  'E', 0, 0, "A header '" + getID() + "' is missing"));
             }
 
             // Start counting number of correct options, should be >= 1.
@@ -104,11 +101,14 @@ void GenExam::add(IGenPtr_t pGen)
                ++indexLastAddedItem;
                pItem->setIndex(indexLastAddedItem);
                if (nIsCorrect == 0) {
+                  LOGE(id_ + "No option for item '" + pItem->getID() +
+                       "' is correct");
                   messages_.push_back(message_t(
                      'E', 0, 0,
                      "No option for item '" + pItem->getID() + "' is correct"));
                }
             } else {
+               LOGE(id_ + ", no GenOptions object available");
                messages_.push_back(
                   message_t('E', 0, 0, "No GenOptions object available."));
             }
@@ -162,23 +162,22 @@ void GenExam::add(IGenPtr_t pGen)
       }
    }
    catch (std::runtime_error &X) {
-      std::clog << X.what() << std::endl;
+      std::cerr << X.what() << std::endl;
    }
    catch (std::exception &X) {
-      std::clog << X.what() << std::endl;
+      std::cerr << X.what() << std::endl;
    }
 }
 
 void GenExam::setLastItem()
 {
-   LOGD(id_);
-
+   LOGD(type_ + ", " + id_);
    pLastAddedItem->setAsLastItem();
 }
 
 void GenExam::generate(std::ostream &os)
 {
-   LOGD(id_);
+   LOGD(type_ + ": " + id_);
    // GenItem::clearIndexCount();
    if (pLastAddedItem) {
       pLastAddedItem->setAsLastItem();

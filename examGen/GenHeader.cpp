@@ -35,6 +35,7 @@ IGenPtr_t GenHeader::copy() const
 
 void GenHeader::generate(std::ostream &os)
 {
+   LOGD(type_ + ": " + id_);
    os << "\\noindent\n"
       << "\\textbf{\\LARGE " << School << "} \\newline \n"
       << "\\textbf{\\large Course: " << Course << "} \\\\* \n"

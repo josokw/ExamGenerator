@@ -29,11 +29,6 @@ GenTwoC::GenTwoC()
    LOGD(id_ + ", initialised");
 }
 
-GenTwoC::~GenTwoC()
-{
-   LOGD(id_);
-}
-
 void GenTwoC::prepare()
 {
    N_ = -randomProfile_s.generate(s_R0);

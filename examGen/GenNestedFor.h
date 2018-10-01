@@ -14,7 +14,7 @@ class GenNestedFor : public GenItem
 {
 public:
    GenNestedFor();
-   virtual ~GenNestedFor();
+   virtual ~GenNestedFor() = default;
 
    // virtual IGenPtr_t copy();
    // virtual void prepare();

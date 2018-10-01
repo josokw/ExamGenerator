@@ -15,7 +15,7 @@ class GenTwoC : public GenItem
 {
 public:
    GenTwoC();
-   virtual ~GenTwoC();
+   virtual ~GenTwoC() = default;
 
    // virtual IGenPtr_t copy();
    // virtual void generate(std::ostream& os);

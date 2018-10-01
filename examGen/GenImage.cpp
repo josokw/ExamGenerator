@@ -20,6 +20,7 @@ IGenPtr_t GenImage::copy() const
 
 void GenImage::generate(std::ostream &os)
 {
+   LOGD(type_ + ": " + id_);
    os << "\n\\begin{figure}[h]\n\\begin{center} "
          "\\includegraphics[height=50mm]{"
       << fileName_ << "}\n\\end{center} \\end{figure}\n";

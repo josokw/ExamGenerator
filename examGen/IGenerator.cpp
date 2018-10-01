@@ -34,7 +34,7 @@ IGenerator::IGenerator(const std::string &id)
 
 IGenerator::~IGenerator()
 {
-   LOGD(id_);
+   LOGD(type_ + ": " + id_);
 }
 
 void IGenerator::add(IGenPtr_t pGen)

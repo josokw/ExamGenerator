@@ -100,6 +100,7 @@ int RandomProfile::generate(const Random::range_t &range)
 
 int RandomProfile::generate(fullR_t &fullR)
 {
+   LOGD("");
    int result = generate(std::get<0>(fullR));
    int historyDepth = std::get<3>(fullR);
    int historySize = std::get<2>(fullR).size();
