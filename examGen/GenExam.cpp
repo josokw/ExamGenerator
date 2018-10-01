@@ -58,8 +58,6 @@ IGenPtr_t GenExam::copy() const
 
 std::ostream &GenExam::write(std::ostream &os, int level) const
 {
-   LOGD(id_);
-
    IGenerator::write(os, level);
    os << ": size = " << generators_.size() << "\n";
    GenComposite::write(os, level + 1);
@@ -185,7 +183,7 @@ void GenExam::generate(std::ostream &os)
    if (pLastAddedItem) {
       pLastAddedItem->setAsLastItem();
    }
-   os << "% Start of MCT '" << getID() << "' generation\n";
+   os << "% Start of exam '" << getID() << "' generation\n";
    if (nExams_s > 1) {
       os << "\\newpage\n\\setcounter{page}{1}\n\n";
    }
@@ -200,8 +198,5 @@ void GenExam::generate(std::ostream &os)
          gen->generate(os);
       }
    }
-   //    for_each(generators_.begin(), generators_.end(),
-   //             [&os](std::shared_ptr<IGenerator> &gen) { gen->generate(os);
-   //             });
    os << "\n% End of exam '" << getID() << "' generation\n\n";
 }

@@ -27,11 +27,6 @@ GenHeader::GenHeader(const std::string &id)
    LOGD(id_ + ", initialised");
 }
 
-GenHeader::~GenHeader()
-{
-   LOGD(id_);
-}
-
 IGenPtr_t GenHeader::copy() const
 {
    std::shared_ptr<GenHeader> p(new GenHeader(*this));

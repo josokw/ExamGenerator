@@ -10,7 +10,7 @@ class GenAPI : public IGenerator
 public:
    GenAPI(const std::string &returnType, const std::string &signature,
           const std::string &description);
-   virtual ~GenAPI();
+   virtual ~GenAPI() = default;
 
    virtual IGenPtr_t copy() const override;
    virtual void generate(std::ostream &os) override;

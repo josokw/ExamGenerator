@@ -19,11 +19,6 @@ GenSelector::GenSelector(const std::string &id)
    LOGD(id_ + ", initialised");
 }
 
-GenSelector::~GenSelector()
-{
-   LOGD(id_);
-}
-
 IGenPtr_t GenSelector::copy() const
 {
    std::shared_ptr<GenSelector> p(new GenSelector(*this));
@@ -41,7 +36,8 @@ void GenSelector::add(IGenPtr_t pGen)
 
 void GenSelector::selectR(unsigned int n)
 {
-   next_permutation(allGenerators_.begin(), allGenerators_.end());
+   LOGD(id_ + ", n = " + std::to_string(n));
+   next_permutation(begin(allGenerators_), end(allGenerators_));
    generators_.clear();
    for (size_t i = 0; i < allGenerators_.size() && i < n; ++i) {
       generators_.push_back(allGenerators_[i]->copy());

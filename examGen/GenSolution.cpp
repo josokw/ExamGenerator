@@ -16,11 +16,6 @@ GenSolution::GenSolution(GenExam *pExam)
    LOGD(id_ + ", initialised");
 }
 
-GenSolution::~GenSolution()
-{
-   LOGD(id_);
-}
-
 IGenPtr_t GenSolution::copy() const
 {
    LOGD(id_);

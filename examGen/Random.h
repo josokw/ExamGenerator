@@ -1,6 +1,8 @@
 #ifndef RANDOM_H
 #define RANDOM_H
 
+#include "Log.h"
+
 #include <boost/random.hpp>
 #include <boost/random/uniform_int.hpp>
 
@@ -28,6 +30,7 @@ public:
    /// std::random_shuffle(myvector.begin(), myvector.end(), rnd);
    std::ptrdiff_t operator()(std::ptrdiff_t arg)
    {
+      LOGD("arg = " + std::to_string(arg));
       return static_cast<std::ptrdiff_t>(generate());
    }
 };

@@ -14,7 +14,7 @@ class GenSolution : public IGenerator
 {
 public:
    GenSolution(GenExam *pExam);
-   virtual ~GenSolution();
+   virtual ~GenSolution() = default;
 
    virtual IGenPtr_t copy() const override;
    virtual std::ostream &write(std::ostream &os, int level) const override;

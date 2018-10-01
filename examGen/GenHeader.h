@@ -14,7 +14,7 @@ class GenHeader : public IGenerator
 public:
    GenHeader();
    GenHeader(const std::string &id);
-   virtual ~GenHeader();
+   virtual ~GenHeader() = default;
 
    virtual IGenPtr_t copy() const override;
    virtual void generate(std::ostream &os) override;

@@ -17,7 +17,7 @@ public:
    GenComposite();
    GenComposite(const std::string &id);
    GenComposite(const GenComposite &other) = default;
-   virtual ~GenComposite();
+   virtual ~GenComposite() = default;
 
    virtual IGenPtr_t copy() const = 0;
    virtual void add(IGenPtr_t pGen);

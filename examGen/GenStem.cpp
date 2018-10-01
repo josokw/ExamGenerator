@@ -15,11 +15,6 @@ GenStem::GenStem()
    LOGD(id_ + " initialised");
 }
 
-GenStem::~GenStem()
-{
-   LOGD(id_);
-}
-
 IGenPtr_t GenStem::copy() const
 {
    std::shared_ptr<GenStem> p(new GenStem(*this));

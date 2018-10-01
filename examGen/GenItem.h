@@ -21,7 +21,7 @@ class GenItem : public GenComposite
 public:
    GenItem();
    GenItem(const std::string &id);
-   virtual ~GenItem();
+   virtual ~GenItem() = default;
 
    virtual IGenPtr_t copy() const override;
    virtual void add(IGenPtr_t pGen) override;

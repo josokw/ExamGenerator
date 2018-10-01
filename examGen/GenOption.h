@@ -9,7 +9,7 @@ class GenOption : public GenComposite
 {
 public:
    GenOption(const std::string &text);
-   virtual ~GenOption();
+   virtual ~GenOption() = default;
 
    virtual IGenPtr_t copy() const;
    virtual void add(IGenPtr_t pGen) override;

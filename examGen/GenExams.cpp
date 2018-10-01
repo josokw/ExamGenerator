@@ -17,11 +17,7 @@ GenExams::GenExams(std::vector<Reader::message_t> &messages, int nTests)
       GenComposite::add(pExam);
       // cout << *this << endl;
    }
-}
-
-GenExams::~GenExams()
-{
-   IGenerator::write(clog) << " ##### DTOR" << endl;
+   LOGD(id_ + ", intialised");
 }
 
 void GenExams::generate(std::ostream &os)

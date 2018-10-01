@@ -9,7 +9,7 @@ class GenImage : public IGenerator
 {
 public:
    GenImage(const std::string &fileName);
-   virtual ~GenImage();
+   virtual ~GenImage() = default;
 
    virtual IGenPtr_t copy() const override;
    virtual void generate(std::ostream &os) override;

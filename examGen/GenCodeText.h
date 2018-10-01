@@ -10,7 +10,7 @@ class GenCodeText : public IGenerator
 public:
    GenCodeText(const std::string &programmingLanguage,
                const std::string &codeText);
-   virtual ~GenCodeText();
+   virtual ~GenCodeText() = default;
 
    virtual IGenPtr_t copy() const override;
    virtual void generate(std::ostream &os) override;

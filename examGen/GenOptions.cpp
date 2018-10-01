@@ -27,11 +27,6 @@ GenOptions::GenOptions()
    LOGD(id_ + " initialised");
 }
 
-GenOptions::~GenOptions()
-{
-   LOGD(id_);
-}
-
 IGenPtr_t GenOptions::copy() const
 {
    LOGD(id_);

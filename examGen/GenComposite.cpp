@@ -21,11 +21,6 @@ GenComposite::GenComposite(const std::string &id)
    LOGD(id_ + ", initialised");
 }
 
-GenComposite::~GenComposite()
-{
-   LOGD(id_);
-}
-
 void GenComposite::add(IGenPtr_t pGen)
 {
    LOGCW(pGen == nullptr, id_);
@@ -34,7 +29,6 @@ void GenComposite::add(IGenPtr_t pGen)
 
 std::ostream &GenComposite::write(std::ostream &os, int level) const
 {
-   IGenerator::write(os, level);
    os << "\n";
    for (auto &gen : generators_) {
       if (gen == nullptr) {
@@ -49,6 +43,7 @@ std::ostream &GenComposite::write(std::ostream &os, int level) const
 
 void GenComposite::generate(std::ostream &os)
 {
+   LOGD(id_);
    for (auto &gen : generators_) {
       LOGCW(gen == nullptr, id_);
       if (gen != nullptr) {

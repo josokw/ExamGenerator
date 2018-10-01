@@ -11,7 +11,7 @@ class GenStem : public GenComposite
 {
 public:
    GenStem();
-   virtual ~GenStem();
+   virtual ~GenStem() = default;
 
    virtual IGenPtr_t copy() const override;
    virtual void add(IGenPtr_t pGen) override;

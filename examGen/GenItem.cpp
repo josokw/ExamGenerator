@@ -49,11 +49,6 @@ GenItem::GenItem(const std::string &id)
    LOGD(id_ + ", initialised");
 }
 
-GenItem::~GenItem()
-{
-   LOGD(id_);
-}
-
 IGenPtr_t GenItem::copy() const
 {
    LOGD(id_);

@@ -16,7 +16,7 @@ class GenSelector : public GenComposite
 public:
    GenSelector();
    GenSelector(const std::string &id);
-   virtual ~GenSelector();
+   virtual ~GenSelector() = default;
 
    virtual IGenPtr_t copy() const override;
    virtual void add(IGenPtr_t pGen) override;

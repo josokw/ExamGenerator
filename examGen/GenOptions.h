@@ -13,7 +13,7 @@ class GenOptions : public GenComposite
 {
 public:
    GenOptions();
-   virtual ~GenOptions();
+   virtual ~GenOptions() = default;
 
    virtual IGenPtr_t copy() const override;
    virtual void add(IGenPtr_t pGen) override;

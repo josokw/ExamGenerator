@@ -11,7 +11,7 @@ class GenExams : public GenComposite
 {
 public:
    GenExams(std::vector<Reader::message_t> &messages, int nTests = 1);
-   virtual ~GenExams();
+   virtual ~GenExams() = default;
 
    virtual void add(IGenPtr_t pGen) override;
    virtual void generate(std::ostream &os) override;

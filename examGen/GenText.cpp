@@ -10,12 +10,7 @@ GenText::GenText(const std::string &text)
    , text_{text}
 {
    type_ = "GenText";
-   LOGD(id_ + " initialised");
-}
-
-GenText::~GenText()
-{
-   // IGenerator::write(clog) << " ##### DTOR" << endl;
+   LOGD(id_ + ", initialised");
 }
 
 IGenPtr_t GenText::copy() const
@@ -33,5 +28,6 @@ std::ostream &GenText::write(std::ostream &os, int Level) const
 
 void GenText::generate(std::ostream &os)
 {
+   LOGD(id_ + ", text = " + text_.substr(0, 15) + "...");
    os << '{' << text_ << '}';
 }

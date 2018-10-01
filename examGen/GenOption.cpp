@@ -15,11 +15,6 @@ GenOption::GenOption(const std::string &text)
    LOGD(id_ + ", initialised");
 }
 
-GenOption::~GenOption()
-{
-   LOGD(id_);
-}
-
 IGenPtr_t GenOption::copy() const
 {
    std::shared_ptr<GenOption> p(new GenOption(*this));
@@ -40,6 +35,7 @@ void GenOption::add(IGenPtr_t pGen)
                 std::dynamic_pointer_cast<GenCodeText>(pGen)) {
             generators_.push_back(pGen);
          } else {
+            LOGE(id_ + ", added type not allowed");
             throw std::runtime_error(
                __AT__ "GenOption: added type not allowed for adding");
          }
@@ -47,11 +43,13 @@ void GenOption::add(IGenPtr_t pGen)
    }
    catch (std::exception &e) {
       std::clog << e.what() << std::endl;
+      LOGE(id_ + ", " + e.what());
    }
 }
 
 void GenOption::generate(std::ostream &os)
 {
+   LOGD(id_ + ", " + text_.substr(0, 15) + " ...");
    os << text_ << "\n";
    GenComposite::generate(os);
 }

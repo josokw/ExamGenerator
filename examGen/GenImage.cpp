@@ -11,11 +11,6 @@ GenImage::GenImage(const std::string &fileName)
    LOGD(id_ + ", initialised");
 }
 
-GenImage::~GenImage()
-{
-   LOGD(id_);
-}
-
 IGenPtr_t GenImage::copy() const
 {
    LOGD(id_);
