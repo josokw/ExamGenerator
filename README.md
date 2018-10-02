@@ -33,4 +33,4 @@ If the current directory is *build*, use the next command:
 
     ../bin/ExamGenerator -e ../examGenScripts/testDummyExam.exm
 
-A pdf will be generated if no syntax errors has ocuured.
+A pdf will be generated if no syntax errors has occurred.
