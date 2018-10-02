@@ -26,3 +26,11 @@ Use *CMake* and *make* to build the application:
     make
 
 The excutable can be found in the *bin* directory.
+
+## Generating an exam
+
+If the current directory is *build*, use the next command:
+
+    ./bin/ExamGenerator -e ../examGenScripts/testDummyExam.exm
+
+A pdf will be generated if no syntax errors has ocuured.
