@@ -31,6 +31,6 @@ The excutable can be found in the *bin* directory.
 
 If the current directory is *build*, use the next command:
 
-    ./bin/ExamGenerator -e ../examGenScripts/testDummyExam.exm
+    ../bin/ExamGenerator -e ../examGenScripts/testDummyExam.exm
 
 A pdf will be generated if no syntax errors has ocuured.
