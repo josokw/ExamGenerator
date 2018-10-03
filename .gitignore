@@ -52,7 +52,12 @@ CTestTestfile.cmake
 # Executable
 bin/ExamGenerator
 
+# Latex
+*.aux
+*.fls
+*.fdb_latexmk
+examDoc.log
+
 # Loging
 ExamGenerator.log
-
 examGen/IGenerator
