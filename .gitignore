@@ -58,6 +58,9 @@ bin/ExamGenerator
 *.fdb_latexmk
 examDoc.log
 
+# Doxygen
+docs/html/*
+
 # Loging
 ExamGenerator.log
 examGen/IGenerator
