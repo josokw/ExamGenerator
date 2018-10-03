@@ -41,7 +41,6 @@ namespace bsc = boost::spirit::classic;
 
 /// This structure contains all semantic actions of the parser.
 struct MCTestBuilder {
-
    // Errors to check for during the parse
    enum class ERROR {
       NO = 0,

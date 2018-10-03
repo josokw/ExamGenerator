@@ -39,6 +39,7 @@ int main(int argc, char *argv[])
                           "input seed for random generator");
       descr.add_options()("exam,e", bpo::value<std::string>(),
                           "input exam specification file name");
+      descr.add_options()("debug,d", "set logger in debug mode");
       descr.add_options()("hce,c", "execute hard coded exam");
 
       bpo::variables_map var_map;
@@ -64,7 +65,10 @@ int main(int argc, char *argv[])
          std::cerr << "\n\tERROR: input exam specification file name missing\n"
                    << descr << std::endl;
          LOGE("Exam script file name missing in command line");
-         return 1;
+         exit(EXIT_FAILURE);
+      }
+      if (var_map.count("debug")) {
+         //  logger.setDebugMode();
       }
 
       std::cout << "- " << APPNAME << " v" << VERSION << " started in "

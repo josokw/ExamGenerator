@@ -1,10 +1,10 @@
 #include "Log.h"
 #include "Logger.h"
 
-namespace
-{
+// namespace
+// {
   Logger& logger =  Logger::instance();
-}
+// }
 
 void log(const std::string& msg)
 {

@@ -1,7 +1,11 @@
 #ifndef LOG_H
 #define LOG_H
 
+#include "Logger.h"
+
 #include <string>
+
+//extern Logger logger;
 
 #define LOG(msg) log(std::string(__func__) + "() " + msg)
 #define LOGE(msg) log("E    " + std::string(__func__) + "() " + msg)
