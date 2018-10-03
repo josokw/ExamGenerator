@@ -13,7 +13,12 @@ A random generator is used to construct the questions and the answers.
 
 ## Building: using CMake and make
 
-The application needs the Boost Spirit Classic library.
+The application needs the next Boost C++ libraries:
+
+- boost::spirit::classic
+- boost::program_options
+- boost::filesystem
+  
 For generating the pdf document the *pdflatex* application must be available.
 
 Go to the project root directory ExamGenerator.
