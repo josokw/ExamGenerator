@@ -23,7 +23,7 @@ void GenCodeText::generate(std::ostream &os)
 {
    LOGD(id_ + ", code text = " + codeText_.substr(0, 15) + "...");
    os << "\\lstset{ language = " << programmingLanguage_ << "}\n"
-      << "\\begin{lstlisting}\n\n"
+      << "\\begin{lstlisting}\n"
       << codeText_ << " \n"
       << "\\end{lstlisting}\n";
 }
