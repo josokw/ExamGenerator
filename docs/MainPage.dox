@@ -1,0 +1,18 @@
+/** @mainpage ExamGenerator
+*
+* @section intro Introduction
+* ExamGenerator provides the generation of exam test texts based on script input.
+* A multiple choise exam consists of several items: a stem text and several options.
+* ExamGenerator generates the exam text in the intermediate LaTeX format. 
+* <hr>
+* @section notes Release notes
+* release.notes
+* <hr>
+* @section requirements Requirements
+* @verbinclude requirements
+* <hr> 
+* @todo Syntax pecification for the script text in EBNF format.
+* @todo Transforming strings to LaTeX format.
+* <hr>
+* @author Jos Onokiewicz
+*/
