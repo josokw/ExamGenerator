@@ -11,7 +11,7 @@
 * @section requirements Requirements
 * @verbinclude requirements
 * <hr> 
-* @todo Syntax pecification for the script text in EBNF format.
+* @todo Syntax specification for the script text in EBNF format.
 * @todo Transforming strings to LaTeX format.
 * <hr>
 * @author Jos Onokiewicz
