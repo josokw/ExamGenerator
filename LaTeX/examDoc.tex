@@ -1,4 +1,4 @@
-\documentclass[a4paper,11pt,twoside]{article}
+\documentclass[a4paper,12pt,twoside]{article}
 
 \usepackage[left=2.5cm,top=2cm,right=2cm,bottom=2cm]{geometry} 
 \usepackage{graphicx}
@@ -10,16 +10,16 @@
 \usepackage{listings, color, times}
 \usepackage[dutch]{babel}
 \usepackage{enumitem,cancel}
-
 \usepackage{pstricks, pst-node}
 \newpsobject{showgrid}{psgrid}{subgriddiv=1,griddots=10,gridlabels=6pt}
 \usepackage[basic, box, gate, ic]{circ}
-
 \usepackage{palatino, url, multicol}
 
 \setlist{leftmargin=25pt,rightmargin=25pt,labelindent=15pt}
+
+% \setlist{enumerate}[font=\bfseries]
  
-\definecolor{lightgray}{rgb}{0.95,0.95,0.95}
+\definecolor{lightgray}{rgb}{0.94,0.94,0.94}
 
 \renewcommand{\labelenumi}{\Alph{enumi}.}
 
@@ -32,9 +32,10 @@
    showstringspaces=false,
    backgroundcolor=\color{lightgray},
    frame=single,
-   framesep=26pt,
-   xleftmargin=10mm,
-   framexleftmargin=5mm
+   framesep=9pt,
+   xleftmargin=15pt,
+   xrightmargin=15pt,
+   framexleftmargin=5pt
 }
 
 \def\textbox#1#2{
