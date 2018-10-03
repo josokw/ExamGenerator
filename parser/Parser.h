@@ -338,7 +338,7 @@ struct MCTestBuilder {
                         bsc::add(generators_p, id_.c_str(),
                                  std::static_pointer_cast<IGenerator>(pNF));
                      } else {
-
+                        LOGE(id_ + ", type '" + type + "' unknown");
                         messages_.push_back(Reader::message_t(
                            'E', 0, begin, "Type '" + type + "' unknown"));
                      }
@@ -388,6 +388,7 @@ struct MCTestBuilder {
                    dynamic_cast<GenOption *>((*ppIGen).get())) {
                pOption->setIsCorrect();
             } else {
+               LOGE(id_ + ", option '" + lhs + "' could not set to be correct");
                messages_.push_back(Reader::message_t(
                   'E', 0, begin,
                   "Option '" + lhs + "' could not set to be correct"));
@@ -430,6 +431,8 @@ struct MCTestBuilder {
                         bsc::add(generators_p, id_.c_str(),
                                  std::static_pointer_cast<IGenerator>(pI));
                      } else {
+                        LOGE(id_ + ", API '" + rhs +
+                             "' must have 3 parameters!");
                         messages_.push_back(Reader::message_t(
                            'E', 0, begin,
                            "API '" + rhs + "' must have 3 parameters!"));
@@ -484,6 +487,8 @@ struct MCTestBuilder {
                if ((*ppGenLHS)->getType() == "Exams[]") {
                   auto pGenMCTs = static_cast<GenExams *>((*ppGenLHS).get());
                   if (par_ > (pGenMCTs->size() - 1)) {
+                     LOGE(id_ + ",  array index of '" + lhs +
+                          "' exceeds array size.");
                      messages_.push_back(Reader::message_t(
                         'E', 0, begin,
                         "Array index of '" + lhs + "' exceeds array size."));
@@ -501,6 +506,7 @@ struct MCTestBuilder {
                      }
                   }
                } else {
+                  LOGE(id_ + ", " + lhs + "' is not an array type!");
                   messages_.push_back(Reader::message_t(
                      'E', 0, begin, "'" + lhs + "' is not an array type!"));
                }
@@ -532,6 +538,7 @@ struct MCTestBuilder {
          if (auto ppGenRHS = idGeneratorIsAvailable(rhs, begin, end)) {
             if ((*ppGenRHS)->getType() == "GenSelector") {
                if (parList.size() != 1) {
+                  LOGE(id_ + ", functor '" + rhs + "' must have 1 parameter!");
                   messages_.push_back(Reader::message_t(
                      'E', 0, begin,
                      "Functor '" + rhs + "' must have 1 parameter!"));
@@ -541,6 +548,8 @@ struct MCTestBuilder {
                   auto par1 = atoi(parList[0].c_str());
                   if (par1 > pGenSelector->sizeAll()) {
                      par1 = pGenSelector->sizeAll();
+                     LOGW(id_ + ", functor '" + rhs +
+                          "' parameter value limited to size of Selector");
                      messages_.push_back(Reader::message_t(
                         'W', 0, begin,
                         "Functor '" + rhs +
@@ -548,6 +557,8 @@ struct MCTestBuilder {
                   }
                   if (par1 <= 0) {
                      par1 = 0;
+                     LOGE(id_ + ", functor '" + rhs +
+                          "'' must have parameter value > 0 !");
                      messages_.push_back(Reader::message_t(
                         'E', 0, begin,
                         "Functor '" + rhs +
@@ -643,6 +654,8 @@ struct MCTestBuilder {
                   /// @todo Parameter type checking
                   if (function_id == "selectR") {
                      if (parList.size() != 1) {
+                        LOGE(id_ + ", number of parameters '" +
+                             std::string(begin, end) + "' should be 1");
                         messages_.push_back(Reader::message_t(
                            'E', 0, begin,
                            "Number of parameters '" + std::string(begin, end) +
