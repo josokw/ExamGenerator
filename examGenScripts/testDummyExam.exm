@@ -46,16 +46,16 @@
 
 //---------------------------------------------------------------------------------------
 //
-// Dummy exam v0.3: Multiple Choice Test,
+// Dummy exam v0.4: Multiple Choice Test,
 // showing the syntax of the specification script language.
 //
-// ExamGenerator v0.5
+// ExamGenerator v0.4
 //---------------------------------------------------------------------------------------
 //
 // @todo random values generation based on a seed value
 // @todo shuffleON() make random
 // @todo implement level selection
-// @todo replace type Java by CodeText and parameter "java" 
+// @todo replace type Java by CodeText and parameter "java", "c", etc.
 //
 //---------------------------------------------------------------------------------------
 
@@ -67,7 +67,7 @@ Header h1
 	course = "Questionable"; 
 	lecturer = "Code Warrior";
 	date = "October 2018";
-	boxedtext = "This test contains 7 mutiple choice questions.\\ \\"
+	boxedtext = "This test contains 8 mutiple choice questions.\\ \\"
                 "Success!";
 };
 
@@ -77,7 +77,7 @@ Header h2
 	course = "Questionable"; 
 	lecturer = "Code Warrior";
 	date = "November 2018";
-	boxedtext = "This test contains 7 mutiple choice questions.\\"
+	boxedtext = "This test contains 8 mutiple choice questions.\\"
                 "Success!";
 };
 
@@ -229,5 +229,37 @@ Item I7
 };
 
 mct += I7;
+
+//---------------------------------------------------------------------------------------
+
+Item I8
+{
+    level = 1;
+	stem = "Quisque viverra, risus nec lacinia euismod?";
+         
+	Java j1 = "int main()"
+              "{ ";
+	Java j2 = "int main();"
+              "{ ";       
+	Java j3 = "int() main"
+	          "{";
+	Java j4 = "int main"
+	          "{";
+            
+	o[1] = ".";
+	o[1] += j1; 
+	o[2] = ".";
+	o[2] += j2;
+	o[3] = ".";
+	o[3] += j3;
+	o[4] = ".";
+	o[4] += j4;
+
+	o[1] = correct;
+	
+	shuffleON();
+};
+
+mct += I8;
 
 //---------------------------------------------------------------------------------------
