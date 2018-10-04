@@ -411,7 +411,7 @@ struct MCTestBuilder {
             p_actualHeader = pH;
          } else {
             if (type == "Java") {
-               std::shared_ptr<GenCodeText> pJ(new GenCodeText("java", text));
+               std::shared_ptr<GenCodeText> pJ(new GenCodeText("C", text));
                pJ->setID(id_);
                bsc::add(generators_p, id_.c_str(),
                         std::static_pointer_cast<IGenerator>(pJ));
