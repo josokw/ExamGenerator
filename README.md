@@ -20,6 +20,7 @@ The application needs the next Boost C++ libraries:
 - boost::filesystem
   
 For generating the pdf document the *pdflatex* application must be available.
+Install LaTeX: *sudo apt install texlive-full*.
 
 Go to the project root directory ExamGenerator.
 
