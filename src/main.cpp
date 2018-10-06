@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
          std::cerr << "\n\tERROR: input exam specification file name missing\n"
                    << descr << std::endl;
          LOGE("Exam script file name missing in command line");
-         exit(EXIT_FAILURE);
+         exit(EXIT_FAILURE); //================================================>
       }
       if (var_map.count("debug")) {
          //  logger.setDebugMode();
@@ -88,9 +88,9 @@ int main(int argc, char *argv[])
 
       bfs::ofstream LaTeXgeneratedFile(LaTeXgeneratedFileName);
       if (!LaTeXgeneratedFile) {
-         std::cerr << "\n\tERROR: " << LaTeXgeneratedFileName
-                   << " not opened\n\n";
-         exit(EXIT_FAILURE);
+         std::cerr << "\n\tERROR: generated LaTeX file '"
+                   << LaTeXgeneratedFileName << "' does not exists\n\n";
+         exit(EXIT_FAILURE); //================================================>
       }
 
       bfs::ifstream ExamScriptFile(ExamScriptFileName);
@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
               "' does not exists");
          std::cerr << "\n\tERROR: exam script file '"
                    << ExamScriptFileName.string() << "' does not exists\n\n";
-         exit(EXIT_FAILURE);
+         exit(EXIT_FAILURE); //================================================>
       }
 
       if (var_map.count("hce")) {
