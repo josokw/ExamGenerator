@@ -95,8 +95,10 @@ int main(int argc, char *argv[])
 
       bfs::ifstream ExamScriptFile(ExamScriptFileName);
       if (!ExamScriptFile) {
-         std::cerr << "\n\tERROR: exam script file '" << ExamScriptFileName
-                   << "' not opened\n\n";
+         LOGE("Exam script file '" + ExamScriptFileName.string() +
+              "' does not exists");
+         std::cerr << "\n\tERROR: exam script file '"
+                   << ExamScriptFileName.string() << "' does not exists\n\n";
          exit(EXIT_FAILURE);
       }
 
