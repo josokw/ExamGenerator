@@ -24,6 +24,8 @@
 namespace bpo = boost::program_options;
 namespace bfs = boost::filesystem;
 
+/// @todo Implement generating answers pdf document.
+/// @todo Implement command line parameter -d setting logger in debug mode.
 int main(int argc, char *argv[])
 {
    try {
@@ -48,11 +50,11 @@ int main(int argc, char *argv[])
       LOGI("Current dir: " + currentInitialDir.string());
 
       if (var_map.count("help")) {
-         std::clog << descr << std::endl;
+         std::cout << descr << std::endl;
          return 0;
       }
       if (var_map.count("version")) {
-         std::clog << APPNAME " v" VERSION << std::endl;
+         std::cout << APPNAME " v" VERSION << std::endl;
          return 0;
       }
       if (var_map.count("seed")) {
@@ -61,6 +63,7 @@ int main(int argc, char *argv[])
       }
       if (var_map.count("exam")) {
          ExamScriptFileName = var_map["exam"].as<std::string>();
+         LOGI("Exam script = " + ExamScriptFileName.string());
       } else {
          std::cerr << "\n\tERROR: input exam specification file name missing\n"
                    << descr << std::endl;
@@ -68,6 +71,7 @@ int main(int argc, char *argv[])
          exit(EXIT_FAILURE); //================================================>
       }
       if (var_map.count("debug")) {
+         LOGI("LOGGER in debug mode");
          //  logger.setDebugMode();
       }
 
@@ -75,21 +79,45 @@ int main(int argc, char *argv[])
                 << currentInitialDir << std::endl;
 
       const bfs::path LaTeXoutputDir(".");
-      const bfs::path LaTeXgeneratedFileName(LaTeXoutputDir /
-                                             "generatedExam.tex");
-      LOGI("Generated LaTex file: " +
-           (LaTeXoutputDir / "generatedExam.tex").string());
+      const bfs::path LaTeXgeneratedExamFileName(LaTeXoutputDir /
+                                                 "generatedExam.tex");
+      const bfs::path LaTeXgeneratedExamAnswersFileName(
+         LaTeXoutputDir / "generatedExamAnswers.tex");
 
-      const bfs::path LaTeXdocFileName(EXAM_LATEX_FILENAME);
-      const std::string LaTeXcommand(
+      LOGI("Generated LaTex exam file: " +
+           (LaTeXoutputDir / "generatedExam.tex").string());
+      LOGI("Generated LaTex exam answers file: " +
+           (LaTeXoutputDir / "generatedExamAnswers.tex").string());
+
+      const bfs::path LaTeXdocExamFileName(EXAM_LATEX_FILENAME);
+      const bfs::path LaTeXdocExamAnswersFileName(EXAM_ANSWERS_LATEX_FILENAME);
+
+      const std::string LaTeXcommandExam(
          "pdflatex -enable-write18 \"-output-directory=" +
          LaTeXoutputDir.string() + "\" " +
-         (LaTeXoutputDir / LaTeXdocFileName).string());
+         (LaTeXoutputDir / LaTeXdocExamFileName).string());
+      const std::string LaTeXcommandExamAnswers(
+         "pdflatex -enable-write18 \"-output-directory=" +
+         LaTeXoutputDir.string() + "\" " +
+         (LaTeXoutputDir / LaTeXdocExamAnswersFileName).string());
 
-      bfs::ofstream LaTeXgeneratedFile(LaTeXgeneratedFileName);
-      if (!LaTeXgeneratedFile) {
-         std::cerr << "\n\tERROR: generated LaTeX file '"
-                   << LaTeXgeneratedFileName << "' does not exists\n\n";
+      bfs::ofstream LaTeXgeneratedExamFile(LaTeXgeneratedExamFileName);
+      if (!LaTeXgeneratedExamFile) {
+         LOGE("Generated LaTeX exam file '" +
+              LaTeXgeneratedExamFileName.string() + "' does not exists");
+         std::cerr << "\n\tERROR: generated LaTeX exam file '"
+                   << LaTeXgeneratedExamFileName.string()
+                   << "' does not exists\n\n";
+         exit(EXIT_FAILURE); //================================================>
+      }
+      bfs::ofstream LaTeXgeneratedExamAnswersFile(
+         LaTeXgeneratedExamAnswersFileName);
+      if (!LaTeXgeneratedExamAnswersFile) {
+         LOGE("Generated LaTeX exam answers file '" +
+              LaTeXgeneratedExamAnswersFileName.string() + "' does not exists");
+         std::cerr << "\n\tERROR: generated LaTeX exam answers file '"
+                   << LaTeXgeneratedExamAnswersFileName.string()
+                   << "' does not exists\n\n";
          exit(EXIT_FAILURE); //================================================>
       }
 
@@ -104,36 +132,40 @@ int main(int argc, char *argv[])
 
       if (var_map.count("hce")) {
          LOGI("Hard coded exam");
-         hcExamDummy(LaTeXgeneratedFile);
+         hcExamDummy(LaTeXgeneratedExamFile);
       }
 
       // Start generating exam based on script
       LOGI("Start reading exam script: " + ExamScriptFileName.string());
       Reader reader(ExamScriptFile);
       reader.read();
-      std::vector<std::shared_ptr<GenExams>> scriptedTests(reader.parse());
+
+      auto scriptedTests(reader.parse());
 
       if (!scriptedTests.empty()) {
          std::cout << "- Generating scripted exams" << std::endl;
 
-         LOGI("Start generating LaTeX file: " +
-              LaTeXgeneratedFileName.string());
-         for_each(scriptedTests.begin(), scriptedTests.end(),
-                  [&LaTeXgeneratedFile](std::shared_ptr<GenExams> &st) {
-                     st->generate(LaTeXgeneratedFile);
-                  });
+         LOGI("Start generating LaTeX exam file: " +
+              LaTeXgeneratedExamFileName.string());
+         for (auto &st : scriptedTests) {
+            st->generate(LaTeXgeneratedExamFile);
+         }
 
-         LaTeXgeneratedFile.close();
-         LOGI("Generated LaTeX file: " + LaTeXgeneratedFileName.string());
+         LaTeXgeneratedExamFile.close();
+         LaTeXgeneratedExamAnswersFile.close();
+         LOGI("Generated LaTeX file: " + LaTeXgeneratedExamFileName.string());
 
          std::cout << "- LaTeX file generated\n";
          std::cout << "- Started PDF exam file generation\n";
-         LOGI("LaTeX to pdf command: " + LaTeXcommand);
+         LOGI("LaTeX to pdf command: " + LaTeXcommandExam);
          // Generate DVI file
-         system(LaTeXcommand.c_str());
+         system(LaTeXcommandExam.c_str());
          std::cout << "\n- PDF exam file generated\n\n";
+         system(LaTeXcommandExamAnswers.c_str());
+         std::cout << "\n- PDF exam answers file generated\n\n";
       } else {
          std::cout << "\n- No PDF exam file generated\n\n";
+         LOGE("No PDF exam file generated");
       }
    }
    catch (const std::bad_alloc &ba) {

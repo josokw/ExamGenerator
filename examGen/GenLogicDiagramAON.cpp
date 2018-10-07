@@ -1,5 +1,5 @@
-#include "GenCodeText.h"
 #include "GenLogicDiagramAON.h"
+#include "GenCodeText.h"
 #include "GenOption.h"
 #include "GenOptions.h"
 #include "GenStem.h"
@@ -16,20 +16,22 @@ std::tuple<Random::range_t, int, std::list<int>, int>
 
 GenLogicDiagramAON::GenLogicDiagramAON()
    : GenItem()
-   , m_pText(new GenText("Wat is de bijbehorende waarheidstabel voor "
-                         "onderstaand logisch schema?"))
+   , m_pText(
+        new GenText("What is the truth table for the next logical expression?"))
+   , codeText_{new GenCodeText{"C", "int result = X;"}}
    , m_pO1()
    , m_pO2()
    , m_pO3()
    , m_pO4()
-   , m_AON(0)
-   , andF(boost::bind(&GenLogicDiagramAON::and_, self(), _1, _2))
-   , orF(boost::bind(&GenLogicDiagramAON::or_, self(), _1, _2))
-   , notF(boost::bind(&GenLogicDiagramAON::not_, self(), _1))
-   , equF(boost::bind(&GenLogicDiagramAON::equ, self(), _1))
+   , m_AON{0}
+   , andF(boost::bind(&GenLogicDiagramAON::and_, this, _1, _2))
+   , orF(boost::bind(&GenLogicDiagramAON::or_, this, _1, _2))
+   , notF(boost::bind(&GenLogicDiagramAON::not_, this, _1))
+   , equF(boost::bind(&GenLogicDiagramAON::equ, this, _1))
 {
    type_ = "GenLogicDiagramAON";
    generators_[0]->add(m_pText);
+   // add(codeText_);
    setPreProOptions("\\begin{multicols}{4}{\n");
    setPostProOptions("\n}\n\\end{multicols}\n");
 
@@ -95,7 +97,8 @@ GenLogicDiagramAON::GenLogicDiagramAON()
       "\\end{picture}\n";
 
    std::shared_ptr<GenText> pLogicD(new GenText(LD));
-   generators_[0]->add(pLogicD);
+   // generators_[0]->add(pLogicD);
+   generators_[0]->add(codeText_);
 
    util::bool3Pars_t logicF(
       boost::bind(&GenLogicDiagramAON::logicD, self(), _1, _2, _3));
@@ -119,7 +122,8 @@ GenLogicDiagramAON::GenLogicDiagramAON()
 
    // New option, not correct
    tt.clear();
-   m_AON = (++m_AON) % 4;
+   ++m_AON;
+   m_AON %= 4;
    truthTable = util::toTruthTable(logicF);
    tt +=
       "\\scriptsize\n\\begin{tabular}{| c | c | c || c |}\n"
@@ -137,13 +141,15 @@ GenLogicDiagramAON::GenLogicDiagramAON()
 
    // New option, not correct
    tt.clear();
-   m_AON = (++m_AON) % 4;
+   ++m_AON;
+   m_AON %= 4;
    truthTable = util::toTruthTable(logicF);
    tt +=
       "\\scriptsize\n\\begin{tabular}{| c | c | c || c |}\n"
       "\\hline\n"
       "X & Y & Z & U\\\\\n"
       "\\hline\n";
+
    for (size_t i = 0; i < truthTable.size(); ++i) {
       tt += truthTable[i] + " \\\\\n";
    }
@@ -155,7 +161,8 @@ GenLogicDiagramAON::GenLogicDiagramAON()
 
    // New option, not correct
    tt.clear();
-   m_AON = (++m_AON) % 4;
+   ++m_AON;
+   m_AON %= 4;
    truthTable = util::toTruthTable(logicF);
    tt +=
       "\\scriptsize\n\\begin{tabular}{| c | c | c ||  c |}\n"

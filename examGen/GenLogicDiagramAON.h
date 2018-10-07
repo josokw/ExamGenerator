@@ -35,6 +35,7 @@ private:
    static int correctAnswer(int OrAnd, int EqNot, int XorOr);
 
    std::shared_ptr<GenText> m_pText;
+   std::shared_ptr<GenCodeText> codeText_;
    std::shared_ptr<GenOption> m_pO1;
    std::shared_ptr<GenOption> m_pO2;
    std::shared_ptr<GenOption> m_pO3;
