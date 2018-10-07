@@ -6,6 +6,7 @@
 #include "GenNull.h"
 #include "GenText.h"
 #include "Log.h"
+#include "Logger.h"
 #include "RandomProfile.h"
 #include "Reader.h"
 #include "hcExam/hcExamDummy.h"
@@ -25,7 +26,6 @@ namespace bpo = boost::program_options;
 namespace bfs = boost::filesystem;
 
 /// @todo Implement generating answers pdf document.
-/// @todo Implement command line parameter -d setting logger in debug mode.
 int main(int argc, char *argv[])
 {
    try {
@@ -71,8 +71,7 @@ int main(int argc, char *argv[])
          exit(EXIT_FAILURE); //================================================>
       }
       if (var_map.count("debug")) {
-         LOGI("LOGGER in debug mode");
-         //  logger.setDebugMode();
+         Logger::instance().setDebugMode();
       }
 
       std::cout << "- " << APPNAME << " v" << VERSION << " started in "
