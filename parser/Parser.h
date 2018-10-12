@@ -11,6 +11,7 @@
 #include "GenItem.h"
 #include "GenLogicDiagramAON.h"
 #include "GenLogicDiagramAOXN.h"
+#include "GenLogicExprAON.h"
 #include "GenNestedFor.h"
 #include "GenOption.h"
 #include "GenSelector.h"
@@ -313,33 +314,40 @@ struct MCTestBuilder {
                      std::static_pointer_cast<IGenerator>(pS));
          } else {
             if (type == "LogicDiagramAON") {
-               std::shared_ptr<GenLogicDiagramAON> pL(new GenLogicDiagramAON);
-               pL->setID(id_);
+               std::shared_ptr<GenLogicDiagramAON> pLD(new GenLogicDiagramAON);
+               pLD->setID(id_);
                bsc::add(generators_p, id_.c_str(),
-                        std::static_pointer_cast<IGenerator>(pL));
+                        std::static_pointer_cast<IGenerator>(pLD));
             } else {
-               if (type == "LogicDiagramAOXN") {
-                  std::shared_ptr<GenLogicDiagramAOXN> pL(
-                     new GenLogicDiagramAOXN);
-                  pL->setID(id_);
+               if (type == "LogicExprAON") {
+                  std::shared_ptr<GenLogicExprAON> pLE(new GenLogicExprAON);
+                  pLE->setID(id_);
                   bsc::add(generators_p, id_.c_str(),
-                           std::static_pointer_cast<IGenerator>(pL));
+                           std::static_pointer_cast<IGenerator>(pLE));
                } else {
-                  if (type == "TwoC") {
-                     std::shared_ptr<GenTwoC> pTC(new GenTwoC);
-                     pTC->setID(id_);
+                  if (type == "LogicDiagramAOXN") {
+                     std::shared_ptr<GenLogicDiagramAOXN> pL(
+                        new GenLogicDiagramAOXN);
+                     pL->setID(id_);
                      bsc::add(generators_p, id_.c_str(),
-                              std::static_pointer_cast<IGenerator>(pTC));
+                              std::static_pointer_cast<IGenerator>(pL));
                   } else {
-                     if (type == "NestedFor") {
-                        std::shared_ptr<GenNestedFor> pNF(new GenNestedFor);
-                        pNF->setID(id_);
+                     if (type == "TwoC") {
+                        std::shared_ptr<GenTwoC> pTC(new GenTwoC);
+                        pTC->setID(id_);
                         bsc::add(generators_p, id_.c_str(),
-                                 std::static_pointer_cast<IGenerator>(pNF));
+                                 std::static_pointer_cast<IGenerator>(pTC));
                      } else {
-                        LOGE(id_ + ", type '" + type + "' unknown");
-                        messages_.push_back(Reader::message_t(
-                           'E', 0, begin, "Type '" + type + "' unknown"));
+                        if (type == "NestedFor") {
+                           std::shared_ptr<GenNestedFor> pNF(new GenNestedFor);
+                           pNF->setID(id_);
+                           bsc::add(generators_p, id_.c_str(),
+                                    std::static_pointer_cast<IGenerator>(pNF));
+                        } else {
+                           LOGE(id_ + ", type '" + type + "' unknown");
+                           messages_.push_back(Reader::message_t(
+                              'E', 0, begin, "Type '" + type + "' unknown"));
+                        }
                      }
                   }
                }
@@ -772,7 +780,8 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
 
          // GenMCT
          // 1 Header
-         //    Header: SchoolName + CourseName + LecturerName + Date + BoxedText
+         //    Header: SchoolName + CourseName + LecturerName + Date +
+         //    BoxedText
          // n Items
          //    Item: Stem + 3..5 Options
          //       Stem: Text + Java + APIdoc
@@ -788,6 +797,7 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
             bsc::end_p[pb.endOfSpec];
 
          Type = (bsc::strlit<>("Selector") | bsc::strlit<>("LogicDiagramAON") |
+                 bsc::strlit<>("LogicExprAON") |
                  bsc::strlit<>("LogicDiagramAOXN") | bsc::strlit<>("TwoC") |
                  bsc::strlit<>("NestedFor"))[bsc::assign_a(pb.type)];
 
@@ -877,8 +887,8 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
 
          /*levelAssignment =
          (bsc::strlit<>("level")[bsc::assign_a(pb.type)] >>
-         id[bsc::assign_a(pb.lhs)][bsc::assign_a(pb.id_)] >> assignment_op >> >>
-         SEMI)[pb.assignment]
+         id[bsc::assign_a(pb.lhs)][bsc::assign_a(pb.id_)] >> assignment_op >>
+         >> SEMI)[pb.assignment]
          ;*/
 
          itemAssignment = assignment_op >> id[bsc::assign_a(pb.rhs)] >>

@@ -1,12 +1,11 @@
-#include "GenCodeText.h"
 #include "GenLogicExprAON.h"
+#include "GenCodeText.h"
 #include "GenOption.h"
 #include "GenOptions.h"
 #include "GenStem.h"
 #include "GenText.h"
 #include "LaTeX.h"
-
-#include <boost/tuple/tuple.hpp>
+#include "Log.h"
 
 #include <sstream>
 #include <tuple>
@@ -14,96 +13,77 @@
 using namespace std;
 
 std::tuple<Random::range_t, int, std::list<int>, int>
-   GenLogicExprAON::s_R0(Random::range_t(0, 3), 0, std::list<int>(), 3);
+   GenLogicExprAON::R0_s(Random::range_t(0, 3), 0, std::list<int>(), 3);
 
 GenLogicExprAON::GenLogicExprAON()
-   : GenItem()
-   , m_pText(
-        new GenText("What is the truth table for the next logical expression?"))
-   , codeText_{new GenCodeText{"C", "int result = X;"}}
-   , m_pO1()
-   , m_pO2()
-   , m_pO3()
-   , m_pO4()
-   , m_AON{0}
-   , andF(boost::bind(&GenLogicExprAON::and_, this, _1, _2))
-   , orF(boost::bind(&GenLogicExprAON::or_, this, _1, _2))
-   , notF(boost::bind(&GenLogicExprAON::not_, this, _1))
-   , equF(boost::bind(&GenLogicExprAON::equ, this, _1))
+   : GenItem{}
+   , pText_{new GenText(
+        "\\needspace{6cm} The variables $x$, $y$, $z$ and $result$ are all "
+        "int typed. True equals 1 and false equals 0. What is the truth table "
+        "for the next logical expression?")}
+   , codeText_{nullptr}
+   , pO1_{}
+   , pO2_{}
+   , pO3_{}
+   , pO4_{}
+   , AON_{0}
+   , andF_(std::bind(&GenLogicExprAON::and_, this, std::placeholders::_1,
+                     std::placeholders::_2))
+   , orF_(std::bind(&GenLogicExprAON::or_, this, std::placeholders::_1,
+                    std::placeholders::_2))
+   , notF_(std::bind(&GenLogicExprAON::not_, this, std::placeholders::_1))
+   , equF_(std::bind(&GenLogicExprAON::equ_, this, std::placeholders::_1))
 {
    type_ = "GenLogicExprAON";
-   generators_[0]->add(m_pText);
-   // add(codeText_);
+   generators_[0]->add(pText_);
    setPreProOptions("\\begin{multicols}{4}{\n");
    setPostProOptions("\n}\n\\end{multicols}\n");
 
-   m_AON = randomProfile_s.generate(s_R0);
+   AON_ = randomProfile_s.generate(R0_s);
 
-   string LD(
-      "\n\\\\\n"
-      "\\ifx\\JPicScale\\undefined\\def\\JPicScale{1}\\fi\n"
-      "\\def\\JPicScale{0.55}\n"
-      "\\unitlength \\JPicScale mm\n"
-      "\\begin{picture}(135,65)(0,0)\n"
-      "\\linethickness{0.4mm}\n"
+   std::string logicExpr{};
 
-      "\\put(5,55){\\makebox(0,0)[cc]{X}}\n"
-      "\\put(10,55){\\line(1,0){10}}\n"
-      "\\put(5,45){\\makebox(0,0)[cc]{Y}}\n"
-      "\\put(10,45){\\line(1,0){10}}\n"
-      "\\put(5,20){\\makebox(0,0)[cc]{Z}}\n"
-      "\\put(10,20){\\line(1,0){10}}\n"
-      "\\put(135,50){\\makebox(0,0)[cc]{U}}\n");
-
-   switch (m_AON) {
+   switch (AON_) {
       case 0:
          // ANOE
-         LD += latex::LogicBlock("AND", 20, 40, 20);
-         LD += latex::LogicBlock("NOT", 20, 10, 20);
-         LD += latex::LogicBlock("OR", 60, 40, 20);
-         LD += latex::LogicEquate(100, 50, 20);
+         logicExpr = "int result = (x && y) || (!z);";
+         //    LD += latex::LogicBlock("AND", 20, 40, 20);
+         //    LD += latex::LogicBlock("NOT", 20, 10, 20);
+         //    LD += latex::LogicBlock("OR", 60, 40, 20);
+         //    LD += latex::LogicEquate(100, 50, 20);
          break;
       case 1:
          // ONAE
-         LD += latex::LogicBlock("OR", 20, 40, 20);
-         LD += latex::LogicBlock("NOT", 20, 10, 20);
-         LD += latex::LogicBlock("AND", 60, 40, 20);
-         LD += latex::LogicEquate(100, 50, 20);
+         logicExpr = "int result = (x || y) && (!z);";
+         //    LD += latex::LogicBlock("OR", 20, 40, 20);
+         //    LD += latex::LogicBlock("NOT", 20, 10, 20);
+         //    LD += latex::LogicBlock("AND", 60, 40, 20);
+         //    LD += latex::LogicEquate(100, 50, 20);
          break;
       case 2:
          // AEON
-         LD += latex::LogicBlock("AND", 20, 40, 20);
-         LD += latex::LogicEquate(20, 20, 20);
-         LD += latex::LogicBlock("OR", 60, 40, 20);
-         LD += latex::LogicBlock("NOT", 100, 40, 20);
+         logicExpr = "int result = !((x && y) || z);";
+         //    LD += latex::LogicBlock("AND", 20, 40, 20);
+         //    LD += latex::LogicEquate(20, 20, 20);
+         //    LD += latex::LogicBlock("OR", 60, 40, 20);
+         //    LD += latex::LogicBlock("NOT", 100, 40, 20);
          break;
       case 3:
          // OEAN
-         LD += latex::LogicBlock("OR", 20, 40, 20);
-         LD += latex::LogicEquate(20, 20, 20);
-         LD += latex::LogicBlock("AND", 60, 40, 20);
-         LD += latex::LogicBlock("NOT", 100, 40, 20);
+         logicExpr = "int result = !((x || y) && z)";
+         //    LD += latex::LogicBlock("OR", 20, 40, 20);
+         //    LD += latex::LogicEquate(20, 20, 20);
+         //    LD += latex::LogicBlock("AND", 60, 40, 20);
+         //    LD += latex::LogicBlock("NOT", 100, 40, 20);
          break;
    }
 
-   LD +=
-      "\\put(40,50){\\line(1,0){10}}\n"
-      "\\put(50,50){\\line(0,1){5}}\n"
-      "\\put(50,55){\\line(1,0){10}}\n"
-      "\\put(40,20){\\line(1,0){10}}\n"
-      "\\put(50,20){\\line(0,1){25}}\n"
-      "\\put(50,45){\\line(1,0){10}}\n"
-      "\\put(50,45){\\line(1,0){10}}\n"
-      "\\put(80,50){\\line(1,0){20}}\n"
-      "\\put(120,50){\\line(1,0){10}}\n"
-      "\\end{picture}\n";
-
-   std::shared_ptr<GenText> pLogicD(new GenText(LD));
-   // generators_[0]->add(pLogicD);
-   generators_[0]->add(codeText_);
+   std::shared_ptr<GenCodeText> pLogicExpr(new GenCodeText("C", logicExpr));
+   generators_[0]->add(pLogicExpr);
 
    util::bool3Pars_t logicF(
-      boost::bind(&GenLogicExprAON::logicD, self(), _1, _2, _3));
+      std::bind(&GenLogicExprAON::logicD_, this, std::placeholders::_1,
+                std::placeholders::_2, std::placeholders::_3));
    std::vector<std::string> truthTable = util::toTruthTable(logicF);
    string tt;
 
@@ -111,7 +91,7 @@ GenLogicExprAON::GenLogicExprAON()
    tt +=
       "\\scriptsize\n\\begin{tabular}{| c | c | c || c |}\n"
       "\\hline\n"
-      "X & Y & Z & U\\\\\n"
+      "x & y & z & result\\\\\n"
       "\\hline\n";
    for (size_t i = 0; i < truthTable.size(); ++i) {
       tt += truthTable[i] + " \\\\\n";
@@ -120,17 +100,17 @@ GenLogicExprAON::GenLogicExprAON()
       "\\hline\n"
       "\\end{tabular}\n"
       "\\normalsize\n";
-   m_pO1 = std::shared_ptr<GenOption>(new GenOption(tt));
+   pO1_ = std::shared_ptr<GenOption>(new GenOption(tt));
 
    // New option, not correct
    tt.clear();
-   ++m_AON;
-   m_AON %= 4;
+   ++AON_;
+   AON_ %= 4;
    truthTable = util::toTruthTable(logicF);
    tt +=
       "\\scriptsize\n\\begin{tabular}{| c | c | c || c |}\n"
       "\\hline\n"
-      "X & Y & Z & U\\\\\n"
+      "x & y & z & result\\\\\n"
       "\\hline\n";
    for (size_t i = 0; i < truthTable.size(); ++i) {
       tt += truthTable[i] + " \\\\\n";
@@ -139,17 +119,17 @@ GenLogicExprAON::GenLogicExprAON()
       "\\hline\n"
       "\\end{tabular}\n"
       "\\normalsize\n";
-   m_pO2 = std::shared_ptr<GenOption>(new GenOption(tt));
+   pO2_ = std::shared_ptr<GenOption>(new GenOption(tt));
 
    // New option, not correct
    tt.clear();
-   ++m_AON;
-   m_AON %= 4;
+   ++AON_;
+   AON_ %= 4;
    truthTable = util::toTruthTable(logicF);
    tt +=
       "\\scriptsize\n\\begin{tabular}{| c | c | c || c |}\n"
       "\\hline\n"
-      "X & Y & Z & U\\\\\n"
+      "x & y & z & result\\\\\n"
       "\\hline\n";
 
    for (size_t i = 0; i < truthTable.size(); ++i) {
@@ -159,17 +139,17 @@ GenLogicExprAON::GenLogicExprAON()
       "\\hline\n"
       "\\end{tabular}\n"
       "\\normalsize\n";
-   m_pO3 = std::shared_ptr<GenOption>(new GenOption(tt));
+   pO3_ = std::shared_ptr<GenOption>(new GenOption(tt));
 
    // New option, not correct
    tt.clear();
-   ++m_AON;
-   m_AON %= 4;
+   ++AON_;
+   AON_ %= 4;
    truthTable = util::toTruthTable(logicF);
    tt +=
       "\\scriptsize\n\\begin{tabular}{| c | c | c ||  c |}\n"
       "\\hline\n"
-      "X & Y & Z & U\\\\\n"
+      "x & y & z & result\\\\\n"
       "\\hline\n";
    for (size_t i = 0; i < truthTable.size(); ++i) {
       tt += truthTable[i] + "\\\\\n";
@@ -178,58 +158,53 @@ GenLogicExprAON::GenLogicExprAON()
       "\\hline\n"
       "\\end{tabular}\n"
       "\\normalsize\n";
-   m_pO4 = std::shared_ptr<GenOption>(new GenOption(tt));
+   pO4_ = std::shared_ptr<GenOption>(new GenOption(tt));
 
-   addToOptions(m_pO1, true);
-   addToOptions(m_pO2);
-   addToOptions(m_pO3);
-   addToOptions(m_pO4);
+   addToOptions(pO1_, true);
+   addToOptions(pO2_);
+   addToOptions(pO3_);
+   addToOptions(pO4_);
+   shuffleON();
+   LOGD(id_ + ", initialised");
 }
-
-// IGenPtr_t GenLogicDiagramAON::copy() const
-//{
-//  std::shared_ptr<GenItem> p(new GenLogicDiagramAON(*this));
-//  //for_each(p->getGenerators().begin(), p->getGenerators().end(),
-//  [](IGenPtr_t& pGen){ pGen = pGen->copy(); } ); return p;
-//}
 
 void GenLogicExprAON::prepare() {}
 
-bool GenLogicExprAON::logicD(bool b1, bool b2, bool b3)
+bool GenLogicExprAON::logicD_(bool b1, bool b2, bool b3)
 {
    util::bool2Pars_t lf1;
    util::bool1Pars_t lf2;
    util::bool2Pars_t lf3;
    util::bool1Pars_t lf4;
 
-   switch (m_AON) {
+   switch (AON_) {
       case 0:
          // ANOE
-         lf1 = andF;
-         lf2 = notF;
-         lf3 = orF;
-         lf4 = equF;
+         lf1 = andF_;
+         lf2 = notF_;
+         lf3 = orF_;
+         lf4 = equF_;
          break;
       case 1:
          // ONAE
-         lf1 = orF;
-         lf2 = notF;
-         lf3 = andF;
-         lf4 = equF;
+         lf1 = orF_;
+         lf2 = notF_;
+         lf3 = andF_;
+         lf4 = equF_;
          break;
       case 2:
          // AEON
-         lf1 = andF;
-         lf2 = equF;
-         lf3 = orF;
-         lf4 = notF;
+         lf1 = andF_;
+         lf2 = equF_;
+         lf3 = orF_;
+         lf4 = notF_;
          break;
       case 3:
          // OEAN
-         lf1 = orF;
-         lf2 = equF;
-         lf3 = andF;
-         lf4 = notF;
+         lf1 = orF_;
+         lf2 = equF_;
+         lf3 = andF_;
+         lf4 = notF_;
          break;
       default:
          break;
