@@ -41,7 +41,7 @@ GenLogicExprAON::GenLogicExprAON()
 
    AON_ = randomProfile_s.generate(R0_s);
 
-   std::string logicExpr{};
+   std::string logicExpr;
 
    switch (AON_) {
       case 0:
@@ -164,7 +164,7 @@ GenLogicExprAON::GenLogicExprAON()
    addToOptions(pO2_);
    addToOptions(pO3_);
    addToOptions(pO4_);
-   shuffleON();
+
    LOGD(id_ + ", initialised");
 }
 
@@ -207,6 +207,8 @@ bool GenLogicExprAON::logicD_(bool b1, bool b2, bool b3)
          lf4 = notF_;
          break;
       default:
+         LOGE(type_ + ": " + id_ + ", AON_ = " + std::to_string(AON_) +
+              " is unknown");
          break;
    }
 

@@ -153,9 +153,8 @@ void GenExam::add(IGenPtr_t pGen)
                                     "generating solution");
                               }
                            } else {
-                                  LOGE(id_ +
-                                      ",  generator '" + pGen->getID() +
-                                 "' type not allowed for adding");
+                              LOGE(id_ + ",  generator '" + pGen->getID() +
+                                   "' type not allowed for adding");
                               throw std::runtime_error(
                                  __AT__ "MCT " + getID() + " generator '" +
                                  pGen->getID() +
@@ -200,7 +199,7 @@ void GenExam::generate(std::ostream &os)
 
    for (auto &gen : generators_) {
       if (gen == nullptr) {
-         LOGE(id_ + ", gen == nulptr");
+         LOGE(type_ + ": " + id_ + ", gen == nulptr");
       } else {
          gen->generate(os);
       }
