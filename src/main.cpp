@@ -83,9 +83,9 @@ int main(int argc, char *argv[])
       const bfs::path LaTeXgeneratedExamAnswersFileName(
          LaTeXoutputDir / "generatedExamAnswers.tex");
 
-      LOGI("Generated LaTex exam file: " +
+      LOGI("Generated LaTeX exam file: " +
            (LaTeXoutputDir / "generatedExam.tex").string());
-      LOGI("Generated LaTex exam answers file: " +
+      LOGI("Generated LaTeX exam answers file: " +
            (LaTeXoutputDir / "generatedExamAnswers.tex").string());
 
       const bfs::path LaTeXdocExamFileName(EXAM_LATEX_FILENAME);
