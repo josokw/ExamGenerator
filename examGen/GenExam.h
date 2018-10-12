@@ -26,7 +26,7 @@ public:
 
    virtual IGenPtr_t copy() const override;
    virtual void add(IGenPtr_t pGen) override;
-   virtual std::ostream &write(std::ostream &os, int Level = 0) const override;
+   virtual std::ostream &write(std::ostream &os, int level = 0) const override;
 
    void setLastItem();
    virtual void generate(std::ostream &os) override;
@@ -34,10 +34,10 @@ public:
 private:
    static int nExams_s;
    std::vector<message_t> &messages_;
-   bool HeaderIsAdded;
-   std::shared_ptr<GenItem> pLastAddedItem;
-   int indexLastAddedItem;
-   std::shared_ptr<GenSolution> pGenSolution;
+   bool headerIsAdded_;
+   std::shared_ptr<GenItem> pLastAddedItem_;
+   int indexLastAddedItem_;
+   std::shared_ptr<GenSolution> pGenSolution_;
 };
 
 #endif

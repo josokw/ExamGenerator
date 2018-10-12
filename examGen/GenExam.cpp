@@ -17,12 +17,12 @@
 int GenExam::nExams_s = 0;
 
 GenExam::GenExam(std::vector<message_t> &messages)
-   : GenComposite()
-   , messages_(messages)
-   , HeaderIsAdded(false)
-   , pLastAddedItem()
-   , indexLastAddedItem(0)
-   , pGenSolution()
+   : GenComposite{}
+   , messages_{messages}
+   , headerIsAdded_{false}
+   , pLastAddedItem_{nullptr}
+   , indexLastAddedItem_{0}
+   , pGenSolution_{nullptr}
 {
    type_ = "GenExam";
    ++nExams_s;
@@ -70,16 +70,18 @@ void GenExam::add(IGenPtr_t pGen)
 
    try {
       if (auto pHeader = std::dynamic_pointer_cast<GenHeader>(pGen)) {
-         if (!HeaderIsAdded) {
+         if (!headerIsAdded_) {
             generators_.push_back(pGen);
-            HeaderIsAdded = true;
+            headerIsAdded_ = true;
          } else {
+            LOGE(id_ + ", a header is already added");
             messages_.push_back(message_t(
                'E', 0, 0, "A header '" + getID() + "' is already added"));
          }
       } else {
          if (auto pItem = std::dynamic_pointer_cast<GenItem>(pGen)) {
-            if (!HeaderIsAdded) {
+            if (!headerIsAdded_) {
+               LOGE(id_ + ", a header is missing");
                messages_.push_back(message_t(
                   'E', 0, 0, "A header '" + getID() + "' is missing"));
             }
@@ -96,10 +98,10 @@ void GenExam::add(IGenPtr_t pGen)
                      }
                   }
                }
-               pLastAddedItem = pItem;
-               generators_.push_back(pLastAddedItem);
-               ++indexLastAddedItem;
-               pItem->setIndex(indexLastAddedItem);
+               pLastAddedItem_ = pItem;
+               generators_.push_back(pLastAddedItem_);
+               ++indexLastAddedItem_;
+               pItem->setIndex(indexLastAddedItem_);
                if (nIsCorrect == 0) {
                   LOGE(id_ + "No option for item '" + pItem->getID() +
                        "' is correct");
@@ -139,15 +141,21 @@ void GenExam::add(IGenPtr_t pGen)
                            if (auto pSol =
                                   std::dynamic_pointer_cast<GenSolution>(
                                      pGen)) {
-                              if (indexLastAddedItem > 0) {
+                              if (indexLastAddedItem_ > 0) {
                                  generators_.push_back(pGen);
                               } else {
+                                 LOGE(id_ +
+                                      ", no items available for generating "
+                                      "solution");
                                  throw std::domain_error(
                                     __AT__ "MCT " + getID() +
                                     " no items available for "
                                     "generating solution");
                               }
                            } else {
+                                  LOGE(id_ +
+                                      ",  generator '" + pGen->getID() +
+                                 "' type not allowed for adding");
                               throw std::runtime_error(
                                  __AT__ "MCT " + getID() + " generator '" +
                                  pGen->getID() +
@@ -172,15 +180,15 @@ void GenExam::add(IGenPtr_t pGen)
 void GenExam::setLastItem()
 {
    LOGD(type_ + ", " + id_);
-   pLastAddedItem->setAsLastItem();
+   pLastAddedItem_->setAsLastItem();
 }
 
 void GenExam::generate(std::ostream &os)
 {
    LOGD(type_ + ": " + id_);
    // GenItem::clearIndexCount();
-   if (pLastAddedItem) {
-      pLastAddedItem->setAsLastItem();
+   if (pLastAddedItem_) {
+      pLastAddedItem_->setAsLastItem();
    }
    os << "% Start of exam '" << getID() << "' generation\n";
    if (nExams_s > 1) {
@@ -197,5 +205,6 @@ void GenExam::generate(std::ostream &os)
          gen->generate(os);
       }
    }
+   LOGI(type_ + ": " + id_ + ", is generated");
    os << "\n% End of exam '" << getID() << "' generation\n\n";
 }
