@@ -3,6 +3,7 @@
 #include "GenOption.h"
 #include "GenStem.h"
 #include "GenText.h"
+#include "Log.h"
 #include "Util.h"
 
 #include <sstream>
@@ -21,7 +22,7 @@ GenNestedFor::GenNestedFor()
 
    auto pText = std::make_shared<GenText>(
       "What is the value of the variable $result$ after "
-      "executing the following code:");
+      "executing the following nested for loop:");
    addToStem(pText);
 
    int initResult = randomProfile_s.generate(s_R0);
@@ -69,14 +70,13 @@ GenNestedFor::GenNestedFor()
    addToOptions(pO2, "8" == sResult);
    addToOptions(pO3, "16" == sResult);
    addToOptions(pO4, "32" == sResult);
+   LOGD(id_ + ", intialised");
 }
 
-void GenNestedFor::prepare() {}
-
-int GenNestedFor::correctAnswer(int initValue, int iStart, int jStart, int iMax,
-                                int jMax)
+int GenNestedFor::correctAnswer(int initResult, int iStart, int jStart,
+                                int iMax, int jMax)
 {
-   int result = initValue;
+   int result = initResult;
 
    for (int i = iStart; i < iMax; i++) {
       for (int j = jStart; j < jMax; j++) {
