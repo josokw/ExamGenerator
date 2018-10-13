@@ -32,13 +32,6 @@ private:
 
    static int correctAnswer(int InitValue, int iStart, int jStart, int iMax,
                             int jMax);
-
-   std::shared_ptr<GenText> pText_;
-   std::shared_ptr<GenCodeText> pCodeText_;
-   std::shared_ptr<GenOption> pO1_;
-   std::shared_ptr<GenOption> pO2_;
-   std::shared_ptr<GenOption> pO3_;
-   std::shared_ptr<GenOption> pO4_;
 };
 
 #endif

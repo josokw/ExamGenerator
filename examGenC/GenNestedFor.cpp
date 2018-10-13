@@ -7,8 +7,6 @@
 
 #include <sstream>
 
-using namespace std;
-
 std::tuple<Random::Random::range_t, int, std::list<int>, int>
    GenNestedFor::s_R0(Random::range_t(1, 2), 0, std::list<int>(), 1);
 std::tuple<Random::Random::range_t, int, std::list<int>, int>
@@ -17,76 +15,74 @@ std::tuple<Random::Random::range_t, int, std::list<int>, int>
    GenNestedFor::s_R2(Random::range_t(2, 3), 0, std::list<int>(), 1);
 
 GenNestedFor::GenNestedFor()
-   : pText_{new GenText("What is the value of the variable $result$ after "
-                        "executing the following code block:")}
-   , pCodeText_{}
-   , pO1_{}
-   , pO2_{}
-   , pO3_{}
-   , pO4_{}
+   : GenItem{}
 {
    type_ = "GenNestedFor";
-   addToStem(pText_);
 
-   int initResultaat = randomProfile_s.generate(s_R0);
+   auto pText = std::make_shared<GenText>(
+      "What is the value of the variable $result$ after "
+      "executing the following code:");
+   addToStem(pText);
+
+   int initResult = randomProfile_s.generate(s_R0);
    int iStart = randomProfile_s.generate(s_R1);
    int jStart = randomProfile_s.generate(s_R2);
    int iMax = iStart + 2;
    int jMax = jStart + 2;
 
-   string sinitResultaat(std::to_string(initResultaat));
-   string siStart(std::to_string(iStart));
-   string sjStart(std::to_string(jStart));
+   std::string sinitResult(std::to_string(initResult));
+   std::string siStart(std::to_string(iStart));
+   std::string sjStart(std::to_string(jStart));
 
-   string siMax{std::to_string(iMax)};
-   string sjMax{std::to_string(jMax)};
+   std::string siMax{std::to_string(iMax)};
+   std::string sjMax{std::to_string(jMax)};
 
-   pCodeText_ = std::shared_ptr<GenCodeText>(
-      new GenCodeText("c",
-                      "int i = 0;\n"
-                      "int j = 0;\n"
-                      "int result = " +
-                         sinitResultaat +
-                         ";\n\n"
-                         "for (i = " +
-                         siStart + "; i < " + siMax +
-                         "; i++)\n"
-                         "{\n"
-                         "   for (j = " +
-                         sjStart + "; j < " + sjMax +
-                         "; j++)\n"
-                         "   {\n"
-                         "      result = result * 2;\n"
-                         "   }\n"
-                         "}\n"));
+   auto pCodeText =
+      std::make_shared<GenCodeText>("c",
+                                    "int i = 0;\n"
+                                    "int j = 0;\n"
+                                    "int result = " +
+                                       sinitResult +
+                                       ";\n\n"
+                                       "for (i = " +
+                                       siStart + "; i < " + siMax +
+                                       "; i++)\n"
+                                       "{\n"
+                                       "   for (j = " +
+                                       sjStart + "; j < " + sjMax +
+                                       "; j++)\n"
+                                       "   {\n"
+                                       "      result = result * 2;\n"
+                                       "   }\n"
+                                       "}\n");
 
-   int Resultaat = correctAnswer(initResultaat, iStart, jStart, iMax, jMax);
-   string sResultaat = std::to_string(Resultaat);
+   addToStem(pCodeText);
 
-   pO1_ = std::shared_ptr<GenOption>(new GenOption("4"));
-   pO2_ = std::shared_ptr<GenOption>(new GenOption("8"));
-   pO3_ = std::shared_ptr<GenOption>(new GenOption("16"));
-   pO4_ = std::shared_ptr<GenOption>(new GenOption("32"));
+   int result = correctAnswer(initResult, iStart, jStart, iMax, jMax);
+   std::string sResult = std::to_string(result);
+   auto pO1 = std::make_shared<GenOption>("4");
+   auto pO2 = std::make_shared<GenOption>("8");
+   auto pO3 = std::make_shared<GenOption>("16");
+   auto pO4 = std::make_shared<GenOption>("32");
 
-   addToStem(pCodeText_);
-   addToOptions(pO1_, "4" == sResultaat);
-   addToOptions(pO2_, "8" == sResultaat);
-   addToOptions(pO3_, "16" == sResultaat);
-   addToOptions(pO4_, "32" == sResultaat);
+   addToOptions(pO1, "4" == sResult);
+   addToOptions(pO2, "8" == sResult);
+   addToOptions(pO3, "16" == sResult);
+   addToOptions(pO4, "32" == sResult);
 }
 
 void GenNestedFor::prepare() {}
 
-int GenNestedFor::correctAnswer(int InitValue, int iStart, int jStart, int iMax,
+int GenNestedFor::correctAnswer(int initValue, int iStart, int jStart, int iMax,
                                 int jMax)
 {
-   int resultaat = InitValue;
+   int result = initValue;
 
    for (int i = iStart; i < iMax; i++) {
       for (int j = jStart; j < jMax; j++) {
-         resultaat = resultaat * 2;
+         result = result * 2;
       }
    }
 
-   return resultaat;
+   return result;
 }
