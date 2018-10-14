@@ -1,14 +1,12 @@
-#include <exception>
-
 #include "AppInfo.h"
 #include "GenExam.h"
 #include "GenExams.h"
 #include "Log.h"
 
-using namespace std;
+#include <exception>
 
 GenExams::GenExams(std::vector<Reader::message_t> &messages, int nTests)
-   : GenComposite()
+   : GenComposite{}
 {
    type_ = "Exams[]";
    for (int i = 0; i < nTests; ++i) {
@@ -31,7 +29,7 @@ void GenExams::generate(std::ostream &os)
 void GenExams::add(IGenPtr_t pGen)
 {
    LOGD(type_ + ": " + id_);
-   
+
    for (size_t i = 0; i < generators_.size(); ++i) {
       generators_[i]->add(pGen->copy());
    }
@@ -47,8 +45,12 @@ std::ostream &GenExams::write(std::ostream &os, int level) const
 
 void GenExams::setID(const std::string &id)
 {
+   LOGD(type_ + ": " + id_ + "' id = " + id);
+
+   int index = 0;
+
    id_ = id;
-   for (size_t i = 0; i < generators_.size(); ++i) {
-      generators_[i]->setID(id + string("[" + string(1, ('0' + i)) + "]"));
+   for (auto &gen : generators_) {
+      gen->setID(id + std::string("[" + std::string(1, ('0' + index++)) + "]"));
    }
 }
