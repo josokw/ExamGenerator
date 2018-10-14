@@ -45,6 +45,8 @@ void GenOptions::add(IGenPtr_t pGen)
              std::dynamic_pointer_cast<GenOption>(pGen)) {
          generators_.push_back(pGen);
       } else {
+         LOGE(type_ + ": " + id_ + ", " + pGen->getID() +
+              " not allowed for adding");
          throw std::runtime_error(
             __AT__ "GenOptions: added type not allowed for adding");
       }
@@ -62,15 +64,16 @@ void GenOptions::generate(std::ostream &os)
       os << preProcessing_ << "\n";
    }
    // Generate options
-   os << "\n\\begin{enumerate}[label=\\Alph*.]\n";
-   for (size_t i = 0; i < generators_.size(); ++i) {
+   os << "\n\\begin{enumerate}[label=\\textcircled{\\scriptsize\\Alph*}]\n";
+   for (auto &gen : generators_) {
       os << "\\item\n";
-      if (generators_[i] != nullptr) {
-         generators_[i]->generate(os);
+      if (gen != nullptr) {
+         gen->generate(os);
       } else {
-         LOGE(id_ + ", generators_[i] == nullptr");
+         LOGE(id_ + ", gen == nullptr");
       }
    }
+
    os << "\\end{enumerate}\n\\vskip 5mm\n";
    if (!postProcessing_.empty()) {
       os << postProcessing_ << "\n";
@@ -97,19 +100,8 @@ void GenOptions::shuffle()
 
    static Random R(10);
 
-   //    for (auto &gen : GenComposite::getGenerators()) {
-   //       std::cerr << gen->getID() << std::endl;
-   //    }
-
-   //    std::random_shuffle(GenComposite::getGenerators().begin(),
-   //                        GenComposite::getGenerators().end(), R);
-
    std::random_shuffle(begin(GenComposite::getGenerators()),
-                       end(GenComposite::getGenerators()));
-
-   //    for (auto &gen : GenComposite::getGenerators()) {
-   //       std::cerr << gen->getID() << std::endl;
-   //    }
+                       end(GenComposite::getGenerators()), R);
 }
 
 void GenOptions::sort()
