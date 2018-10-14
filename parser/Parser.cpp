@@ -1,4 +1,5 @@
 #include "Parser.h"
+#include "Log.h"
 
 int line = 0;
 
@@ -40,7 +41,8 @@ IGenPtr_t *MCTestBuilder::idGeneratorIsAvailable(const std::string &id,
    return ppIGen;
 }
 
-// Error functions
+/// Error messages
+/// @bug line number is not correct.
 void MCTestBuilder::do_errorMessage(const char *begin, const char * /* end*/)
 {
    switch (error) {
@@ -62,7 +64,9 @@ void MCTestBuilder::do_errorMessage(const char *begin, const char * /* end*/)
          messages_.push_back(Reader::message_t('E', 0, begin, "; expected."));
          break;
       default:
+         LOGE("line = " + std::to_string(line) + " unknown error code");
          messages_.push_back(
             Reader::message_t('S', 0, begin, "Unknown error code"));
+         break;
    }
 }

@@ -4,24 +4,17 @@
 #include "Log.h"
 
 GenHeader::GenHeader()
-   : IGenerator()
-   , School("SCHOOL")
-   , Course("Course")
-   , Lecturer("Lecturer")
-   , Date("Future")
-   , BoxedText("")
+   : GenHeader{"NOT-DEFINED"}
 {
-   type_ = "GenHeader";
-   LOGD("initialised");
 }
 
 GenHeader::GenHeader(const std::string &id)
-   : IGenerator(id)
-   , School("SCHOOL")
-   , Course("Course")
-   , Lecturer("Lecturer")
-   , Date("Future")
-   , BoxedText("")
+   : IGenerator{id}
+   , School{}
+   , Course{}
+   , Lecturer{}
+   , Date{}
+   , BoxedText{}
 {
    type_ = "GenHeader";
    LOGD(id_ + ", initialised");
@@ -36,11 +29,13 @@ IGenPtr_t GenHeader::copy() const
 void GenHeader::generate(std::ostream &os)
 {
    LOGD(type_ + ": " + id_);
+
    os << "\\noindent\n"
       << "\\textbf{\\LARGE " << School << "} \\newline \n"
       << "\\textbf{\\large Course: " << Course << "} \\\\* \n"
       << "\\textbf{\\large Lecturer(s): " << Lecturer << "} \\\\* \n"
       << "\\textbf{\\large Time: " << Date << "} \\\\* [0.3cm] \n";
+
    if (!BoxedText.empty()) {
       os << "\\textbox{0.5cm}{\\noindent " << BoxedText << " }\n";
    }

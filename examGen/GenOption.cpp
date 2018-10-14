@@ -26,6 +26,7 @@ IGenPtr_t GenOption::copy() const
 void GenOption::add(IGenPtr_t pGen)
 {
    LOGD(type_ + ": " + id_);
+
    try {
       if (std::shared_ptr<GenText> pText =
              std::dynamic_pointer_cast<GenText>(pGen)) {
@@ -50,6 +51,7 @@ void GenOption::add(IGenPtr_t pGen)
 void GenOption::generate(std::ostream &os)
 {
    LOGD(type_ + ": " + id_ + ", " + text_.substr(0, 15) + " ...");
+   
    os << text_ << "\n";
    GenComposite::generate(os);
 }

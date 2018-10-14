@@ -1,11 +1,10 @@
-#include <algorithm>
-#include <boost/pointer_cast.hpp>
-#include <string>
-
+#include "GenOptions.h"
 #include "ExcInfo.h"
 #include "GenOption.h"
-#include "GenOptions.h"
 #include "Log.h"
+
+#include <algorithm>
+#include <string>
 
 namespace {
 
@@ -19,7 +18,7 @@ bool lessLength(IGenPtr_t i1, IGenPtr_t i2)
 } // namespace
 
 GenOptions::GenOptions()
-   : GenComposite()
+   : GenComposite{}
    , preProcessing_{}
    , postProcessing_{}
 {
@@ -30,6 +29,7 @@ GenOptions::GenOptions()
 IGenPtr_t GenOptions::copy() const
 {
    LOGD(type_ + ": " + id_);
+
    std::shared_ptr<GenOptions> p(new GenOptions(*this));
    for_each(p->generators_.begin(), p->generators_.end(),
             [](IGenPtr_t &pGen) { pGen = pGen->copy(); });
@@ -38,7 +38,8 @@ IGenPtr_t GenOptions::copy() const
 
 void GenOptions::add(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_ + ", to add " + pGen->getID());
+
    try {
       if (std::shared_ptr<GenOption> pOption =
              std::dynamic_pointer_cast<GenOption>(pGen)) {
@@ -56,6 +57,7 @@ void GenOptions::add(IGenPtr_t pGen)
 void GenOptions::generate(std::ostream &os)
 {
    LOGD(type_ + ": " + id_);
+
    if (!preProcessing_.empty()) {
       os << preProcessing_ << "\n";
    }
@@ -113,6 +115,7 @@ void GenOptions::shuffle()
 void GenOptions::sort()
 {
    LOGD(type_ + ": " + id_);
+
    std::stable_sort(begin(GenComposite::getGenerators()),
                     end(GenComposite::getGenerators()), lessLength);
 }

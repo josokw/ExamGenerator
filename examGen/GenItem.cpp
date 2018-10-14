@@ -22,17 +22,8 @@
 //}
 
 GenItem::GenItem()
-   : GenComposite()
-   , index_{0}
-   , isLastItem_{false}
-   , level_{0}
-   , shuffleON_{false}
+   : GenItem{"NOT-DEFINED"}
 {
-   type_ = "GenItem";
-   generators_.push_back(std::unique_ptr<GenStem>(new GenStem()));
-   generators_.push_back(std::unique_ptr<GenOptions>(new GenOptions()));
-
-   LOGD(id_ + ", initialised");
 }
 
 GenItem::GenItem(const std::string &id)
@@ -52,6 +43,7 @@ GenItem::GenItem(const std::string &id)
 IGenPtr_t GenItem::copy() const
 {
    LOGD(type_ + ": " + id_);
+
    std::shared_ptr<GenItem> p(new GenItem(*this));
    for_each(p->generators_.begin(), p->generators_.end(),
             [](IGenPtr_t &pGen) { pGen = pGen->copy(); });
@@ -96,6 +88,7 @@ void GenItem::add(IGenPtr_t pGen)
 void GenItem::generate(std::ostream &os)
 {
    LOGD(type_ + ": " + id_);
+
    prepare();
 
    os << "\n% Item '" << getID() << "' generation: stem + options";
@@ -136,7 +129,8 @@ void GenItem::setIndex(int index)
 
 void GenItem::addToStem(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_ + ", to add " + pGen->getID());
+
    try {
       IGenerator *p = pGen.get();
       if (dynamic_cast<GenText *>(p)) {
@@ -162,14 +156,14 @@ void GenItem::addToStem(IGenPtr_t pGen)
 
 void GenItem::setAsLastItem() const
 {
-   LOGD(id_);
+   LOGD(type_ + ": " + id_);
 
    isLastItem_ = true;
 }
 
 void GenItem::addToOptions(std::shared_ptr<GenOption> pOption, bool isCorrect)
 {
-   LOGD(id_);
+   LOGD(type_ + ": " + id_);
 
    if (isCorrect) {
       pOption->setIsCorrect();

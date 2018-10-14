@@ -8,7 +8,7 @@
 #include <iostream>
 
 GenSolution::GenSolution(GenExam *pExam)
-   : IGenerator()
+   : IGenerator{}
    , pExam_{pExam}
    , solutions_{}
 {
@@ -39,14 +39,17 @@ std::ostream &GenSolution::write(std::ostream &os, int Level) const
 void GenSolution::prepare()
 {
    LOGD(type_ + ": " + id_);
+
    auto size = pExam_->size();
+   
    for (size_t i = 0; i < size; ++i) {
       IGenPtr_t pIGen = (*pExam_)[i];
       if (std::shared_ptr<GenItem> pItem =
              std::dynamic_pointer_cast<GenItem>(pIGen)) {
-         std::cerr << *(*pExam_)[i] << std::endl;
+         //std::cerr << *(*pExam_)[i] << std::endl;
          std::shared_ptr<GenOptions> pOptions =
             std::static_pointer_cast<GenOptions>((*pItem)[1]);
+
          for (size_t k = 0; k < pOptions->getGenerators().size(); ++k) {
             if (std::shared_ptr<GenOption> pOption =
                    std::dynamic_pointer_cast<GenOption>((*pOptions)[k])) {
@@ -57,12 +60,13 @@ void GenSolution::prepare()
          }
       }
    }
-   std::cerr << *this << std::endl;
+   //std::cerr << *this << std::endl;
 }
 
 void GenSolution::generate(std::ostream &os)
 {
-   LOGD(id_);
+   LOGD(type_ + " : " + id_);
+
    prepare();
 
    os << "\n% Solution generation for exam '" + pExam_->getID() + "'\n";

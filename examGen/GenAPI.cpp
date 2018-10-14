@@ -6,10 +6,10 @@
 
 GenAPI::GenAPI(const std::string &returnType, const std::string &signature,
                const std::string &description)
-   : IGenerator()
-   , returnType_(returnType)
-   , signature_(signature)
-   , description_(description)
+   : IGenerator{}
+   , returnType_{returnType}
+   , signature_{signature}
+   , description_{description}
 {
    type_ = "GenAPI";
    LOGD(id_ + ", initialised");
@@ -26,7 +26,9 @@ void GenAPI::generate(std::ostream &os)
    returnType_ = std::string(returnType_.begin() + 1, returnType_.end() - 1);
    signature_ = std::string(signature_.begin() + 1, signature_.end() - 1);
    description_ = std::string(description_.begin() + 1, description_.end() - 1);
-   LOGD(id_ + ", " + returnType_ + " " + signature_);
+
+   LOGD(type_ + ": " + id_ + ", " + returnType_ + " " + signature_);
+
    os << "\n\\vskip 0.4mm\n"
          "\\begin{tabular*}{0.8\\textwidth}{@{\\extracolsep{\\fill}} | r | "
          "p{4.0in} | } \n"

@@ -179,12 +179,14 @@ void GenExam::add(IGenPtr_t pGen)
 void GenExam::setLastItem()
 {
    LOGD(type_ + ", " + id_);
+
    pLastAddedItem_->setAsLastItem();
 }
 
 void GenExam::generate(std::ostream &os)
 {
    LOGD(type_ + ": " + id_);
+   
    // GenItem::clearIndexCount();
    if (pLastAddedItem_) {
       pLastAddedItem_->setAsLastItem();

@@ -1,9 +1,8 @@
-#include <string>
 
 #include "GenText.h"
 #include "Log.h"
 
-using namespace std;
+#include <string>
 
 GenText::GenText(const std::string &text)
    : IGenerator{}
@@ -19,15 +18,16 @@ IGenPtr_t GenText::copy() const
    return p;
 }
 
-std::ostream &GenText::write(std::ostream &os, int Level) const
+std::ostream &GenText::write(std::ostream &os, int level) const
 {
-   IGenerator::write(os, Level);
+   IGenerator::write(os, level);
    os << ": " << text_.substr(0, 25) << "...\n";
    return os;
 }
 
 void GenText::generate(std::ostream &os)
 {
-   LOGD(type_ + ": " + id_ + ", text = " + text_.substr(0, 15) + "...");
+   LOGD(type_ + ": " + id_ + ", text = " + text_.substr(0, 20) + "...");
+
    os << '{' << text_ << '}';
 }

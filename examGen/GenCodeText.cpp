@@ -5,7 +5,7 @@
 
 GenCodeText::GenCodeText(const std::string &programmingLanguage,
                          const std::string &codeText)
-   : IGenerator()
+   : IGenerator{}
    , programmingLanguage_{programmingLanguage}
    , codeText_{codeText}
 {
@@ -21,8 +21,9 @@ IGenPtr_t GenCodeText::copy() const
 
 void GenCodeText::generate(std::ostream &os)
 {
-   LOGD(id_ + ", '" + programmingLanguage_ +
-        "' code text = " + codeText_.substr(0, 15) + "...");
+   LOGD(type_ + ": " + id_ + ", '" + programmingLanguage_ +
+        "' code text = " + codeText_.substr(0, 20) + "...");
+
    os << "\\lstset{ language = " << programmingLanguage_ << "}\n"
       << "\\begin{lstlisting}\n"
       << codeText_ << " \n"

@@ -6,11 +6,8 @@
 #include "Log.h"
 
 GenComposite::GenComposite()
-   : IGenerator{}
-   , generators_{}
+   : GenComposite{"NOT-DEFINED"}
 {
-   type_ = "GenComposite";
-   LOGD(id_ + ", initialised");
 }
 
 GenComposite::GenComposite(const std::string &id)
@@ -23,7 +20,8 @@ GenComposite::GenComposite(const std::string &id)
 
 void GenComposite::add(IGenPtr_t pGen)
 {
-   LOGCW(pGen == nullptr, type_ + ": " + id_);
+   LOGD(type_ + ": " + id_ + ", to add " + pGen->getID());
+
    generators_.push_back(pGen);
 }
 
@@ -43,8 +41,10 @@ std::ostream &GenComposite::write(std::ostream &os, int level) const
 
 void GenComposite::generate(std::ostream &os)
 {
+   LOGD(type_ + ": " + id_);
+
    for (auto &gen : generators_) {
-      LOGCW(gen == nullptr, id_);
+      LOGCW(gen == nullptr, type_ + ": " + id_);
       if (gen != nullptr) {
          gen->prepare();
          gen->generate(os);

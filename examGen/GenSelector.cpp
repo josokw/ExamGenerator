@@ -6,10 +6,8 @@
 #include <string>
 
 GenSelector::GenSelector()
-   : GenComposite()
+   : GenSelector{"NOT-DEFINED"}
 {
-   type_ = "GenSelector";
-   LOGD(id_ + ", initialised");
 }
 
 GenSelector::GenSelector(const std::string &id)
@@ -29,7 +27,8 @@ IGenPtr_t GenSelector::copy() const
 
 void GenSelector::add(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_ + ", to add " + pGen->getID());
+
    allGenerators_.push_back(pGen);
    // for calculation a next permutation
    std::sort(allGenerators_.begin(), allGenerators_.end());
