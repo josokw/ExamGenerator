@@ -13,21 +13,17 @@ std::ostream &operator<<(std::ostream &os, const IGenerator &iGen)
 RandomProfile IGenerator::randomProfile_s;
 
 IGenerator::IGenerator()
-   : ranges_()
-   , RSelectors_()
-   , type_("NOT-DEFINED")
-   , id_("NOT-DEFINED")
-   , difficultyLevel_(0)
+   : IGenerator("NOT-DEFINED")
 {
    LOGD(id_ + ", initialised");
 }
 
 IGenerator::IGenerator(const std::string &id)
-   : ranges_()
-   , RSelectors_()
-   , type_("NOT-DEFINED")
-   , id_(id)
-   , difficultyLevel_(0)
+   : ranges_{}
+   , RSelectors_{}
+   , type_{"NOT-DEFINED"}
+   , id_{id}
+   , difficultyLevel_{0}
 {
    LOGD(id_ + ", initialised");
 }
@@ -39,14 +35,15 @@ IGenerator::~IGenerator()
 
 void IGenerator::add(IGenPtr_t pGen)
 {
-   LOGE(id_);
+   LOGE(type_ + ": " + id_ +
+        ", leaf object type in composite, no adding allowed");
    throw std::runtime_error( //__AT__
-      "Leaf object type in composite: no adding allowed");
+      "Leaf object type in composite, no adding allowed");
 }
 
 std::ostream &IGenerator::write(std::ostream &os, int level) const
 {
-   LOGD(id_);
+   LOGD(type_ + ": " + id_ + ", level = " + std::to_string(level));
    const std::string INDENTATION(level * 2, ' ');
    os << INDENTATION << type_ << " '" << id_ << "' " << this;
    return os;

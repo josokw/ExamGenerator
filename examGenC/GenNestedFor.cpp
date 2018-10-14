@@ -60,16 +60,16 @@ GenNestedFor::GenNestedFor()
    addToStem(pCodeText);
 
    int result = correctAnswer(initResult, iStart, jStart, iMax, jMax);
-   std::string sResult = std::to_string(result);
    auto pO1 = std::make_shared<GenOption>("4");
    auto pO2 = std::make_shared<GenOption>("8");
    auto pO3 = std::make_shared<GenOption>("16");
    auto pO4 = std::make_shared<GenOption>("32");
 
-   addToOptions(pO1, "4" == sResult);
-   addToOptions(pO2, "8" == sResult);
-   addToOptions(pO3, "16" == sResult);
-   addToOptions(pO4, "32" == sResult);
+   addToOptions(pO1, 4 == result);
+   addToOptions(pO2, 8 == result);
+   addToOptions(pO3, 16 == result);
+   addToOptions(pO4, 32 == result);
+   
    LOGD(id_ + ", intialised");
 }
 
