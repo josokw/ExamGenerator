@@ -1,6 +1,6 @@
+#include "GenExams.h"
 #include "AppInfo.h"
 #include "GenExam.h"
-#include "GenExams.h"
 #include "Log.h"
 
 #include <exception>
@@ -30,8 +30,8 @@ void GenExams::add(IGenPtr_t pGen)
 {
    LOGD(type_ + ": " + id_);
 
-   for (size_t i = 0; i < generators_.size(); ++i) {
-      generators_[i]->add(pGen->copy());
+   for (auto &gen : generators_) {
+      gen->add(pGen->copy());
    }
 }
 
