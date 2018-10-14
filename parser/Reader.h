@@ -21,25 +21,25 @@ public:
    /// int: corresponding line number
    /// const char*: postion in input stream
    /// string: message contents
-   typedef std::tuple<char, int, const char *, std::string> message_t;
+   using message_t = std::tuple<char, int, const char *, std::string>;
 
    Reader(std::istream &inputSpec);
    ~Reader() = default;
 
    void clear();
-   /// Reads #textSpec and adds a null char to end.
+   /// Reads #textSpec_ and adds a null char to end.
    void read();
    /// Returns parse result: vector of pointers to GenExams objects.
    /// This vector is empty if errors has occured during parsing.
    std::vector<std::shared_ptr<GenExams>> parse();
    /// Returns all parser messages (errors, info and warnings).
-   const std::vector<message_t> getMessages() const { return messages; }
+   const std::vector<message_t> &getMessages() const { return messages_; }
 
 private:
-   std::vector<message_t> messages;
-   std::istream &input;
-   std::vector<char> textSpec;
-   Builder *pBuilder;
+   std::vector<message_t> messages_;
+   std::istream &input_;
+   std::vector<char> textSpec_;
+   Builder *pBuilder_;
 };
 
 #endif

@@ -94,11 +94,12 @@ int main(int argc, char *argv[])
       const std::string LaTeXcommandExam(
          "pdflatex -enable-write18 \"-output-directory=" +
          LaTeXoutputDir.string() + "\" " +
-         (LaTeXoutputDir / LaTeXdocExamFileName).string());
+         (LaTeXoutputDir / LaTeXdocExamFileName).string() + " 2>&1 /dev/null");
       const std::string LaTeXcommandExamAnswers(
          "pdflatex -enable-write18 \"-output-directory=" +
          LaTeXoutputDir.string() + "\" " +
-         (LaTeXoutputDir / LaTeXdocExamAnswersFileName).string());
+         (LaTeXoutputDir / LaTeXdocExamAnswersFileName).string() +
+         " 2>&1 /dev/null");
 
       bfs::ofstream LaTeXgeneratedExamFile(LaTeXgeneratedExamFileName);
       if (!LaTeXgeneratedExamFile) {
