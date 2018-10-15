@@ -13,12 +13,6 @@ std::tuple<Random::range_t, int, std::list<int>, int>
 GenLogicExprAON::GenLogicExprAON()
    : GenItem{}
    , AON_{randomProfile_s.generate(R0_s)}
-   , andF_(std::bind(&GenLogicExprAON::and_, this, std::placeholders::_1,
-                     std::placeholders::_2))
-   , orF_(std::bind(&GenLogicExprAON::or_, this, std::placeholders::_1,
-                    std::placeholders::_2))
-   , notF_(std::bind(&GenLogicExprAON::not_, this, std::placeholders::_1))
-   , equF_(std::bind(&GenLogicExprAON::equ_, this, std::placeholders::_1))
 {
    type_ = "GenLogicExprAON";
 
@@ -62,9 +56,6 @@ void GenLogicExprAON::prepare()
    auto pCodeLogicExpr = std::make_shared<GenCodeText>("C", logicExpr);
    addToStem(pCodeLogicExpr);
 
-   util::bool3Pars_t logicF(
-      std::bind(&GenLogicExprAON::logicExpr, this, std::placeholders::_1,
-                std::placeholders::_2, std::placeholders::_3));
    std::vector<std::string> truthTable;
 
    const std::string starttt{
@@ -72,6 +63,7 @@ void GenLogicExprAON::prepare()
       "\\hline\n"
       "x & y & z & result\\\\\n"
       "\\hline\n"};
+      
    const std::string endtt{
       "\\hline\n"
       "\\end{tabular}\n"
@@ -80,6 +72,10 @@ void GenLogicExprAON::prepare()
    std::array<std::shared_ptr<GenOption>, 4> options;
    bool first{true};
    std::string tt;
+
+   util::bool3Pars_t logicF(
+      std::bind(&GenLogicExprAON::logicExpr, this, std::placeholders::_1,
+                std::placeholders::_2, std::placeholders::_3));
 
    for (auto &opt : options) {
       tt = starttt;
@@ -96,41 +92,46 @@ void GenLogicExprAON::prepare()
    }
 }
 
-bool GenLogicExprAON::logicExpr(bool b1, bool b2, bool b3)
+bool GenLogicExprAON::logicExpr(bool bl1, bool bl2, bool bl3)
 {
    util::bool2Pars_t lf1;
    util::bool1Pars_t lf2;
    util::bool2Pars_t lf3;
    util::bool1Pars_t lf4;
 
+   auto andF = [](bool b1, bool b2) { return b1 && b2; };
+   auto orF = [](bool b1, bool b2) { return b1 || b2; };
+   auto notF = [](bool b1) { return !b1; };
+   auto equF = [](bool b1) { return b1; };
+
    switch (AON_) {
       case 0:
          // ANOE
-         lf1 = andF_;
-         lf2 = notF_;
-         lf3 = orF_;
-         lf4 = equF_;
+         lf1 = andF;
+         lf2 = notF;
+         lf3 = orF;
+         lf4 = equF;
          break;
       case 1:
          // ONAE
-         lf1 = orF_;
-         lf2 = notF_;
-         lf3 = andF_;
-         lf4 = equF_;
+         lf1 = orF;
+         lf2 = notF;
+         lf3 = andF;
+         lf4 = equF;
          break;
       case 2:
          // AEON
-         lf1 = andF_;
-         lf2 = equF_;
-         lf3 = orF_;
-         lf4 = notF_;
+         lf1 = andF;
+         lf2 = equF;
+         lf3 = orF;
+         lf4 = notF;
          break;
       case 3:
          // OEAN
-         lf1 = orF_;
-         lf2 = equF_;
-         lf3 = andF_;
-         lf4 = notF_;
+         lf1 = orF;
+         lf2 = equF;
+         lf3 = andF;
+         lf4 = notF;
          break;
       default:
          LOGE(type_ + ": " + id_ + ", AON_ = " + std::to_string(AON_) +
@@ -138,5 +139,5 @@ bool GenLogicExprAON::logicExpr(bool b1, bool b2, bool b3)
          break;
    }
 
-   return lf4(lf3(lf1(b1, b2), lf2(b3)));
+   return lf4(lf3(lf1(bl1, bl2), lf2(bl3)));
 }

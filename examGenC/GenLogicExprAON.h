@@ -27,19 +27,7 @@ protected:
 private:
    static std::tuple<Random::range_t, int, std::list<int>, int> R0_s;
    static int correctAnswer(int OrAnd, int EqNot, int XorOr);
-
    int AON_;
-
-   util::bool2Pars_t andF_;
-   util::bool2Pars_t orF_;
-   util::bool1Pars_t notF_;
-   util::bool1Pars_t equF_;
-
-   bool and_(bool b1, bool b2) { return b1 && b2; }
-   bool or_(bool b1, bool b2) { return b1 || b2; }
-   bool not_(bool b1) { return !b1; }
-   bool equ_(bool b1) { return b1; }
-
    bool logicExpr(bool b1, bool b2, bool b3);
 };
 
