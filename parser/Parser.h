@@ -12,6 +12,7 @@
 #include "GenLogicDiagramAON.h"
 #include "GenLogicDiagramAOXN.h"
 #include "GenLogicExprAON.h"
+#include "GenLogicExprAOXN.h"
 #include "GenNestedFor.h"
 #include "GenOption.h"
 #include "GenSelector.h"
@@ -332,21 +333,31 @@ struct MCTestBuilder {
                      bsc::add(generators_p, id_.c_str(),
                               std::static_pointer_cast<IGenerator>(pL));
                   } else {
-                     if (type == "TwoC") {
-                        std::shared_ptr<GenTwoC> pTC(new GenTwoC);
-                        pTC->setID(id_);
+                     if (type == "LogicExprAOXN") {
+                        std::shared_ptr<GenLogicExprAOXN> pLE(
+                           new GenLogicExprAOXN);
+                        pLE->setID(id_);
                         bsc::add(generators_p, id_.c_str(),
-                                 std::static_pointer_cast<IGenerator>(pTC));
+                                 std::static_pointer_cast<IGenerator>(pLE));
                      } else {
-                        if (type == "NestedFor") {
-                           std::shared_ptr<GenNestedFor> pNF(new GenNestedFor);
-                           pNF->setID(id_);
+                        if (type == "TwoC") {
+                           std::shared_ptr<GenTwoC> pTC(new GenTwoC);
+                           pTC->setID(id_);
                            bsc::add(generators_p, id_.c_str(),
-                                    std::static_pointer_cast<IGenerator>(pNF));
+                                    std::static_pointer_cast<IGenerator>(pTC));
                         } else {
-                           LOGE(id_ + ", type '" + type + "' unknown");
-                           messages_.push_back(Reader::message_t(
-                              'E', 0, begin, "Type '" + type + "' unknown"));
+                           if (type == "NestedFor") {
+                              std::shared_ptr<GenNestedFor> pNF(
+                                 new GenNestedFor);
+                              pNF->setID(id_);
+                              bsc::add(
+                                 generators_p, id_.c_str(),
+                                 std::static_pointer_cast<IGenerator>(pNF));
+                           } else {
+                              LOGE(id_ + ", type '" + type + "' unknown");
+                              messages_.push_back(Reader::message_t(
+                                 'E', 0, begin, "Type '" + type + "' unknown"));
+                           }
                         }
                      }
                   }
@@ -796,10 +807,11 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
               AddText | memberFunctionCall) >>
             bsc::end_p[pb.endOfSpec];
 
-         Type = (bsc::strlit<>("Selector") | bsc::strlit<>("LogicDiagramAON") |
-                 bsc::strlit<>("LogicExprAON") |
-                 bsc::strlit<>("LogicDiagramAOXN") | bsc::strlit<>("TwoC") |
-                 bsc::strlit<>("NestedFor"))[bsc::assign_a(pb.type)];
+         Type =
+            (bsc::strlit<>("Selector") | bsc::strlit<>("LogicDiagramAON") |
+             bsc::strlit<>("LogicExprAON") | bsc::strlit<>("LogicDiagramAOXN") |
+             bsc::strlit<>("LogicExprAOXN") | bsc::strlit<>("TwoC") |
+             bsc::strlit<>("NestedFor"))[bsc::assign_a(pb.type)];
 
          Declaration =
             (Type >> id[bsc::assign_a(pb.id_)] >> SEMI)[pb.createObject];

@@ -34,7 +34,7 @@ void GenLogicExprAOXN::prepare()
    LOGD(type_ + ": " + id_);
 
    auto pText = std::make_shared<GenText>(
-      "\\needspace{6cm} The variables $x$, $y$, $z$ and $result$ are all "
+      "\\needspace{8cm} The variables $x$, $y$, $z$ and $result$ are all "
       "int typed. True equals 1 and false equals 0. What is the truth table "
       "for the next logical expression?");
    addToStem(pText);
@@ -95,7 +95,7 @@ void GenLogicExprAOXN::prepare()
    tt +=
       "\\scriptsize\n\\begin{tabular}{| c | c | c || c |}\n"
       "\\hline\n"
-      "X & Y & Z & U\\\\\n"
+      "x & y & z & result\\\\\n"
       "\\hline\n";
    for (size_t i = 0; i < truthTable.size(); ++i) {
       tt += truthTable[i] + " \\\\\n";
@@ -114,7 +114,7 @@ void GenLogicExprAOXN::prepare()
    tt +=
       "\\scriptsize\n\\begin{tabular}{| c | c | c || c |}\n"
       "\\hline\n"
-      "X & Y & Z & U\\\\\n"
+      "x & y & z & result\\\\\n"
       "\\hline\n";
    for (size_t i = 0; i < truthTable.size(); ++i) {
       tt += truthTable[i] + " \\\\\n";
@@ -133,7 +133,7 @@ void GenLogicExprAOXN::prepare()
    tt +=
       "\\scriptsize\n\\begin{tabular}{| c | c | c ||  c |}\n"
       "\\hline\n"
-      "X & Y & Z & U\\\\\n"
+      "x & y & z & result\\\\\n"
       "\\hline\n";
    for (size_t i = 0; i < truthTable.size(); ++i) {
       tt += truthTable[i] + "\\\\\n";
