@@ -22,7 +22,7 @@ public:
    virtual ~GenLogicExprAON() = default;
 
 protected:
-   virtual void prepare() override;
+   void prepare() override;
 
 private:
    static std::tuple<Random::range_t, int, std::list<int>, int> R0_s;
