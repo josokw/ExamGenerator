@@ -4,6 +4,7 @@
 #include "GenText.h"
 #include "Log.h"
 
+#include <array>
 #include <tuple>
 
 std::tuple<Random::range_t, int, std::list<int>, int>
@@ -64,9 +65,8 @@ void GenLogicExprAON::prepare()
    util::bool3Pars_t logicF(
       std::bind(&GenLogicExprAON::logicExpr, this, std::placeholders::_1,
                 std::placeholders::_2, std::placeholders::_3));
-   std::vector<std::string> truthTable = util::toTruthTable(logicF);
+   std::vector<std::string> truthTable;
 
-   std::string tt;
    const std::string starttt{
       "\\scriptsize\n\\begin{tabular}{| c | c | c || c |}\n"
       "\\hline\n"
@@ -77,54 +77,23 @@ void GenLogicExprAON::prepare()
       "\\end{tabular}\n"
       "\\normalsize\n"};
 
-   // Correct option
-   tt += starttt;
-   for (size_t i = 0; i < truthTable.size(); ++i) {
-      tt += truthTable[i] + " \\\\\n";
-   }
-   tt += endtt;
-   auto pO1 = std::make_shared<GenOption>(tt);
+   std::array<std::shared_ptr<GenOption>, 4> options;
+   bool first{true};
+   std::string tt;
 
-   // New option, not correct
-   tt.clear();
-   ++AON_;
-   AON_ %= 4;
-   truthTable = util::toTruthTable(logicF);
-   tt += starttt;
-   for (size_t i = 0; i < truthTable.size(); ++i) {
-      tt += truthTable[i] + " \\\\\n";
+   for (auto &opt : options) {
+      tt = starttt;
+      truthTable = util::toTruthTable(logicF);
+      for (size_t i = 0; i < truthTable.size(); ++i) {
+         tt += truthTable[i] + " \\\\\n";
+      }
+      tt += endtt;
+      opt = std::make_shared<GenOption>(tt);
+      addToOptions(opt, first);
+      first = false;
+      ++AON_;
+      AON_ %= 4;
    }
-   tt += endtt;
-   auto pO2 = std::make_shared<GenOption>(tt);
-
-   // New option, not correct
-   tt.clear();
-   ++AON_;
-   AON_ %= 4;
-   truthTable = util::toTruthTable(logicF);
-   tt += starttt;
-   for (size_t i = 0; i < truthTable.size(); ++i) {
-      tt += truthTable[i] + " \\\\\n";
-   }
-   tt += endtt;
-   auto pO3 = std::make_shared<GenOption>(tt);
-
-   // New option, not correct
-   tt.clear();
-   ++AON_;
-   AON_ %= 4;
-   truthTable = util::toTruthTable(logicF);
-   tt += starttt;
-   for (size_t i = 0; i < truthTable.size(); ++i) {
-      tt += truthTable[i] + "\\\\\n";
-   }
-   tt += endtt;
-   auto pO4 = std::make_shared<GenOption>(tt);
-
-   addToOptions(pO1, true);
-   addToOptions(pO2);
-   addToOptions(pO3);
-   addToOptions(pO4);
 }
 
 bool GenLogicExprAON::logicExpr(bool b1, bool b2, bool b3)
