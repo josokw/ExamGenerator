@@ -64,7 +64,7 @@ void GenOptions::generate(std::ostream &os)
       os << preProcessing_ << "\n";
    }
    // Generate options
-   os << "\n\\begin{enumerate}[label=\\textcircled{\\scriptsize\\Alph*}]\n";
+   os << "\n\\begin{enumerate}[label=\\framebox{\\scriptsize\\Alph*.}]\n";
    for (auto &gen : generators_) {
       os << "\\item\n";
       if (gen != nullptr) {
@@ -73,7 +73,6 @@ void GenOptions::generate(std::ostream &os)
          LOGE(id_ + ", gen == nullptr");
       }
    }
-
    os << "\\end{enumerate}\n\\vskip 5mm\n";
    if (!postProcessing_.empty()) {
       os << postProcessing_ << "\n";
@@ -91,7 +90,7 @@ void GenOptions::add(std::shared_ptr<GenOption> &pOption, bool isCorrect)
    if (isCorrect) {
       pOption->setIsCorrect();
    }
-   generators_.push_back(IGenPtr_t(pOption));
+   generators_.push_back(pOption);
 }
 
 void GenOptions::shuffle()
