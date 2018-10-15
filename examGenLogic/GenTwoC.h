@@ -3,13 +3,8 @@
 
 #include "GenItem.h"
 
-#include <tuple>
 #include <list>
-
-class GenStem;
-class GenText;
-class GenCodeText;
-class GenOption;
+#include <tuple>
 
 class GenTwoC : public GenItem
 {
