@@ -72,77 +72,59 @@ void GenLogicExprAOXN::prepare()
    std::vector<std::string> truthTable = util::toTruthTable(logicF);
 
    std::string tt;
+   const std::string starttt{
+      "\\scriptsize\n\\begin{tabular}{| c | c | c || c |}\n"
+      "\\hline\n"
+      "x & y & z & result\\\\\n"
+      "\\hline\n"};
+   const std::string endtt{
+      "\\hline\n"
+      "\\end{tabular}\n"
+      "\\normalsize\n"};
+
    // Correct option
-   tt +=
-      "\\scriptsize\n\\begin{tabular}{| c | c | c || c |}\n"
-      "\\hline\n"
-      "x & y & z & result\\\\\n"
-      "\\hline\n";
+   tt += starttt;
    for (size_t i = 0; i < truthTable.size(); ++i) {
       tt += truthTable[i] + " \\\\\n";
    }
-   tt +=
-      "\\hline\n"
-      "\\end{tabular}\n"
-      "\\normalsize\n";
-   auto pO1 = std::shared_ptr<GenOption>(new GenOption(tt));
+   tt += endtt;
+   auto pO1 = std::make_shared<GenOption>(tt);
 
    // New option, not correct
    tt.clear();
    ++AOXN_;
    AOXN_ %= 4;
    truthTable = util::toTruthTable(logicF);
-   tt +=
-      "\\scriptsize\n\\begin{tabular}{| c | c | c || c |}\n"
-      "\\hline\n"
-      "x & y & z & result\\\\\n"
-      "\\hline\n";
+   tt += starttt;
    for (size_t i = 0; i < truthTable.size(); ++i) {
       tt += truthTable[i] + " \\\\\n";
    }
-   tt +=
-      "\\hline\n"
-      "\\end{tabular}\n"
-      "\\normalsize\n";
-   auto pO2 = std::shared_ptr<GenOption>(new GenOption(tt));
+   tt += endtt;
+   auto pO2 = std::make_shared<GenOption>(tt);
+
+   // New option not correct
+   tt.clear();
+   ++AOXN_;
+   AOXN_ %= 4;
+   truthTable = util::toTruthTable(logicF);
+   tt += starttt;
+   for (size_t i = 0; i < truthTable.size(); ++i) {
+      tt += truthTable[i] + " \\\\\n";
+   }
+   tt += endtt;
+   auto pO3 = std::make_shared<GenOption>(tt);
 
    // New option, not correct
    tt.clear();
    ++AOXN_;
    AOXN_ %= 4;
    truthTable = util::toTruthTable(logicF);
-   tt +=
-      "\\scriptsize\n\\begin{tabular}{| c | c | c || c |}\n"
-      "\\hline\n"
-      "x & y & z & result\\\\\n"
-      "\\hline\n";
-   for (size_t i = 0; i < truthTable.size(); ++i) {
-      tt += truthTable[i] + " \\\\\n";
-   }
-   tt +=
-      "\\hline\n"
-      "\\end{tabular}\n"
-      "\\normalsize\n";
-   auto pO3 = std::shared_ptr<GenOption>(new GenOption(tt));
-
-   // New option, not correct
-   tt.clear();
-   ++AOXN_;
-   AOXN_ %= 4;
-   truthTable = util::toTruthTable(logicF);
-   tt +=
-      "\\scriptsize\n\\begin{tabular}{| c | c | c ||  c |}\n"
-      "\\hline\n"
-      "x & y & z & result\\\\\n"
-      "\\hline\n";
+   tt += starttt;
    for (size_t i = 0; i < truthTable.size(); ++i) {
       tt += truthTable[i] + "\\\\\n";
    }
-   tt +=
-      "\\hline\n"
-      "\\end{tabular}\n"
-      "\\normalsize\n";
-   auto pO4 = std::shared_ptr<GenOption>(new GenOption(tt));
+   tt += endtt;
+   auto pO4 = std::make_shared<GenOption>(tt);
 
    addToOptions(pO1, true);
    addToOptions(pO2);
