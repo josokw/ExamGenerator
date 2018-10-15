@@ -15,14 +15,6 @@ std::tuple<Random::range_t, int, std::list<int>, int>
 GenLogicExprAOXN::GenLogicExprAOXN()
    : GenItem{}
    , AOXN_{randomProfile_s.generate(R0_s)}
-   , andF(std::bind(&GenLogicExprAOXN::and_, this, std::placeholders::_1,
-                    std::placeholders::_2))
-   , orF(std::bind(&GenLogicExprAOXN::or_, this, std::placeholders::_1,
-                   std::placeholders::_2))
-   , xorF(std::bind(&GenLogicExprAOXN::xor_, this, std::placeholders::_1,
-                    std::placeholders::_2))
-   , notF(std::bind(&GenLogicExprAOXN::not_, this, std::placeholders::_1))
-   , equF(std::bind(&GenLogicExprAOXN::equ, this, std::placeholders::_1))
 {
    type_ = "GenLogicExprAOXN";
 
@@ -66,24 +58,28 @@ void GenLogicExprAOXN::prepare()
    auto pCodeLogicExpr = std::make_shared<GenCodeText>("C", logicExpr);
    addToStem(pCodeLogicExpr);
 
-   util::bool3Pars_t logicF(
-      std::bind(&GenLogicExprAOXN::logicExpr, this, std::placeholders::_1,
-                std::placeholders::_2, std::placeholders::_3));
-   std::vector<std::string> truthTable = util::toTruthTable(logicF);
+   std::vector<std::string> truthTable;
 
-   std::string tt;
    const std::string starttt{
       "\\scriptsize\n\\begin{tabular}{| c | c | c || c |}\n"
       "\\hline\n"
       "x & y & z & result\\\\\n"
       "\\hline\n"};
+
    const std::string endtt{
       "\\hline\n"
       "\\end{tabular}\n"
       "\\normalsize\n"};
 
+   util::bool3Pars_t logicF(
+      std::bind(&GenLogicExprAOXN::logicExpr, this, std::placeholders::_1,
+                std::placeholders::_2, std::placeholders::_3));
+
+   truthTable = util::toTruthTable(logicF);
+   std::string tt;
+
    // Correct option
-   tt += starttt;
+   tt = starttt;
    for (size_t i = 0; i < truthTable.size(); ++i) {
       tt += truthTable[i] + " \\\\\n";
    }
@@ -132,12 +128,18 @@ void GenLogicExprAOXN::prepare()
    addToOptions(pO4);
 }
 
-bool GenLogicExprAOXN::logicExpr(bool b1, bool b2, bool b3)
+bool GenLogicExprAOXN::logicExpr(bool bl1, bool bl2, bool bl3)
 {
    util::bool2Pars_t lf1;
    util::bool1Pars_t lf2;
    util::bool2Pars_t lf3;
    util::bool1Pars_t lf4;
+
+   auto andF = [](bool b1, bool b2) { return b1 && b2; };
+   auto orF = [](bool b1, bool b2) { return b1 || b2; };
+   auto xorF = [](bool b1, bool b2) { return b1 ^ b2; };
+   auto notF = [](bool b1) { return !b1; };
+   auto equF = [](bool b1) { return b1; };
 
    switch (AOXN_) {
       case 0:
@@ -172,5 +174,5 @@ bool GenLogicExprAOXN::logicExpr(bool b1, bool b2, bool b3)
          break;
    }
 
-   return lf4(lf3(lf1(b1, b2), lf2(b3)));
+   return lf4(lf3(lf1(bl1, bl2), lf2(bl3)));
 }
