@@ -476,7 +476,7 @@ struct MCTestBuilder {
    {
       addItemScope(lhs);
       if (auto ppGenLHS = idGeneratorIsAvailable(lhs, begin, end)) {
-         (*ppGenLHS)->setLevel(level_);
+         (*ppGenLHS)->setDifficultyLevel(level_);
       }
    }
 
