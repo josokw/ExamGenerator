@@ -9,8 +9,8 @@
 
 #include <tuple>
 
-std::tuple<Random::range_t, int, std::list<int>, int>
-   GenLogicExprAOXN::R0_s(Random::range_t(0, 3), 0, std::list<int>(), 3);
+RandomProfile::fullR_t GenLogicExprAOXN::R0_s(Random::range_t(0, 3), 0,
+                                              std::list<int>(), 3);
 
 GenLogicExprAOXN::GenLogicExprAOXN()
    : GenItem{}

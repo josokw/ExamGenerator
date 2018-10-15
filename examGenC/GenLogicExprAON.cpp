@@ -7,8 +7,8 @@
 #include <array>
 #include <tuple>
 
-std::tuple<Random::range_t, int, std::list<int>, int>
-   GenLogicExprAON::R0_s(Random::range_t(0, 3), 0, std::list<int>(), 3);
+RandomProfile::fullR_t GenLogicExprAON::R0_s(Random::range_t(0, 3), 0,
+                                             std::list<int>(), 3);
 
 GenLogicExprAON::GenLogicExprAON()
    : GenItem{}
@@ -63,7 +63,7 @@ void GenLogicExprAON::prepare()
       "\\hline\n"
       "x & y & z & result\\\\\n"
       "\\hline\n"};
-      
+
    const std::string endtt{
       "\\hline\n"
       "\\end{tabular}\n"
