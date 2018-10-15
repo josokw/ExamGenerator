@@ -6,12 +6,12 @@
 #include "Log.h"
 #include "Util.h"
 
-std::tuple<Random::Random::range_t, int, std::list<int>, int>
-   GenNestedFor::s_R0(Random::range_t(1, 2), 0, std::list<int>(), 1);
-std::tuple<Random::Random::range_t, int, std::list<int>, int>
-   GenNestedFor::s_R1(Random::range_t(0, 1), 0, std::list<int>(), 0);
-std::tuple<Random::Random::range_t, int, std::list<int>, int>
-   GenNestedFor::s_R2(Random::range_t(2, 3), 0, std::list<int>(), 1);
+RandomProfile::fullR_t GenNestedFor::R0_s(Random::range_t(1, 2), 0,
+                                          std::list<int>(), 1);
+RandomProfile::fullR_t GenNestedFor::R1_s(Random::range_t(0, 1), 0,
+                                          std::list<int>(), 0);
+RandomProfile::fullR_t GenNestedFor::R2_s(Random::range_t(2, 3), 0,
+                                          std::list<int>(), 1);
 
 GenNestedFor::GenNestedFor()
    : GenItem{}
@@ -30,9 +30,9 @@ void GenNestedFor::prepare()
       "executing the following nested for loop:");
    addToStem(pText);
 
-   int initResult = randomProfile_s.generate(s_R0);
-   int iStart = randomProfile_s.generate(s_R1);
-   int jStart = randomProfile_s.generate(s_R2);
+   int initResult = randomProfile_s.generate(R0_s);
+   int iStart = randomProfile_s.generate(R1_s);
+   int jStart = randomProfile_s.generate(R2_s);
    int iMax = iStart + 2;
    int jMax = jStart + 2;
 

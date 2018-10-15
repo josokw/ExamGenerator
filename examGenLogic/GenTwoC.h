@@ -13,10 +13,10 @@ public:
    virtual ~GenTwoC() = default;
 
 protected:
-   virtual void prepare() override;
+   void prepare() override;
 
 private:
-   static std::tuple<Random::range_t, int, std::list<int>, int> R0_s;
+   static RandomProfile::fullR_t R0_s;
 };
 
 #endif

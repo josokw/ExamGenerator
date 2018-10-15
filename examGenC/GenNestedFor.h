@@ -3,14 +3,7 @@
 
 #include "GenItem.h"
 
-#include <tuple>
-
-class GenStem;
-class GenText;
-class GenCodeText;
-class GenOption;
-
-/// Generates a nested for loop.
+/// Generates a question about a nested for loop.
 class GenNestedFor final : public GenItem
 {
 public:
@@ -21,9 +14,9 @@ protected:
    void prepare() override;
 
 private:
-   static std::tuple<Random::range_t, int, std::list<int>, int> s_R0;
-   static std::tuple<Random::range_t, int, std::list<int>, int> s_R1;
-   static std::tuple<Random::range_t, int, std::list<int>, int> s_R2;
+   static RandomProfile::fullR_t R0_s;
+   static RandomProfile::fullR_t R1_s;
+   static RandomProfile::fullR_t R2_s;
 
    static int correctAnswer(int initResult, int iStart, int jStart, int iMax,
                             int jMax);
