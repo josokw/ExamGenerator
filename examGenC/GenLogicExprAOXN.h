@@ -9,7 +9,7 @@
 
 /// Resposible for creating a logic expression containing AND, OR, XOR and NOT
 /// blocks. The options are formatted in 4 columns containing the truth tables.
-class GenLogicExprAOXN : public GenItem
+class GenLogicExprAOXN final : public GenItem
 {
 public:
    GenLogicExprAOXN();

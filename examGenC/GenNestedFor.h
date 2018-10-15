@@ -11,7 +11,7 @@ class GenCodeText;
 class GenOption;
 
 /// Generates a nested for loop.
-class GenNestedFor : public GenItem
+class GenNestedFor final : public GenItem
 {
 public:
    GenNestedFor();

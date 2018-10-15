@@ -15,7 +15,7 @@ class GenOption;
 /// Responsible for creating a logical expression containing the AND, OR, and
 /// NOT operators.
 /// The options are formatted in 4 columns containing the truth tables.
-class GenLogicExprAON : public GenItem
+class GenLogicExprAON final : public GenItem
 {
 public:
    GenLogicExprAON();
