@@ -19,7 +19,7 @@ using IGenPtr_t = std::shared_ptr<IGenerator>;
 /// components (leafs and composites) uniformly. Leaf types should not call
 /// add(), if called this will throw an exeption.
 ///
-/// Contains a shared RandomProfile object for generating a number of
+/// Contains a shared #randomProfile_s object for generating a number of
 /// integers for selecting input values.
 ///
 /// Class invariant: #id_ is not empty.
@@ -29,7 +29,7 @@ class IGenerator
 
 public:
    IGenerator();
-   IGenerator(const std::string &id);
+   explicit IGenerator(const std::string &id);
    virtual ~IGenerator();
 
    /// Copies IGenerator derived class instantiations.
@@ -45,7 +45,10 @@ public:
    const std::string &getType() const { return type_; }
    void setID(const std::string &id) { id_ = id; }
    const std::string &getID() const { return id_; }
-   void setLevel(int difficultyLevel) { difficultyLevel_ = difficultyLevel; }
+   void setDifficultyLevel(int difficultyLevel)
+   {
+      difficultyLevel_ = difficultyLevel;
+   }
    int getDifficultyLevel() const { return difficultyLevel_; }
 
 protected:
