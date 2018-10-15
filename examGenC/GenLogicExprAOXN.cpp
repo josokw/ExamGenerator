@@ -7,109 +7,76 @@
 #include "LaTeX.h"
 #include "Log.h"
 
-#include <sstream>
 #include <tuple>
 
-using namespace std;
-
 std::tuple<Random::range_t, int, std::list<int>, int>
-   GenLogicExprAOXN::s_R0(Random::range_t(0, 3), 0, std::list<int>(),
-                             3);
+   GenLogicExprAOXN::R0_s(Random::range_t(0, 3), 0, std::list<int>(), 3);
 
 GenLogicExprAOXN::GenLogicExprAOXN()
-   : GenItem()
-   , m_pText(new GenText("Wat is de bijbehorende waarheidstabel voor "
-                         "onderstaand logisch schema?"))
-   , m_pO1()
-   , m_pO2()
-   , m_pO3()
-   , m_pO4()
-   , m_AON(0)
-   , andF(boost::bind(&GenLogicExprAOXN::and_, self(), _1, _2))
-   , orF(boost::bind(&GenLogicExprAOXN::or_, self(), _1, _2))
-   , xorF(boost::bind(&GenLogicExprAOXN::xor_, self(), _1, _2))
-   , notF(boost::bind(&GenLogicExprAOXN::not_, self(), _1))
-   , equF(boost::bind(&GenLogicExprAOXN::equ, self(), _1))
+   : GenItem{}
+   , AOXN_{randomProfile_s.generate(R0_s)}
+   , andF(std::bind(&GenLogicExprAOXN::and_, this, std::placeholders::_1,
+                    std::placeholders::_2))
+   , orF(std::bind(&GenLogicExprAOXN::or_, this, std::placeholders::_1,
+                   std::placeholders::_2))
+   , xorF(std::bind(&GenLogicExprAOXN::xor_, this, std::placeholders::_1,
+                    std::placeholders::_2))
+   , notF(std::bind(&GenLogicExprAOXN::not_, this, std::placeholders::_1))
+   , equF(std::bind(&GenLogicExprAOXN::equ, this, std::placeholders::_1))
 {
    type_ = "GenLogicExprAOXN";
-   generators_[0]->add(m_pText);
+
+   LOGD(id_);
+}
+
+void GenLogicExprAOXN::prepare()
+{
+   LOGD(type_ + ": " + id_);
+
+   auto pText = std::make_shared<GenText>(
+      "\\needspace{6cm} The variables $x$, $y$, $z$ and $result$ are all "
+      "int typed. True equals 1 and false equals 0. What is the truth table "
+      "for the next logical expression?");
+   addToStem(pText);
+
    setPreProOptions("\\begin{multicols}{4}{\n");
    setPostProOptions("\n}\n\\end{multicols}\n");
 
-   m_AON = randomProfile_s.generate(s_R0);
+   std::string logicExpr;
 
-   string LD(
-      "\n\\\\\n"
-      "\\ifx\\JPicScale\\undefined\\def\\JPicScale{1}\\fi\n"
-      "\\def\\JPicScale{0.55}\n"
-      "\\unitlength \\JPicScale mm\n"
-      "\\begin{picture}(135,65)(0,0)\n"
-      "\\linethickness{0.4mm}\n"
-
-      "\\put(5,55){\\makebox(0,0)[cc]{X}}\n"
-      "\\put(10,55){\\line(1,0){10}}\n"
-      "\\put(5,45){\\makebox(0,0)[cc]{Y}}\n"
-      "\\put(10,45){\\line(1,0){10}}\n"
-      "\\put(5,20){\\makebox(0,0)[cc]{Z}}\n"
-      "\\put(10,20){\\line(1,0){10}}\n"
-      "\\put(135,50){\\makebox(0,0)[cc]{U}}\n");
-
-   switch (m_AON) {
+   switch (AOXN_) {
       case 0:
          // ANXE
-         LD += latex::LogicBlock("AND", 20, 40, 20);
-         LD += latex::LogicBlock("NOT", 20, 10, 20);
-         LD += latex::LogicBlock("XOR", 60, 40, 20);
-         LD += latex::LogicEquate(100, 50, 20);
+         logicExpr = "int result = (x && y) ^ (!z);";
          break;
       case 1:
          // XNAE
-         LD += latex::LogicBlock("XOR", 20, 40, 20);
-         LD += latex::LogicBlock("NOT", 20, 10, 20);
-         LD += latex::LogicBlock("AND", 60, 40, 20);
-         LD += latex::LogicEquate(100, 50, 20);
+         logicExpr = "int result = (x ^ y) && (!z);";
          break;
       case 2:
          // AEXN
-         LD += latex::LogicBlock("AND", 20, 40, 20);
-         LD += latex::LogicEquate(20, 20, 20);
-         LD += latex::LogicBlock("XOR", 60, 40, 20);
-         LD += latex::LogicBlock("NOT", 100, 40, 20);
+         logicExpr = "int result =!((x && y) ^ z);";
          break;
       case 3:
          // XEAN
-         LD += latex::LogicBlock("XOR", 20, 40, 20);
-         LD += latex::LogicEquate(20, 20, 20);
-         LD += latex::LogicBlock("AND", 60, 40, 20);
-         LD += latex::LogicBlock("NOT", 100, 40, 20);
+         logicExpr = "int result = !((x ^ y) && z);";
          break;
    }
 
-   LD +=
-      "\\put(40,50){\\line(1,0){10}}\n"
-      "\\put(50,50){\\line(0,1){5}}\n"
-      "\\put(50,55){\\line(1,0){10}}\n"
-      "\\put(40,20){\\line(1,0){10}}\n"
-      "\\put(50,20){\\line(0,1){25}}\n"
-      "\\put(50,45){\\line(1,0){10}}\n"
-      "\\put(50,45){\\line(1,0){10}}\n"
-      "\\put(80,50){\\line(1,0){20}}\n"
-      "\\put(120,50){\\line(1,0){10}}\n"
-      "\\end{picture}\n";
-
-   std::shared_ptr<GenText> pLogicD(new GenText(LD));
-   generators_[0]->add(pLogicD);
+   auto pCodeLogicExpr = std::make_shared<GenCodeText>("C", logicExpr);
+   addToStem(pCodeLogicExpr);
 
    util::bool3Pars_t logicF(
-      boost::bind(&GenLogicExprAOXN::logicD, self(), _1, _2, _3));
+      std::bind(&GenLogicExprAOXN::logicExpr, this, std::placeholders::_1,
+                std::placeholders::_2, std::placeholders::_3));
    std::vector<std::string> truthTable = util::toTruthTable(logicF);
-   string tt;
 
+   std::string tt;
    // Correct option
    tt +=
       "\\scriptsize\n\\begin{tabular}{| c | c | c || c |}\n"
       "\\hline\n"
-      "X & Y & Z & U\\\\\n"
+      "x & y & z & result\\\\\n"
       "\\hline\n";
    for (size_t i = 0; i < truthTable.size(); ++i) {
       tt += truthTable[i] + " \\\\\n";
@@ -118,12 +85,12 @@ GenLogicExprAOXN::GenLogicExprAOXN()
       "\\hline\n"
       "\\end{tabular}\n"
       "\\normalsize\n";
-   m_pO1 = std::shared_ptr<GenOption>(new GenOption(tt));
+   auto pO1 = std::shared_ptr<GenOption>(new GenOption(tt));
 
    // New option, not correct
    tt.clear();
-   ++m_AON;
-   m_AON %= 4;
+   ++AOXN_;
+   AOXN_ %= 4;
    truthTable = util::toTruthTable(logicF);
    tt +=
       "\\scriptsize\n\\begin{tabular}{| c | c | c || c |}\n"
@@ -137,12 +104,12 @@ GenLogicExprAOXN::GenLogicExprAOXN()
       "\\hline\n"
       "\\end{tabular}\n"
       "\\normalsize\n";
-   m_pO2 = std::shared_ptr<GenOption>(new GenOption(tt));
+   auto pO2 = std::shared_ptr<GenOption>(new GenOption(tt));
 
    // New option, not correct
    tt.clear();
-   ++m_AON;
-   m_AON %= 4;
+   ++AOXN_;
+   AOXN_ %= 4;
    truthTable = util::toTruthTable(logicF);
    tt +=
       "\\scriptsize\n\\begin{tabular}{| c | c | c || c |}\n"
@@ -156,12 +123,12 @@ GenLogicExprAOXN::GenLogicExprAOXN()
       "\\hline\n"
       "\\end{tabular}\n"
       "\\normalsize\n";
-   m_pO3 = std::shared_ptr<GenOption>(new GenOption(tt));
+   auto pO3 = std::shared_ptr<GenOption>(new GenOption(tt));
 
    // New option, not correct
    tt.clear();
-   ++m_AON;
-   m_AON %= 4;
+   ++AOXN_;
+   AOXN_ %= 4;
    truthTable = util::toTruthTable(logicF);
    tt +=
       "\\scriptsize\n\\begin{tabular}{| c | c | c ||  c |}\n"
@@ -175,24 +142,22 @@ GenLogicExprAOXN::GenLogicExprAOXN()
       "\\hline\n"
       "\\end{tabular}\n"
       "\\normalsize\n";
-   m_pO4 = std::shared_ptr<GenOption>(new GenOption(tt));
+   auto pO4 = std::shared_ptr<GenOption>(new GenOption(tt));
 
-   addToOptions(m_pO1, true);
-   addToOptions(m_pO2);
-   addToOptions(m_pO3);
-   addToOptions(m_pO4);
+   addToOptions(pO1, true);
+   addToOptions(pO2);
+   addToOptions(pO3);
+   addToOptions(pO4);
 }
 
-void GenLogicExprAOXN::prepare() {}
-
-bool GenLogicExprAOXN::logicD(bool b1, bool b2, bool b3)
+bool GenLogicExprAOXN::logicExpr(bool b1, bool b2, bool b3)
 {
    util::bool2Pars_t lf1;
    util::bool1Pars_t lf2;
    util::bool2Pars_t lf3;
    util::bool1Pars_t lf4;
 
-   switch (m_AON) {
+   switch (AOXN_) {
       case 0:
          // ANXE
          lf1 = andF;
