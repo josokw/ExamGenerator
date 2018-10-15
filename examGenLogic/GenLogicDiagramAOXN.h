@@ -16,7 +16,7 @@ class GenOption;
 
 /// Resposible for creating a logic diagram containing AND, OR, XOR and NOT blocks.
 /// The options are formatted in 4 columns containing the truth tables.
-class GenLogicDiagramAOXN: public GenItem
+class GenLogicDiagramAOXN final: public GenItem
 {
 public:
   GenLogicDiagramAOXN();

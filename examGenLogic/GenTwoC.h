@@ -6,7 +6,7 @@
 #include <list>
 #include <tuple>
 
-class GenTwoC : public GenItem
+class GenTwoC final : public GenItem
 {
 public:
    GenTwoC();

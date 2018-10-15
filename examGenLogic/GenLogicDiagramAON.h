@@ -14,18 +14,14 @@ class GenOption;
 
 /// Resposible for creating a logic diagram containing AND, OR, and NOT blocks.
 /// The options are formatted in 4 columns containing the truth tables.
-class GenLogicDiagramAON : public GenItem
+class GenLogicDiagramAON final : public GenItem
 {
 public:
    GenLogicDiagramAON();
    virtual ~GenLogicDiagramAON();
 
-   // virtual IGenPtr_t copy() const;
-   // virtual std::ostream& write(std::ostream& os, int Level = 0) const;
-
 protected:
-   virtual void prepare();
-   // virtual void generateContents(std::ostream& os);
+   void prepare() override;
 
 private:
    static std::tuple<Random::range_t, int, std::list<int>, int> s_R0;
