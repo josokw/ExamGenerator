@@ -6,8 +6,6 @@
 #include "Log.h"
 #include "Util.h"
 
-#include <sstream>
-
 std::tuple<Random::Random::range_t, int, std::list<int>, int>
    GenNestedFor::s_R0(Random::range_t(1, 2), 0, std::list<int>(), 1);
 std::tuple<Random::Random::range_t, int, std::list<int>, int>
@@ -19,6 +17,13 @@ GenNestedFor::GenNestedFor()
    : GenItem{}
 {
    type_ = "GenNestedFor";
+
+   LOGD(id_ + ", intialised");
+}
+
+void GenNestedFor::prepare()
+{
+   LOGD(type_ + ": " + id_);
 
    auto pText = std::make_shared<GenText>(
       "What is the value of the variable $result$ after "
@@ -69,8 +74,6 @@ GenNestedFor::GenNestedFor()
    addToOptions(pO2, 8 == result);
    addToOptions(pO3, 16 == result);
    addToOptions(pO4, 32 == result);
-   
-   LOGD(id_ + ", intialised");
 }
 
 int GenNestedFor::correctAnswer(int initResult, int iStart, int jStart,

@@ -17,6 +17,9 @@ public:
    GenNestedFor();
    virtual ~GenNestedFor() = default;
 
+protected:
+   virtual void prepare() override;
+
 private:
    static std::tuple<Random::range_t, int, std::list<int>, int> s_R0;
    static std::tuple<Random::range_t, int, std::list<int>, int> s_R1;
