@@ -23,10 +23,10 @@ public:
    GenItem(const std::string &id);
    virtual ~GenItem() = default;
 
-   virtual IGenPtr_t copy() const override;
-   virtual void add(IGenPtr_t pGen) override;
-   virtual void generate(std::ostream &os) override;
-   virtual std::ostream &write(std::ostream &os, int Level = 0) const override;
+   IGenPtr_t copy() const override;
+   void add(IGenPtr_t pGen) override;
+   void generate(std::ostream &os) override;
+   std::ostream &write(std::ostream &os, int Level = 0) const override;
 
    void addToStem(IGenPtr_t pGen);
    void setIndex(int index);

@@ -15,10 +15,10 @@ public:
    GenOptions();
    virtual ~GenOptions() = default;
 
-   virtual IGenPtr_t copy() const override;
-   virtual void add(IGenPtr_t pGen) override;
-   virtual void generate(std::ostream &os) override;
-   virtual std::ostream &write(std::ostream &os, int level = 0) const override;
+   IGenPtr_t copy() const override;
+   void add(IGenPtr_t pGen) override;
+   void generate(std::ostream &os) override;
+   std::ostream &write(std::ostream &os, int level = 0) const override;
 
    /// Add an option
    void add(std::shared_ptr<GenOption> &pOption, bool isCorrect = false);

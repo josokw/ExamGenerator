@@ -24,12 +24,12 @@ public:
    GenExam(const GenExam &other) = default;
    virtual ~GenExam();
 
-   virtual IGenPtr_t copy() const override;
-   virtual void add(IGenPtr_t pGen) override;
-   virtual std::ostream &write(std::ostream &os, int level = 0) const override;
+   IGenPtr_t copy() const override;
+   void add(IGenPtr_t pGen) override;
+   void generate(std::ostream &os) override;
+   std::ostream &write(std::ostream &os, int level = 0) const override;
 
    void setLastItem();
-   virtual void generate(std::ostream &os) override;
 
 private:
    static int nExams_s;

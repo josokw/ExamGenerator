@@ -11,10 +11,10 @@ public:
    GenOption(const std::string &text);
    virtual ~GenOption() = default;
 
-   virtual IGenPtr_t copy() const;
-   virtual void add(IGenPtr_t pGen) override;
-   virtual void generate(std::ostream &os) override;
-   virtual std::ostream &write(std::ostream &os, int level = 0) const override;
+   IGenPtr_t copy() const;
+   void add(IGenPtr_t pGen) override;
+   void generate(std::ostream &os) override;
+   std::ostream &write(std::ostream &os, int level = 0) const override;
 
    bool getIsCorrect() const { return isCorrect_; }
    void setIsCorrect() const { isCorrect_ = true; }

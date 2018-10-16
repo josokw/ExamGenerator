@@ -18,10 +18,10 @@ public:
    GenSelector(const std::string &id);
    virtual ~GenSelector() = default;
 
-   virtual IGenPtr_t copy() const override;
-   virtual void add(IGenPtr_t pGen) override;
+   IGenPtr_t copy() const override;
+   void add(IGenPtr_t pGen) override;
    // virtual void generate(std::ostream& os);
-   virtual std::ostream &write(std::ostream &os, int level = 0) const override;
+   std::ostream &write(std::ostream &os, int level = 0) const override;
 
    int sizeAll() const { return allGenerators_.size(); }
    void selectR(unsigned int n);

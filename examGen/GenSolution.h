@@ -16,11 +16,10 @@ public:
    GenSolution(GenExam *pExam);
    virtual ~GenSolution() = default;
 
-   virtual IGenPtr_t copy() const override;
-   virtual std::ostream &write(std::ostream &os, int level) const override;
-
-   virtual void prepare() override;
-   virtual void generate(std::ostream &os) override;
+   IGenPtr_t copy() const override;
+   std::ostream &write(std::ostream &os, int level) const override;
+   void prepare() override;
+   void generate(std::ostream &os) override;
 
 private:
    GenExam *pExam_;
