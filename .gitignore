@@ -49,6 +49,9 @@ CTestTestfile.cmake
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# build dir
+build/*
+
 # Executable
 bin/ExamGenerator
 
@@ -56,7 +59,7 @@ bin/ExamGenerator
 *.aux
 *.fls
 *.fdb_latexmk
-examDoc.log
+*.log
 
 # Doxygen
 docs/html/*
