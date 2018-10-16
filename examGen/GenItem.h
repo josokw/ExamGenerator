@@ -4,9 +4,7 @@
 #include "GenComposite.h"
 #include "RandomProfile.h"
 
-#include <memory>
 #include <string>
-#include <vector>
 
 class GenStem;
 class GenOption;
@@ -36,7 +34,6 @@ public:
    void setPreProOptions(const std::string &preProcessing);
    void setPostProOptions(const std::string &postProcessing);
    void setLevel(int level);
-
    /// Set shuffle status for generating options
    void shuffleON();
    /// Sort options on size.

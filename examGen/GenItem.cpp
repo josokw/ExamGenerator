@@ -27,15 +27,15 @@ GenItem::GenItem()
 }
 
 GenItem::GenItem(const std::string &id)
-   : GenComposite(id)
-   , index_(0)
-   , isLastItem_(false)
-   , level_(0)
-   , shuffleON_(false)
+   : GenComposite{id}
+   , index_{0}
+   , isLastItem_{false}
+   , level_{0}
+   , shuffleON_{false}
 {
    type_ = "GenItem";
-   generators_.push_back(std::shared_ptr<GenStem>(new GenStem()));
-   generators_.push_back(std::shared_ptr<GenOptions>(new GenOptions()));
+   generators_.push_back(std::make_shared<GenStem>());
+   generators_.push_back(std::make_shared<GenOptions>());
 
    LOGD(id_ + ", initialised");
 }
@@ -44,7 +44,7 @@ IGenPtr_t GenItem::copy() const
 {
    LOGD(type_ + ": " + id_);
 
-   std::shared_ptr<GenItem> p(new GenItem(*this));
+   auto p = std::make_shared<GenItem>(*this);
    for_each(p->generators_.begin(), p->generators_.end(),
             [](IGenPtr_t &pGen) { pGen = pGen->copy(); });
    return p;
@@ -53,6 +53,7 @@ IGenPtr_t GenItem::copy() const
 void GenItem::add(IGenPtr_t pGen)
 {
    LOGD(type_ + ": " + id_);
+
    try {
       if (std::shared_ptr<GenStem> pStem =
              std::dynamic_pointer_cast<GenStem>(pGen)) {
@@ -124,6 +125,7 @@ void GenItem::generate(std::ostream &os)
 void GenItem::setIndex(int index)
 {
    LOGD(type_ + ": " + id_ + ", index = " + std::to_string(index));
+
    index_ = index;
 }
 
@@ -173,7 +175,8 @@ void GenItem::addToOptions(std::shared_ptr<GenOption> pOption, bool isCorrect)
 
 void GenItem::setPreProOptions(const std::string &preProcessing)
 {
-   LOGD(id_);
+   LOGD(type_ + ": " + id_);
+
    std::shared_ptr<GenOptions> pOptions =
       std::static_pointer_cast<GenOptions>(generators_[1]);
    pOptions->setPreProcessing(preProcessing);
@@ -181,7 +184,8 @@ void GenItem::setPreProOptions(const std::string &preProcessing)
 
 void GenItem::setPostProOptions(const std::string &postProcessing)
 {
-   LOGD(id_);
+   LOGD(type_ + ": " + id_);
+
    std::shared_ptr<GenOptions> pOptions =
       std::static_pointer_cast<GenOptions>(generators_[1]);
    pOptions->setPostProcessing(postProcessing);
@@ -189,21 +193,21 @@ void GenItem::setPostProOptions(const std::string &postProcessing)
 
 void GenItem::setLevel(int level)
 {
-   LOGD(id_);
+   LOGD(type_ + ": " + id_);
 
    level_ = level;
 }
 
 void GenItem::shuffleON()
 {
-   LOGD(id_);
+   LOGD(type_ + ": " + id_);
 
    shuffleON_ = true;
 }
 
 void GenItem::sortOptions()
 {
-   LOGD(id_);
+   LOGD(type_ + ": " + id_);
 
    std::shared_ptr<GenOptions> pOptions =
       std::static_pointer_cast<GenOptions>(generators_[1]);
@@ -212,7 +216,7 @@ void GenItem::sortOptions()
 
 std::ostream &GenItem::write(std::ostream &os, int level) const
 {
-   LOGD(id_);
+   LOGD(type_ + ": " + id_);
 
    IGenerator::write(os, level);
    os << ": index = " << index_ << "\n";
@@ -224,6 +228,8 @@ std::ostream &GenItem::write(std::ostream &os, int level) const
 
 void GenItem::prepare()
 {
+   LOGD(type_ + ": " + id_);
+
    if (shuffleON_) {
       std::shared_ptr<GenOptions> pOptions =
          std::static_pointer_cast<GenOptions>(generators_[1]);
