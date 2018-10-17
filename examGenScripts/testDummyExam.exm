@@ -46,17 +46,10 @@
 
 //---------------------------------------------------------------------------------------
 //
-// Dummy exam v0.4: Multiple Choice Test,
+// Dummy exam v0.5: Multiple Choice Test,
 // showing the syntax of the specification script language.
 //
-// ExamGenerator v0.4
-//---------------------------------------------------------------------------------------
-//
-// @todo random values generation based on a seed value
-// @todo shuffleON() make random
-// @todo implement level selection
-// @todo replace type Java by CodeText and parameter "java", "c", etc.
-//
+// ExamGenerator v0.7
 //---------------------------------------------------------------------------------------
 
 MCT mct[2];   // An array for 2 exams
@@ -83,6 +76,12 @@ Header h2
 
 mct[0] += h1;
 mct[1] += h2;
+
+//---------------------------------------------------------------------------------------
+
+mct += "\\Intro text, mauris lacinia vehicula lobortis. Pellentesque habitant morbi "
+       "tristique senectus et netus et malesuada fames ac turpis egestas. Aenean sit "
+	   "fermentum nisl, non posuere leo.";
 
 //---------------------------------------------------------------------------------------
 Item I1
@@ -118,7 +117,7 @@ Item I2
 
 	o[3] = correct;
 
-	shuffleON();
+	// shuffleON();
 };
 
 mct += I2;
@@ -136,9 +135,7 @@ Item I3
 	o[4] = "ShuffeON Op4 ....";
 
 	o[3] = correct;
-
-	shuffleON();
-};
+}
 
 mct += I3;
 
@@ -153,8 +150,6 @@ Item I4
 	o[4] = "Warning";
 
 	o[1] = correct;
-
-	//sort();
 };
 
 mct += I4;
@@ -186,7 +181,7 @@ Item I5b
 
 	o[3] = correct;
 
-	shuffleON();
+	// shuffleON();
 };
 
 Item I5c
@@ -200,8 +195,6 @@ Item I5c
 	o[4] = "5678900";
 	
 	o[2] = correct;
-	
-	shuffleON();
 };
 
 Selector S5;
@@ -256,10 +249,16 @@ Item I8
 	o[4] += j4;
 
 	o[1] = correct;
-	
-	shuffleON();
 };
 
 mct += I8;
+
+//---------------------------------------------------------------------------------------
+
+LogicExprAON leAON1;
+mct += leAON1;
+
+LogicDiagramAON dagAON1;
+mct += dagAON1;
 
 //---------------------------------------------------------------------------------------
