@@ -24,7 +24,7 @@ void GenLogicExprAON::prepare()
    LOGD(type_ + ": " + id_);
 
    auto pText = std::make_shared<GenText>(
-      "\\needspace{6cm} The variables $x$, $y$, $z$ and $result$ are all "
+      "\\needspace{8cm} The variables $x$, $y$, $z$ and $result$ are all "
       "int typed. True equals 1 and false equals 0. What is the truth table "
       "for the next logical expression?");
    addToStem(pText);
@@ -80,9 +80,12 @@ void GenLogicExprAON::prepare()
    for (auto &opt : options) {
       tt = starttt;
       truthTable = util::toTruthTable(logicF);
-      for (size_t i = 0; i < truthTable.size(); ++i) {
-         tt += truthTable[i] + " \\\\\n";
+      for (auto &truth : truthTable) {
+         tt += truth + " \\\\\n";
       }
+      // for (size_t i = 0; i < truthTable.size(); ++i) {
+      //    tt += truthTable[i] + " \\\\\n";
+      // }
       tt += endtt;
       opt = std::make_shared<GenOption>(tt);
       addToOptions(opt, first);
