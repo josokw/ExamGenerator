@@ -32,7 +32,6 @@ public:
    explicit IGenerator(const std::string &id);
    virtual ~IGenerator();
 
-
    /// Copies IGenerator derived class instantiations.
    virtual IGenPtr_t copy() const = 0;
    /// Adds another IGenerator derived type object to composite types.
@@ -43,7 +42,7 @@ public:
    virtual void generate(std::ostream &os) = 0;
    /// Writes status to os stream.
    virtual std::ostream &write(std::ostream &os, int level = 0) const;
-   
+
    const std::string &getType() const { return type_; }
    void setID(const std::string &id) { id_ = id; }
    const std::string &getID() const { return id_; }

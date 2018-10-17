@@ -15,13 +15,12 @@ RandomProfile IGenerator::randomProfile_s;
 IGenerator::IGenerator()
    : IGenerator("NOT-DEFINED")
 {
-   LOGD(id_ + ", initialised");
 }
 
 IGenerator::IGenerator(const std::string &id)
    : ranges_{}
    , RSelectors_{}
-   , type_{"NOT-DEFINED"}
+   , type_{"IGenerator"}
    , id_{id}
    , difficultyLevel_{0}
 {
@@ -37,6 +36,7 @@ void IGenerator::add(IGenPtr_t pGen)
 {
    LOGE(type_ + ": " + id_ +
         ", leaf object type in composite, no adding allowed");
+
    throw std::runtime_error( //__AT__
       "Leaf object type in composite, no adding allowed");
 }
@@ -44,7 +44,9 @@ void IGenerator::add(IGenPtr_t pGen)
 std::ostream &IGenerator::write(std::ostream &os, int level) const
 {
    LOGD(type_ + ": " + id_ + ", level = " + std::to_string(level));
+
    const std::string INDENTATION(level * 2, ' ');
    os << INDENTATION << type_ << " '" << id_ << "' " << this;
+
    return os;
 }
