@@ -15,8 +15,8 @@ std::tuple<Random::range_t, int, std::list<int>, int>
 
 GenLogicDiagramAOXN::GenLogicDiagramAOXN()
    : GenItem()
-   , m_pText(new GenText("Wat is de bijbehorende waarheidstabel voor "
-                         "onderstaand logisch schema?"))
+   , m_pText(new GenText("\\needspace{17cm} What is the truth table "
+                         "for the next diagram?"))
    , m_pO1()
    , m_pO2()
    , m_pO3()

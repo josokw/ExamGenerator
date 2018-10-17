@@ -83,9 +83,6 @@ void GenLogicExprAON::prepare()
       for (auto &truth : truthTable) {
          tt += truth + " \\\\\n";
       }
-      // for (size_t i = 0; i < truthTable.size(); ++i) {
-      //    tt += truthTable[i] + " \\\\\n";
-      // }
       tt += endtt;
       opt = std::make_shared<GenOption>(tt);
       addToOptions(opt, first);
