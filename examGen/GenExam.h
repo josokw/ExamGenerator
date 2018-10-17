@@ -29,12 +29,17 @@ public:
    void generate(std::ostream &os) override;
    std::ostream &write(std::ostream &os, int level = 0) const override;
 
+   IGenPtr_t getHeader() const
+   {
+      return (headerIsAdded_) ? generators_[headerIndex_] : nullptr;
+   }
    void setLastItem();
 
 private:
    static int nExams_s;
    std::vector<message_t> &messages_;
    bool headerIsAdded_;
+   int headerIndex_;
    std::shared_ptr<GenItem> pLastAddedItem_;
    int indexLastAddedItem_;
    std::shared_ptr<GenSolution> pGenSolution_;
