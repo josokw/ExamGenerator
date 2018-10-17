@@ -1,6 +1,7 @@
 #ifndef IGENERATOR_H
 #define IGENERATOR_H
 
+#include "Log.h"
 #include "RandomProfile.h"
 
 #include <iostream>
@@ -44,7 +45,12 @@ public:
    virtual std::ostream &write(std::ostream &os, int level = 0) const;
 
    const std::string &getType() const { return type_; }
-   void setID(const std::string &id) { id_ = id; }
+   void setID(const std::string &id)
+   {
+      id_ = id;
+
+      LOGD(type_ + ": id_ updated = " + id_);
+   }
    const std::string &getID() const { return id_; }
    void setDifficultyLevel(int difficultyLevel)
    {
