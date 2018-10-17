@@ -20,12 +20,14 @@ GenExam::GenExam(std::vector<message_t> &messages)
    : GenComposite{}
    , messages_{messages}
    , headerIsAdded_{false}
+   , headerIndex_{-1}
    , pLastAddedItem_{nullptr}
    , indexLastAddedItem_{0}
    , pGenSolution_{nullptr}
 {
    type_ = "GenExam";
    ++nExams_s;
+
    LOGD(id_ + ", initialised, nExams_s = " + std::to_string(nExams_s));
 }
 
@@ -38,6 +40,7 @@ GenExam::~GenExam()
 IGenPtr_t GenExam::copy() const
 {
    LOGD(type_ + ": " + id_);
+
    std::shared_ptr<GenExam> p(new GenExam(*this));
    //    for (auto &gen : generators_) {
    //       gen = gen->copy();
@@ -73,6 +76,7 @@ void GenExam::add(IGenPtr_t pGen)
          if (!headerIsAdded_) {
             generators_.push_back(pGen);
             headerIsAdded_ = true;
+            headerIndex_ = generators_.size() - 1;
          } else {
             LOGE(id_ + ", a header is already added");
             messages_.push_back(message_t(
@@ -186,7 +190,7 @@ void GenExam::setLastItem()
 void GenExam::generate(std::ostream &os)
 {
    LOGD(type_ + ": " + id_);
-   
+
    // GenItem::clearIndexCount();
    if (pLastAddedItem_) {
       pLastAddedItem_->setAsLastItem();
@@ -206,6 +210,7 @@ void GenExam::generate(std::ostream &os)
          gen->generate(os);
       }
    }
-   LOGI(type_ + ": " + id_ + ", is generated");
    os << "\n% End of exam '" << getID() << "' generation\n\n";
+
+   LOGI(type_ + ": " + id_ + ", is generated");
 }

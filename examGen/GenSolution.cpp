@@ -5,20 +5,20 @@
 #include "GenOptions.h"
 #include "Log.h"
 
-#include <iostream>
-
 GenSolution::GenSolution(GenExam *pExam)
    : IGenerator{}
    , pExam_{pExam}
    , solutions_{}
 {
    type_ = "GenSolution";
+
    LOGD(id_ + ", initialised");
 }
 
 IGenPtr_t GenSolution::copy() const
 {
    LOGD(type_ + ": " + id_);
+
    std::shared_ptr<GenSolution> p(new GenSolution(*this));
    return p;
 }
@@ -60,7 +60,6 @@ void GenSolution::prepare()
          }
       }
    }
-   //std::cerr << *this << std::endl;
 }
 
 void GenSolution::generate(std::ostream &os)
@@ -71,13 +70,14 @@ void GenSolution::generate(std::ostream &os)
 
    os << "\n% Solution generation for exam '" + pExam_->getID() + "'\n";
    os << "\\cleardoublepage\n";
-   os << "\\noindent " << std::string(40, '-') << "  " << pExam_->getID()
-      << "\n";
-   os << "\\\\Answers:\n";
+
+   pExam_->getHeader()->generate(os);
+ 
+   os << "\\\\Answers:\\\\\n";
    for (size_t i = 0; i < solutions_.size(); ++i) {
       os << "\\\\ " << (i + 1) << ". " << static_cast<char>('A' + solutions_[i])
          << "\n";
    }
-   os << "\\\\ " << std::string(40, '-')
+   os << "\\\\ " << std::string(50, '-')
       << std::string(2 + pExam_->getID().size(), '-') << "\n";
 }
