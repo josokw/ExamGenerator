@@ -18,7 +18,7 @@ class GenLogicDiagramAON final : public GenItem
 {
 public:
    GenLogicDiagramAON();
-   virtual ~GenLogicDiagramAON();
+   virtual ~GenLogicDiagramAON() = default;
 
 protected:
    void prepare() override;

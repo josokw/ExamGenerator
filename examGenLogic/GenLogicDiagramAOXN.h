@@ -20,17 +20,13 @@ class GenLogicDiagramAOXN final: public GenItem
 {
 public:
   GenLogicDiagramAOXN();
-  virtual ~GenLogicDiagramAOXN();     
-
-  //virtual IGenPtr_t copy();
-  //virtual std::ostream& write(std::ostream& os, int Level = 0) const;
+  virtual ~GenLogicDiagramAOXN() = default;     
 
 protected:
-  virtual void prepare();
-  //virtual void generateContents(std::ostream& os); 
+  void prepare() override;
 
 private:
-  static std::tuple<Random::range_t, int, std::list<int>, int> s_R0; 
+  static RandomProfile::fullR_t R0_s; 
   static int correctAnswer(int OrAnd, int EqNot, int XorOr);
 
   std::shared_ptr<GenText> m_pText;

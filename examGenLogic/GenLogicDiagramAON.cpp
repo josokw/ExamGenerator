@@ -1,17 +1,14 @@
-#include <sstream>
-
-#include "GenCodeText.h"
 #include "GenLogicDiagramAON.h"
+#include "GenCodeText.h"
 #include "GenOption.h"
 #include "GenOptions.h"
 #include "GenStem.h"
 #include "GenText.h"
 #include "LaTeX.h"
+#include "Log.h"
 
-using namespace std;
-
-std::tuple<Random::range_t, int, std::list<int>, int>
-   GenLogicDiagramAON::s_R0(Random::range_t(0, 3), 0, std::list<int>(), 3);
+RandomProfile::fullR_t GenLogicDiagramAON::s_R0(Random::range_t(0, 3), 0,
+                                                std::list<int>(), 3);
 
 GenLogicDiagramAON::GenLogicDiagramAON()
    : GenItem()
@@ -34,7 +31,7 @@ GenLogicDiagramAON::GenLogicDiagramAON()
 
    m_AON = randomProfile_s.generate(s_R0);
 
-   string LD(
+   std::string LD(
       "\n\\\\\n"
       "\\ifx\\JPicScale\\undefined\\def\\JPicScale{1}\\fi\n"
       "\\def\\JPicScale{0.55}\n"
@@ -99,7 +96,7 @@ GenLogicDiagramAON::GenLogicDiagramAON()
    util::bool3Pars_t logicF(
       boost::bind(&GenLogicDiagramAON::logicD, self(), _1, _2, _3));
    std::vector<std::string> truthTable = util::toTruthTable(logicF);
-   string tt;
+   std::string tt;
 
    // Correct option
    tt +=
@@ -177,11 +174,8 @@ GenLogicDiagramAON::GenLogicDiagramAON()
    addToOptions(m_pO2);
    addToOptions(m_pO3);
    addToOptions(m_pO4);
-}
 
-GenLogicDiagramAON::~GenLogicDiagramAON()
-{
-   // IGenerator::write(clog) << " ##### DTOR" << endl;
+   LOGD(id_ + ", initialised");
 }
 
 // IGenPtr_t GenLogicDiagramAON::copy() const
@@ -191,7 +185,10 @@ GenLogicDiagramAON::~GenLogicDiagramAON()
 //  [](IGenPtr_t& pGen){ pGen = pGen->copy(); } ); return p;
 //}
 
-void GenLogicDiagramAON::prepare() {}
+void GenLogicDiagramAON::prepare()
+{
+   LOGD(type_ + "; " + id_);
+}
 
 bool GenLogicDiagramAON::logicD(bool b1, bool b2, bool b3)
 {

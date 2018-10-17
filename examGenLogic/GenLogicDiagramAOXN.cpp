@@ -1,17 +1,16 @@
-#include <sstream>
-
-#include "GenCodeText.h"
 #include "GenLogicDiagramAOXN.h"
+#include "GenCodeText.h"
 #include "GenOption.h"
 #include "GenOptions.h"
 #include "GenStem.h"
 #include "GenText.h"
 #include "LaTeX.h"
+#include "Log.h"
 
 #include <tuple>
 
-std::tuple<Random::range_t, int, std::list<int>, int>
-   GenLogicDiagramAOXN::s_R0(Random::range_t(0, 3), 0, std::list<int>(), 3);
+RandomProfile::fullR_t GenLogicDiagramAOXN::R0_s(Random::range_t(0, 3), 0,
+                                                 std::list<int>(), 3);
 
 GenLogicDiagramAOXN::GenLogicDiagramAOXN()
    : GenItem()
@@ -33,7 +32,7 @@ GenLogicDiagramAOXN::GenLogicDiagramAOXN()
    setPreProOptions("\\begin{multicols}{4}{\n");
    setPostProOptions("\n}\n\\end{multicols}\n");
 
-   m_AON = randomProfile_s.generate(s_R0);
+   m_AON = randomProfile_s.generate(R0_s);
 
    std::string LD(
       "\n\\\\\n"
@@ -178,14 +177,14 @@ GenLogicDiagramAOXN::GenLogicDiagramAOXN()
    addToOptions(m_pO2);
    addToOptions(m_pO3);
    addToOptions(m_pO4);
+
+   LOGD(id_ + ", initialised");
 }
 
-GenLogicDiagramAOXN::~GenLogicDiagramAOXN()
+void GenLogicDiagramAOXN::prepare()
 {
-   // IGenerator::write(clog) << " ##### DTOR" << endl;
+   LOGD(type_ + "; " + id_);
 }
-
-void GenLogicDiagramAOXN::prepare() {}
 
 bool GenLogicDiagramAOXN::logicD(bool b1, bool b2, bool b3)
 {
