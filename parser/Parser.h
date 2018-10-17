@@ -42,6 +42,7 @@
 namespace bsc = boost::spirit::classic;
 
 /// This structure contains all semantic actions of the parser.
+/// @todo GenericFactory not used, replace?
 struct MCTestBuilder {
    // Errors to check for during the parse
    enum class ERROR {
@@ -197,6 +198,8 @@ struct MCTestBuilder {
    {
       vars_p.add("AppName", APPNAME);
       vars_p.add("Version", VERSION);
+
+      LOGD("initialised");
    }
 
    // Helper functions
@@ -226,6 +229,8 @@ struct MCTestBuilder {
       // bug parser?
       *(text.end() - 1) = ' ';
       text += "\n";
+
+      LOGD(text);
    }
 
    void do_addNewCodeLine(const char * /* begin */, const char * /* end */)
@@ -236,10 +241,14 @@ struct MCTestBuilder {
       text += "\n";
       // text.replace( = ' ';
       //*(text.end()-1) = ' ';
+
+      LOGD(text);
    }
 
    void do_assignment(const char *begin, const char *)
    {
+      LOGD(std::string(begin));
+
       if (!itemScope.empty()) {
          lhs = itemScope + "." + lhs;
       }
@@ -253,10 +262,17 @@ struct MCTestBuilder {
       }
    }
 
-   void do_retrieve(std::string &s) { rhs.append(" ").append(s); }
+   void do_retrieve(std::string &s)
+   {
+      LOGD(s);
+
+      rhs.append(" ").append(s);
+   }
 
    void do_createMCT(const char *begin, const char *end)
    {
+      LOGD(std::string(begin, end));
+
       if (!itemScope.empty()) {
          LOGE(id_ + ", MCT '" + id_ + "' should be declared global!");
          messages_.push_back(Reader::message_t(
@@ -274,6 +290,8 @@ struct MCTestBuilder {
 
    void do_createMCTs(const char *begin, const char *end)
    {
+      LOGD(std::string(begin, end));
+
       std::vector<std::shared_ptr<GenExams>> &ProductLocal(Product);
 
       if (!itemScope.empty()) {
@@ -293,6 +311,8 @@ struct MCTestBuilder {
 
    void do_createItem(const char *begin, const char *end)
    {
+      LOGD(std::string(begin, end));
+
       if (idGeneratorIsUnique(id_, begin, end)) {
          p_actualItem = std::shared_ptr<GenItem>(new GenItem(id_));
          bsc::add(generators_p, id_.c_str(),
@@ -302,12 +322,14 @@ struct MCTestBuilder {
                   static_cast<IGenPtr_t>((*p_actualItem)[0]));
          bsc::add(generators_p, (id_ + std::string(".stem")).c_str(),
                   static_cast<IGenPtr_t>((*p_actualItem)[0]));
-         genFactory.addGenerator(id_, p_actualItem);
+         // genFactory.addGenerator(id_, p_actualItem);
       }
    }
 
    void do_createObject(const char *begin, const char *end)
    {
+      LOGD(std::string(begin, end));
+
       if (idGeneratorIsUnique(id_, begin, end)) {
          if (type == "Selector") {
             std::shared_ptr<GenSelector> pS(new GenSelector(id_));
@@ -369,6 +391,8 @@ struct MCTestBuilder {
 
    void do_createHeader(const char *begin, const char *end)
    {
+      LOGD(std::string(begin, end));
+
       if (idGeneratorIsUnique(id_, begin, end)) {
          p_actualHeader = std::shared_ptr<GenHeader>(new GenHeader(id_));
          *p_actualHeader = tempHeader;
@@ -380,6 +404,8 @@ struct MCTestBuilder {
 
    void do_createOption(const char *begin, const char *end)
    {
+      LOGD(std::string(begin, end));
+
       addItemScope(lhs);
       if (idGeneratorIsUnique(lhs, begin, end)) {
          p_actualOption = std::shared_ptr<GenOption>(new GenOption(text));
@@ -398,6 +424,8 @@ struct MCTestBuilder {
 
    void do_setOptionCorrect(const char *begin, const char *end)
    {
+      LOGD(std::string(begin, end));
+
       try {
          addItemScope(lhs);
          // Set option to be correct
@@ -421,6 +449,8 @@ struct MCTestBuilder {
 
    void do_createGen(const char *begin, const char *end)
    {
+      LOGD(std::string(begin, end));
+
       addItemScope(id_);
       if (idGeneratorIsUnique(id_, begin, end)) {
          if (type == "Header") {
@@ -467,6 +497,8 @@ struct MCTestBuilder {
 
    void do_addTextToGen(const char *begin, const char *end)
    {
+      LOGD(std::string(begin, end));
+
       addItemScope(lhs);
       if (auto ppGenLHS = idGeneratorIsAvailable(lhs, begin, end)) {
          std::shared_ptr<GenText> pT(new GenText(text));
@@ -476,6 +508,8 @@ struct MCTestBuilder {
 
    void do_addTextToStem(const char *begin, const char *end)
    {
+      LOGD(std::string(begin, end));
+
       addItemScope(lhs);
       if (auto ppGenLHS = idGeneratorIsAvailable(lhs, begin, end)) {
          std::shared_ptr<GenText> pT(new GenText(text.c_str()));
@@ -485,6 +519,8 @@ struct MCTestBuilder {
 
    void do_setLevelOfItem(const char *begin, const char *end)
    {
+      LOGD(std::string(begin, end));
+
       addItemScope(lhs);
       if (auto ppGenLHS = idGeneratorIsAvailable(lhs, begin, end)) {
          (*ppGenLHS)->setDifficultyLevel(level_);
@@ -496,8 +532,11 @@ struct MCTestBuilder {
    /// Item's.
    void do_addGenToGen(const char *begin, const char *end)
    {
+      LOGD(std::string(begin, end));
+
       addItemScope(lhs);
       addItemScope(rhs);
+
       if (auto ppGenLHS = idGeneratorIsAvailable(lhs, begin, end)) {
          if (auto ppGenRHS = idGeneratorIsAvailable(rhs, begin, end)) {
             if (isArrayElement_) {
@@ -548,8 +587,11 @@ struct MCTestBuilder {
    /// Example: MCT mct; Selector S; ... mct += S(3);
    void do_addFunctorResultToGen(const char *begin, const char *end)
    {
+      LOGD(std::string(begin, end));
+
       addItemScope(lhs);
       addItemScope(rhs);
+
       parList.erase(std::remove(parList.begin(), parList.end(), ""),
                     parList.end());
       if (auto ppGenLHS = idGeneratorIsAvailable(lhs, begin, end)) {
@@ -604,10 +646,15 @@ struct MCTestBuilder {
       parList.clear();
    }
 
-   void do_endOfSpec(const char *, const char *) {}
+   void do_endOfSpec(const char *begin, const char *end)
+   {
+      LOGD(std::string(begin, end));
+   }
 
    void do_localFunctionCall(const char *begin, const char *end)
    {
+      LOGD(std::string(begin, end));
+
       try {
          /// @bug Workaround: remove empty strings from parList
          parList.erase(std::remove(parList.begin(), parList.end(), ""),
@@ -641,6 +688,8 @@ struct MCTestBuilder {
 
    void do_memberFunctionCall(const char *begin, const char *end)
    {
+      LOGD(std::string(begin, end));
+
       try {
          /// @bug Workaround: remove empty strings from parList
          parList.erase(std::remove(parList.begin(), parList.end(), ""),
@@ -707,6 +756,8 @@ struct MCTestBuilder {
 
    void do_functionCall(const char *begin, const char *end)
    {
+      LOGD(std::string(begin, end));
+
       try {
          /// @bug Workaround: remove empty strings from parList
          parList.erase(std::remove(parList.begin(), parList.end(), ""),
@@ -741,6 +792,8 @@ struct MCTestBuilder {
 
    void addItemScope(std::string &id)
    {
+      LOGD(id);
+
       if (!itemScope.empty()) {
          id = itemScope + "." + id;
       }
@@ -772,6 +825,7 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
    MCTspecParser(MCTestBuilder &pb)
       : pb_(pb)
    {
+      LOGD("initialised");
    }
 
    template <typename ScannerT> struct definition {
