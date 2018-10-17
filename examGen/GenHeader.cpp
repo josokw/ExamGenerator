@@ -17,6 +17,7 @@ GenHeader::GenHeader(const std::string &id)
    , BoxedText{}
 {
    type_ = "GenHeader";
+
    LOGD(id_ + ", initialised");
 }
 
@@ -30,13 +31,21 @@ void GenHeader::generate(std::ostream &os)
 {
    LOGD(type_ + ": " + id_);
 
-   os << "\\noindent\n"
-      << "\\textbf{\\LARGE " << School << "} \\newline \n"
-      << "\\textbf{\\large Course: " << Course << "} \\\\* \n"
-      << "\\textbf{\\large Lecturer(s): " << Lecturer << "} \\\\* \n"
-      << "\\textbf{\\large Time: " << Date << "} \\\\* [0.3cm] \n";
-
-   if (!BoxedText.empty()) {
+   os << "\\noindent\n";
+   if (not School.empty()) {
+      os << "\\textbf{\\LARGE " << School << "} \\newline \n";
+   }
+   if (not Course.empty()) {
+      os << "\\textbf{\\large Course: " << Course << "} \\\\* \n";
+   }
+   if (not Lecturer.empty()) {
+      os << "\\textbf{\\large Lecturer(s): " << Lecturer << "} \\\\* \n";
+   }
+   if (not Date.empty()) {
+      os << "\\textbf{\\large Time: " << Date << "} \\\\* \n";
+   }
+   os << " [0.3 cm] \n";
+   if (not BoxedText.empty()) {
       os << "\\textbox{0.5cm}{\\noindent " << BoxedText << " }\n";
    }
 }
