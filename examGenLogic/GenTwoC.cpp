@@ -31,7 +31,7 @@ void GenTwoC::prepare()
                                           std::to_string(N) +
                                           " in 8 bits 2-complement notation?");
    addToStem(pText);
-   
+
    auto pO1 = std::make_shared<GenOption>(util::Binary(N - 1, 8));
    auto pO2 = std::make_shared<GenOption>(util::Binary(N, 8));
    auto pO3 = std::make_shared<GenOption>(util::Binary(N + 1, 8));
@@ -41,6 +41,6 @@ void GenTwoC::prepare()
    addToOptions(pO2, true);
    addToOptions(pO3);
    addToOptions(pO4);
-   shuffleON();
-   GenItem::prepare();
+   //    shuffleON();
+   //    GenItem::prepare();
 }
