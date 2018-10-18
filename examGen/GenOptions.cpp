@@ -4,6 +4,7 @@
 #include "Log.h"
 
 #include <algorithm>
+#include <random>
 #include <string>
 
 namespace {
@@ -97,10 +98,11 @@ void GenOptions::shuffle()
 {
    LOGD(type_ + ": " + id_);
 
-   static Random R(10);
+   std::random_device rd;
+   std::mt19937 g(rd());
 
    std::random_shuffle(begin(GenComposite::getGenerators()),
-                       end(GenComposite::getGenerators()), R);
+                       end(GenComposite::getGenerators()));
 }
 
 void GenOptions::sort()
