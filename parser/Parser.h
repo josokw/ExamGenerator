@@ -459,7 +459,7 @@ struct MCTestBuilder {
                      std::static_pointer_cast<IGenerator>(pH));
             p_actualHeader = pH;
          } else {
-            if (type == "Java") {
+            if (type == "CodeText") {
                std::shared_ptr<GenCodeText> pJ(new GenCodeText("C", text));
                pJ->setID(id_);
                bsc::add(generators_p, id_.c_str(),
@@ -849,15 +849,15 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
          //    BoxedText
          // n Items
          //    Item: Stem + 3..5 Options
-         //       Stem: Text + Java + APIdoc
-         //       Option: Text + Java + APIdoc
+         //       Stem: Text + CodeText + APIdoc
+         //       Option: Text + CodeText + APIdoc
          // Selector
 
          main =
             (+MCT |
              Error[bsc::assign_a(pb.error, MCTestBuilder::ERROR::MCT_EXPECTED)]
                   [pb.errorMessage]) >>
-            *(Header | Item | Declaration | Java | Image | APIdoc | Add |
+            *(Header | Item | Declaration | CodeText | Image | APIdoc | Add |
               AddText | memberFunctionCall) >>
             bsc::end_p[pb.endOfSpec];
 
@@ -911,7 +911,7 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
                 (ItemBlock | itemAssignment[pb.functionCall]) >> SEMIexpected;
 
          ItemBlock = bsc::strlit<>("{")[pb.createItem] >> !levelAssignment >>
-                     stemAssignment >> *(Java | APIdoc | optionAssignment |
+                     stemAssignment >> *(CodeText | APIdoc | optionAssignment |
                                          AddGenerator | AddText) >>
                      *localFunctionCall >> bsc::ch_p('}')[pb.resetItemScope];
 
@@ -929,7 +929,7 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
                  +(textLine[bsc::assign_a(pb.rhs)] |
                    pb.vars_p[pb.retrieve]))[pb.assignment];
 
-         Java = (bsc::strlit<>("Java")[bsc::assign_a(pb.type)] >>
+         CodeText = (bsc::strlit<>("CodeText")[bsc::assign_a(pb.type)] >>
                  id[bsc::assign_a(pb.lhs)][bsc::assign_a(pb.id_)] >>
                  assignment_op[bsc::assign_a(pb.text, "")] >> codeLines >>
                  SEMI)[pb.assignment][pb.createGen];
@@ -1035,7 +1035,7 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
       using rule_t = bsc::rule<ScannerT>;
 
       rule_t main, Type, Declaration, MCT, Header, HeaderBlock, Item, ItemBlock,
-         levelAssignment, stemAssignment, Text, Java, APIdoc, Image,
+         levelAssignment, stemAssignment, Text, CodeText, APIdoc, Image,
          optionAssignment, itemAssignment, Add, AddGenerator, AddFunctorResult,
          AddMemberFunctionResult, AddText, functorCall, localFunctionCall,
          memberFunctionCall, CSV, optionIndex, arglist, id, optionId, textLine,
