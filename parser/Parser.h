@@ -245,9 +245,9 @@ struct MCTestBuilder {
       LOGD(text);
    }
 
-   void do_assignment(const char *begin, const char *)
+   void do_assignment(const char *begin, const char * /* end */ )
    {
-      LOGD(std::string(begin));
+      LOGD(std::string(begin, begin + 30) + " ...");
 
       if (!itemScope.empty()) {
          lhs = itemScope + "." + lhs;
