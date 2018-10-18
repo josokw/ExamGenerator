@@ -25,7 +25,7 @@ using IGenPtr_t = std::shared_ptr<IGenerator>;
 ///
 /// Class invariant: #id_ is not empty.
 ///
-/// @todo make class non copyable
+/// @todo make class non-copyable
 class IGenerator
 {
    friend std::ostream &operator<<(std::ostream &os, const IGenerator &iGen);
