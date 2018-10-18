@@ -24,6 +24,8 @@ using IGenPtr_t = std::shared_ptr<IGenerator>;
 /// integers for selecting input values.
 ///
 /// Class invariant: #id_ is not empty.
+///
+/// @todo make class non copyable
 class IGenerator
 {
    friend std::ostream &operator<<(std::ostream &os, const IGenerator &iGen);
@@ -32,6 +34,8 @@ public:
    IGenerator();
    explicit IGenerator(const std::string &id);
    virtual ~IGenerator();
+   //    IGenerator(const IGenerator &other) = delete;
+   //    IGenerator &operator=(const IGenerator &other) = delete;
 
    /// Copies IGenerator derived class instantiations.
    virtual IGenPtr_t copy() const = 0;
