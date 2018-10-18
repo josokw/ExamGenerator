@@ -117,7 +117,7 @@ Item I2
 
 	o[3] = correct;
 
-	// shuffleON();
+	shuffleON();
 };
 
 mct += I2;
@@ -181,7 +181,7 @@ Item I5b
 
 	o[3] = correct;
 
-	// shuffleON();
+	shuffleON();
 };
 
 Item I5c
@@ -209,8 +209,8 @@ mct += S5(2);
 Item I7
 {
 	stem = "Praesent viverra nisi et purus gravida, malesuada tincidunt libero. ";
-    Java j1 = "printf(\"Hello exam\");";     
-	stem += j1;
+    CodeText code = "printf(\"Hello exam\");";     
+	stem += code;
 	stem +=  "Donec eget urna posuere?";	 
 		   
 	o[1] = "Praesent viverra nisi et purus gravida.";
@@ -230,23 +230,23 @@ Item I8
     level = 1;
 	stem = "Quisque viverra, risus nec lacinia euismod?";
          
-	Java j1 = "int main()"
-              "{ ";
-	Java j2 = "int main();"
-              "{ ";       
-	Java j3 = "int() main"
-	          "{";
-	Java j4 = "int main"
-	          "{";
+	CodeText code1 = "int main()"
+                     "{ ";
+	CodeText code2 = "int main();"
+                     "{ ";       
+	CodeText code3 = "int() main"
+	                 "{";
+	CodeText code4 = "int main"
+	                 "{";
             
 	o[1] = ".";
-	o[1] += j1; 
+	o[1] += code1; 
 	o[2] = ".";
-	o[2] += j2;
+	o[2] += code2;
 	o[3] = ".";
-	o[3] += j3;
+	o[3] += code3;
 	o[4] = ".";
-	o[4] += j4;
+	o[4] += code4;
 
 	o[1] = correct;
 };
