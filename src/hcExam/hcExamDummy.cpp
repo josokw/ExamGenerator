@@ -75,7 +75,7 @@ void hcExamDummy(std::ofstream &LaTeXfile)
       pHeader->School = "School dummy";
       pHeader->Course = "Magic dummy";
       pHeader->Lecturer = "Code Warrier";
-      pHeader->Date = "1th January 2020";
+      pHeader->Other = "1th January 2020";
       pHeader->BoxedText = "Success!";
 
       pExam->add(pHeader);

@@ -23,7 +23,7 @@ public:
    std::string School;
    std::string Course;
    std::string Lecturer;
-   std::string Date;
+   std::string Other;
    std::string BoxedText;
 };
 

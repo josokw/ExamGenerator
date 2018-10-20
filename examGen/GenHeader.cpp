@@ -1,7 +1,7 @@
-#include <string>
-
 #include "GenHeader.h"
 #include "Log.h"
+
+#include <string>
 
 GenHeader::GenHeader()
    : GenHeader{"NOT-DEFINED"}
@@ -13,7 +13,7 @@ GenHeader::GenHeader(const std::string &id)
    , School{}
    , Course{}
    , Lecturer{}
-   , Date{}
+   , Other{}
    , BoxedText{}
 {
    type_ = "GenHeader";
@@ -41,8 +41,8 @@ void GenHeader::generate(std::ostream &os)
    if (not Lecturer.empty()) {
       os << "\\textbf{\\large Lecturer(s): " << Lecturer << "} \\\\* \n";
    }
-   if (not Date.empty()) {
-      os << "\\textbf{\\large Time: " << Date << "} \\\\* \n";
+   if (not Other.empty()) {
+      os << "\\textbf{\\large " << Other << "} \\\\* \n";
    }
    os << " [0.3 cm] \n";
    if (not BoxedText.empty()) {
@@ -53,6 +53,6 @@ void GenHeader::generate(std::ostream &os)
 std::ostream &GenHeader::write(std::ostream &os, int level) const
 {
    IGenerator::write(os, level);
-   os << ": " << School << " ... " << Date << "\n";
+   os << ": " << School << " ... " << Other << "\n";
    return os;
 }

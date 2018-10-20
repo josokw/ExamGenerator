@@ -273,7 +273,7 @@ struct MCTestBuilder {
    {
       LOGD(std::string(begin, end));
 
-      if (!itemScope.empty()) {
+      if (not itemScope.empty()) {
          LOGE(id_ + ", MCT '" + id_ + "' should be declared global!");
          messages_.push_back(Reader::message_t(
             'E', 0, begin, "MCT '" + id_ + "' should be declared global!"));
@@ -294,7 +294,7 @@ struct MCTestBuilder {
 
       std::vector<std::shared_ptr<GenExams>> &ProductLocal(Product);
 
-      if (!itemScope.empty()) {
+      if (not itemScope.empty()) {
          messages_.push_back(Reader::message_t(
             'E', 0, begin,
             "MCT array '" + id_ + "' should be declared global!"));
@@ -900,7 +900,7 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
             bsc::strlit<>("lecturer") >> assignment_op >>
             textLines[bsc::assign_a(pb.tempHeader.Lecturer, pb.text)] >> SEMI >>
             bsc::strlit<>("date") >> assignment_op >>
-            textLines[bsc::assign_a(pb.tempHeader.Date, pb.text)] >> SEMI >>
+            textLines[bsc::assign_a(pb.tempHeader.Other, pb.text)] >> SEMI >>
             bsc::strlit<>("boxedtext") >> assignment_op >>
             textLines[bsc::assign_a(pb.tempHeader.BoxedText, pb.text)] >>
             SEMI >> bsc::strlit<>("}");

@@ -35,7 +35,7 @@ void hcExam01(std::ofstream &LaTeXfile)
    pHeader->School = "HAN Engineering";
    pHeader->Course = "Introduction C programming";
    pHeader->Lecturer = "Jos Onokiewicz";
-   pHeader->Date = "22th September 2018";
+   pHeader->Other = "22th September 2018";
    pHeader->BoxedText = "Success!";
    // pMCtst->add(pHeader);
 
