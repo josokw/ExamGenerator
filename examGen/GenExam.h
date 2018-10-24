@@ -20,7 +20,7 @@ typedef std::tuple<char, int, const char *, std::string> message_t;
 class GenExam : public GenComposite
 {
 public:
-   GenExam(std::vector<message_t> &messages);
+   GenExam(const std::string &id, std::vector<message_t> &messages);
    GenExam(const GenExam &other) = default;
    virtual ~GenExam();
 

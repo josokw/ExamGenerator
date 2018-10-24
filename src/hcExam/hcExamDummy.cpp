@@ -65,8 +65,7 @@ void hcExamDummy(std::ofstream &LaTeXfile)
 
    std::vector<message_t> messages;
 
-   std::shared_ptr<GenExam> pExam(new GenExam(messages));
-   pExam->setID("Hard coded exam dummy");
+   std::shared_ptr<GenExam> pExam(new GenExam("DummyExam", messages));
 
    {
       // Header ----------------------------------------------------------------

@@ -10,8 +10,8 @@ GenExams::GenExams(std::vector<Reader::message_t> &messages, int nTests)
 {
    type_ = "Exams[]";
    for (int i = 0; i < nTests; ++i) {
-      std::shared_ptr<GenExam> pExam(new GenExam(messages));
-      pExam->setID(getID());
+      std::shared_ptr<GenExam> pExam(new GenExam(id_, messages));
+      // pExam->setID(getID());
       GenComposite::add(pExam);
       // cout << *this << endl;
    }

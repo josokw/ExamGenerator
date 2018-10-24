@@ -16,8 +16,8 @@
 
 int GenExam::nExams_s = 0;
 
-GenExam::GenExam(std::vector<message_t> &messages)
-   : GenComposite{}
+GenExam::GenExam(const std::string &id, std::vector<message_t> &messages)
+   : GenComposite{id}
    , messages_{messages}
    , headerIsAdded_{false}
    , headerIndex_{-1}
