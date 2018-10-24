@@ -65,7 +65,7 @@ void GenOptions::generate(std::ostream &os)
       os << preProcessing_ << "\n";
    }
    // Generate options
-   os << "\n\\begin{enumerate}[label=\\framebox{\\scriptsize\\Alph*.}]\n";
+   os << "\n\\begin{enumerate}[label=\\Alph*.]\n";
    for (auto &gen : generators_) {
       os << "\\item\n";
       if (gen != nullptr) {
