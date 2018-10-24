@@ -69,7 +69,8 @@ std::ostream &GenExam::write(std::ostream &os, int level) const
 
 void GenExam::add(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_ + ", want to add " + pGen->getType() + " " +
+        pGen->getID());
 
    try {
       if (auto pHeader = std::dynamic_pointer_cast<GenHeader>(pGen)) {

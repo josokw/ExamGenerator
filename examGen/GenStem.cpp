@@ -25,7 +25,8 @@ IGenPtr_t GenStem::copy() const
 
 void GenStem::add(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_ + ", want to add " + pGen->getType() + " " +
+        pGen->getID());
 
    try {
       auto *p = pGen.get();

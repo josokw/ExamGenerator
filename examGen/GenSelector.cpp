@@ -27,7 +27,8 @@ IGenPtr_t GenSelector::copy() const
 
 void GenSelector::add(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": " + id_ + ", to add " + pGen->getID());
+   LOGD(type_ + ": " + id_ + ", want to add " + pGen->getType() + " " +
+        pGen->getID());
 
    allGenerators_.push_back(pGen);
    // for calculation a next permutation

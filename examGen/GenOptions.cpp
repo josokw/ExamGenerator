@@ -39,7 +39,8 @@ IGenPtr_t GenOptions::copy() const
 
 void GenOptions::add(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": " + id_ + ", to add " + pGen->getID());
+   LOGD(type_ + ": " + id_ + ", want to add " + pGen->getType() + " " +
+        pGen->getID());
 
    try {
       if (std::shared_ptr<GenOption> pOption =

@@ -165,7 +165,8 @@ void GenItem::setAsLastItem() const
 
 void GenItem::addToOptions(std::shared_ptr<GenOption> pOption, bool isCorrect)
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_ + ", want to add " + pOption->getType() + " " +
+        pOption->getID());
 
    if (isCorrect) {
       pOption->setIsCorrect();

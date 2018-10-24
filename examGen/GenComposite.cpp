@@ -20,7 +20,8 @@ GenComposite::GenComposite(const std::string &id)
 
 void GenComposite::add(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": " + id_ + ", to add " + pGen->getID());
+   LOGD(type_ + ": " + id_ + ", want to add " + pGen->getType() + " " +
+        pGen->getID());
 
    generators_.push_back(pGen);
 }

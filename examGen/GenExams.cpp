@@ -28,7 +28,8 @@ void GenExams::generate(std::ostream &os)
 
 void GenExams::add(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_ + ", want to add " + pGen->getType() + " " +
+        pGen->getID());
 
    for (auto &gen : generators_) {
       gen->add(pGen->copy());

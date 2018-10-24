@@ -25,7 +25,8 @@ IGenPtr_t GenOption::copy() const
 
 void GenOption::add(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_ + ", want to add " + pGen->getType() + " " +
+        pGen->getID());
 
    try {
       if (std::shared_ptr<GenText> pText =
@@ -51,7 +52,7 @@ void GenOption::add(IGenPtr_t pGen)
 void GenOption::generate(std::ostream &os)
 {
    LOGD(type_ + ": " + id_ + ", " + text_.substr(0, 15) + " ...");
-   
+
    os << text_ << "\n";
    GenComposite::generate(os);
 }
