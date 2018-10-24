@@ -245,7 +245,7 @@ struct MCTestBuilder {
       LOGD(text);
    }
 
-   void do_assignment(const char *begin, const char * /* end */ )
+   void do_assignment(const char *begin, const char * /* end */)
    {
       LOGD(std::string(begin, begin + 30) + " ...");
 
@@ -279,8 +279,7 @@ struct MCTestBuilder {
             'E', 0, begin, "MCT '" + id_ + "' should be declared global!"));
       } else {
          if (idGeneratorIsUnique(id_, begin, end)) {
-            std::shared_ptr<GenExams> pMCTs(new GenExams(messages_, 1));
-            pMCTs->setID(id_);
+            std::shared_ptr<GenExams> pMCTs(new GenExams(id_, messages_, 1));
             bsc::add(generators_p, id_.c_str(),
                      std::static_pointer_cast<IGenerator>(pMCTs));
             Product.push_back(pMCTs);
@@ -300,8 +299,7 @@ struct MCTestBuilder {
             "MCT array '" + id_ + "' should be declared global!"));
       } else {
          if (idGeneratorIsUnique(id_, begin, end)) {
-            std::shared_ptr<GenExams> pMCTs(new GenExams(messages_, par_));
-            pMCTs->setID(id_);
+            std::shared_ptr<GenExams> pMCTs(new GenExams(id_, messages_, par_));
             bsc::add(generators_p, id_.c_str(),
                      std::static_pointer_cast<IGenerator>(pMCTs));
             Product.push_back(pMCTs);
@@ -930,9 +928,9 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
                    pb.vars_p[pb.retrieve]))[pb.assignment];
 
          CodeText = (bsc::strlit<>("CodeText")[bsc::assign_a(pb.type)] >>
-                 id[bsc::assign_a(pb.lhs)][bsc::assign_a(pb.id_)] >>
-                 assignment_op[bsc::assign_a(pb.text, "")] >> codeLines >>
-                 SEMI)[pb.assignment][pb.createGen];
+                     id[bsc::assign_a(pb.lhs)][bsc::assign_a(pb.id_)] >>
+                     assignment_op[bsc::assign_a(pb.text, "")] >> codeLines >>
+                     SEMI)[pb.assignment][pb.createGen];
 
          APIdoc = (bsc::strlit<>("APIdoc")[bsc::assign_a(pb.type)] >>
                    id[bsc::assign_a(pb.lhs)][bsc::assign_a(pb.id_)] >> LPAREN >>

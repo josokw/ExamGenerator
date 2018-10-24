@@ -5,8 +5,9 @@
 
 #include <exception>
 
-GenExams::GenExams(std::vector<Reader::message_t> &messages, int nTests)
-   : GenComposite{}
+GenExams::GenExams(const std::string &id,
+                   std::vector<Reader::message_t> &messages, int nTests)
+   : GenComposite{id}
 {
    type_ = "Exams[]";
    for (int i = 0; i < nTests; ++i) {

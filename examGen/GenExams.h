@@ -10,13 +10,14 @@
 class GenExams : public GenComposite
 {
 public:
-   GenExams(std::vector<Reader::message_t> &messages, int nTests = 1);
+   GenExams(const std::string &id, std::vector<Reader::message_t> &messages,
+            int nTests = 1);
    virtual ~GenExams() = default;
 
    void add(IGenPtr_t pGen) override;
    void generate(std::ostream &os) override;
    std::ostream &write(std::ostream &os, int Level = 0) const override;
-   
+
    void setID(const std::string &id);
 
 private:
