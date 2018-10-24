@@ -55,7 +55,7 @@ void GenLogicExprAOXN::prepare()
          break;
    }
 
-   auto pCodeLogicExpr = std::make_shared<GenCodeText>("C", logicExpr);
+   auto pCodeLogicExpr = std::make_shared<GenCodeText>("logicexpr", "C", logicExpr);
    addToStem(pCodeLogicExpr);
 
    std::vector<std::string> truthTable;

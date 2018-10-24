@@ -219,7 +219,7 @@ void hcExamDummy(std::ofstream &LaTeXfile)
       pAPI->setID(pItem->getID() + ".code");
       pItem->addToStem(pAPI);
       auto pCodeText =
-         std::make_shared<GenCodeText>("c",
+         std::make_shared<GenCodeText>("ct1", "c",
                                        "int main()\n"
                                        "{\n"
                                        "   printf(\"Hello\");\n"

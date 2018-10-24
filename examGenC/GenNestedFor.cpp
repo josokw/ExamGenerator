@@ -44,7 +44,7 @@ void GenNestedFor::prepare()
    std::string sjMax{std::to_string(jMax)};
 
    auto pCodeText =
-      std::make_shared<GenCodeText>("c",
+      std::make_shared<GenCodeText>("codetext", "c",
                                     "int i = 0;\n"
                                     "int j = 0;\n"
                                     "int result = " +

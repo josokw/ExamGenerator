@@ -3,9 +3,10 @@
 #include "GenCodeText.h"
 #include "Log.h"
 
-GenCodeText::GenCodeText(const std::string &programmingLanguage,
+GenCodeText::GenCodeText(const std::string &id,
+                         const std::string &programmingLanguage,
                          const std::string &codeText)
-   : IGenerator{}
+   : IGenerator{id}
    , programmingLanguage_{programmingLanguage}
    , codeText_{codeText}
 {

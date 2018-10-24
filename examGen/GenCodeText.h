@@ -8,7 +8,7 @@
 class GenCodeText : public IGenerator
 {
 public:
-   GenCodeText(const std::string &programmingLanguage,
+   GenCodeText(const std::string &id, const std::string &programmingLanguage,
                const std::string &codeText);
    virtual ~GenCodeText() = default;
 

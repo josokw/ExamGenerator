@@ -460,7 +460,7 @@ struct MCTestBuilder {
             p_actualHeader = pH;
          } else {
             if (type == "CodeText") {
-               std::shared_ptr<GenCodeText> pJ(new GenCodeText("C", text));
+               std::shared_ptr<GenCodeText> pJ(new GenCodeText(id_, "C", text));
                pJ->setID(id_);
                bsc::add(generators_p, id_.c_str(),
                         std::static_pointer_cast<IGenerator>(pJ));
