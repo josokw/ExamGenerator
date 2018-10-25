@@ -4,11 +4,12 @@
 
 #include <string>
 
-GenText::GenText(const std::string &text)
-   : IGenerator{}
+GenText::GenText(const std::string& id, const std::string &text)
+   : IGenerator{id}
    , text_{text}
 {
    type_ = "GenText";
+
    LOGD(id_ + ", initialised");
 }
 

@@ -35,7 +35,7 @@ GenItem::GenItem(const std::string &id)
 {
    type_ = "GenItem";
    generators_.push_back(std::make_shared<GenStem>());
-   generators_.push_back(std::make_shared<GenOptions>());
+   generators_.push_back(std::make_shared<GenOptions>(id_ + ".options"));
 
    LOGD(id_ + ", initialised");
 }
@@ -52,7 +52,7 @@ IGenPtr_t GenItem::copy() const
 
 void GenItem::add(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_ + ", to add " + pGen->getID());
 
    try {
       if (std::shared_ptr<GenStem> pStem =
@@ -131,7 +131,8 @@ void GenItem::setIndex(int index)
 
 void GenItem::addToStem(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": " + id_ + ", to add " + pGen->getID());
+   LOGD(type_ + ": " + id_ + ", to add " + pGen->getType() + " " +
+        pGen->getID());
 
    try {
       IGenerator *p = pGen.get();

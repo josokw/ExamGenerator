@@ -49,17 +49,9 @@ public:
    virtual std::ostream &write(std::ostream &os, int level = 0) const;
 
    const std::string &getType() const { return type_; }
-   void setID(const std::string &id)
-   {
-      id_ = id;
-
-      LOGD(type_ + ": id_ updated = " + id_);
-   }
+   void setID(const std::string &id);
    const std::string &getID() const { return id_; }
-   void setDifficultyLevel(int difficultyLevel)
-   {
-      difficultyLevel_ = difficultyLevel;
-   }
+   void setDifficultyLevel(int difficultyLevel);
    int getDifficultyLevel() const { return difficultyLevel_; }
 
 protected:

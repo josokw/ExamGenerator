@@ -21,7 +21,7 @@ class GenExam : public GenComposite
 {
 public:
    GenExam(const std::string &id, std::vector<message_t> &messages);
-   GenExam(const GenExam &other) = default;
+   // GenExam(const GenExam &other) = default;
    virtual ~GenExam();
 
    IGenPtr_t copy() const override;

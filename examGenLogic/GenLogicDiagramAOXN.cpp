@@ -14,7 +14,8 @@ RandomProfile::fullR_t GenLogicDiagramAOXN::R0_s(Random::range_t(0, 3), 0,
 
 GenLogicDiagramAOXN::GenLogicDiagramAOXN()
    : GenItem()
-   , m_pText(new GenText("\\needspace{17cm} What is the truth table "
+   , m_pText(new GenText(id_ + ".txt",
+                         "\\needspace{17cm} What is the truth table "
                          "for the next diagram?"))
    , m_pO1()
    , m_pO2()
@@ -93,7 +94,7 @@ GenLogicDiagramAOXN::GenLogicDiagramAOXN()
       "\\put(120,50){\\line(1,0){10}}\n"
       "\\end{picture}\n";
 
-   std::shared_ptr<GenText> pLogicD(new GenText(LD));
+   std::shared_ptr<GenText> pLogicD(new GenText(id_ + ".txt", LD));
    generators_[0]->add(pLogicD);
 
    util::bool3Pars_t logicF(
@@ -114,7 +115,7 @@ GenLogicDiagramAOXN::GenLogicDiagramAOXN()
       "\\hline\n"
       "\\end{tabular}\n"
       "\\normalsize\n";
-   m_pO1 = std::shared_ptr<GenOption>(new GenOption(tt));
+   m_pO1 = std::shared_ptr<GenOption>(new GenOption(id_ + ".O2", tt));
 
    // New option, not correct
    tt.clear();
@@ -133,7 +134,7 @@ GenLogicDiagramAOXN::GenLogicDiagramAOXN()
       "\\hline\n"
       "\\end{tabular}\n"
       "\\normalsize\n";
-   m_pO2 = std::shared_ptr<GenOption>(new GenOption(tt));
+   m_pO2 = std::shared_ptr<GenOption>(new GenOption(id_ + ".O2", tt));
 
    // New option, not correct
    tt.clear();
@@ -152,7 +153,7 @@ GenLogicDiagramAOXN::GenLogicDiagramAOXN()
       "\\hline\n"
       "\\end{tabular}\n"
       "\\normalsize\n";
-   m_pO3 = std::shared_ptr<GenOption>(new GenOption(tt));
+   m_pO3 = std::shared_ptr<GenOption>(new GenOption(id_ + ".O3", tt));
 
    // New option, not correct
    tt.clear();
@@ -171,7 +172,7 @@ GenLogicDiagramAOXN::GenLogicDiagramAOXN()
       "\\hline\n"
       "\\end{tabular}\n"
       "\\normalsize\n";
-   m_pO4 = std::shared_ptr<GenOption>(new GenOption(tt));
+   m_pO4 = std::shared_ptr<GenOption>(new GenOption(id_ + ".O4", tt));
 
    addToOptions(m_pO1, true);
    addToOptions(m_pO2);

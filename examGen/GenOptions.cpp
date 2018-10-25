@@ -18,12 +18,13 @@ bool lessLength(IGenPtr_t i1, IGenPtr_t i2)
 
 } // namespace
 
-GenOptions::GenOptions()
-   : GenComposite{}
+GenOptions::GenOptions(const std::string &id)
+   : GenComposite{id}
    , preProcessing_{}
    , postProcessing_{}
 {
    type_ = "GenOptions";
+
    LOGD(id_ + " initialised");
 }
 
@@ -39,7 +40,7 @@ IGenPtr_t GenOptions::copy() const
 
 void GenOptions::add(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": " + id_ + ", want to add " + pGen->getType() + " " +
+   LOGD(type_ + ": " + id_ + ", wants to add " + pGen->getType() + " " +
         pGen->getID());
 
    try {
@@ -102,14 +103,12 @@ void GenOptions::shuffle()
    std::random_device rd;
    std::mt19937 g(rd());
 
-   std::random_shuffle(begin(GenComposite::getGenerators()),
-                       end(GenComposite::getGenerators()));
+   std::random_shuffle(begin(getGenerators()), end(getGenerators()));
 }
 
 void GenOptions::sort()
 {
    LOGD(type_ + ": " + id_);
 
-   std::stable_sort(begin(GenComposite::getGenerators()),
-                    end(GenComposite::getGenerators()), lessLength);
+   std::stable_sort(begin(getGenerators()), end(getGenerators()), lessLength);
 }

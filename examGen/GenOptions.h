@@ -12,7 +12,7 @@ class GenOption;
 class GenOptions : public GenComposite
 {
 public:
-   GenOptions();
+   GenOptions(const std::string &id);
    virtual ~GenOptions() = default;
 
    IGenPtr_t copy() const override;

@@ -83,21 +83,17 @@ void hcExamDummy(std::ofstream &LaTeXfile)
       auto pItem = std::make_shared<GenItem>();
       pItem->setID("I1");
 
-      auto pText = std::make_shared<GenText>(
+      auto pText = std::make_shared<GenText>("txt", 
          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus "
          "fermentum nibh nunc, non viverra sapien volutpat sit amet. Maecenas "
          "at arcu?");
       pText->setID("I1.text");
       pItem->addToStem(pText);
 
-      auto pO1 = std::make_shared<GenOption>("Option 1.");
-      pO1->setID("01.1");
-      auto pO2 = std::make_shared<GenOption>("Option 2..");
-      pO2->setID("01.2");
-      auto pO3 = std::make_shared<GenOption>("Option 3...");
-      pO3->setID("01.3");
-      auto pO4 = std::make_shared<GenOption>("Option 4....");
-      pO4->setID("01.4");
+      auto pO1 = std::make_shared<GenOption>("01.1", "Option 1.");
+      auto pO2 = std::make_shared<GenOption>("01.2", "Option 2..");
+      auto pO3 = std::make_shared<GenOption>("01.3", "Option 3...");
+      auto pO4 = std::make_shared<GenOption>("01.4", "Option 4....");
 
       pItem->addToOptions(pO1);
       pItem->addToOptions(pO2);
@@ -113,21 +109,17 @@ void hcExamDummy(std::ofstream &LaTeXfile)
    {
       auto pItem = std::make_shared<GenItem>();
       pItem->setID("I2");
-      auto pText = std::make_shared<GenText>(
+      auto pText = std::make_shared<GenText>("txt",
          "Fusce in magna erat. Cras turpis est, posuere id arcu ut, semper "
          "lobortis dui. Phasellus urna turpis, pharetra eu ipsum sodales, "
          "venenatis sodales enim?");
-      pText->setID("I2.text");
+      //pText->setID("I2.text");
       pItem->addToStem(pText);
 
-      auto pO1 = std::make_shared<GenOption>("Shuffle Option 1.");
-      pO1->setID("02.1");
-      auto pO2 = std::make_shared<GenOption>("Shuffle Option 2..");
-      pO2->setID("02.2");
-      auto pO3 = std::make_shared<GenOption>("Shuffle Option 3...");
-      pO3->setID("02.3");
-      auto pO4 = std::make_shared<GenOption>("Shuffle Option 4....");
-      pO4->setID("02.4");
+      auto pO1 = std::make_shared<GenOption>("02.1", "Shuffle Option 1.");
+      auto pO2 = std::make_shared<GenOption>("02.2", "Shuffle Option 2..");
+      auto pO3 = std::make_shared<GenOption>("02.3", "Shuffle Option 3...");
+      auto pO4 = std::make_shared<GenOption>("02.4", "Shuffle Option 4....");
 
       pItem->addToOptions(pO1);
       pItem->addToOptions(pO2, IS_CORRECT);
@@ -144,21 +136,18 @@ void hcExamDummy(std::ofstream &LaTeXfile)
    {
       auto pItem = std::make_shared<GenItem>();
       pItem->setID("I3");
-      auto pText = std::make_shared<GenText>(
+      auto pText = std::make_shared<GenText>("pText",
          "Fusce in magna erat. Cras turpis est, semper "
          "lobortis dui. Phasellus urna turpis, eu ipsum sodales, "
          "venenatis sodales enim?");
       pText->setID("I3.text");
       pItem->addToStem(pText);
 
-      auto pO1 = std::make_shared<GenOption>("Sort Option 1.");
-      pO1->setID("03.1");
-      auto pO2 = std::make_shared<GenOption>("Sort Option 2............");
-      pO2->setID("03.2");
-      auto pO3 = std::make_shared<GenOption>("Sort Option 3......");
-      pO3->setID("03.3");
-      auto pO4 = std::make_shared<GenOption>("Sort Option 4....");
-      pO4->setID("03.4");
+      auto pO1 = std::make_shared<GenOption>("03.1", "Sort Option 1.");
+      auto pO2 =
+         std::make_shared<GenOption>("03.2", "Sort Option 2...........");
+      auto pO3 = std::make_shared<GenOption>("03.3", "Sort Option 3......");
+      auto pO4 = std::make_shared<GenOption>("03.4", "Sort Option 4....");
 
       pItem->addToOptions(pO1);
       pItem->addToOptions(pO2);
@@ -176,21 +165,18 @@ void hcExamDummy(std::ofstream &LaTeXfile)
    {
       auto pItem = std::make_shared<GenItem>();
       pItem->setID("I4a");
-      auto pText = std::make_shared<GenText>(
+      auto pText = std::make_shared<GenText>("text",
          "Fusce in magna erat. Cras turpis est, semper "
          "lobortis dui. Phasellus urna turpis, eu ipsum sodales, "
          "venenatis sodales enim?");
       pText->setID("I3.text");
       pItem->addToStem(pText);
 
-      auto pO1 = std::make_shared<GenOption>("Sort Option 1.");
-      pO1->setID("03.1");
-      auto pO2 = std::make_shared<GenOption>("Sort Option 2............");
-      pO2->setID("03.2");
-      auto pO3 = std::make_shared<GenOption>("Sort Option 3......");
-      pO3->setID("03.3");
-      auto pO4 = std::make_shared<GenOption>("Sort Option 4....");
-      pO4->setID("03.4");
+      auto pO1 = std::make_shared<GenOption>("03.1", "Sort Option 1.");
+      auto pO2 =
+         std::make_shared<GenOption>("03.2", "Sort Option 2............");
+      auto pO3 = std::make_shared<GenOption>("03.3", "Sort Option 3......");
+      auto pO4 = std::make_shared<GenOption>("03.4", "Sort Option 4....");
 
       pItem->addToOptions(pO1);
       pItem->addToOptions(pO2);
@@ -206,7 +192,7 @@ void hcExamDummy(std::ofstream &LaTeXfile)
    {
       auto pItem = std::make_shared<GenItem>();
       pItem->setID("I4b");
-      auto pText = std::make_shared<GenText>(
+      auto pText = std::make_shared<GenText>("text",
          "Fusce in magna erat. Cras turpis est, semper "
          "lobortis dui. Phasellus urna turpis, eu ipsum sodales, "
          "venenatis sodales enim?");
@@ -217,23 +203,19 @@ void hcExamDummy(std::ofstream &LaTeXfile)
                                            "Mutiplies two integers");
       pAPI->setID(pItem->getID() + ".code");
       pItem->addToStem(pAPI);
-      auto pCodeText =
-         std::make_shared<GenCodeText>("ct1", "c",
-                                       "int main()\n"
-                                       "{\n"
-                                       "   printf(\"Hello\");\n"
-                                       "}\n"
-                                       "\n");
+      auto pCodeText = std::make_shared<GenCodeText>("ct1", "c",
+                                                     "int main()\n"
+                                                     "{\n"
+                                                     "   printf(\"Hello\");\n"
+                                                     "}\n"
+                                                     "\n");
       pItem->addToStem(pCodeText);
 
-      auto pO1 = std::make_shared<GenOption>("Sort Option 1.");
-      pO1->setID("04b.1");
-      auto pO2 = std::make_shared<GenOption>("Sort Option 2............");
-      pO2->setID("04b.2");
-      auto pO3 = std::make_shared<GenOption>("Sort Option 3......");
-      pO3->setID("04b.3");
-      auto pO4 = std::make_shared<GenOption>("Sort Option 4....");
-      pO4->setID("04b.4");
+      auto pO1 = std::make_shared<GenOption>("04b.1", "Sort Option 1.");
+      auto pO2 =
+         std::make_shared<GenOption>("04b.2", "Sort Option 2............");
+      auto pO3 = std::make_shared<GenOption>("04b.3", "Sort Option 3......");
+      auto pO4 = std::make_shared<GenOption>("04b.4", "Sort Option 4....");
 
       pItem->addToOptions(pO1);
       pItem->addToOptions(pO2);

@@ -12,6 +12,7 @@ GenAPI::GenAPI(const std::string &returnType, const std::string &signature,
    , description_{description}
 {
    type_ = "GenAPI";
+
    LOGD(id_ + ", initialised");
 }
 
@@ -46,5 +47,6 @@ std::ostream &GenAPI::write(std::ostream &os, int level) const
 {
    IGenerator::write(os, level);
    os << ": " << returnType_ << " " << signature_ << "\n";
+
    return os;
 }

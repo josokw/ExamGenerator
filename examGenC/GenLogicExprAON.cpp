@@ -11,7 +11,12 @@ RandomProfile::fullR_t GenLogicExprAON::R0_s(Random::range_t(0, 3), 0,
                                              std::list<int>(), 3);
 
 GenLogicExprAON::GenLogicExprAON()
-   : GenItem{}
+   : GenLogicExprAON{"NOT-DEFINED"}
+{
+}
+
+GenLogicExprAON::GenLogicExprAON(const std::string &id)
+   : GenItem{id}
    , AON_{randomProfile_s.generate(R0_s)}
 {
    type_ = "GenLogicExprAON";
@@ -24,6 +29,7 @@ void GenLogicExprAON::prepare()
    LOGD(type_ + ": " + id_);
 
    auto pText = std::make_shared<GenText>(
+      id_ + ".txt",
       "\\needspace{8cm} The variables $x$, $y$, $z$ and $result$ are all "
       "int typed. True equals 1 and false equals 0. What is the truth table "
       "for the next logical expression?");
@@ -54,7 +60,7 @@ void GenLogicExprAON::prepare()
    }
 
    auto pCodeLogicExpr =
-      std::make_shared<GenCodeText>("logicexpr", "C", logicExpr);
+      std::make_shared<GenCodeText>(id_ + ".cle", "C", logicExpr);
    addToStem(pCodeLogicExpr);
 
    std::vector<std::string> truthTable;
@@ -85,7 +91,7 @@ void GenLogicExprAON::prepare()
          tt += truth + " \\\\\n";
       }
       tt += endtt;
-      opt = std::make_shared<GenOption>(tt);
+      opt = std::make_shared<GenOption>(id_ + ".O" + std::to_string(AON_), tt);
       addToOptions(opt, first);
       first = false;
       ++AON_;

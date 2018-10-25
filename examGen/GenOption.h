@@ -8,7 +8,7 @@
 class GenOption : public GenComposite
 {
 public:
-   GenOption(const std::string &text);
+   GenOption(const std::string &id, const std::string &text);
    virtual ~GenOption() = default;
 
    IGenPtr_t copy() const;

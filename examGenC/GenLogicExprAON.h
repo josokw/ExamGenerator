@@ -19,6 +19,7 @@ class GenLogicExprAON final : public GenItem
 {
 public:
    GenLogicExprAON();
+   GenLogicExprAON(const std::string &id);
    virtual ~GenLogicExprAON() = default;
 
 protected:

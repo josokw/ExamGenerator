@@ -13,8 +13,8 @@ RandomProfile::fullR_t GenNestedFor::R1_s(Random::range_t(0, 1), 0,
 RandomProfile::fullR_t GenNestedFor::R2_s(Random::range_t(2, 3), 0,
                                           std::list<int>(), 1);
 
-GenNestedFor::GenNestedFor()
-   : GenItem{}
+GenNestedFor::GenNestedFor(const std::string &id)
+   : GenItem{id}
 {
    type_ = "GenNestedFor";
 
@@ -25,7 +25,7 @@ void GenNestedFor::prepare()
 {
    LOGD(type_ + ": " + id_);
 
-   auto pText = std::make_shared<GenText>(
+   auto pText = std::make_shared<GenText>(id_ + ".txt",
       "What is the value of the variable $result$ after "
       "executing the following nested for loop:");
    addToStem(pText);
@@ -44,7 +44,7 @@ void GenNestedFor::prepare()
    std::string sjMax{std::to_string(jMax)};
 
    auto pCodeText =
-      std::make_shared<GenCodeText>("codetext", "c",
+      std::make_shared<GenCodeText>(id_ + ".ctxt", "c",
                                     "int i = 0;\n"
                                     "int j = 0;\n"
                                     "int result = " +
@@ -65,10 +65,10 @@ void GenNestedFor::prepare()
    addToStem(pCodeText);
 
    int result = correctAnswer(initResult, iStart, jStart, iMax, jMax);
-   auto pO1 = std::make_shared<GenOption>("4");
-   auto pO2 = std::make_shared<GenOption>("8");
-   auto pO3 = std::make_shared<GenOption>("16");
-   auto pO4 = std::make_shared<GenOption>("32");
+   auto pO1 = std::make_shared<GenOption>("O1", "4");
+   auto pO2 = std::make_shared<GenOption>("O2", "8");
+   auto pO3 = std::make_shared<GenOption>("O3", "16");
+   auto pO4 = std::make_shared<GenOption>("O4", "32");
 
    addToOptions(pO1, 4 == result);
    addToOptions(pO2, 8 == result);

@@ -43,12 +43,13 @@ void hcExam01(std::ofstream &LaTeXfile)
    auto pItem = std::make_unique<GenItem>();
    pItem->setID("I1");
    auto pText1 = std::make_unique<GenText>(
+      "txt1",
       "Welk van de volgende typen gebruik je om aan te geven dat het een "
       "variabele tekst bevat?");
-   auto pO1 = std::make_unique<GenOption>("Character");
-   auto pO2 = std::make_unique<GenOption>("char");
-   auto pO3 = std::make_unique<GenOption>("String");
-   auto pO4 = std::make_unique<GenOption>("String[ ]");
+   auto pO1 = std::make_unique<GenOption>("O1", "Character");
+   auto pO2 = std::make_unique<GenOption>("O2", "char");
+   auto pO3 = std::make_unique<GenOption>("O3", "String");
+   auto pO4 = std::make_unique<GenOption>("O4", "String[ ]");
 
    //    pItem->addToStem(pText1);
    //    pItem->addToOptions(pO1);

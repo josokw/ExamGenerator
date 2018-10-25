@@ -11,6 +11,7 @@ GenCodeText::GenCodeText(const std::string &id,
    , codeText_{codeText}
 {
    type_ = "GenCodeText";
+   
    LOGD(id_ + " initialised");
 }
 
@@ -36,5 +37,6 @@ std::ostream &GenCodeText::write(std::ostream &os, int Level) const
    IGenerator::write(os, Level);
    os << ": " << programmingLanguage_ << "  " << codeText_.substr(0, 5)
       << "...\n";
+
    return os;
 }

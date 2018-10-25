@@ -24,7 +24,7 @@ IGenerator::IGenerator(const std::string &id)
    , id_{id}
    , difficultyLevel_{0}
 {
-   LOGD(id_ + ", initialised");
+   LOGD(type_ + ": " + id_ + ", initialised");
 }
 
 IGenerator::~IGenerator()
@@ -49,4 +49,16 @@ std::ostream &IGenerator::write(std::ostream &os, int level) const
    os << INDENTATION << type_ << " '" << id_ << "' " << this;
 
    return os;
+}
+
+void IGenerator::setID(const std::string &id)
+{
+   id_ = id;
+
+   LOGD(type_ + ": id_ updated = " + id_);
+}
+
+void IGenerator::setDifficultyLevel(int difficultyLevel)
+{
+   difficultyLevel_ = difficultyLevel;
 }

@@ -7,7 +7,7 @@
 class GenText : public IGenerator
 {
 public:
-   GenText(const std::string &text);
+   GenText(const std::string& id, const std::string &text);
    virtual ~GenText() = default;
 
    IGenPtr_t copy() const override;

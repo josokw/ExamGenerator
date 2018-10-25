@@ -6,12 +6,13 @@
 #include "GenText.h"
 #include "Log.h"
 
-GenOption::GenOption(const std::string &text)
-   : GenComposite()
+GenOption::GenOption(const std::string &id, const std::string &text)
+   : GenComposite{id}
    , isCorrect_{false}
-   , text_(text)
+   , text_{text}
 {
    type_ = "GenOption";
+   
    LOGD(id_ + ", initialised");
 }
 

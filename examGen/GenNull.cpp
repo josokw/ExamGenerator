@@ -2,9 +2,10 @@
 #include "Log.h"
 
 GenNull::GenNull()
-   : IGenerator()
+   : IGenerator{}
 {
    type_ = "GenNull";
+
    LOGD(id_ + " initialised");
 }
 
@@ -21,7 +22,5 @@ void GenNull::generate(std::ostream &os)
 
 std::ostream &GenNull::write(std::ostream &os, int level) const
 {
-   IGenerator::write(os, level);
-   os << "\n";
-   return os;
+   return IGenerator::write(os, level) << "\n";
 }

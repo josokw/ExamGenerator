@@ -4,10 +4,12 @@
 #include <string>
 
 GenImage::GenImage(const std::string &fileName)
-   : fileName_{fileName}
+   : IGenerator{}
+   , fileName_{fileName}
    , caption_{}
 {
    type_ = "GenImage";
+
    LOGD(id_ + ", initialised");
 }
 

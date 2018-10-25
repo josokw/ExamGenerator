@@ -25,7 +25,7 @@ void GenLogicExprAOXN::prepare()
 {
    LOGD(type_ + ": " + id_);
 
-   auto pText = std::make_shared<GenText>(
+   auto pText = std::make_shared<GenText>(id_ + ".txt",
       "\\needspace{8cm} The variables $x$, $y$, $z$ and $result$ are all "
       "int typed. True equals 1 and false equals 0. What is the truth table "
       "for the next logical expression?");
@@ -55,7 +55,7 @@ void GenLogicExprAOXN::prepare()
          break;
    }
 
-   auto pCodeLogicExpr = std::make_shared<GenCodeText>("logicexpr", "C", logicExpr);
+   auto pCodeLogicExpr = std::make_shared<GenCodeText>(id_ + ".cle", "C", logicExpr);
    addToStem(pCodeLogicExpr);
 
    std::vector<std::string> truthTable;
@@ -84,7 +84,7 @@ void GenLogicExprAOXN::prepare()
       tt += truthTable[i] + " \\\\\n";
    }
    tt += endtt;
-   auto pO1 = std::make_shared<GenOption>(tt);
+   auto pO1 = std::make_shared<GenOption>(id_ + ".O1", tt);
 
    // New option, not correct
    tt.clear();
@@ -96,7 +96,7 @@ void GenLogicExprAOXN::prepare()
       tt += truthTable[i] + " \\\\\n";
    }
    tt += endtt;
-   auto pO2 = std::make_shared<GenOption>(tt);
+   auto pO2 = std::make_shared<GenOption>(id_ + ".O2", tt);
 
    // New option not correct
    tt.clear();
@@ -108,7 +108,7 @@ void GenLogicExprAOXN::prepare()
       tt += truthTable[i] + " \\\\\n";
    }
    tt += endtt;
-   auto pO3 = std::make_shared<GenOption>(tt);
+   auto pO3 = std::make_shared<GenOption>(id_ + ".O3", tt);
 
    // New option, not correct
    tt.clear();
@@ -120,7 +120,7 @@ void GenLogicExprAOXN::prepare()
       tt += truthTable[i] + "\\\\\n";
    }
    tt += endtt;
-   auto pO4 = std::make_shared<GenOption>(tt);
+   auto pO4 = std::make_shared<GenOption>(id_ + ".O4", tt);
 
    addToOptions(pO1, true);
    addToOptions(pO2);

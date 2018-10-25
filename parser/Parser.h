@@ -341,8 +341,8 @@ struct MCTestBuilder {
                         std::static_pointer_cast<IGenerator>(pLD));
             } else {
                if (type == "LogicExprAON") {
-                  std::shared_ptr<GenLogicExprAON> pLE(new GenLogicExprAON);
-                  pLE->setID(id_);
+                  std::shared_ptr<GenLogicExprAON> pLE(
+                     new GenLogicExprAON(id_));
                   bsc::add(generators_p, id_.c_str(),
                            std::static_pointer_cast<IGenerator>(pLE));
                } else {
@@ -368,8 +368,7 @@ struct MCTestBuilder {
                         } else {
                            if (type == "NestedFor") {
                               std::shared_ptr<GenNestedFor> pNF(
-                                 new GenNestedFor);
-                              pNF->setID(id_);
+                                 new GenNestedFor(id_));
                               bsc::add(
                                  generators_p, id_.c_str(),
                                  std::static_pointer_cast<IGenerator>(pNF));
@@ -406,8 +405,7 @@ struct MCTestBuilder {
 
       addItemScope(lhs);
       if (idGeneratorIsUnique(lhs, begin, end)) {
-         p_actualOption = std::shared_ptr<GenOption>(new GenOption(text));
-         p_actualOption->setID(lhs);
+         p_actualOption = std::shared_ptr<GenOption>(new GenOption(lhs, text));
          bsc::add(generators_p, lhs.c_str(),
                   std::static_pointer_cast<IGenerator>(p_actualOption));
          // Add option to related item
@@ -459,7 +457,6 @@ struct MCTestBuilder {
          } else {
             if (type == "CodeText") {
                std::shared_ptr<GenCodeText> pJ(new GenCodeText(id_, "C", text));
-               pJ->setID(id_);
                bsc::add(generators_p, id_.c_str(),
                         std::static_pointer_cast<IGenerator>(pJ));
             } else {
@@ -499,7 +496,7 @@ struct MCTestBuilder {
 
       addItemScope(lhs);
       if (auto ppGenLHS = idGeneratorIsAvailable(lhs, begin, end)) {
-         std::shared_ptr<GenText> pT(new GenText(text));
+         std::shared_ptr<GenText> pT(new GenText(lhs + ".txt", text));
          (*ppGenLHS)->add(pT);
       }
    }
@@ -510,7 +507,7 @@ struct MCTestBuilder {
 
       addItemScope(lhs);
       if (auto ppGenLHS = idGeneratorIsAvailable(lhs, begin, end)) {
-         std::shared_ptr<GenText> pT(new GenText(text.c_str()));
+         std::shared_ptr<GenText> pT(new GenText(lhs + ".txt", text.c_str()));
          (*ppGenLHS)->add(pT);
       }
    }
@@ -548,7 +545,7 @@ struct MCTestBuilder {
                         'E', 0, begin,
                         "Array index of '" + lhs + "' exceeds array size."));
                   } else {
-                     if ((*ppGenRHS)->getType() == "Selector") {
+                     if ((*ppGenRHS)->getType() == "GenSelector") {
                         auto pGenSelector =
                            static_cast<GenSelector *>((*ppGenRHS).get());
                         pGenSelector->selectR(1);
@@ -566,7 +563,7 @@ struct MCTestBuilder {
                      'E', 0, begin, "'" + lhs + "' is not an array type!"));
                }
             } else {
-               if ((*ppGenRHS)->getType() == "Selector") {
+               if ((*ppGenRHS)->getType() == "GenSelector") {
                   auto pGenSelector =
                      static_cast<GenSelector *>((*ppGenRHS).get());
                   pGenSelector->selectR(1);
@@ -795,6 +792,7 @@ struct MCTestBuilder {
       if (!itemScope.empty()) {
          id = itemScope + "." + id;
       }
+      LOGD("id = " + id);
    }
 
    std::vector<std::shared_ptr<GenExams>> getProduct() { return Product; }

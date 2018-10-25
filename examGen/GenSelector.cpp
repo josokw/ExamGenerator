@@ -11,9 +11,10 @@ GenSelector::GenSelector()
 }
 
 GenSelector::GenSelector(const std::string &id)
-   : GenComposite(id)
+   : GenComposite{id}
 {
    type_ = "GenSelector";
+
    LOGD(id_ + ", initialised");
 }
 
@@ -27,17 +28,18 @@ IGenPtr_t GenSelector::copy() const
 
 void GenSelector::add(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": " + id_ + ", want to add " + pGen->getType() + " " +
+   LOGD(type_ + ": " + id_ + ", wants to add " + pGen->getType() + " " +
         pGen->getID());
 
    allGenerators_.push_back(pGen);
    // for calculation a next permutation
-   std::sort(allGenerators_.begin(), allGenerators_.end());
+   std::sort(begin(allGenerators_), end(allGenerators_));
 }
 
 void GenSelector::selectR(unsigned int n)
 {
    LOGD(type_ + " : " + id_ + ", n = " + std::to_string(n));
+
    next_permutation(begin(allGenerators_), end(allGenerators_));
    generators_.clear();
    for (size_t i = 0; i < allGenerators_.size() && i < n; ++i) {
@@ -49,6 +51,7 @@ std::ostream &GenSelector::write(std::ostream &os, int level) const
 {
    auto size = generators_.size();
    auto sizeAll = allGenerators_.size();
+
    IGenerator::write(os, level);
    os << ": size ALL = " << sizeAll << " size selected = " << size << "\n";
    return GenComposite::write(os, level + 1);
