@@ -1,7 +1,6 @@
 #ifndef GENSTEM_H
 #define GENSTEM_H
 
-#include "GenComposite.h"
 #include "ICompositeGenerator.h"
 
 #include <string>
