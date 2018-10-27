@@ -27,7 +27,7 @@ GenItem::GenItem()
 }
 
 GenItem::GenItem(const std::string &id)
-   : GenComposite{id}
+   : ICompositeGenerator{id}
    , index_{0}
    , isLastItem_{false}
    , level_{0}
@@ -222,7 +222,7 @@ std::ostream &GenItem::write(std::ostream &os, int level) const
 
    IGenerator::write(os, level);
    os << ": index = " << index_ << "\n";
-   GenComposite::write(os, level + 1);
+   ICompositeGenerator::write(os, level + 1);
    os << "\n";
 
    return os;

@@ -17,7 +17,7 @@
 int GenExam::nExams_s = 0;
 
 GenExam::GenExam(const std::string &id, std::vector<message_t> &messages)
-   : GenComposite{id}
+   : ICompositeGenerator{id}
    , messages_{messages}
    , headerIsAdded_{false}
    , headerIndex_{-1}
@@ -61,7 +61,7 @@ std::ostream &GenExam::write(std::ostream &os, int level) const
 {
    IGenerator::write(os, level);
    os << ": size = " << generators_.size() << "\n";
-   GenComposite::write(os, level + 1);
+   ICompositeGenerator::write(os, level + 1);
    os << "-------- END GenExam: '" << getID() << "'\n";
 
    return os;
@@ -69,7 +69,7 @@ std::ostream &GenExam::write(std::ostream &os, int level) const
 
 void GenExam::add(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": " + id_ + ", want to add " + pGen->getType() + " " +
+   LOGD(type_ + ": " + id_ + ", wants to add " + pGen->getType() + " " +
         pGen->getID());
 
    try {

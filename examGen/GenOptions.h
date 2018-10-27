@@ -1,7 +1,7 @@
 #ifndef GENOPTIONS_H
 #define GENOPTIONS_H
 
-#include "GenComposite.h"
+#include "ICompositeGenerator.h"
 
 class GenOption;
 
@@ -9,7 +9,7 @@ class GenOption;
 /// formatting. Contains a pre-processing and a post-processing string for
 /// formatting all options at once. For example: set a column based format.
 /// Class invariant: number of contained options >= 2
-class GenOptions : public GenComposite
+class GenOptions : public ICompositeGenerator
 {
 public:
    GenOptions(const std::string &id);

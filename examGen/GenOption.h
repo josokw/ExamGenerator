@@ -1,11 +1,11 @@
 #ifndef GENOPTION_H
 #define GENOPTION_H
 
-#include "GenComposite.h"
+#include "ICompositeGenerator.h"
 
 #include <string>
 
-class GenOption : public GenComposite
+class GenOption : public ICompositeGenerator
 {
 public:
    GenOption(const std::string &id, const std::string &text);

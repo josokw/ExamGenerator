@@ -1,7 +1,7 @@
 #ifndef GENSELECTOR_H
 #define GENSELECTOR_H
 
-#include "GenComposite.h"
+#include "ICompositeGenerator.h"
 
 #include <iostream>
 #include <vector>
@@ -11,7 +11,7 @@
 /// Supports random selection of a number of aggregated generator objects.
 ///
 /// Class invariant: ??
-class GenSelector : public GenComposite
+class GenSelector : public ICompositeGenerator
 {
 public:
    GenSelector();

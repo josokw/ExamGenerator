@@ -19,7 +19,7 @@ bool lessLength(IGenPtr_t i1, IGenPtr_t i2)
 } // namespace
 
 GenOptions::GenOptions(const std::string &id)
-   : GenComposite{id}
+   : ICompositeGenerator{id}
    , preProcessing_{}
    , postProcessing_{}
 {
@@ -84,7 +84,7 @@ void GenOptions::generate(std::ostream &os)
 
 std::ostream &GenOptions::write(std::ostream &os, int Level) const
 {
-   GenComposite::write(os, Level + 1);
+   ICompositeGenerator::write(os, Level + 1);
    return os;
 }
 

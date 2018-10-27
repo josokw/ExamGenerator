@@ -1,7 +1,7 @@
 #ifndef GENITEM_H
 #define GENITEM_H
 
-#include "GenComposite.h"
+#include "ICompositeGenerator.h"
 #include "RandomProfile.h"
 
 #include <string>
@@ -14,7 +14,7 @@ class GenOption;
 /// object. Client code must set the index, setIndex(), used in the generated
 /// text. Options can be randomly shuffled before generating, if this option
 /// switched on by calling #shuffleON().
-class GenItem : public GenComposite
+class GenItem : public ICompositeGenerator
 {
 public:
    GenItem();

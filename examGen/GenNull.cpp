@@ -11,7 +11,7 @@ GenNull::GenNull()
 
 IGenPtr_t GenNull::copy() const
 {
-   std::shared_ptr<GenNull> p(new GenNull(*this));
+   std::shared_ptr<GenNull> p(new GenNull);
    return p;
 }
 

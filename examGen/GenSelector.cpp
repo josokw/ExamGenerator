@@ -11,7 +11,7 @@ GenSelector::GenSelector()
 }
 
 GenSelector::GenSelector(const std::string &id)
-   : GenComposite{id}
+   : ICompositeGenerator{id}
 {
    type_ = "GenSelector";
 
@@ -54,5 +54,5 @@ std::ostream &GenSelector::write(std::ostream &os, int level) const
 
    IGenerator::write(os, level);
    os << ": size ALL = " << sizeAll << " size selected = " << size << "\n";
-   return GenComposite::write(os, level + 1);
+   return ICompositeGenerator::write(os, level + 1);
 }

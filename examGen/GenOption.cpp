@@ -7,7 +7,7 @@
 #include "Log.h"
 
 GenOption::GenOption(const std::string &id, const std::string &text)
-   : GenComposite{id}
+   : ICompositeGenerator{id}
    , isCorrect_{false}
    , text_{text}
 {
@@ -55,7 +55,7 @@ void GenOption::generate(std::ostream &os)
    LOGD(type_ + ": " + id_ + ", " + text_.substr(0, 15) + " ...");
 
    os << text_ << "\n";
-   GenComposite::generate(os);
+   ICompositeGenerator::generate(os);
 }
 
 std::ostream &GenOption::write(std::ostream &os, int level) const
@@ -67,7 +67,7 @@ std::ostream &GenOption::write(std::ostream &os, int level) const
       os << ": " << text_.substr(0, 20) << "...  correct = " << isCorrect_
          << "\n";
    }
-   GenComposite::write(os, level + 1);
+   ICompositeGenerator::write(os, level + 1);
 
    return os;
 }

@@ -556,6 +556,8 @@ struct MCTestBuilder {
                         (*pGenMCTs)[par_]->add(*ppGenRHS);
                      } else {
                         /// @todo Remove prepare(), only used by #GenTwoC
+                        LOGD("Parser: copy() used, for " +
+                             (*ppGenRHS)->getID());
                         (*ppGenRHS)->prepare();
                         auto pGenRHScopy = (*ppGenRHS)->copy();
                         (*pGenMCTs)[par_]->add(pGenRHScopy);
@@ -575,6 +577,7 @@ struct MCTestBuilder {
                } else {
                   /// @todo Remove prepare(), only used by #GenTwoC
                   (*ppGenRHS)->prepare();
+                  LOGD("Parser: copy() used, for " + (*ppGenRHS)->getID());
                   auto pGenRHScopy = (*ppGenRHS)->copy();
                   (*ppGenLHS)->add(pGenRHScopy);
                }

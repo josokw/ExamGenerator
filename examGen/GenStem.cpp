@@ -1,5 +1,3 @@
-#include <string>
-
 #include "ExcInfo.h"
 #include "GenAPI.h"
 #include "GenCodeText.h"
@@ -7,11 +5,14 @@
 #include "GenText.h"
 #include "Log.h"
 
+#include <string>
+
 GenStem::GenStem()
-   : GenComposite{}
+   : ICompositeGenerator{}
    , index_{0}
 {
    type_ = "GenStem";
+
    LOGD(id_ + " initialised");
 }
 
@@ -66,7 +67,7 @@ void GenStem::generate(std::ostream &os)
 
 std::ostream &GenStem::write(std::ostream &os, int level) const
 {
-   GenComposite::write(os, level + 1);
+   ICompositeGenerator::write(os, level + 1);
    return os;
 }
 

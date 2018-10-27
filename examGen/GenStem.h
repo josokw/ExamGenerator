@@ -2,12 +2,12 @@
 #define GENSTEM_H
 
 #include "GenComposite.h"
-#include "IGenerator.h"
+#include "ICompositeGenerator.h"
 
 #include <string>
 #include <vector>
 
-class GenStem : public GenComposite
+class GenStem : public ICompositeGenerator
 {
 public:
    GenStem();

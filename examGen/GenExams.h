@@ -1,13 +1,13 @@
 #ifndef GENEXAMS_H
 #define GENEXAMS_H
 
-#include "GenComposite.h"
+#include "ICompositeGenerator.h"
 #include "Reader.h"
 
 #include <vector>
 
 /// Generator for a set of exams. Contains 1 or more #GenExam objects.
-class GenExams : public GenComposite
+class GenExams : public ICompositeGenerator
 {
 public:
    GenExams(const std::string &id, std::vector<Reader::message_t> &messages,

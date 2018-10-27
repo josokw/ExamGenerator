@@ -1,7 +1,7 @@
 #ifndef GENEXAM_H
 #define GENEXAM_H
 
-#include "GenComposite.h"
+#include "ICompositeGenerator.h"
 
 #include <string>
 #include <tuple>
@@ -17,7 +17,7 @@ typedef std::tuple<char, int, const char *, std::string> message_t;
 
 /// Generator for a exam, contains all kind of other generators (according to
 /// composite pattern).
-class GenExam : public GenComposite
+class GenExam : public ICompositeGenerator
 {
 public:
    GenExam(const std::string &id, std::vector<message_t> &messages);

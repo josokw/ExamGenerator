@@ -41,7 +41,7 @@ public:
    virtual IGenPtr_t copy() const = 0;
    /// Adds another IGenerator derived type object to composite types.
    /// Leaf types will generate an exception (default implementation).
-   virtual void add(IGenPtr_t pGen);
+   virtual void add(IGenPtr_t pGen) = 0;
 
    /// Generates text.
    virtual void generate(std::ostream &os) = 0;
