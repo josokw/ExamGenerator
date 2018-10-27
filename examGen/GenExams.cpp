@@ -12,9 +12,10 @@ GenExams::GenExams(const std::string &id,
    type_ = "Exams[]";
    for (int i = 0; i < nTests; ++i) {
       std::shared_ptr<GenExam> pExam(new GenExam(id_, messages));
-      add(pExam);
-      // cout << *this << endl;
+      generators_.push_back(pExam);
+      // std::cout << *this << std::endl;
    }
+
    LOGD(id_ + ", intialised");
 }
 
