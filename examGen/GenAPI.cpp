@@ -1,12 +1,12 @@
-#include <sstream>
-#include <vector>
-
 #include "GenAPI.h"
 #include "Log.h"
 
+#include <sstream>
+#include <vector>
+
 GenAPI::GenAPI(const std::string &returnType, const std::string &signature,
                const std::string &description)
-   : IGenerator{}
+   : ILeafGenerator{}
    , returnType_{returnType}
    , signature_{signature}
    , description_{description}
@@ -45,7 +45,7 @@ void GenAPI::generate(std::ostream &os)
 
 std::ostream &GenAPI::write(std::ostream &os, int level) const
 {
-   IGenerator::write(os, level);
+   ILeafGenerator::write(os, level);
    os << ": " << returnType_ << " " << signature_ << "\n";
 
    return os;

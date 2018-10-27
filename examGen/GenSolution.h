@@ -1,7 +1,7 @@
 #ifndef GENSOLUTION_H
 #define GENSOLUTION_H
 
-#include "IGenerator.h"
+#include "ILeafGenerator.h"
 
 #include <string>
 #include <vector>
@@ -10,7 +10,7 @@ class GenExam;
 
 /// Generates solution, reads all options from every item and collects the
 /// correct answers.
-class GenSolution : public IGenerator
+class GenSolution : public ILeafGenerator
 {
 public:
    GenSolution(GenExam *pExam);

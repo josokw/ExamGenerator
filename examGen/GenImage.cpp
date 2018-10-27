@@ -4,7 +4,7 @@
 #include <string>
 
 GenImage::GenImage(const std::string &fileName)
-   : IGenerator{}
+   : ILeafGenerator{}
    , fileName_{fileName}
    , caption_{}
 {
@@ -32,7 +32,7 @@ void GenImage::generate(std::ostream &os)
 
 std::ostream &GenImage::write(std::ostream &os, int level) const
 {
-   IGenerator::write(os, level);
+   ILeafGenerator::write(os, level);
    os << ": " << fileName_ << "\n";
 
    return os;

@@ -1,11 +1,11 @@
 #ifndef GENIMAGE_H
 #define GENIMAGE_H
 
-#include "IGenerator.h"
+#include "ILeafGenerator.h"
 
 #include <string>
 
-class GenImage : public IGenerator
+class GenImage : public ILeafGenerator
 {
 public:
    GenImage(const std::string &fileName);

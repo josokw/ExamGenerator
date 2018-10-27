@@ -1,14 +1,14 @@
 #ifndef GENNULL_H
 #define GENNULL_H
 
-#include "IGenerator.h"
+#include "ILeafGenerator.h"
 
 /// A class according to the Null Object Pattern.
 /// All methods do nothing: defined neutral behavior,
 /// gives consistent and predictable behavior for the null situation.
 ///
 /// Class invariant: TRUE
-class GenNull : public IGenerator
+class GenNull : public ILeafGenerator
 {
 public:
    GenNull();

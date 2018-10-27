@@ -9,7 +9,7 @@ GenHeader::GenHeader()
 }
 
 GenHeader::GenHeader(const std::string &id)
-   : IGenerator{id}
+   : ILeafGenerator{id}
    , School{}
    , Course{}
    , Lecturer{}

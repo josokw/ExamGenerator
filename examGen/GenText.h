@@ -1,13 +1,13 @@
 #ifndef GENTEXT_H
 #define GENTEXT_H
 
-#include "IGenerator.h"
+#include "ILeafGenerator.h"
 
 #include <string>
-class GenText : public IGenerator
+class GenText : public ILeafGenerator
 {
 public:
-   GenText(const std::string& id, const std::string &text);
+   GenText(const std::string &id, const std::string &text);
    virtual ~GenText() = default;
 
    IGenPtr_t copy() const override;

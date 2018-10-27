@@ -1,11 +1,11 @@
 #ifndef GENAPI_H
 #define GENAPI_H
 
-#include "IGenerator.h"
+#include "ILeafGenerator.h"
 
 /// Generates an API function description containing: return type, signature and
 /// description.
-class GenAPI : public IGenerator
+class GenAPI : public ILeafGenerator
 {
 public:
    GenAPI(const std::string &returnType, const std::string &signature,

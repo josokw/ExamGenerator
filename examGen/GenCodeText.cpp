@@ -1,17 +1,17 @@
-#include <string>
-
 #include "GenCodeText.h"
 #include "Log.h"
+
+#include <string>
 
 GenCodeText::GenCodeText(const std::string &id,
                          const std::string &programmingLanguage,
                          const std::string &codeText)
-   : IGenerator{id}
+   : ILeafGenerator{id}
    , programmingLanguage_{programmingLanguage}
    , codeText_{codeText}
 {
    type_ = "GenCodeText";
-   
+
    LOGD(id_ + " initialised");
 }
 

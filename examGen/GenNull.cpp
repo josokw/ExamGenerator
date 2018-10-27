@@ -2,7 +2,7 @@
 #include "Log.h"
 
 GenNull::GenNull()
-   : IGenerator{}
+   : ILeafGenerator{}
 {
    type_ = "GenNull";
 
@@ -22,5 +22,5 @@ void GenNull::generate(std::ostream &os)
 
 std::ostream &GenNull::write(std::ostream &os, int level) const
 {
-   return IGenerator::write(os, level) << "\n";
+   return ILeafGenerator::write(os, level) << "\n";
 }

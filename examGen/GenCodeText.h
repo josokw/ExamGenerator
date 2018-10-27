@@ -3,9 +3,9 @@
 
 #include <string>
 
-#include "IGenerator.h"
+#include "ILeafGenerator.h"
 
-class GenCodeText : public IGenerator
+class GenCodeText : public ILeafGenerator
 {
 public:
    GenCodeText(const std::string &id, const std::string &programmingLanguage,

@@ -5,7 +5,7 @@
 #include <string>
 
 GenText::GenText(const std::string& id, const std::string &text)
-   : IGenerator{id}
+   : ILeafGenerator{id}
    , text_{text}
 {
    type_ = "GenText";

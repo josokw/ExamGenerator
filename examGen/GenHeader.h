@@ -1,7 +1,7 @@
 #ifndef GENHEADER_H
 #define GENHEADER_H
 
-#include "IGenerator.h"
+#include "ILeafGenerator.h"
 
 #include <string>
 
@@ -9,7 +9,7 @@
 /// header.
 ///
 /// Class invariant: TRUE
-class GenHeader : public IGenerator
+class GenHeader : public ILeafGenerator
 {
 public:
    GenHeader();

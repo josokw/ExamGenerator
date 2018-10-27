@@ -6,7 +6,7 @@
 #include "Log.h"
 
 GenSolution::GenSolution(GenExam *pExam)
-   : IGenerator{}
+   : ILeafGenerator{}
    , pExam_{pExam}
    , solutions_{}
 {
