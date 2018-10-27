@@ -42,8 +42,7 @@ void hcExam01(std::ofstream &LaTeXfile)
    // Item #1 ------------------------------------------------------------------
    auto pItem = std::make_unique<GenItem>();
    pItem->setID("I1");
-   auto pText1 = std::make_unique<GenText>(
-      "txt1",
+   auto pText1 = std::make_unique<GenText>(pItem->getID() + ".txt",
       "Welk van de volgende typen gebruik je om aan te geven dat het een "
       "variabele tekst bevat?");
    auto pO1 = std::make_unique<GenOption>("O1", "Character");

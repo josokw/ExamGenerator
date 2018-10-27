@@ -35,7 +35,7 @@ public:
    explicit IGenerator(const std::string &id);
    virtual ~IGenerator();
    //    IGenerator(const IGenerator &other) = delete;
-   //    IGenerator &operator=(const IGenerator &other) = delete;
+   IGenerator &operator=(const IGenerator &other) = delete;
 
    /// Copies IGenerator derived class instantiations.
    virtual IGenPtr_t copy() const = 0;

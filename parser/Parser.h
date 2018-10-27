@@ -392,8 +392,12 @@ struct MCTestBuilder {
 
       if (idGeneratorIsUnique(id_, begin, end)) {
          p_actualHeader = std::shared_ptr<GenHeader>(new GenHeader(id_));
-         *p_actualHeader = tempHeader;
+         //*p_actualHeader = tempHeader;
          p_actualHeader->setID(id_);
+         p_actualHeader->School = tempHeader.School;
+         p_actualHeader->Course = tempHeader.Course;
+         p_actualHeader->BoxedText = tempHeader.BoxedText;
+
          bsc::add(generators_p, id_.c_str(),
                   std::static_pointer_cast<IGenerator>(p_actualHeader));
       }
@@ -619,7 +623,7 @@ struct MCTestBuilder {
                         "Functor '" + rhs +
                            "' must have parameter value > 0 !"));
                   }
-                  if ((*ppGenLHS)->getType() == "Exam[]") {
+                  if ((*ppGenLHS)->getType() == "Exams[]") {
                      auto pGenMCT = static_cast<GenExams *>((*ppGenLHS).get());
                      auto nMCT = pGenMCT->size();
                      for (size_t i = 0; i < nMCT; ++i) {
@@ -787,8 +791,6 @@ struct MCTestBuilder {
 
    void addItemScope(std::string &id)
    {
-      LOGD(id);
-
       if (!itemScope.empty()) {
          id = itemScope + "." + id;
       }
