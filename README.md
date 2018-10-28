@@ -39,7 +39,7 @@ If the current directory is *build*, use the next command:
 
     ../bin/ExamGenerator -e ../examGenScripts/testDummyExam.exm
 
-A pdf will be generated if no syntax errors in the exam script has occurred.
+A pdf will be generated if no syntax errors have occurred in the exam script.
 
 Use the *-d* option for generating detailed debug info in the log file:
 
