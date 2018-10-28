@@ -213,6 +213,8 @@ struct MCTestBuilder {
    void do_initText(const char *begin, const char *end)
    {
       // removes leading and trailing "
+      LOGCE((*begin) != '"', "No leading \"");
+      LOGCE((*(end - 1)) != '"', "No trailing \"");
       text = std::string(begin + 1, end - 1);
    }
 
