@@ -15,10 +15,10 @@ using IGenPtr_t = std::shared_ptr<IGenerator>;
 
 /// Abstract interface class for all generating classes. Every generating class
 /// must generate a result to an output stream after a preparation step by
-/// #prepare() and a second step by #generateContens(). For transparency the
-/// child management of composites is implemented in IGenerator to treat all
-/// components (leafs and composites) uniformly. Leaf types should not call
-/// add(), if called this will throw an exeption.
+/// #prepare() and a second step by #generate(). For transparency the
+/// child management of composites is implemented in ICompositeGenerator to
+/// treat all components (leafs and composites) uniformly. Leaf types should not
+/// call add().
 ///
 /// Contains a shared #randomProfile_s object for generating a number of
 /// integers for selecting input values.
@@ -36,13 +36,12 @@ public:
    virtual ~IGenerator();
    //    IGenerator(const IGenerator &other) = delete;
    IGenerator &operator=(const IGenerator &other) = delete;
+   //    IGenerator(IGenerator &&other) = delete;
 
    /// Copies IGenerator derived class instantiations.
    virtual IGenPtr_t copy() const = 0;
    /// Adds another IGenerator derived type object to composite types.
-   /// Leaf types will generate an exception (default implementation).
    virtual void add(IGenPtr_t pGen) = 0;
-
    /// Generates text.
    virtual void generate(std::ostream &os) = 0;
    /// Writes status to os stream.
@@ -69,8 +68,7 @@ protected:
    int difficultyLevel_;
 
 public:
-   /// Prepares strings used by #generateContents().
-   /// Default empty.
+   /// Prepares strings used by #generate(). Default empty.
    virtual void prepare() {}
 };
 

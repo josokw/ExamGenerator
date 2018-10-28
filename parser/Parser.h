@@ -465,8 +465,7 @@ struct MCTestBuilder {
                         std::static_pointer_cast<IGenerator>(pJ));
             } else {
                if (type == "Image") {
-                  std::shared_ptr<GenImage> pI(new GenImage(text));
-                  pI->setID(id_);
+                  std::shared_ptr<GenImage> pI(new GenImage(id_, text));
                   bsc::add(generators_p, id_.c_str(),
                            std::static_pointer_cast<IGenerator>(pI));
                } else {

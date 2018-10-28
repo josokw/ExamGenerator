@@ -6,7 +6,8 @@
 
 #include <vector>
 
-/// Generator for a set of exams. Contains 1 or more #GenExam objects.
+/// Generator for a set of exams. Contains 1 or more pointers to #GenExam
+/// objects.
 class GenExams : public ICompositeGenerator
 {
 public:
@@ -17,11 +18,10 @@ public:
    void add(IGenPtr_t pGen) override;
    void generate(std::ostream &os) override;
    std::ostream &write(std::ostream &os, int Level = 0) const override;
-
    void setID(const std::string &id);
 
 private:
-   virtual IGenPtr_t copy() const { return NULL; }
+   virtual IGenPtr_t copy() const { return nullptr; }
 };
 
 #endif

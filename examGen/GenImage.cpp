@@ -3,8 +3,8 @@
 
 #include <string>
 
-GenImage::GenImage(const std::string &fileName)
-   : ILeafGenerator{}
+GenImage::GenImage(const std::string &id, const std::string &fileName)
+   : ILeafGenerator{id}
    , fileName_{fileName}
    , caption_{}
 {
@@ -17,7 +17,7 @@ IGenPtr_t GenImage::copy() const
 {
    LOGD(type_ + ": " + id_);
 
-   std::shared_ptr<GenImage> p(new GenImage(fileName_));
+   std::shared_ptr<GenImage> p(new GenImage(id_, fileName_));
    return p;
 }
 

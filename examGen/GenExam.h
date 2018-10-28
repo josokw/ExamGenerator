@@ -7,11 +7,8 @@
 #include <tuple>
 #include <vector>
 
-class GenHeader;
 class GenItem;
 class GenSolution;
-class GenText;
-class GenJava;
 
 typedef std::tuple<char, int, const char *, std::string> message_t;
 
@@ -21,7 +18,6 @@ class GenExam : public ICompositeGenerator
 {
 public:
    GenExam(const std::string &id, std::vector<message_t> &messages);
-   // GenExam(const GenExam &other) = default;
    virtual ~GenExam();
 
    IGenPtr_t copy() const override;
