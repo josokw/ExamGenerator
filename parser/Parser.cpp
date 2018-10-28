@@ -68,7 +68,7 @@ void MCTestBuilder::do_errorMessage(const char *begin, const char * /* end*/)
          messages_.push_back(Reader::message_t('E', 0, begin, "; expected."));
          break;
       default:
-         LOGE("line = " + std::to_string(line) + " unknown error code");
+         LOGE("line: " + std::string(begin) + " unknown error code");
          messages_.push_back(
             Reader::message_t('S', 0, begin, "Unknown error code"));
          break;
