@@ -22,7 +22,7 @@ The application needs the next Boost C++ libraries:
 For generating the pdf document the *pdflatex* application must be available.
 Install LaTeX: *sudo apt install texlive-full*.
 
-Go to the project root directory ExamGenerator.
+Go to the project root directory *ExamGenerator*.
 
 Use *CMake* and *make* to build the application:
 
@@ -31,7 +31,7 @@ Use *CMake* and *make* to build the application:
     cmake ..
     make
 
-The excutable can be found in the *bin* directory.
+The excutable *ExamGenerator* can be found in the *bin* directory.
 
 ## Generating an exam pdf file
 
@@ -44,6 +44,14 @@ A pdf will be generated if no syntax errors have occurred in the exam script.
 Use the *-d* option for generating detailed debug info in the log file:
 
     ../bin/ExamGenerator -e ../examGenScripts/testDummyExam.exm -d
+
+
+## Syntax exam script language
+
+Read the file *..../examGenScripts/testDummyExam.exm* for the syntax. Every MCT object (Multiple Choice test) should have a header.
+Every header has the next text fields: *school*, *course*, *lecturer*, *date* and *boxedtext*.
+Every exam question is represented by an *Item*. ....
+
 
 
 
