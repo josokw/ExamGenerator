@@ -42,6 +42,8 @@ public:
    virtual IGenPtr_t copy() const = 0;
    /// Adds another IGenerator derived type object to composite types.
    virtual void add(IGenPtr_t pGen) = 0;
+   /// Prepares strings used by #generate(). Default empty.
+   virtual void prepare() {}
    /// Generates text.
    virtual void generate(std::ostream &os) = 0;
    /// Writes status to os stream.
@@ -66,10 +68,6 @@ protected:
    std::string id_;
    /// Difficulty level of question: 0 not defined, 1 lowest level , 2 ...
    int difficultyLevel_;
-
-public:
-   /// Prepares strings used by #generate(). Default empty.
-   virtual void prepare() {}
 };
 
 #endif
