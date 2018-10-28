@@ -4,7 +4,7 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/josokw/examgenerator/badge)](https://www.codefactor.io/repository/github/josokw/examgenerator)
 
 This application was developed about 10 jaars ago in ancient C++.
-Now I have started to refactor the code to C++14 and using CMake.
+Now I have started to refactor the legacy code to C++17 and to use CMake.
 
 This application reads a text script containing multiple choise questions
 and compiles a LaTeX file.
@@ -33,10 +33,17 @@ Use *CMake* and *make* to build the application:
 
 The excutable can be found in the *bin* directory.
 
-## Generating an exam
+## Generating an exam pdf file
 
 If the current directory is *build*, use the next command:
 
     ../bin/ExamGenerator -e ../examGenScripts/testDummyExam.exm
 
-A pdf will be generated if no syntax errors has occurred.
+A pdf will be generated if no syntax errors in the exam script has occurred.
+
+Use the *-d* option for generating detailed debug info in the log file:
+
+    ../bin/ExamGenerator -e ../examGenScripts/testDummyExam.exm -d
+
+
+
