@@ -91,10 +91,13 @@ int main(int argc, char *argv[])
       const bfs::path LaTeXdocExamFileName(EXAM_LATEX_FILENAME);
       const bfs::path LaTeXdocExamAnswersFileName(EXAM_ANSWERS_LATEX_FILENAME);
 
+      const bfs::path ExamPDFfilename{ExamScriptFileName.filename().stem()};
+
       const std::string LaTeXcommandExam(
-         "pdflatex -enable-write18 \"-output-directory=" +
-         LaTeXoutputDir.string() + "\" " +
+         "pdflatex -enable-write18 -jobname=" + ExamPDFfilename.string() +
+         " \"-output-directory=" + LaTeXoutputDir.string() + "\" " +
          (LaTeXoutputDir / LaTeXdocExamFileName).string() + " 2>&1 /dev/null");
+         
       //   const std::string LaTeXcommandExamAnswers(
       //      "pdflatex -enable-write18 \"-output-directory=" +
       //      LaTeXoutputDir.string() + "\" " +
