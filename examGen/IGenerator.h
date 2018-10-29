@@ -52,8 +52,8 @@ public:
    const std::string &getType() const { return type_; }
    void setID(const std::string &id);
    const std::string &getID() const { return id_; }
-   void setDifficultyLevel(int difficultyLevel);
-   int getDifficultyLevel() const { return difficultyLevel_; }
+   void setLevel(int level);
+   int getLevel() const { return level_; }
 
 protected:
    /// Shared random generator.
@@ -66,8 +66,8 @@ protected:
    std::string type_;
    /// ID generator name.
    std::string id_;
-   /// Difficulty level of question: 0 not defined, 1 lowest level , 2 ...
-   int difficultyLevel_;
+   /// Level of question: 0 not defined, 1 lowest level , 2 ...
+   int level_;
 };
 
 #endif

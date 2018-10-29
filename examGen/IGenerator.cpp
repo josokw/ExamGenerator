@@ -22,7 +22,7 @@ IGenerator::IGenerator(const std::string &id)
    , RSelectors_{}
    , type_{"IGenerator"}
    , id_{id}
-   , difficultyLevel_{0}
+   , level_{0}
 {
    LOGD(type_ + ": " + id_ + ", initialised");
 }
@@ -49,7 +49,7 @@ void IGenerator::setID(const std::string &id)
    LOGD(type_ + ": id_ updated = " + id_);
 }
 
-void IGenerator::setDifficultyLevel(int difficultyLevel)
+void IGenerator::setLevel(int level)
 {
-   difficultyLevel_ = difficultyLevel;
+   level_ = level;
 }
