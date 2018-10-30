@@ -1,5 +1,4 @@
 #include "GenItem.h"
-#include "ExcInfo.h"
 #include "GenAPI.h"
 #include "GenCodeText.h"
 #include "GenOption.h"
@@ -70,10 +69,8 @@ void GenItem::add(IGenPtr_t pGen)
                if (std::shared_ptr<GenAPI> pAPI =
                       std::dynamic_pointer_cast<GenAPI>(pGen)) {
                   generators_.push_back(pGen);
-               }
-
-               else {
-                  throw std::runtime_error(__AT__ "GenItem: type '" +
+               } else {
+                  throw std::runtime_error("GenItem: type '" +
                                            std::string(typeid(pGen).name()) +
                                            "' not allowed for adding");
                }
@@ -134,26 +131,20 @@ void GenItem::addToStem(IGenPtr_t pGen)
    LOGD(type_ + ": " + id_ + ", to add " + pGen->getType() + " " +
         pGen->getID());
 
-   try {
-      IGenerator *p = pGen.get();
-      if (dynamic_cast<GenText *>(p)) {
+   IGenerator *p = pGen.get();
+   if (dynamic_cast<GenText *>(p)) {
+      generators_[0]->add(pGen);
+   } else {
+      if (dynamic_cast<GenCodeText *>(p)) {
          generators_[0]->add(pGen);
       } else {
-         if (dynamic_cast<GenCodeText *>(p)) {
+         if (dynamic_cast<GenAPI *>(p)) {
             generators_[0]->add(pGen);
          } else {
-            if (dynamic_cast<GenAPI *>(p)) {
-               generators_[0]->add(pGen);
-            } else {
-               throw std::runtime_error(__AT__ "GenItem: type '" +
-                                        std::string(typeid(pGen).name()) +
-                                        "' not allowed for adding to stem");
-            }
+            LOGE(type_ + ": " + id_ + ", " + pGen->getID() +
+                 " not allowed for adding to a stem");
          }
       }
-   }
-   catch (std::runtime_error &e) {
-      std::cerr << e.what() << std::endl;
    }
 }
 

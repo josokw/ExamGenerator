@@ -1,5 +1,4 @@
 #include "GenOptions.h"
-#include "ExcInfo.h"
 #include "GenOption.h"
 #include "Log.h"
 

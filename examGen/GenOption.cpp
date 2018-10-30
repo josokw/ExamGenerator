@@ -1,10 +1,9 @@
-#include <string>
-
-#include "ExcInfo.h"
 #include "GenCodeText.h"
 #include "GenOption.h"
 #include "GenText.h"
 #include "Log.h"
+
+#include <string>
 
 GenOption::GenOption(const std::string &id, const std::string &text)
    : ICompositeGenerator{id}
@@ -12,7 +11,7 @@ GenOption::GenOption(const std::string &id, const std::string &text)
    , text_{text}
 {
    type_ = "GenOption";
-   
+
    LOGD(id_ + ", initialised");
 }
 
@@ -29,24 +28,16 @@ void GenOption::add(IGenPtr_t pGen)
    LOGD(type_ + ": " + id_ + ", want to add " + pGen->getType() + " " +
         pGen->getID());
 
-   try {
-      if (std::shared_ptr<GenText> pText =
-             std::dynamic_pointer_cast<GenText>(pGen)) {
+   if (std::shared_ptr<GenText> pText =
+          std::dynamic_pointer_cast<GenText>(pGen)) {
+      generators_.push_back(pGen);
+   } else {
+      if (std::shared_ptr<GenCodeText> pCodeText =
+             std::dynamic_pointer_cast<GenCodeText>(pGen)) {
          generators_.push_back(pGen);
       } else {
-         if (std::shared_ptr<GenCodeText> pCodeText =
-                std::dynamic_pointer_cast<GenCodeText>(pGen)) {
-            generators_.push_back(pGen);
-         } else {
-            LOGE(id_ + ", added type not allowed");
-            throw std::runtime_error(
-               __AT__ "GenOption: added type not allowed for adding");
-         }
+         LOGE(id_ + ",  " + pGen->getType() + " not allowed for adding");
       }
-   }
-   catch (std::exception &e) {
-      std::clog << e.what() << std::endl;
-      LOGE(type_ + ": " + id_ + ", " + e.what());
    }
 }
 

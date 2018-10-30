@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 
-#include "ExcInfo.h"
 #include "IGenerator.h"
 #include "Log.h"
 

@@ -1,7 +1,6 @@
-#include "ExcInfo.h"
+#include "GenStem.h"
 #include "GenAPI.h"
 #include "GenCodeText.h"
-#include "GenStem.h"
 #include "GenText.h"
 #include "Log.h"
 
@@ -29,26 +28,20 @@ void GenStem::add(IGenPtr_t pGen)
    LOGD(type_ + ": " + id_ + ", wants to add " + pGen->getType() + " " +
         pGen->getID());
 
-   try {
-      auto *p = pGen.get();
-      if (GenText *pText = dynamic_cast<GenText *>(p)) {
+   auto *p = pGen.get();
+   if (GenText *pText = dynamic_cast<GenText *>(p)) {
+      generators_.push_back(pGen);
+   } else {
+      if (GenCodeText *pCodeText = dynamic_cast<GenCodeText *>(p)) {
          generators_.push_back(pGen);
       } else {
-         if (GenCodeText *pCodeText = dynamic_cast<GenCodeText *>(p)) {
+         if (GenAPI *pAPI = dynamic_cast<GenAPI *>(p)) {
             generators_.push_back(pGen);
          } else {
-            if (GenAPI *pAPI = dynamic_cast<GenAPI *>(p)) {
-               generators_.push_back(pGen);
-            } else {
-               LOGE(type_ + ": " + id_ + ", " + pGen->getType() +
-                    " generator type not allowed for adding");
-               throw std::runtime_error(__AT__ "Type not allowed for adding");
-            }
+            LOGE(type_ + ": " + id_ + ", " + pGen->getID() +
+                 " not allowed for adding");
          }
       }
-   }
-   catch (std::exception &X) {
-      std::cerr << X.what() << std::endl;
    }
 }
 
