@@ -5,7 +5,8 @@
 
 #include <string>
 
-//extern Logger logger;
+#define STRINGIZE(x) STRINGIZE_(x)
+#define STRINGIZE_(x) #x
 
 #define LOG(msg) log(std::string(__func__) + "() " + msg)
 #define LOGE(msg) log("E    " + std::string(__func__) + "() " + msg)
@@ -14,11 +15,14 @@
 #define LOGD(msg) logDebug("   D " + std::string(__func__) + "() " + msg)
 
 #define LOGCI(condition, msg)                                                  \
-   log(condition, "  I  " + std::string(__func__) + "() " + msg)
+   log(condition, "  I  " + std::string(__func__) +                            \
+                     "() condition: " + STRINGIZE(condition) + " " + msg)
 #define LOGCW(condition, msg)                                                  \
-   log(condition, " W   " + std::string(__func__) + "() " + msg)
+   log(condition, " W   " + std::string(__func__) +                            \
+                     "() condition: " + STRINGIZE(condition) + " " + msg)
 #define LOGCE(condition, msg)                                                  \
-   log(condition, "E    " + std::string(__func__) + "() " + msg)
+   log(condition, "E    " + std::string(__func__) +                            \
+                     "() condition: " + STRINGIZE(condition) + " " + msg)
 
 void log(const std::string &msg);
 void log(const char *msg);
