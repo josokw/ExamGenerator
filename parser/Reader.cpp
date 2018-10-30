@@ -32,7 +32,7 @@ void Reader::read()
 std::vector<std::shared_ptr<GenExams>> Reader::parse()
 {
    messages_.clear();
-   MCTestBuilder pb(messages_);
+   ExamBuilder pb(messages_);
    skipparser skip;
    MCTspecParser parser(pb);
 

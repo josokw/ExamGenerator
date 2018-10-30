@@ -16,7 +16,7 @@ void linecount(const char *, const char *)
 }
 
 // Helper functions
-bool MCTestBuilder::idGeneratorIsUnique(const std::string &id,
+bool ExamBuilder::idGeneratorIsUnique(const std::string &id,
                                         const char *begin,
                                         const char * /* end */)
 {
@@ -31,7 +31,7 @@ bool MCTestBuilder::idGeneratorIsUnique(const std::string &id,
    return isUnique;
 }
 
-IGenPtr_t *MCTestBuilder::idGeneratorIsAvailable(const std::string &id,
+IGenPtr_t *ExamBuilder::idGeneratorIsAvailable(const std::string &id,
                                                  const char *begin,
                                                  const char * /* end */)
 {
@@ -47,7 +47,7 @@ IGenPtr_t *MCTestBuilder::idGeneratorIsAvailable(const std::string &id,
 
 /// Error messages
 /// @bug line number is not correct.
-void MCTestBuilder::do_errorMessage(const char *begin, const char * /* end*/)
+void ExamBuilder::do_errorMessage(const char *begin, const char * /* end*/)
 {
    switch (error) {
       case ERROR::NO:

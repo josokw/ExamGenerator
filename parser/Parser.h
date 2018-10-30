@@ -43,7 +43,7 @@ namespace bsc = boost::spirit::classic;
 
 /// This structure contains all semantic actions of the parser.
 /// @todo GenericFactory not used, replace?
-struct MCTestBuilder {
+struct ExamBuilder {
    // Errors to check for during the parse
    enum class ERROR {
       NO = 0,
@@ -107,93 +107,91 @@ struct MCTestBuilder {
    std::function<void(const char *, const char *)> memberFunctionCall;
    std::function<void(const char *, const char *)> functionCall;
 
-   MCTestBuilder *self() { return this; }
-
-   MCTestBuilder(std::vector<Reader::message_t> &messages)
+   ExamBuilder(std::vector<Reader::message_t> &messages)
       : error{ERROR::NO}
       , messages_{messages}
       , isArrayElement_{false}
 
-      , errorMessage(std::bind(&MCTestBuilder::do_errorMessage, self(),
+      , errorMessage(std::bind(&ExamBuilder::do_errorMessage, this,
                                std::placeholders::_1, std::placeholders::_2))
 
-      , initText(std::bind(&MCTestBuilder::do_initText, self(),
+      , initText(std::bind(&ExamBuilder::do_initText, this,
                            std::placeholders::_1, std::placeholders::_2))
 
       , addChar(
-           std::bind(&MCTestBuilder::do_addChar, self(), std::placeholders::_1))
+           std::bind(&ExamBuilder::do_addChar, this, std::placeholders::_1))
 
-      , concatText(std::bind(&MCTestBuilder::do_concatText, self(),
+      , concatText(std::bind(&ExamBuilder::do_concatText, this,
                              std::placeholders::_1, std::placeholders::_2))
 
-      , addNewLine(std::bind(&MCTestBuilder::do_addNewLine, self(),
+      , addNewLine(std::bind(&ExamBuilder::do_addNewLine, this,
                              std::placeholders::_1, std::placeholders::_2))
 
-      , addNewCodeLine(std::bind(&MCTestBuilder::do_addNewCodeLine, self(),
+      , addNewCodeLine(std::bind(&ExamBuilder::do_addNewCodeLine, this,
                                  std::placeholders::_1, std::placeholders::_2))
 
-      , createObject(std::bind(&MCTestBuilder::do_createObject, self(),
+      , createObject(std::bind(&ExamBuilder::do_createObject, this,
                                std::placeholders::_1, std::placeholders::_2))
 
-      , createMCT(std::bind(&MCTestBuilder::do_createMCT, self(),
+      , createMCT(std::bind(&ExamBuilder::do_createMCT, this,
                             std::placeholders::_1, std::placeholders::_2))
 
-      , createMCTs(std::bind(&MCTestBuilder::do_createMCTs, self(),
+      , createMCTs(std::bind(&ExamBuilder::do_createMCTs, this,
                              std::placeholders::_1, std::placeholders::_2))
 
-      , createItem(std::bind(&MCTestBuilder::do_createItem, self(),
+      , createItem(std::bind(&ExamBuilder::do_createItem, this,
                              std::placeholders::_1, std::placeholders::_2))
 
-      , createHeader(std::bind(&MCTestBuilder::do_createHeader, self(),
+      , createHeader(std::bind(&ExamBuilder::do_createHeader, this,
                                std::placeholders::_1, std::placeholders::_2))
 
-      , createOption(std::bind(&MCTestBuilder::do_createOption, self(),
+      , createOption(std::bind(&ExamBuilder::do_createOption, this,
                                std::placeholders::_1, std::placeholders::_2))
 
-      , setOptionCorrect(std::bind(&MCTestBuilder::do_setOptionCorrect, self(),
+      , setOptionCorrect(std::bind(&ExamBuilder::do_setOptionCorrect, this,
                                    std::placeholders::_1,
                                    std::placeholders::_2))
 
-      , createGen(std::bind(&MCTestBuilder::do_createGen, self(),
+      , createGen(std::bind(&ExamBuilder::do_createGen, this,
                             std::placeholders::_1, std::placeholders::_2))
 
-      , resetItemScope(std::bind(&MCTestBuilder::do_resetItemScope, self(),
+      , resetItemScope(std::bind(&ExamBuilder::do_resetItemScope, this,
                                  std::placeholders::_1))
 
-      , assignment(std::bind(&MCTestBuilder::do_assignment, self(),
+      , assignment(std::bind(&ExamBuilder::do_assignment, this,
                              std::placeholders::_1, std::placeholders::_2))
 
-      , retrieve(std::bind(&MCTestBuilder::do_retrieve, self(),
-                           std::placeholders::_1))
+      , retrieve(
+           std::bind(&ExamBuilder::do_retrieve, this, std::placeholders::_1))
 
-      , addTextToGen(std::bind(&MCTestBuilder::do_addTextToGen, self(),
+      , addTextToGen(std::bind(&ExamBuilder::do_addTextToGen, this,
                                std::placeholders::_1, std::placeholders::_2))
 
-      , addTextToStem(std::bind(&MCTestBuilder::do_addTextToStem, self(),
+      , addTextToStem(std::bind(&ExamBuilder::do_addTextToStem, this,
                                 std::placeholders::_1, std::placeholders::_2))
 
-      , setLevelOfItem(std::bind(&MCTestBuilder::do_setLevelOfItem, self(),
+      , setLevelOfItem(std::bind(&ExamBuilder::do_setLevelOfItem, this,
                                  std::placeholders::_1, std::placeholders::_2))
 
-      , addGenToGen(std::bind(&MCTestBuilder::do_addGenToGen, self(),
+      , addGenToGen(std::bind(&ExamBuilder::do_addGenToGen, this,
                               std::placeholders::_1, std::placeholders::_2))
 
-      , addFunctorResultToGen(
-           std::bind(&MCTestBuilder::do_addFunctorResultToGen, self(),
-                     std::placeholders::_1, std::placeholders::_2))
+      , addFunctorResultToGen(std::bind(&ExamBuilder::do_addFunctorResultToGen,
+                                        this, std::placeholders::_1,
+                                        std::placeholders::_2))
 
-      , endOfSpec(std::bind(&MCTestBuilder::do_endOfSpec, self(),
+      , endOfSpec(std::bind(&ExamBuilder::do_endOfSpec, this,
                             std::placeholders::_1, std::placeholders::_2))
 
-      , localFunctionCall(std::bind(&MCTestBuilder::do_localFunctionCall,
-                                    self(), std::placeholders::_1,
+      , localFunctionCall(std::bind(&ExamBuilder::do_localFunctionCall, this,
+                                    std::placeholders::_1,
                                     std::placeholders::_2))
 
-      , memberFunctionCall(std::bind(&MCTestBuilder::do_memberFunctionCall,
-                                     self(), std::placeholders::_1,
+      , memberFunctionCall(std::bind(&ExamBuilder::do_memberFunctionCall, this,
+                                     std::placeholders::_1,
                                      std::placeholders::_2))
 
-      , functionCall(std::bind(&MCTestBuilder::do_functionCall, self(),
+      , functionCall(std::bind(&ExamBuilder::do_functionCall, this,
                                std::placeholders::_1, std::placeholders::_2))
    {
       vars_p.add("AppName", APPNAME);
@@ -822,9 +820,9 @@ struct skipparser : public bsc::grammar<skipparser> {
 };
 
 struct MCTspecParser : public bsc::grammar<MCTspecParser> {
-   MCTestBuilder &pb_;
+   ExamBuilder &pb_;
 
-   MCTspecParser(MCTestBuilder &pb)
+   MCTspecParser(ExamBuilder &pb)
       : pb_(pb)
    {
       LOGD("initialised");
@@ -833,7 +831,7 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
    template <typename ScannerT> struct definition {
       definition(MCTspecParser const &self)
       {
-         MCTestBuilder &pb = self.pb_;
+         ExamBuilder &pb = self.pb_;
 
          keywords = "Item", "Header", "Text", "API", "Selector", "stem",
          "level";
@@ -857,7 +855,7 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
 
          main =
             (+MCT |
-             Error[bsc::assign_a(pb.error, MCTestBuilder::ERROR::MCT_EXPECTED)]
+             Error[bsc::assign_a(pb.error, ExamBuilder::ERROR::MCT_EXPECTED)]
                   [pb.errorMessage]) >>
             *(Header | Item | Declaration | CodeText | Image | APIdoc | Add |
               AddText | memberFunctionCall) >>
@@ -877,16 +875,16 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
                (bsc::strlit<>("MCT")[bsc::assign_a(pb.type)] >>
                 id[bsc::assign_a(pb.id_)] >> bsc::ch_p('[') >>
                 (bsc::int_p[bsc::assign_a(pb.par_)] |
-                 Error[bsc::assign_a(
-                    pb.error, MCTestBuilder::ERROR::UNSIGNEDINT_EXPECTED)]
+                 Error[bsc::assign_a(pb.error,
+                                     ExamBuilder::ERROR::UNSIGNEDINT_EXPECTED)]
                       [pb.errorMessage]) >>
                 (bsc::ch_p(']') |
                  Error[bsc::assign_a(
-                    pb.error, MCTestBuilder::ERROR::CLOSING_BRACKET_EXPECTED)]
+                    pb.error, ExamBuilder::ERROR::CLOSING_BRACKET_EXPECTED)]
                       [pb.errorMessage]) >>
                 (SEMI[pb.createMCTs] |
                  Error[bsc::assign_a(pb.error,
-                                     MCTestBuilder::ERROR::SEMICOLON_EXPECTED)]
+                                     ExamBuilder::ERROR::SEMICOLON_EXPECTED)]
                       [pb.errorMessage]));
 
          Header = bsc::strlit<>("Header")[bsc::assign_a(pb.type)] >>
@@ -1025,8 +1023,8 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
          assignment_op = bsc::ch_p('=');
 
          SEMIexpected =
-            (SEMI | Error[bsc::assign_a(
-                       pb.error, MCTestBuilder::ERROR::SEMICOLON_EXPECTED)]
+            (SEMI | Error[bsc::assign_a(pb.error,
+                                        ExamBuilder::ERROR::SEMICOLON_EXPECTED)]
                          [pb.errorMessage]);
 
          Error = bsc::epsilon_p;
