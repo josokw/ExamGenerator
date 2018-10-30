@@ -43,19 +43,12 @@ void GenOptions::add(IGenPtr_t pGen)
    LOGD(type_ + ": " + id_ + ", wants to add " + pGen->getType() + " " +
         pGen->getID());
 
-   try {
-      if (std::shared_ptr<GenOption> pOption =
-             std::dynamic_pointer_cast<GenOption>(pGen)) {
-         generators_.push_back(pGen);
-      } else {
-         LOGE(type_ + ": " + id_ + ", " + pGen->getID() +
-              " not allowed for adding");
-         throw std::runtime_error(
-            __AT__ "GenOptions: added type not allowed for adding");
-      }
-   }
-   catch (std::exception &X) {
-      std::cerr << X.what() << std::endl;
+   if (std::shared_ptr<GenOption> pOption =
+          std::dynamic_pointer_cast<GenOption>(pGen)) {
+      generators_.push_back(pGen);
+   } else {
+      LOGE(type_ + ": " + id_ + ", " + pGen->getID() +
+           " not allowed for adding");
    }
 }
 
