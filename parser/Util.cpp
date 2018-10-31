@@ -1,6 +1,5 @@
 #include "Util.h"
 
-#include <boost/lexical_cast.hpp>
 #include <string>
 #include <vector>
 
@@ -31,10 +30,10 @@ std::vector<std::string> util::toTruthTable(util::bool3Pars_t boolExpr)
       bool b2 = ((i >> 1) & 1) == 1;
       bool b1 = ((i >> 2) & 1) == 1;
 
-      subResult = boost::lexical_cast<std::string>(b1) + " & " +
-                  boost::lexical_cast<std::string>(b2) + " & " +
-                  boost::lexical_cast<std::string>(b3) + " & " +
-                  boost::lexical_cast<std::string>(boolExpr(b1, b2, b3)) + " ";
+      subResult = std::to_string(b1) + " & " +
+                  std::to_string(b2) + " & " +
+                  std::to_string(b3) + " & " +
+                  std::to_string(boolExpr(b1, b2, b3)) + " ";
       result.push_back(subResult);
    }
 
@@ -49,9 +48,9 @@ std::vector<std::string> util::toTruthTable(util::bool2Pars_t boolExpr)
    for (unsigned int i = 0; i < 4; ++i) {
       bool b2 = (i >> 1) == 1;
       bool b1 = (i >> 2) == 1;
-      subResult = boost::lexical_cast<std::string>(b1) + " " +
-                  boost::lexical_cast<std::string>(b2) + "  " +
-                  boost::lexical_cast<std::string>(boolExpr(b1, b2)) + "\n";
+      subResult = std::to_string(b1) + " " +
+                  std::to_string(b2) + "  " +
+                  std::to_string(boolExpr(b1, b2)) + "\n";
       result.push_back(subResult);
    }
 
