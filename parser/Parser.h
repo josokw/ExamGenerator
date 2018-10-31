@@ -815,11 +815,18 @@ struct ExamBuilder {
    {
       if (!itemScope.empty()) {
          id = itemScope + "." + id;
+         LOGD("itemScope = " + itemScope + "  id = " + id);
+      } else {
+         LOGD("id = " + id);
       }
-      LOGD("id = " + id);
    }
 
-   std::vector<std::shared_ptr<GenExams>> getProduct() { return Product; }
+   std::vector<std::shared_ptr<GenExams>> getProduct()
+   {
+      LOGD("size = " + std::to_string(Product.size()));
+
+      return Product;
+   }
 };
 
 extern int line;
