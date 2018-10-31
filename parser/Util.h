@@ -17,6 +17,9 @@ typedef std::function<bool(bool)> bool1Pars_t;
 std::vector<std::string> toTruthTable(bool3Pars_t boolExpr);
 std::vector<std::string> toTruthTable(bool2Pars_t boolExpr);
 
+std::string removeNewLines(const std::string &str);
+std::string limitSize(const std::string &str, size_t maxSize);
+
 } // namespace util
 
 #endif

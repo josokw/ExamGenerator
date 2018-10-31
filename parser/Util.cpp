@@ -1,5 +1,6 @@
 #include "Util.h"
 
+#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -30,8 +31,7 @@ std::vector<std::string> util::toTruthTable(util::bool3Pars_t boolExpr)
       bool b2 = ((i >> 1) & 1) == 1;
       bool b1 = ((i >> 2) & 1) == 1;
 
-      subResult = std::to_string(b1) + " & " +
-                  std::to_string(b2) + " & " +
+      subResult = std::to_string(b1) + " & " + std::to_string(b2) + " & " +
                   std::to_string(b3) + " & " +
                   std::to_string(boolExpr(b1, b2, b3)) + " ";
       result.push_back(subResult);
@@ -48,11 +48,25 @@ std::vector<std::string> util::toTruthTable(util::bool2Pars_t boolExpr)
    for (unsigned int i = 0; i < 4; ++i) {
       bool b2 = (i >> 1) == 1;
       bool b1 = (i >> 2) == 1;
-      subResult = std::to_string(b1) + " " +
-                  std::to_string(b2) + "  " +
+      subResult = std::to_string(b1) + " " + std::to_string(b2) + "  " +
                   std::to_string(boolExpr(b1, b2)) + "\n";
       result.push_back(subResult);
    }
 
    return result;
+}
+
+std::string util::removeNewLines(const std::string &str)
+{
+   std::string result;
+
+   std::transform(begin(str), end(str), std::back_inserter(result),
+                  [](char c) { return (c == '\n' ? ' ' : c); });
+
+   return result;
+}
+
+std::string util::limitSize(const std::string &str, size_t maxSize)
+{
+   return (str.size() < maxSize) ? str : str.substr(0, maxSize);
 }
