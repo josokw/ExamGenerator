@@ -16,9 +16,8 @@ void linecount(const char *, const char *)
 }
 
 // Helper functions
-bool ExamBuilder::idGeneratorIsUnique(const std::string &id,
-                                        const char *begin,
-                                        const char * /* end */)
+bool ExamBuilder::idGeneratorIsUnique(const std::string &id, const char *begin,
+                                      const char * /* end */)
 {
    auto isUnique = true;
    if (find(generators_p, id.c_str())) {
@@ -32,8 +31,8 @@ bool ExamBuilder::idGeneratorIsUnique(const std::string &id,
 }
 
 IGenPtr_t *ExamBuilder::idGeneratorIsAvailable(const std::string &id,
-                                                 const char *begin,
-                                                 const char * /* end */)
+                                               const char *begin,
+                                               const char * /* end */)
 {
    auto ppIGen = bsc::find(generators_p, id.c_str());
    if (nullptr == ppIGen) {
@@ -68,9 +67,12 @@ void ExamBuilder::do_errorMessage(const char *begin, const char * /* end*/)
          messages_.push_back(Reader::message_t('E', 0, begin, "; expected."));
          break;
       default:
-         LOGE("line: " + std::string(begin) + " unknown error code");
+         LOGE("line: " + std::string(begin) + " unknown error code = " +
+              std::to_string(static_cast<int>(error_)));
          messages_.push_back(
-            Reader::message_t('S', 0, begin, "Unknown error code"));
+            Reader::message_t('S', 0, begin,
+                              "Unknown error code = " +
+                                 std::to_string(static_cast<int>(error_))));
          break;
    }
 }
