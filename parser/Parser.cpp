@@ -71,8 +71,9 @@ void ExamBuilder::do_errorMessage(const char *begin, const char * /* end*/)
             Reader::message_t('E', 0, context.c_str(), "; expected."));
          break;
       default:
-         LOGE("unknown error code = " +
-              std::to_string(static_cast<int>(error_)) + ", in line: " + context);
+         LOGE(
+            "unknown error code = " + std::to_string(static_cast<int>(error_)) +
+            ", in line: " + context);
          messages_.push_back(
             Reader::message_t('S', 0, context.c_str(),
                               "Unknown error code = " +

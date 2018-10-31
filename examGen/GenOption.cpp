@@ -1,7 +1,8 @@
-#include "GenCodeText.h"
 #include "GenOption.h"
+#include "GenCodeText.h"
 #include "GenText.h"
 #include "Log.h"
+#include "Util.h"
 
 #include <string>
 
@@ -25,7 +26,7 @@ IGenPtr_t GenOption::copy() const
 
 void GenOption::add(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": " + id_ + ", want to add " + pGen->getType() + " " +
+   LOGD(type_ + ": " + id_ + ", wants to add " + pGen->getType() + " " +
         pGen->getID());
 
    if (std::shared_ptr<GenText> pText =
@@ -43,7 +44,8 @@ void GenOption::add(IGenPtr_t pGen)
 
 void GenOption::generate(std::ostream &os)
 {
-   LOGD(type_ + ": " + id_ + ", " + text_.substr(0, 15) + " ...");
+   auto context = util::removeNewLines(util::limitSize(text_, 60));
+   LOGD(type_ + ": " + id_ + ", " + context + " ...");
 
    os << text_ << "\n";
    ICompositeGenerator::generate(os);
@@ -51,13 +53,10 @@ void GenOption::generate(std::ostream &os)
 
 std::ostream &GenOption::write(std::ostream &os, int level) const
 {
+   auto context = util::removeNewLines(util::limitSize(text_, 60));
+
    IGenerator::write(os, level);
-   if (text_.size() < 20) {
-      os << ": " << text_.substr(0, 20) << "  correct = " << isCorrect_ << "\n";
-   } else {
-      os << ": " << text_.substr(0, 20) << "...  correct = " << isCorrect_
-         << "\n";
-   }
+   os << ": " << context << "  correct = " << isCorrect_ << "\n";
    ICompositeGenerator::write(os, level + 1);
 
    return os;

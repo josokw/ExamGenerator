@@ -51,35 +51,29 @@ IGenPtr_t GenItem::copy() const
 
 void GenItem::add(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": " + id_ + ", to add " + pGen->getID());
+   LOGD(type_ + ": " + id_ + ", wants to add " + pGen->getType() + " " +
+        pGen->getID());
 
-   try {
-      if (std::shared_ptr<GenStem> pStem =
-             std::dynamic_pointer_cast<GenStem>(pGen)) {
+   if (std::shared_ptr<GenStem> pStem =
+          std::dynamic_pointer_cast<GenStem>(pGen)) {
+      generators_.push_back(pGen);
+   } else {
+      if (std::shared_ptr<GenOption> pOption =
+             std::dynamic_pointer_cast<GenOption>(pGen)) {
          generators_.push_back(pGen);
       } else {
-         if (std::shared_ptr<GenOption> pOption =
-                std::dynamic_pointer_cast<GenOption>(pGen)) {
+         if (std::shared_ptr<GenOptions> pOptions =
+                std::dynamic_pointer_cast<GenOptions>(pGen)) {
             generators_.push_back(pGen);
          } else {
-            if (std::shared_ptr<GenOptions> pOptions =
-                   std::dynamic_pointer_cast<GenOptions>(pGen)) {
+            if (std::shared_ptr<GenAPI> pAPI =
+                   std::dynamic_pointer_cast<GenAPI>(pGen)) {
                generators_.push_back(pGen);
             } else {
-               if (std::shared_ptr<GenAPI> pAPI =
-                      std::dynamic_pointer_cast<GenAPI>(pGen)) {
-                  generators_.push_back(pGen);
-               } else {
-                  throw std::runtime_error("GenItem: type '" +
-                                           std::string(typeid(pGen).name()) +
-                                           "' not allowed for adding");
-               }
+               LOGE(id_ + ",  " + pGen->getType() + " not allowed for adding");
             }
          }
       }
-   }
-   catch (std::runtime_error &X) {
-      std::cerr << X.what() << std::endl;
    }
 }
 
@@ -157,7 +151,7 @@ void GenItem::setAsLastItem() const
 
 void GenItem::addToOptions(std::shared_ptr<GenOption> pOption, bool isCorrect)
 {
-   LOGD(type_ + ": " + id_ + ", want to add " + pOption->getType() + " " +
+   LOGD(type_ + ": " + id_ + ", wants to add " + pOption->getType() + " " +
         pOption->getID());
 
    if (isCorrect) {

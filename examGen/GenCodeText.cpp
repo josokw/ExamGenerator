@@ -1,5 +1,6 @@
 #include "GenCodeText.h"
 #include "Log.h"
+#include "Util.h"
 
 #include <string>
 
@@ -23,8 +24,9 @@ IGenPtr_t GenCodeText::copy() const
 
 void GenCodeText::generate(std::ostream &os)
 {
+   auto context = util::removeNewLines(util::limitSize(codeText_, 60));
    LOGD(type_ + ": " + id_ + ", '" + programmingLanguage_ +
-        "' code text = " + codeText_.substr(0, 20) + "...");
+        "' code text = " + context);
 
    os << "\\lstset{ language = " << programmingLanguage_ << "}\n"
       << "\\begin{lstlisting}\n"
