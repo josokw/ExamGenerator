@@ -242,12 +242,14 @@ struct ExamBuilder {
       // text.replace( = ' ';
       //*(text.end()-1) = ' ';
 
-      LOGD(text);
+      auto context = util::removeNewLines(util::limitSize(text, 60));
+      LOGD(context);
    }
 
    void do_assignment(const char *begin, const char * /* end */)
    {
-      LOGD(std::string(begin, begin + 30) + " ...");
+      auto context = util::removeNewLines(util::limitSize(begin, 60));
+      LOGD(context);
 
       if (!itemScope.empty()) {
          lhs = itemScope + "." + lhs;
@@ -264,14 +266,16 @@ struct ExamBuilder {
 
    void do_retrieve(std::string &s)
    {
-      LOGD(s);
+      auto context = util::removeNewLines(util::limitSize(s, 60));
+      LOGD(context);
 
       rhs.append(" ").append(s);
    }
 
    void do_createMCT(const char *begin, const char *end)
    {
-      LOGD(std::string(begin, end));
+      auto context = util::removeNewLines(util::limitSize(begin, end, 60));
+      LOGD(context);
 
       if (not itemScope.empty()) {
          LOGE(id_ + ", MCT '" + id_ + "' should be declared global!");
@@ -289,7 +293,8 @@ struct ExamBuilder {
 
    void do_createMCTs(const char *begin, const char *end)
    {
-      LOGD(std::string(begin, end));
+      auto context = util::removeNewLines(util::limitSize(begin, end, 60));
+      LOGD(context);
 
       std::vector<std::shared_ptr<GenExams>> &ProductLocal(Product);
 
@@ -309,7 +314,8 @@ struct ExamBuilder {
 
    void do_createItem(const char *begin, const char *end)
    {
-      LOGD(std::string(begin, end));
+      auto context = util::removeNewLines(util::limitSize(begin, end, 60));
+      LOGD(context);
 
       if (idGeneratorIsUnique(id_, begin, end)) {
          p_actualItem = std::shared_ptr<GenItem>(new GenItem(id_));
@@ -326,7 +332,8 @@ struct ExamBuilder {
 
    void do_createObject(const char *begin, const char *end)
    {
-      LOGD(std::string(begin, end));
+      auto context = util::removeNewLines(util::limitSize(begin, end, 60));
+      LOGD(context);
 
       if (idGeneratorIsUnique(id_, begin, end)) {
          if (type == "Selector") {
@@ -388,7 +395,8 @@ struct ExamBuilder {
 
    void do_createHeader(const char *begin, const char *end)
    {
-      LOGD(std::string(begin, end));
+      auto context = util::removeNewLines(util::limitSize(begin, end, 60));
+      LOGD(context);
 
       if (idGeneratorIsUnique(id_, begin, end)) {
          p_actualHeader = std::shared_ptr<GenHeader>(new GenHeader(id_));
@@ -405,7 +413,8 @@ struct ExamBuilder {
 
    void do_createOption(const char *begin, const char *end)
    {
-      LOGD(std::string(begin, end));
+      auto context = util::removeNewLines(util::limitSize(begin, end, 60));
+      LOGD(context);
 
       addItemScope(lhs);
       if (idGeneratorIsUnique(lhs, begin, end)) {
@@ -424,7 +433,8 @@ struct ExamBuilder {
 
    void do_setOptionCorrect(const char *begin, const char *end)
    {
-      LOGD(std::string(begin, end));
+      auto context = util::removeNewLines(util::limitSize(begin, end, 60));
+      LOGD(context);
 
       try {
          addItemScope(lhs);
@@ -449,7 +459,8 @@ struct ExamBuilder {
 
    void do_createGen(const char *begin, const char *end)
    {
-      LOGD(std::string(begin, end));
+      auto context = util::removeNewLines(util::limitSize(begin, end, 60));
+      LOGD(context);
 
       addItemScope(id_);
       if (idGeneratorIsUnique(id_, begin, end)) {
@@ -495,7 +506,8 @@ struct ExamBuilder {
 
    void do_addTextToGen(const char *begin, const char *end)
    {
-      LOGD(std::string(begin, end));
+      auto context = util::removeNewLines(util::limitSize(begin, end, 60));
+      LOGD(context);
 
       addItemScope(lhs);
       if (auto ppGenLHS = idGeneratorIsAvailable(lhs, begin, end)) {
@@ -506,7 +518,8 @@ struct ExamBuilder {
 
    void do_addTextToStem(const char *begin, const char *end)
    {
-      LOGD(std::string(begin, end));
+      auto context = util::removeNewLines(util::limitSize(begin, end, 60));
+      LOGD(context);
 
       addItemScope(lhs);
       if (auto ppGenLHS = idGeneratorIsAvailable(lhs, begin, end)) {
@@ -517,7 +530,8 @@ struct ExamBuilder {
 
    void do_setLevelOfItem(const char *begin, const char *end)
    {
-      LOGD(std::string(begin, end));
+      auto context = util::removeNewLines(util::limitSize(begin, end, 60));
+      LOGD(context);
 
       addItemScope(lhs);
       if (auto ppGenLHS = idGeneratorIsAvailable(lhs, begin, end)) {
@@ -530,7 +544,8 @@ struct ExamBuilder {
    /// Item's.
    void do_addGenToGen(const char *begin, const char *end)
    {
-      LOGD(std::string(begin, end));
+      auto context = util::removeNewLines(util::limitSize(begin, end, 60));
+      LOGD(context);
 
       addItemScope(lhs);
       addItemScope(rhs);
@@ -588,7 +603,8 @@ struct ExamBuilder {
    /// Example: MCT mct; Selector S; ... mct += S(3);
    void do_addFunctorResultToGen(const char *begin, const char *end)
    {
-      LOGD(std::string(begin, end));
+      auto context = util::removeNewLines(util::limitSize(begin, end, 60));
+      LOGD(context);
 
       addItemScope(lhs);
       addItemScope(rhs);
@@ -649,12 +665,14 @@ struct ExamBuilder {
 
    void do_endOfSpec(const char *begin, const char *end)
    {
-      LOGD(std::string(begin, end));
+      auto context = util::removeNewLines(util::limitSize(begin, end, 60));
+      LOGD(context);
    }
 
    void do_localFunctionCall(const char *begin, const char *end)
    {
-      LOGD(std::string(begin, end));
+      auto context = util::removeNewLines(util::limitSize(begin, end, 60));
+      LOGD(context);
 
       try {
          /// @bug Workaround: remove empty strings from parList
@@ -689,7 +707,8 @@ struct ExamBuilder {
 
    void do_memberFunctionCall(const char *begin, const char *end)
    {
-      LOGD(std::string(begin, end));
+      auto context = util::removeNewLines(util::limitSize(begin, end, 60));
+      LOGD(context);
 
       try {
          /// @bug Workaround: remove empty strings from parList
@@ -757,7 +776,8 @@ struct ExamBuilder {
 
    void do_functionCall(const char *begin, const char *end)
    {
-      LOGD(std::string(begin, end));
+      auto context = util::removeNewLines(util::limitSize(begin, end, 60));
+      LOGD(context);
 
       try {
          /// @bug Workaround: remove empty strings from parList

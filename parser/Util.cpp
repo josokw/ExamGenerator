@@ -66,7 +66,14 @@ std::string util::removeNewLines(const std::string &str)
    return result;
 }
 
-std::string util::limitSize(const std::string &str, size_t maxSize)
+std::string util::limitSize(const std::string &str, size_t maxSize,
+                            const std::string &addText)
 {
-   return (str.size() < maxSize) ? str : str.substr(0, maxSize);
+   return (str.size() < maxSize) ? str : str.substr(0, maxSize) + addText;
+}
+
+std::string util::limitSize(const char *begin, const char *end, size_t maxSize,
+                            const std::string &addText)
+{
+   return util::limitSize(std::string(begin, end), maxSize, addText);
 }

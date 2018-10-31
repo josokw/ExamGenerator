@@ -1,5 +1,6 @@
 #include "Parser.h"
 #include "Log.h"
+#include "Util.h"
 
 int line = 0;
 
@@ -48,29 +49,32 @@ IGenPtr_t *ExamBuilder::idGeneratorIsAvailable(const std::string &id,
 /// @bug line number is not correct.
 void ExamBuilder::do_errorMessage(const char *begin, const char * /* end*/)
 {
+   auto context = util::removeNewLines(util::limitSize(begin, 60));
+
    switch (error_) {
       case ERROR::NO:
          break;
       case ERROR::MCT_EXPECTED:
          messages_.push_back(Reader::message_t(
-            'E', 0, begin, "MCT or MCT[] declaration expected."));
+            'E', 0, context.c_str(), "MCT or MCT[] declaration expected."));
          break;
       case ERROR::CLOSING_BRACKET_EXPECTED:
          messages_.push_back(
-            Reader::message_t('E', 0, begin, "Closing ] expected."));
+            Reader::message_t('E', 0, context.c_str(), "Closing ] expected."));
          break;
       case ERROR::UNSIGNEDINT_EXPECTED:
-         messages_.push_back(
-            Reader::message_t('E', 0, begin, "Integer value expected."));
+         messages_.push_back(Reader::message_t('E', 0, context.c_str(),
+                                               "Integer value expected."));
          break;
       case ERROR::SEMICOLON_EXPECTED:
-         messages_.push_back(Reader::message_t('E', 0, begin, "; expected."));
+         messages_.push_back(
+            Reader::message_t('E', 0, context.c_str(), "; expected."));
          break;
       default:
-         LOGE("line: " + std::string(begin) + " unknown error code = " +
-              std::to_string(static_cast<int>(error_)));
+         LOGE("unknown error code = " +
+              std::to_string(static_cast<int>(error_)) + ", in line: " + context);
          messages_.push_back(
-            Reader::message_t('S', 0, begin,
+            Reader::message_t('S', 0, context.c_str(),
                               "Unknown error code = " +
                                  std::to_string(static_cast<int>(error_))));
          break;

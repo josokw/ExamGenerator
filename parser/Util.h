@@ -18,7 +18,10 @@ std::vector<std::string> toTruthTable(bool3Pars_t boolExpr);
 std::vector<std::string> toTruthTable(bool2Pars_t boolExpr);
 
 std::string removeNewLines(const std::string &str);
-std::string limitSize(const std::string &str, size_t maxSize);
+std::string limitSize(const std::string &str, size_t maxSize,
+                      const std::string &addText = " ...");
+std::string limitSize(const char *begin, const char *end, size_t maxSize,
+                      const std::string &addText = " ...");
 
 } // namespace util
 
