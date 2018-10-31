@@ -49,7 +49,7 @@ IGenPtr_t *ExamBuilder::idGeneratorIsAvailable(const std::string &id,
 /// @bug line number is not correct.
 void ExamBuilder::do_errorMessage(const char *begin, const char * /* end*/)
 {
-   switch (error) {
+   switch (error_) {
       case ERROR::NO:
          break;
       case ERROR::MCT_EXPECTED:

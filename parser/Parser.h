@@ -53,7 +53,7 @@ struct ExamBuilder {
       SEMICOLON_EXPECTED
    };
 
-   ERROR error{ERROR::NO};
+   ERROR error_{ERROR::NO};
    std::vector<Reader::message_t> &messages_;
 
    RandomProfile randomProfile;
@@ -108,7 +108,7 @@ struct ExamBuilder {
    std::function<void(const char *, const char *)> functionCall;
 
    ExamBuilder(std::vector<Reader::message_t> &messages)
-      : error{ERROR::NO}
+      : error_{ERROR::NO}
       , messages_{messages}
       , isArrayElement_{false}
 
@@ -855,7 +855,7 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
 
          main =
             (+MCT |
-             Error[bsc::assign_a(pb.error, ExamBuilder::ERROR::MCT_EXPECTED)]
+             Error[bsc::assign_a(pb.error_, ExamBuilder::ERROR::MCT_EXPECTED)]
                   [pb.errorMessage]) >>
             *(Header | Item | Declaration | CodeText | Image | APIdoc | Add |
               AddText | memberFunctionCall) >>
@@ -875,15 +875,15 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
                (bsc::strlit<>("MCT")[bsc::assign_a(pb.type)] >>
                 id[bsc::assign_a(pb.id_)] >> bsc::ch_p('[') >>
                 (bsc::int_p[bsc::assign_a(pb.par_)] |
-                 Error[bsc::assign_a(pb.error,
+                 Error[bsc::assign_a(pb.error_,
                                      ExamBuilder::ERROR::UNSIGNEDINT_EXPECTED)]
                       [pb.errorMessage]) >>
                 (bsc::ch_p(']') |
                  Error[bsc::assign_a(
-                    pb.error, ExamBuilder::ERROR::CLOSING_BRACKET_EXPECTED)]
+                    pb.error_, ExamBuilder::ERROR::CLOSING_BRACKET_EXPECTED)]
                       [pb.errorMessage]) >>
                 (SEMI[pb.createMCTs] |
-                 Error[bsc::assign_a(pb.error,
+                 Error[bsc::assign_a(pb.error_,
                                      ExamBuilder::ERROR::SEMICOLON_EXPECTED)]
                       [pb.errorMessage]));
 
@@ -1023,7 +1023,7 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
          assignment_op = bsc::ch_p('=');
 
          SEMIexpected =
-            (SEMI | Error[bsc::assign_a(pb.error,
+            (SEMI | Error[bsc::assign_a(pb.error_,
                                         ExamBuilder::ERROR::SEMICOLON_EXPECTED)]
                          [pb.errorMessage]);
 

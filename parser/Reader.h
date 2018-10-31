@@ -23,11 +23,11 @@ public:
    /// string: message contents
    using message_t = std::tuple<char, int, const char *, std::string>;
 
-   Reader(std::istream &inputSpec);
+   Reader(std::istream &examScript);
    ~Reader() = default;
 
    void clear();
-   /// Reads #textSpec_ and adds a null char to end.
+   /// Reads #examScriptText_ and adds a null char to end.
    void read();
    /// Returns parse result: vector of pointers to GenExams objects.
    /// This vector is empty if errors has occured during parsing.
@@ -38,7 +38,7 @@ public:
 private:
    std::vector<message_t> messages_;
    std::istream &input_;
-   std::vector<char> textSpec_;
+   std::vector<char> examScriptText_;
    Builder *pBuilder_;
 };
 
