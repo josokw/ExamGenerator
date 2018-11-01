@@ -400,10 +400,11 @@ struct ExamBuilder {
 
       if (idGeneratorIsUnique(id_, begin, end)) {
          p_actualHeader = std::shared_ptr<GenHeader>(new GenHeader(id_));
-         //*p_actualHeader = tempHeader;
          p_actualHeader->setID(id_);
          p_actualHeader->School = tempHeader.School;
          p_actualHeader->Course = tempHeader.Course;
+         p_actualHeader->Lecturer = tempHeader.Lecturer;
+         p_actualHeader->Other = tempHeader.Other;
          p_actualHeader->BoxedText = tempHeader.BoxedText;
 
          bsc::add(generators_p, id_.c_str(),
