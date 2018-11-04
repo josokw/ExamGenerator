@@ -134,10 +134,10 @@ struct ExamBuilder {
                                std::placeholders::_1, std::placeholders::_2))
 
       , createExam(std::bind(&ExamBuilder::do_createExam, this,
-                            std::placeholders::_1, std::placeholders::_2))
+                             std::placeholders::_1, std::placeholders::_2))
 
       , createExams(std::bind(&ExamBuilder::do_createExams, this,
-                             std::placeholders::_1, std::placeholders::_2))
+                              std::placeholders::_1, std::placeholders::_2))
 
       , createItem(std::bind(&ExamBuilder::do_createItem, this,
                              std::placeholders::_1, std::placeholders::_2))
@@ -467,28 +467,28 @@ struct ExamBuilder {
       addItemScope(id_);
       if (idGeneratorIsUnique(id_, begin, end)) {
          if (type == "Header") {
-            std::shared_ptr<GenHeader> pH(new GenHeader(id_));
+            auto pHeader = std::make_shared<GenHeader>(id_);
             bsc::add(generators_p, id_.c_str(),
-                     std::static_pointer_cast<IGenerator>(pH));
-            p_actualHeader = pH;
+                     std::static_pointer_cast<IGenerator>(pHeader));
+            p_actualHeader = pHeader;
          } else {
             if (type == "CodeText") {
-               std::shared_ptr<GenCodeText> pJ(new GenCodeText(id_, "C", text));
+               auto pCodeText = std::make_shared<GenCodeText>(id_, "C", text);
                bsc::add(generators_p, id_.c_str(),
-                        std::static_pointer_cast<IGenerator>(pJ));
+                        std::static_pointer_cast<IGenerator>(pCodeText));
             } else {
                if (type == "Image") {
-                  std::shared_ptr<GenImage> pI(new GenImage(id_, text));
+                  auto pImage = std::make_shared<GenImage>(id_, text);
                   bsc::add(generators_p, id_.c_str(),
-                           std::static_pointer_cast<IGenerator>(pI));
+                           std::static_pointer_cast<IGenerator>(pImage));
                } else {
                   if (type == "APIdoc") {
                      if (parList.size() == 3) {
-                        std::shared_ptr<GenAPI> pI(
-                           new GenAPI(parList[0], parList[1], parList[2]));
-                        pI->setID(id_);
+                        auto pAPI = std::make_shared<GenAPI>(
+                           parList[0], parList[1], parList[2]);
+                        pAPI->setID(id_);
                         bsc::add(generators_p, id_.c_str(),
-                                 std::static_pointer_cast<IGenerator>(pI));
+                                 std::static_pointer_cast<IGenerator>(pAPI));
                      } else {
                         LOGE(id_ + ", API '" + rhs +
                              "' must have 3 parameters!");
@@ -541,7 +541,7 @@ struct ExamBuilder {
       }
    }
 
-   /// Example: MCT mct; Item I1 {...}; mct += I1;
+   /// Example: Exam mct; Item I1 {...}; mct += I1;
    /// Always add a copy of RHS object, except for a Selector, copy contained
    /// Item's.
    void do_addGenToGen(const char *begin, const char *end)
@@ -557,8 +557,8 @@ struct ExamBuilder {
             if (isArrayElement_) {
                isArrayElement_ = false;
                if ((*ppGenLHS)->getType() == "Exams[]") {
-                  auto pGenMCTs = static_cast<GenExams *>((*ppGenLHS).get());
-                  if (par_ > (pGenMCTs->size() - 1)) {
+                  auto pGenExams = static_cast<GenExams *>((*ppGenLHS).get());
+                  if (par_ > (pGenExams->size() - 1)) {
                      LOGE(id_ + ",  array index of '" + lhs +
                           "' exceeds array size.");
                      messages_.push_back(Reader::message_t(
@@ -569,14 +569,14 @@ struct ExamBuilder {
                         auto pGenSelector =
                            static_cast<GenSelector *>((*ppGenRHS).get());
                         pGenSelector->selectR(1);
-                        (*pGenMCTs)[par_]->add(*ppGenRHS);
+                        (*pGenExams)[par_]->add(*ppGenRHS);
                      } else {
                         /// @todo Remove prepare(), only used by #GenTwoC
                         LOGD("Parser: copy() used, for " +
                              (*ppGenRHS)->getID());
                         (*ppGenRHS)->prepare();
                         auto pGenRHScopy = (*ppGenRHS)->copy();
-                        (*pGenMCTs)[par_]->add(pGenRHScopy);
+                        (*pGenExams)[par_]->add(pGenRHScopy);
                      }
                   }
                } else {
@@ -602,7 +602,7 @@ struct ExamBuilder {
       }
    }
 
-   /// Example: MCT mct; Selector S; ... mct += S(3);
+   /// Example: Exam mct; Selector S; ... mct += S(3);
    void do_addFunctorResultToGen(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
@@ -644,11 +644,12 @@ struct ExamBuilder {
                            "' must have parameter value > 0 !"));
                   }
                   if ((*ppGenLHS)->getType() == "Exams[]") {
-                     auto pGenMCT = static_cast<GenExams *>((*ppGenLHS).get());
-                     auto nMCT = pGenMCT->size();
-                     for (size_t i = 0; i < nMCT; ++i) {
+                     auto pGenExams =
+                        static_cast<GenExams *>((*ppGenLHS).get());
+                     auto const nExams = pGenExams->size();
+                     for (size_t i = 0; i < nExams; ++i) {
                         pGenSelector->selectR(par1);
-                        pGenMCT->getGenerators()[i]->add(*ppGenRHS);
+                        pGenExams->getGenerators()[i]->add(*ppGenRHS);
                      }
                   } else {
                      pGenSelector->selectR(par1);
@@ -848,17 +849,17 @@ struct skipparser : public bsc::grammar<skipparser> {
    };
 };
 
-struct MCTspecParser : public bsc::grammar<MCTspecParser> {
+struct ExamSpecParser : public bsc::grammar<ExamSpecParser> {
    ExamBuilder &pb_;
 
-   MCTspecParser(ExamBuilder &pb)
+   ExamSpecParser(ExamBuilder &pb)
       : pb_(pb)
    {
       LOGD("initialised");
    }
 
    template <typename ScannerT> struct definition {
-      definition(MCTspecParser const &self)
+      definition(ExamSpecParser const &self)
       {
          ExamBuilder &pb = self.pb_;
 
@@ -872,7 +873,7 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
 
          std::string TEST;
 
-         // GenMCT
+         // GenExam
          // 1 Header
          //    Header: SchoolName + CourseName + LecturerName + Date +
          //    BoxedText
@@ -1063,12 +1064,13 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
 
       using rule_t = bsc::rule<ScannerT>;
 
-      rule_t main, Type, Declaration, Exam, Header, HeaderBlock, Item, ItemBlock,
-         levelAssignment, stemAssignment, Text, CodeText, APIdoc, Image,
-         optionAssignment, itemAssignment, Add, AddGenerator, AddFunctorResult,
-         AddMemberFunctionResult, AddText, functorCall, localFunctionCall,
-         memberFunctionCall, CSV, optionIndex, arglist, id, optionId, textLine,
-         textLines, codeLine, codeLines, assignment_op, SEMIexpected, Error;
+      rule_t main, Type, Declaration, Exam, Header, HeaderBlock, Item,
+         ItemBlock, levelAssignment, stemAssignment, Text, CodeText, APIdoc,
+         Image, optionAssignment, itemAssignment, Add, AddGenerator,
+         AddFunctorResult, AddMemberFunctionResult, AddText, functorCall,
+         localFunctionCall, memberFunctionCall, CSV, optionIndex, arglist, id,
+         optionId, textLine, textLines, codeLine, codeLines, assignment_op,
+         SEMIexpected, Error;
 
       bsc::rule<ScannerT> const &start() const { return main; }
    };

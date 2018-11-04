@@ -48,7 +48,7 @@ Use the *-d* option for generating detailed debug info in the *ExamGenerator.log
 
 ## Syntax exam script language
 
-Read the file *..../examGenScripts/testDummyExam.exm* for the syntax. Every MCT object (Multiple Choice test) should have a header.
+Read the file *..../examGenScripts/testDummyExam.exm* for the syntax. Every Exam object should have a header.
 Every header has the next text fields: *school*, *course*, *lecturer*, *date* and *boxedtext*.
 Every exam question is represented by an *Item*. ....
 

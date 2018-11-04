@@ -10,7 +10,7 @@
 class Builder;
 class GenExams;
 
-/// Responsible for reading and parsing the MCT specification
+/// Responsible for reading and parsing the exam specification
 /// for creating a vector with pointers to #GenExams objects.
 /// Part of Builder design pattern.
 ///

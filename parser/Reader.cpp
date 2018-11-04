@@ -34,7 +34,7 @@ std::vector<std::shared_ptr<GenExams>> Reader::parse()
    messages_.clear();
    ExamBuilder pb(messages_);
    skipparser skip;
-   MCTspecParser parser(pb);
+   ExamSpecParser parser(pb);
 
    try {
       const static std::string LINE(75, '-');

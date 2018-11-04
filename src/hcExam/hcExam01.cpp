@@ -15,7 +15,7 @@ void hcExam01(std::ofstream &LaTeXfile)
 
    //    std::vector<message_t> messages;
 
-   //    std::shared_ptr<GenMCTs> pMCtst(new GenMCTs(messages));
+   //    std::shared_ptr<GenExams> pMCtst(new GenExams(messages));
    //    pMCtst->setID("Hard coded test1");
 
    //    std::shared_ptr<GenItem> pI;

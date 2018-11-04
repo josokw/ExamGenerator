@@ -52,7 +52,7 @@
 // ExamGenerator v0.7
 //---------------------------------------------------------------------------------------
 
-MCT mct[2];   // An array for 2 exams
+Exam mct[2];   // An array for 2 exams
 
 Header h1 
 {
