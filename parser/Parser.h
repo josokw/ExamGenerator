@@ -47,7 +47,7 @@ struct ExamBuilder {
    // Errors to check for during the parse
    enum class ERROR {
       NO = 0,
-      MCT_EXPECTED,
+      EXM_EXPECTED,
       CLOSING_BRACKET_EXPECTED,
       UNSIGNEDINT_EXPECTED,
       SEMICOLON_EXPECTED
@@ -59,6 +59,7 @@ struct ExamBuilder {
    RandomProfile randomProfile;
    std::vector<std::shared_ptr<GenExams>> Product;
    int level_;
+   GenHeader tempHeader{"_local_"};
    std::string type;
    std::string text;
    std::string lhs;
@@ -66,7 +67,6 @@ struct ExamBuilder {
    std::string id_;
    std::string itemScope;
    std::shared_ptr<GenItem> p_actualItem;
-   GenHeader tempHeader;
    std::shared_ptr<GenHeader> p_actualHeader;
    std::string function_id;
    std::vector<std::string> parList;
@@ -87,8 +87,8 @@ struct ExamBuilder {
    std::function<void(const char *, const char *)> addNewLine;
    std::function<void(const char *, const char *)> addNewCodeLine;
    std::function<void(const char *, const char *)> createObject;
-   std::function<void(const char *, const char *)> createMCT;
-   std::function<void(const char *, const char *)> createMCTs;
+   std::function<void(const char *, const char *)> createExam;
+   std::function<void(const char *, const char *)> createExams;
    std::function<void(const char *, const char *)> createItem;
    std::function<void(const char *, const char *)> createHeader;
    std::function<void(const char *, const char *)> createOption;
@@ -133,10 +133,10 @@ struct ExamBuilder {
       , createObject(std::bind(&ExamBuilder::do_createObject, this,
                                std::placeholders::_1, std::placeholders::_2))
 
-      , createMCT(std::bind(&ExamBuilder::do_createMCT, this,
+      , createExam(std::bind(&ExamBuilder::do_createExam, this,
                             std::placeholders::_1, std::placeholders::_2))
 
-      , createMCTs(std::bind(&ExamBuilder::do_createMCTs, this,
+      , createExams(std::bind(&ExamBuilder::do_createExams, this,
                              std::placeholders::_1, std::placeholders::_2))
 
       , createItem(std::bind(&ExamBuilder::do_createItem, this,
@@ -272,26 +272,26 @@ struct ExamBuilder {
       rhs.append(" ").append(s);
    }
 
-   void do_createMCT(const char *begin, const char *end)
+   void do_createExam(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
       LOGD(context);
 
       if (not itemScope.empty()) {
-         LOGE(id_ + ", MCT '" + id_ + "' should be declared global!");
+         LOGE(id_ + ", Exam '" + id_ + "' should be declared global!");
          messages_.push_back(Reader::message_t(
-            'E', 0, begin, "MCT '" + id_ + "' should be declared global!"));
+            'E', 0, begin, "Exam '" + id_ + "' should be declared global!"));
       } else {
          if (idGeneratorIsUnique(id_, begin, end)) {
-            std::shared_ptr<GenExams> pMCTs(new GenExams(id_, messages_, 1));
+            std::shared_ptr<GenExams> pExams(new GenExams(id_, messages_, 1));
             bsc::add(generators_p, id_.c_str(),
-                     std::static_pointer_cast<IGenerator>(pMCTs));
-            Product.push_back(pMCTs);
+                     std::static_pointer_cast<IGenerator>(pExams));
+            Product.push_back(pExams);
          }
       }
    }
 
-   void do_createMCTs(const char *begin, const char *end)
+   void do_createExams(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
       LOGD(context);
@@ -301,13 +301,14 @@ struct ExamBuilder {
       if (not itemScope.empty()) {
          messages_.push_back(Reader::message_t(
             'E', 0, begin,
-            "MCT array '" + id_ + "' should be declared global!"));
+            "Exam array '" + id_ + "' should be declared global!"));
       } else {
          if (idGeneratorIsUnique(id_, begin, end)) {
-            std::shared_ptr<GenExams> pMCTs(new GenExams(id_, messages_, par_));
+            std::shared_ptr<GenExams> pExams(
+               new GenExams(id_, messages_, par_));
             bsc::add(generators_p, id_.c_str(),
-                     std::static_pointer_cast<IGenerator>(pMCTs));
-            Product.push_back(pMCTs);
+                     std::static_pointer_cast<IGenerator>(pExams));
+            Product.push_back(pExams);
          }
       }
    }
@@ -882,8 +883,8 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
          // Selector
 
          main =
-            (+MCT |
-             Error[bsc::assign_a(pb.error_, ExamBuilder::ERROR::MCT_EXPECTED)]
+            (+Exam |
+             Error[bsc::assign_a(pb.error_, ExamBuilder::ERROR::EXM_EXPECTED)]
                   [pb.errorMessage]) >>
             *(Header | Item | Declaration | CodeText | Image | APIdoc | Add |
               AddText | memberFunctionCall) >>
@@ -898,22 +899,22 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
          Declaration =
             (Type >> id[bsc::assign_a(pb.id_)] >> SEMI)[pb.createObject];
 
-         MCT = (bsc::strlit<>("MCT")[bsc::assign_a(pb.type)] >>
-                id[bsc::assign_a(pb.id_)] >> SEMI[pb.createMCT]) |
-               (bsc::strlit<>("MCT")[bsc::assign_a(pb.type)] >>
-                id[bsc::assign_a(pb.id_)] >> bsc::ch_p('[') >>
-                (bsc::int_p[bsc::assign_a(pb.par_)] |
-                 Error[bsc::assign_a(pb.error_,
-                                     ExamBuilder::ERROR::UNSIGNEDINT_EXPECTED)]
-                      [pb.errorMessage]) >>
-                (bsc::ch_p(']') |
-                 Error[bsc::assign_a(
-                    pb.error_, ExamBuilder::ERROR::CLOSING_BRACKET_EXPECTED)]
-                      [pb.errorMessage]) >>
-                (SEMI[pb.createMCTs] |
-                 Error[bsc::assign_a(pb.error_,
-                                     ExamBuilder::ERROR::SEMICOLON_EXPECTED)]
-                      [pb.errorMessage]));
+         Exam = (bsc::strlit<>("Exam")[bsc::assign_a(pb.type)] >>
+                 id[bsc::assign_a(pb.id_)] >> SEMI[pb.createExam]) |
+                (bsc::strlit<>("Exam")[bsc::assign_a(pb.type)] >>
+                 id[bsc::assign_a(pb.id_)] >> bsc::ch_p('[') >>
+                 (bsc::int_p[bsc::assign_a(pb.par_)] |
+                  Error[bsc::assign_a(pb.error_,
+                                      ExamBuilder::ERROR::UNSIGNEDINT_EXPECTED)]
+                       [pb.errorMessage]) >>
+                 (bsc::ch_p(']') |
+                  Error[bsc::assign_a(
+                     pb.error_, ExamBuilder::ERROR::CLOSING_BRACKET_EXPECTED)]
+                       [pb.errorMessage]) >>
+                 (SEMI[pb.createExams] |
+                  Error[bsc::assign_a(pb.error_,
+                                      ExamBuilder::ERROR::SEMICOLON_EXPECTED)]
+                       [pb.errorMessage]));
 
          Header = bsc::strlit<>("Header")[bsc::assign_a(pb.type)] >>
                   id[bsc::assign_a(pb.id_)] >>
@@ -1062,7 +1063,7 @@ struct MCTspecParser : public bsc::grammar<MCTspecParser> {
 
       using rule_t = bsc::rule<ScannerT>;
 
-      rule_t main, Type, Declaration, MCT, Header, HeaderBlock, Item, ItemBlock,
+      rule_t main, Type, Declaration, Exam, Header, HeaderBlock, Item, ItemBlock,
          levelAssignment, stemAssignment, Text, CodeText, APIdoc, Image,
          optionAssignment, itemAssignment, Add, AddGenerator, AddFunctorResult,
          AddMemberFunctionResult, AddText, functorCall, localFunctionCall,

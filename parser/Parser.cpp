@@ -56,9 +56,9 @@ void ExamBuilder::do_errorMessage(const char *begin, const char * /* end*/)
    switch (error_) {
       case ERROR::NO:
          break;
-      case ERROR::MCT_EXPECTED:
+      case ERROR::EXM_EXPECTED:
          messages_.push_back(Reader::message_t(
-            'E', 0, context.c_str(), "MCT or MCT[] declaration expected."));
+            'E', 0, context.c_str(), "Exam or Exam[] declaration expected."));
          break;
       case ERROR::CLOSING_BRACKET_EXPECTED:
          messages_.push_back(
