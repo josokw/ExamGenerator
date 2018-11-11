@@ -323,6 +323,7 @@ struct ExamBuilder {
          bsc::add(generators_p, id_.c_str(),
                   std::static_pointer_cast<IGenerator>(p_actualItem));
          itemScope = id_.c_str();
+         LOGD("set itemScope = " + itemScope);
          bsc::add(generators_p, (id_ + std::string(".level")).c_str(),
                   static_cast<IGenPtr_t>((*p_actualItem)[0]));
          bsc::add(generators_p, (id_ + std::string(".stem")).c_str(),

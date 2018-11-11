@@ -9,7 +9,7 @@
 class GenStem : public ICompositeGenerator
 {
 public:
-   GenStem();
+   GenStem(const std::string &id);
    virtual ~GenStem() = default;
 
    IGenPtr_t copy() const override;

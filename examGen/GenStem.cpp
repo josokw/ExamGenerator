@@ -6,8 +6,8 @@
 
 #include <string>
 
-GenStem::GenStem()
-   : ICompositeGenerator{}
+GenStem::GenStem(const std::string &id)
+   : ICompositeGenerator{id}
    , index_{0}
 {
    type_ = "GenStem";

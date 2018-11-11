@@ -33,7 +33,7 @@ GenItem::GenItem(const std::string &id)
    , shuffleON_{false}
 {
    type_ = "GenItem";
-   generators_.push_back(std::make_shared<GenStem>());
+   generators_.push_back(std::make_shared<GenStem>(id_ + ".stem"));
    generators_.push_back(std::make_shared<GenOptions>(id_ + ".options"));
 
    LOGD(id_ + ", initialised");
