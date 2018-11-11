@@ -23,7 +23,6 @@ IGenerator::IGenerator(const std::string &id)
    , id_{id}
    , level_{0}
 {
-   LOGD(type_ + ": " + id_ + ", initialised");
 }
 
 IGenerator::~IGenerator()
@@ -45,7 +44,7 @@ void IGenerator::setID(const std::string &id)
 {
    id_ = id;
 
-   LOGD(type_ + ": id_ updated = " + id_);
+   LOGD(type_ + ": updated id_ = " + id_);
 }
 
 void IGenerator::setLevel(int level)
