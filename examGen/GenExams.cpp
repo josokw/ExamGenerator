@@ -9,7 +9,7 @@ GenExams::GenExams(const std::string &id,
                    std::vector<Reader::message_t> &messages, int nTests)
    : ICompositeGenerator{id}
 {
-   type_ = "Exams[]";
+   type_ = "GenExams[]";
    for (int i = 0; i < nTests; ++i) {
       std::shared_ptr<GenExam> pExam(new GenExam(id_, messages));
       generators_.push_back(pExam);

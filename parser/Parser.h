@@ -557,7 +557,7 @@ struct ExamBuilder {
          if (auto ppGenRHS = idGeneratorIsAvailable(rhs, begin, end)) {
             if (isArrayElement_) {
                isArrayElement_ = false;
-               if ((*ppGenLHS)->getType() == "Exams[]") {
+               if ((*ppGenLHS)->getType() == "GenExams[]") {
                   auto pGenExams = static_cast<GenExams *>((*ppGenLHS).get());
                   if (par_ > (pGenExams->size() - 1)) {
                      LOGE(id_ + ",  array index of '" + lhs +
@@ -644,7 +644,7 @@ struct ExamBuilder {
                         "Functor '" + rhs +
                            "' must have parameter value > 0 !"));
                   }
-                  if ((*ppGenLHS)->getType() == "Exams[]") {
+                  if ((*ppGenLHS)->getType() == "GenExams[]") {
                      auto pGenExams =
                         static_cast<GenExams *>((*ppGenLHS).get());
                      auto const nExams = pGenExams->size();
