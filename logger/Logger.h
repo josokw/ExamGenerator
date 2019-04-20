@@ -44,4 +44,6 @@ private:
    bool inDebugMode_;
 };
 
+//extern Logger &logger;
+
 #endif // LOGGER_H
