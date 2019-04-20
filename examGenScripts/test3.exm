@@ -1,0 +1,156 @@
+// Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus fermentum
+// nibh nunc, non viverra sapien volutpat sit amet. Maecenas at arcu posuere,
+// cursus est eget, blandit tortor. Sed quis viverra massa. Aenean non felis
+// finibus, commodo sem ut, accumsan tellus. Nullam vitae ipsum porta, faucibus
+// dolor et, porta justo. Donec vehicula erat ut felis fermentum, eu aliquam leo
+// rhoncus. Nullam eu odio diam. Quisque non nulla id enim vulputate pharetra in
+// vitae arcu. Quisque elementum quam malesuada metus auctor, quis mattis metus
+// rutrum. Vestibulum vitae accumsan purus. Nunc molestie ante ut viverra
+// tincidunt. Vestibulum id turpis pulvinar, dictum risus eu, laoreet ex.
+
+// Mauris at ligula pulvinar, venenatis tortor a, euismod sapien. Sed a dictum
+// leo. Proin suscipit, enim nec lobortis condimentum, est erat pellentesque
+// neque, sit amet hendrerit metus sem vel risus. Maecenas metus diam, lobortis
+// id pretium at, tincidunt et massa. Pellentesque habitant morbi tristique
+// senectus et netus et malesuada fames ac turpis egestas. Duis imperdiet libero
+// sit amet ex bibendum finibus. Aliquam erat volutpat. Praesent posuere nunc at
+// laoreet aliquet. Nullam eu mi interdum, maximus mi ac, pretium ipsum. Aliquam
+// facilisis lorem in vehicula elementum. Quisque lacus sem, facilisis ac
+// pulvinar ac, dictum sit amet elit.
+
+// Nullam sit amet congue nulla. Curabitur a elit hendrerit, egestas nisl id,
+// scelerisque nisl. Ut felis risus, venenatis sed nibh at, maximus facilisis
+// diam. Vestibulum maximus, metus eget mattis pretium, ex lectus pharetra enim,
+// at dictum neque lacus ut ipsum. Mauris lacinia augue in enim varius, id
+// iaculis velit aliquam. Cras ullamcorper accumsan elit, ut blandit leo
+// efficitur sed. In sed convallis risus, et vehicula odio. Quisque vel orci
+// neque. Aliquam tristique quis lorem a laoreet.
+
+// Fusce in magna erat. Cras turpis est, posuere id arcu ut, semper lobortis
+// dui. Phasellus urna turpis, pharetra eu ipsum sodales, venenatis sodales
+// enim. Aenean eu lacus a ante ultrices tempor. Quisque imperdiet nibh eu massa
+// pulvinar consectetur. Quisque viverra, risus nec lacinia euismod, libero
+// tortor rutrum purus, quis laoreet ante arcu in nisl. Vivamus luctus lacinia
+// posuere. Duis pulvinar sodales metus vel convallis. Mauris nulla massa,
+// malesuada malesuada risus vitae, dapibus rhoncus nisi. Suspendisse viverra eu
+// nisl in mattis. In finibus nisl sed ipsum sodales, ut gravida erat viverra.
+
+// Praesent viverra nisi et purus gravida, malesuada tincidunt libero rutrum.
+// Donec eget urna posuere, lobortis leo a, porttitor ex. Nam accumsan purus vel
+// mauris finibus, nec sagittis odio suscipit. Mauris lacinia vehicula lobortis.
+// Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
+// turpis egestas. Aenean sit amet fermentum nisl, non posuere leo. Etiam
+// facilisis ultrices diam, ac luctus leo ultricies a. Pellentesque lorem urna,
+// rutrum at purus ac, gravida porttitor velit. Donec molestie et odio in
+// fermentum. Aliquam in sapien eu nisl varius pulvinar.
+
+//---------------------------------------------------------------------------------------
+//
+// test3.exm v0.1: Multiple Choice Test,
+// showing the syntax of the specification script language.
+//
+// ExamGenerator v0.8.6
+//---------------------------------------------------------------------------------------
+
+Exam mct;
+
+Header h1 
+{
+	school = "1";                  
+	course = "2"; 
+	lecturer = "3";
+	date = "4";
+	boxedtext = "5";
+};
+
+mct += h1;
+
+//---------------------------------------------------------------------------------------
+
+mct += "\\Intro text";
+
+//---------------------------------------------------------------------------------------
+Item I1
+{
+	stem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus fermentum "
+           "nibh nunc, non viverra sapien volutpat sit amet?";
+		   
+	o[1] = "Opt1  Quisque viverra, risus nec lacinia euismod, libero "
+	       "tortor rutrum purus, quis laoreet ante arcu in nisl.";
+	o[2] = "Opt2  Fusce in magna erat. Cras turpis est, posuere id arcu ut, semper "
+	       "lobortis dui. Phasellus urna turpis, pharetra eu ipsum sodales, venenatis "
+		   "sodales enim. Aenean eu lacus a ante ultrices tempor.";
+	o[3] = "Opt3 Aenean sit amet fermentum nisl, non posuere leo. ";
+	o[4] = "Opt4 Pellentesque lorem urna, rutrum at purus ac, gravida porttitor "
+	       "velit. Donec molestie et odio in fermentum.";
+
+	o[1] = correct;
+};
+  
+mct += I1;
+
+Item I2
+{
+	stem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus fermentum "
+           "nibh nunc, non viverra sapien volutpat sit amet?";
+		   
+	o[1] = "Opt1  Quisque viverra, risus nec lacinia euismod, libero "
+	       "tortor rutrum purus, quis laoreet ante arcu in nisl.";
+	o[2] = "Opt2  Fusce in magna erat. Cras turpis est, posuere id arcu ut, semper "
+	       "lobortis dui. Phasellus urna turpis, pharetra eu ipsum sodales, venenatis "
+		   "sodales enim. Aenean eu lacus a ante ultrices tempor.";
+	o[3] = "Opt3 Aenean sit amet fermentum nisl, non posuere leo. ";
+	o[4] = "Opt4 Pellentesque lorem urna, rutrum at purus ac, gravida porttitor "
+	       "velit. Donec molestie et odio in fermentum.";
+
+	o[2] = correct;
+};
+
+mct += I2;
+
+Item I3
+{
+	stem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus fermentum "
+           "nibh nunc, non viverra sapien volutpat sit amet?";
+		   
+	o[1] = "Opt1  Quisque viverra, risus nec lacinia euismod, libero "
+	       "tortor rutrum purus, quis laoreet ante arcu in nisl.";
+	o[2] = "Opt2  Fusce in magna erat. Cras turpis est, posuere id arcu ut, semper "
+	       "lobortis dui. Phasellus urna turpis, pharetra eu ipsum sodales, venenatis "
+		   "sodales enim. Aenean eu lacus a ante ultrices tempor.";
+	o[3] = "Opt3 Aenean sit amet fermentum nisl, non posuere leo. ";
+	o[4] = "Opt4 Pellentesque lorem urna, rutrum at purus ac, gravida porttitor "
+	       "velit. Donec molestie et odio in fermentum.";
+
+	o[3] = correct;
+};
+
+mct += I3;
+
+Item I4
+{
+	stem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus fermentum "
+           "nibh nunc, non viverra sapien volutpat sit amet?";
+		   
+	o[1] = "Opt1  Quisque viverra, risus nec lacinia euismod, libero "
+	       "tortor rutrum purus, quis laoreet ante arcu in nisl.";
+	o[2] = "Opt2  Fusce in magna erat. Cras turpis est, posuere id arcu ut, semper "
+	       "lobortis dui. Phasellus urna turpis, pharetra eu ipsum sodales, venenatis "
+		   "sodales enim. Aenean eu lacus a ante ultrices tempor.";
+	o[3] = "Opt3 Aenean sit amet fermentum nisl, non posuere leo. ";
+	o[4] = "Opt4 Pellentesque lorem urna, rutrum at purus ac, gravida porttitor "
+	       "velit. Donec molestie et odio in fermentum.";
+
+	o[4] = correct;
+};
+
+mct += I4;
+
+mct += "Two question examples generated by hard coded generators and random generated "
+       "values:";
+
+TwoC twoc;
+mct += twoc;
+
+LogicExprAON leAON1;
+mct += leAON1;
