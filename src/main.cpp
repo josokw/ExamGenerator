@@ -6,7 +6,6 @@
 #include "GenNull.h"
 #include "GenText.h"
 #include "Log.h"
-#include "Logger.h"
 #include "RandomProfile.h"
 #include "Reader.h"
 #include "hcExam/hcExamDummy.h"
@@ -29,6 +28,8 @@ namespace bfs = boost::filesystem;
 int main(int argc, char *argv[])
 {
    try {
+      Logger &logger = Logger::instance();
+      
       LOGI(APPNAME " v" VERSION " started");
 
       bfs::path currentInitialDir(bfs::initial_path());

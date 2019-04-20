@@ -46,7 +46,7 @@
 
 //---------------------------------------------------------------------------------------
 //
-// Dummy exam v0.6: Multiple Choice Test,
+// test.exm v0.5: Multiple Choice Test,
 // showing the syntax of the specification script language.
 //
 // ExamGenerator v0.8.6
@@ -56,21 +56,18 @@ Exam mct;
 
 Header h1 
 {
-	school = "Unknown Institute of Technology";                  
-	course = "Questionable"; 
-	lecturer = "Code Warrior";
-	date = "October 2018";
-	boxedtext = "This test contains 8 mutiple choice questions.\\ \\"
-                "Success!";
+	school = "1";                  
+	course = "2"; 
+	lecturer = "3";
+	date = "4";
+	boxedtext = "5";
 };
 
 mct += h1;
 
 //---------------------------------------------------------------------------------------
 
-mct += "\\Intro text, mauris lacinia vehicula lobortis. Pellentesque habitant morbi "
-       "tristique senectus et netus et malesuada fames ac turpis egestas. Aenean sit "
-	   "fermentum nisl, non posuere leo.";
+mct += "\\Intro text";
 
 //---------------------------------------------------------------------------------------
 Item I1
@@ -87,173 +84,64 @@ Item I1
 	o[4] = "Opt4 Pellentesque lorem urna, rutrum at purus ac, gravida porttitor "
 	       "velit. Donec molestie et odio in fermentum.";
 
-	o[3] = correct;
+	o[1] = correct;
 };
   
 mct += I1;
 
-//--------------------------------------------------------------------------------------
 Item I2
-{
-	stem = "Mauris at ligula pulvinar, venenatis tortor a, euismod sapien. Sed a dictum "
-           "leo. Proin suscipit, enim nec lobortis condimentum, est erat pellentesque "
-           "neque. Sit amet hendrerit metus sem vel risus?";
-		   
-	o[1] = "ShuffeON Op1 .";
-	o[2] = "ShuffeON Op2 ..";
-	o[3] = "ShuffeON Op3 ...";
-	o[4] = "ShuffeON Op4 ....";
-
-	o[3] = correct;
-
-	shuffleON();
-};
-
-mct += I2;
-
-//--------------------------------------------------------------------------------------
-Item I3
-{
-	stem = "Mauris at ligula pulvinar, venenatis tortor a, euismod sapien. Sed a dictum "
-           "leo. Proin suscipit, enim nec lobortis condimentum, est erat pellentesque "
-           "neque. sit amet hendrerit metus sem vel risus?";
-		   
-	o[1] = "ShuffeON Op1 .";
-	o[2] = "ShuffeON Op2 ..";
-	o[3] = "ShuffeON Op3 ...";
-	o[4] = "ShuffeON Op4 ....";
-
-	o[3] = correct;
-}
-
-mct += I3;
-
-//---------------------------------------------------------------------------------------
-Item I4
-{
-	stem = "Enim nec lobortis ANSI C condimentum, est erat pellentesque?";
-
-	o[1] = "Syntax metus sem vel";
-	o[2] = "Semantics suscipit";
-	o[3] = "Error at ligula pulvinar";
-	o[4] = "Warning";
-
-	o[1] = correct;
-};
-
-mct += I4;
-
-//---------------------------------------------------------------------------------------
-Item I5a
 {
 	stem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus fermentum "
            "nibh nunc, non viverra sapien volutpat sit amet?";
 		   
-	o[1] = "Opt1 .";
-	o[2] = "Opt2 ..";
-	o[3] = "Opt3 ...";
-	o[4] = "Opt4 ....";
+	o[1] = "Opt1  Quisque viverra, risus nec lacinia euismod, libero "
+	       "tortor rutrum purus, quis laoreet ante arcu in nisl.";
+	o[2] = "Opt2  Fusce in magna erat. Cras turpis est, posuere id arcu ut, semper "
+	       "lobortis dui. Phasellus urna turpis, pharetra eu ipsum sodales, venenatis "
+		   "sodales enim. Aenean eu lacus a ante ultrices tempor.";
+	o[3] = "Opt3 Aenean sit amet fermentum nisl, non posuere leo. ";
+	o[4] = "Opt4 Pellentesque lorem urna, rutrum at purus ac, gravida porttitor "
+	       "velit. Donec molestie et odio in fermentum.";
 
-	o[3] = correct;
-};
-  
-Item I5b
-{
-	stem = "Mauris at ligula pulvinar, venenatis tortor a, euismod sapien. Sed a dictum "
-           "leo. Proin suscipit, enim nec lobortis condimentum, est erat pellentesque "
-           "neque. sit amet hendrerit metus sem vel risus?";
-		   
-	o[1] = "ShuffeON Op1 .";
-	o[2] = "ShuffeON Op2 ..";
-	o[3] = "ShuffeON Op3 ...";
-	o[4] = "ShuffeON Op4 ....";
-
-	o[3] = correct;
-
-	shuffleON();
-};
-
-Item I5c
-{
-	stem = "Praesent viverra nisi et purus gravida, malesuada tincidunt libero. "
-           "Donec eget urna posuere?";	
-		   
-	o[1] = "123";
-	o[2] = "231";
-	o[3] = "12345";
-	o[4] = "5678900";
-	
 	o[2] = correct;
 };
 
-Selector S5;
-S5 += I5a;
-S5 += I5b;
-S5 += I5c;
-// Select 2 out of I5a, I5b and I5c
-mct += S5(2);
+mct += I2;
 
-//---------------------------------------------------------------------------------------
- 
-Item I7
+Item I3
 {
-	stem = "Praesent viverra nisi et purus gravida, malesuada tincidunt libero. ";
-    CodeText code = "printf(\"Hello exam\");";     
-	stem += code;
-	stem +=  "Donec eget urna posuere?";	 
+	stem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus fermentum "
+           "nibh nunc, non viverra sapien volutpat sit amet?";
 		   
-	o[1] = "Praesent viverra nisi et purus gravida.";
-	o[2] = "Malesuada tincidunt libero rutrum.";
-	o[3] = "Mauris lacinia vehicula lobortis.";
-	o[4] = "Aenean sit amet fermentum nisl, non posuere leo.";
-	
-	o[2] = correct;
+	o[1] = "Opt1  Quisque viverra, risus nec lacinia euismod, libero "
+	       "tortor rutrum purus, quis laoreet ante arcu in nisl.";
+	o[2] = "Opt2  Fusce in magna erat. Cras turpis est, posuere id arcu ut, semper "
+	       "lobortis dui. Phasellus urna turpis, pharetra eu ipsum sodales, venenatis "
+		   "sodales enim. Aenean eu lacus a ante ultrices tempor.";
+	o[3] = "Opt3 Aenean sit amet fermentum nisl, non posuere leo. ";
+	o[4] = "Opt4 Pellentesque lorem urna, rutrum at purus ac, gravida porttitor "
+	       "velit. Donec molestie et odio in fermentum.";
+
+	o[3] = correct;
 };
 
-mct += I7;
+mct += I3;
 
-//---------------------------------------------------------------------------------------
-
-Item I8
+Item I4
 {
-    level = 1;
-	stem = "Quisque viverra, risus nec lacinia euismod?";
-         
-	CodeText code1 = "int main()"
-                     "{ ";
-	CodeText code2 = "int main();"
-                     "{ ";       
-	CodeText code3 = "int() main"
-	                 "{";
-	CodeText code4 = "int main"
-	                 "{";
-            
-	o[1] = ".";
-	o[1] += code1; 
-	o[2] = ".";
-	o[2] += code2;
-	o[3] = ".";
-	o[3] += code3;
-	o[4] = ".";
-	o[4] += code4;
+	stem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus fermentum "
+           "nibh nunc, non viverra sapien volutpat sit amet?";
+		   
+	o[1] = "Opt1  Quisque viverra, risus nec lacinia euismod, libero "
+	       "tortor rutrum purus, quis laoreet ante arcu in nisl.";
+	o[2] = "Opt2  Fusce in magna erat. Cras turpis est, posuere id arcu ut, semper "
+	       "lobortis dui. Phasellus urna turpis, pharetra eu ipsum sodales, venenatis "
+		   "sodales enim. Aenean eu lacus a ante ultrices tempor.";
+	o[3] = "Opt3 Aenean sit amet fermentum nisl, non posuere leo. ";
+	o[4] = "Opt4 Pellentesque lorem urna, rutrum at purus ac, gravida porttitor "
+	       "velit. Donec molestie et odio in fermentum.";
 
-	o[1] = correct;
+	o[4] = correct;
 };
 
-mct += I8;
-
-//---------------------------------------------------------------------------------------
-
-mct += "Some question examples generated by hard coded generators and random generated "
-       "values: \\";
-
-TwoC twoc;
-mct += twoc;
-
-LogicExprAON leAON1;
-mct += leAON1;
-
-LogicDiagramAON dagAON1;
-mct += dagAON1;
-
-//---------------------------------------------------------------------------------------
+mct += I4;

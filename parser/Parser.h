@@ -66,6 +66,7 @@ struct ExamBuilder {
    std::string rhs;
    std::string id_;
    std::string itemScope;
+   std::string examScope;
    std::shared_ptr<GenItem> p_actualItem;
    std::shared_ptr<GenHeader> p_actualHeader;
    std::string function_id;
@@ -286,6 +287,7 @@ struct ExamBuilder {
             std::shared_ptr<GenExams> pExams(new GenExams(id_, messages_, 1));
             bsc::add(generators_p, id_.c_str(),
                      std::static_pointer_cast<IGenerator>(pExams));
+            examScope = id_;
             Product.push_back(pExams);
          }
       }
@@ -322,7 +324,7 @@ struct ExamBuilder {
          p_actualItem = std::shared_ptr<GenItem>(new GenItem(id_));
          bsc::add(generators_p, id_.c_str(),
                   std::static_pointer_cast<IGenerator>(p_actualItem));
-         itemScope = id_.c_str();
+         itemScope = id_;
          LOGD("set itemScope = " + itemScope);
          bsc::add(generators_p, (id_ + std::string(".level")).c_str(),
                   static_cast<IGenPtr_t>((*p_actualItem)[0]));
