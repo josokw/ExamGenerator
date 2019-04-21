@@ -27,9 +27,7 @@ namespace bfs = boost::filesystem;
 /// @todo Implement generating answers pdf document.
 int main(int argc, char *argv[])
 {
-   try {
-      Logger &logger = Logger::instance();
-      
+   try {    
       LOGI(APPNAME " v" VERSION " started");
 
       bfs::path currentInitialDir(bfs::initial_path());
@@ -180,7 +178,7 @@ int main(int argc, char *argv[])
    }
    catch (const std::exception &e) {
       std::cerr << "\n\tERROR: " << e.what() << std::endl;
-      LOGE("ERROR: Out of memory " + e.what());
+      LOGE("ERROR: " + e.what());
    }
    catch (...) {
       std::cerr << "\n\tERROR: UNKNOWN EXCEPTION" << std::endl;

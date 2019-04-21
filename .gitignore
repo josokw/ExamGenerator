@@ -54,6 +54,7 @@ build/*
 
 # Executable
 bin/ExamGenerator
+bin/*
 
 # Latex
 *.aux
