@@ -47,7 +47,11 @@ void GenOption::generate(std::ostream &os)
    auto context = util::removeNewLines(util::limitSize(text_, 60));
    LOGD(type_ + ": " + id_ + ", " + context + " ...");
 
-   os << text_ << "\n";
+   if (text_.empty()) {
+      os << ".\\\\[-1.0cm]\n";
+   } else {
+      os << text_ << "\n";
+   }
    ICompositeGenerator::generate(os);
 }
 
