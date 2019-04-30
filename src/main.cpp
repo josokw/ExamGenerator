@@ -27,7 +27,7 @@ namespace bfs = boost::filesystem;
 /// @todo Implement generating answers pdf document.
 int main(int argc, char *argv[])
 {
-   try {    
+   try {
       LOGI(APPNAME " v" VERSION " started");
 
       bfs::path currentInitialDir(bfs::initial_path());
@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
       descr.add_options()("exam,e", bpo::value<std::string>(),
                           "input exam specification file name");
       descr.add_options()("debug,d", "set logger in debug mode");
-      descr.add_options()("hce,c", "execute hard coded exam");
+      // descr.add_options()("hce,c", "execute hard coded exam");
 
       bpo::variables_map var_map;
       bpo::store(bpo::parse_command_line(argc, argv, descr), var_map);
@@ -134,10 +134,10 @@ int main(int argc, char *argv[])
          exit(EXIT_FAILURE); //================================================>
       }
 
-      if (var_map.count("hce")) {
-         LOGI("Hard coded exam");
-         hcExamDummy(LaTeXgeneratedExamFile);
-      }
+      // if (var_map.count("hce")) {
+      //    LOGI("Hard coded exam");
+      //    hcExamDummy(LaTeXgeneratedExamFile);
+      // }
 
       // Start generating exam based on script
       LOGI("Start reading exam script: " + ExamScriptFileName.string());
