@@ -1,6 +1,7 @@
 #ifndef GENOPTIONS_H
 #define GENOPTIONS_H
 
+#include "GenRandom.h"
 #include "ICompositeGenerator.h"
 
 class GenOption;
@@ -39,6 +40,7 @@ public:
 private:
    std::string preProcessing_;
    std::string postProcessing_;
+   GenRandom genrnd_;
 };
 
 #endif

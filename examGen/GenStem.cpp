@@ -4,6 +4,7 @@
 #include "GenText.h"
 #include "Log.h"
 
+#include <algorithm>
 #include <string>
 
 GenStem::GenStem(const std::string &id)

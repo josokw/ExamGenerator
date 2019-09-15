@@ -10,13 +10,13 @@
 #include <sstream>
 #include <vector>
 
-RandomProfile::fullR_t GenTwoC::R0_s(Random::range_t(5, 12), 0,
+RandomProfile::fullR_t GenTwoC::R0_s(RandomProfile::range_t(5, 12), 0,
                                      std::list<int>(), 4);
 
 GenTwoC::GenTwoC()
    : GenItem{}
 {
-   type_ = "GenTwoC";
+   type_ = __func__;
 
    LOGD(id_ + ", initialised");
 }
@@ -42,6 +42,6 @@ void GenTwoC::prepare()
    addToOptions(pO2, true);
    addToOptions(pO3);
    addToOptions(pO4);
-   //    shuffleON();
-   //    GenItem::prepare();
+   shuffleON();
+   GenItem::prepare();
 }

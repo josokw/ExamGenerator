@@ -6,17 +6,17 @@
 #include "Log.h"
 #include "Util.h"
 
-RandomProfile::fullR_t GenNestedFor::R0_s(Random::range_t(1, 2), 0,
+RandomProfile::fullR_t GenNestedFor::R0_s(RandomProfile::range_t(1, 2), 0,
                                           std::list<int>(), 1);
-RandomProfile::fullR_t GenNestedFor::R1_s(Random::range_t(0, 1), 0,
+RandomProfile::fullR_t GenNestedFor::R1_s(RandomProfile::range_t(0, 1), 0,
                                           std::list<int>(), 0);
-RandomProfile::fullR_t GenNestedFor::R2_s(Random::range_t(2, 3), 0,
+RandomProfile::fullR_t GenNestedFor::R2_s(RandomProfile::range_t(2, 3), 0,
                                           std::list<int>(), 1);
 
 GenNestedFor::GenNestedFor(const std::string &id)
    : GenItem{id}
 {
-   type_ = "GenNestedFor";
+   type_ = __func__;
 
    LOGD(id_ + ", intialised");
 }

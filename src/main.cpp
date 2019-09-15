@@ -8,6 +8,7 @@
 #include "Log.h"
 #include "RandomProfile.h"
 #include "Reader.h"
+#include "Seed.h"
 #include "hcExam/hcExamDummy.h"
 
 #include <algorithm>
@@ -57,9 +58,11 @@ int main(int argc, char *argv[])
          return 0;
       }
       if (var_map.count("seed")) {
-         auto seed = var_map["seed"].as<long int>();
-         LOGI("seed = " + std::to_string(seed));
+         setSeed(var_map["seed"].as<long int>());
+      } else {
+         setSeed(123456789);
       }
+      LOGI("seed = " + std::to_string(getSeed()));
       if (var_map.count("exam")) {
          ExamScriptFileName = var_map["exam"].as<std::string>();
          LOGI("Exam script = " + ExamScriptFileName.string());

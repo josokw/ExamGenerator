@@ -9,14 +9,14 @@
 
 #include <tuple>
 
-RandomProfile::fullR_t GenLogicExprAOXN::R0_s(Random::range_t(0, 3), 0,
+RandomProfile::fullR_t GenLogicExprAOXN::R0_s(RandomProfile::range_t(0, 3), 0,
                                               std::list<int>(), 3);
 
 GenLogicExprAOXN::GenLogicExprAOXN()
    : GenItem{}
    , AOXN_{randomProfile_s.generate(R0_s)}
 {
-   type_ = "GenLogicExprAOXN";
+   type_ = __func__;
 
    LOGD(id_);
 }

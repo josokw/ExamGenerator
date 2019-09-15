@@ -7,7 +7,7 @@
 #include <array>
 #include <tuple>
 
-RandomProfile::fullR_t GenLogicExprAON::R0_s(Random::range_t(0, 3), 0,
+RandomProfile::fullR_t GenLogicExprAON::R0_s(RandomProfile::range_t(0, 3), 0,
                                              std::list<int>(), 3);
 
 GenLogicExprAON::GenLogicExprAON()
@@ -19,7 +19,7 @@ GenLogicExprAON::GenLogicExprAON(const std::string &id)
    : GenItem{id}
    , AON_{randomProfile_s.generate(R0_s)}
 {
-   type_ = "GenLogicExprAON";
+   type_ = __func__;
 
    LOGD(id_ + ", initialised");
 }

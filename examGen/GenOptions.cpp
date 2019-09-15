@@ -1,6 +1,8 @@
 #include "GenOptions.h"
 #include "GenOption.h"
+#include "GenRandom.h"
 #include "Log.h"
+#include "Seed.h"
 
 #include <algorithm>
 #include <random>
@@ -21,8 +23,9 @@ GenOptions::GenOptions(const std::string &id)
    : ICompositeGenerator{id}
    , preProcessing_{}
    , postProcessing_{}
+   , genrnd_{getSeed() + 12345}
 {
-   type_ = "GenOptions";
+   type_ = __func__;
 
    LOGD(id_ + " initialised");
 }
@@ -92,10 +95,9 @@ void GenOptions::shuffle()
 {
    LOGD(type_ + ": " + id_);
 
-   std::random_device rd;
-   std::mt19937 g(rd());
+   auto rgen = [=](int i) { return genrnd_.generate(i); };
 
-   std::random_shuffle(begin(getGenerators()), end(getGenerators()));
+   std::random_shuffle(begin(getGenerators()), end(getGenerators()), rgen);
 }
 
 void GenOptions::sort()

@@ -9,8 +9,8 @@
 
 #include <tuple>
 
-RandomProfile::fullR_t GenLogicDiagramAOXN::R0_s(Random::range_t(0, 3), 0,
-                                                 std::list<int>(), 3);
+RandomProfile::fullR_t GenLogicDiagramAOXN::R0_s(RandomProfile::range_t(0, 3),
+                                                 0, std::list<int>(), 3);
 
 GenLogicDiagramAOXN::GenLogicDiagramAOXN()
    : GenItem()
@@ -28,7 +28,7 @@ GenLogicDiagramAOXN::GenLogicDiagramAOXN()
    , notF(boost::bind(&GenLogicDiagramAOXN::not_, self(), _1))
    , equF(boost::bind(&GenLogicDiagramAOXN::equ, self(), _1))
 {
-   type_ = "GenLogicDiagramAOXN";
+   type_ = __func__;
    generators_[0]->add(m_pText);
    setPreProOptions("\\begin{multicols}{4}{\n");
    setPostProOptions("\n}\n\\end{multicols}\n");

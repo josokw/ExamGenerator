@@ -15,6 +15,7 @@
 #include "GenLogicExprAOXN.h"
 #include "GenNestedFor.h"
 #include "GenOption.h"
+#include "GenRandom.h"
 #include "GenSelector.h"
 #include "GenSolution.h"
 #include "GenStem.h"
@@ -22,7 +23,6 @@
 #include "GenTwoC.h"
 #include "GeneratorFactory.h"
 #include "Log.h"
-#include "Random.h"
 #include "RandomProfile.h"
 #include "Reader.h"
 #include "Util.h"
@@ -802,7 +802,7 @@ struct ExamBuilder {
                }
                if (parList.size() > 0) {
                   int r = randomProfile.generate(
-                     Random::range_t(0, parList.size() - 1));
+                     RandomProfile::range_t(0, parList.size() - 1));
                   std::cout << "--- Info r:"
                             << " " << r << std::endl;
                   bsc::add(generators_p, id_.c_str(),

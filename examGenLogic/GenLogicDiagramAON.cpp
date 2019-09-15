@@ -7,7 +7,7 @@
 #include "LaTeX.h"
 #include "Log.h"
 
-RandomProfile::fullR_t GenLogicDiagramAON::s_R0(Random::range_t(0, 3), 0,
+RandomProfile::fullR_t GenLogicDiagramAON::s_R0(RandomProfile::range_t(0, 3), 0,
                                                 std::list<int>(), 3);
 
 GenLogicDiagramAON::GenLogicDiagramAON()
@@ -25,7 +25,7 @@ GenLogicDiagramAON::GenLogicDiagramAON()
    , notF(boost::bind(&GenLogicDiagramAON::not_, self(), _1))
    , equF(boost::bind(&GenLogicDiagramAON::equ, self(), _1))
 {
-   type_ = "GenLogicDiagramAON";
+   type_ = __func__;
    generators_[0]->add(m_pText);
    setPreProOptions("\\begin{multicols}{4}{\n");
    setPostProOptions("\n}\n\\end{multicols}\n");

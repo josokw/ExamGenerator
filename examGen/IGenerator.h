@@ -59,7 +59,7 @@ protected:
    /// Shared random generator.
    static RandomProfile randomProfile_s;
    /// Vector containing ranges data.
-   std::vector<Random::range_t> ranges_;
+   std::vector<GenRandom::range_t> ranges_;
    /// Vector containing results of generated values based on ranges_.
    std::vector<int> RSelectors_;
    /// ID generator type

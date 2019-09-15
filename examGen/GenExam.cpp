@@ -10,6 +10,7 @@
 #include "GenText.h"
 #include "Log.h"
 
+#include <algorithm>
 #include <memory>
 #include <stdexcept>
 
@@ -24,7 +25,7 @@ GenExam::GenExam(const std::string &id, std::vector<message_t> &messages)
    , indexLastAddedItem_{0}
    , pGenSolution_{nullptr}
 {
-   type_ = "GenExam";
+   type_ = __func__;
    ++nExams_s;
 
    LOGD(id_ + ", initialised, nExams_s = " + std::to_string(nExams_s));

@@ -26,7 +26,7 @@ protected:
    void prepare() override;
 
 private:
-   static std::tuple<Random::range_t, int, std::list<int>, int> R0_s;
+   static std::tuple<RandomProfile::range_t, int, std::list<int>, int> R0_s;
    static int correctAnswer(int OrAnd, int EqNot, int XorOr);
    int AON_;
    bool logicExpr(bool b1, bool b2, bool b3);
