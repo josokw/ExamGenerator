@@ -30,7 +30,7 @@ GenLogicDiagramAON::GenLogicDiagramAON()
    setPreProOptions("\\begin{multicols}{4}{\n");
    setPostProOptions("\n}\n\\end{multicols}\n");
 
-   m_AON = randomProfile_.generate(s_R0);
+   m_AON = randomProfile_s.generate(s_R0);
 
    std::string LD(
       "\n\\\\\n"
