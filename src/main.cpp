@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
       if (var_map.count("seed")) {
          setSeed(var_map["seed"].as<long int>());
       } else {
-         setSeed(123456789);
+         setSeed(SEED_DEFAULT);
       }
       LOGI("seed = " + std::to_string(getSeed()));
       if (var_map.count("exam")) {
