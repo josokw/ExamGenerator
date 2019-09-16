@@ -22,11 +22,11 @@ GenLogicDiagramAOXN::GenLogicDiagramAOXN()
    , m_pO3()
    , m_pO4()
    , m_AON(0)
-   , andF(boost::bind(&GenLogicDiagramAOXN::and_, self(), _1, _2))
-   , orF(boost::bind(&GenLogicDiagramAOXN::or_, self(), _1, _2))
-   , xorF(boost::bind(&GenLogicDiagramAOXN::xor_, self(), _1, _2))
-   , notF(boost::bind(&GenLogicDiagramAOXN::not_, self(), _1))
-   , equF(boost::bind(&GenLogicDiagramAOXN::equ, self(), _1))
+   , andF([=](bool b1, bool b2) { return and_(b1, b2); })
+   , orF([=](bool b1, bool b2) { return or_(b1, b2); })
+   , xorF([=](bool b1, bool b2) { return xor_(b1, b2); })
+   , notF([=](bool b1) { return not_(b1); })
+   , equF([=](bool b1) { return equ(b1); })
 {
    type_ = __func__;
    generators_[0]->add(m_pText);
@@ -98,7 +98,7 @@ GenLogicDiagramAOXN::GenLogicDiagramAOXN()
    generators_[0]->add(pLogicD);
 
    util::bool3Pars_t logicF(
-      boost::bind(&GenLogicDiagramAOXN::logicD, self(), _1, _2, _3));
+      [=](bool b1, bool b2, bool b3) { return logicD(b1, b2, b3); });
    std::vector<std::string> truthTable = util::toTruthTable(logicF);
    std::string tt;
 

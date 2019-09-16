@@ -1,9 +1,6 @@
 #ifndef GENLOGICDIAGRAMAOXN_H
 #define GENLOGICDIAGRAMAOXN_H
 
-#include <boost/bind.hpp>
-#include <boost/function.hpp>
-
 #include "GenItem.h"
 #include "Util.h"
 
