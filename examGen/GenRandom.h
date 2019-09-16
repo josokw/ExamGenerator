@@ -5,21 +5,19 @@
 
 #include <random>
 
-/// Reposible for generating pseudo random integer values
+/// Responsible for generating pseudo random integer values
 /// in a range [min, max).
-class GenRandom
+class GenRandom final
 {
 public:
-   using range_t = std::pair<int, int>;
-
-   GenRandom(int incr = 0) { eng.seed(getSeed() + incr); }
+   GenRandom(int incr = 0) { prnEng_.seed(getSeed() + incr); }
    /// Returns min <= random value < max, range [min, max)
    /// \pre max > min
-   int generate(int max, int min = 0) { return eng() % (max - min) + min; }
+   int generate(int max, int min = 0) { return prnEng_() % (max - min) + min; }
 
 private:
    /// Standard pseudo-random number engine, reproducable, portable
-   std::minstd_rand eng;
+   std::minstd_rand prnEng_;
 };
 
 #endif
