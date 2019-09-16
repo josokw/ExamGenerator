@@ -10,7 +10,7 @@ class GenTwoC final : public GenItem
 {
 public:
    GenTwoC();
-   virtual ~GenTwoC() = default;
+   ~GenTwoC() override = default;
 
 protected:
    void prepare() override;
