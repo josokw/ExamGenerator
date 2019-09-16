@@ -20,17 +20,17 @@ GenLogicDiagramAON::GenLogicDiagramAON()
    , m_pO3()
    , m_pO4()
    , m_AON(0)
-   , andF(boost::bind(&GenLogicDiagramAON::and_, self(), _1, _2))
-   , orF(boost::bind(&GenLogicDiagramAON::or_, self(), _1, _2))
-   , notF(boost::bind(&GenLogicDiagramAON::not_, self(), _1))
-   , equF(boost::bind(&GenLogicDiagramAON::equ, self(), _1))
+   , andF([=](bool b1, bool b2) { return and_(b1, b2); })
+   , orF([=](bool b1, bool b2) { return or_(b1, b2); })
+   , notF([=](bool b1) { return not_(b1); })
+   , equF([=](bool b1) { return equ(b1); })
 {
    type_ = __func__;
    generators_[0]->add(m_pText);
    setPreProOptions("\\begin{multicols}{4}{\n");
    setPostProOptions("\n}\n\\end{multicols}\n");
 
-   m_AON = randomProfile_s.generate(s_R0);
+   m_AON = randomProfile_.generate(s_R0);
 
    std::string LD(
       "\n\\\\\n"
@@ -95,7 +95,8 @@ GenLogicDiagramAON::GenLogicDiagramAON()
    generators_[0]->add(pLogicD);
 
    util::bool3Pars_t logicF(
-      boost::bind(&GenLogicDiagramAON::logicD, self(), _1, _2, _3));
+      [=](bool b1, bool b2, bool b3) { return logicD(b1, b2, b3); });
+
    std::vector<std::string> truthTable = util::toTruthTable(logicF);
    std::string tt;
 

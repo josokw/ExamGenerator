@@ -1,9 +1,6 @@
 #ifndef GENLOGICDIAGRAMAON_H
 #define GENLOGICDIAGRAMAON_H
 
-#include <boost/bind.hpp>
-#include <boost/function.hpp>
-
 #include "GenItem.h"
 #include "Util.h"
 
@@ -18,7 +15,7 @@ class GenLogicDiagramAON final : public GenItem
 {
 public:
    GenLogicDiagramAON();
-   virtual ~GenLogicDiagramAON() = default;
+   ~GenLogicDiagramAON() override = default;
 
 protected:
    void prepare() override;
@@ -35,8 +32,6 @@ private:
    std::shared_ptr<GenOption> m_pO4;
 
    int m_AON;
-
-   GenLogicDiagramAON *self() { return this; }
 
    util::bool2Pars_t andF;
    util::bool2Pars_t orF;
