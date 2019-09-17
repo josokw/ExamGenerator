@@ -53,8 +53,8 @@ CTestTestfile.cmake
 build/*
 
 # Executable
-bin/ExamGenerator
-bin/*
+app/bin/*
+test/bin/*
 
 # Latex
 *.aux
