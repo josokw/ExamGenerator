@@ -39,6 +39,10 @@ If the current directory is *build*, use the next command:
 
     ../bin/ExamGenerator -e ../examGenScripts/testDummyExam.exm
 
+Use the *-s* option for the seed of the random generator (is reproducable):
+
+    ../bin/ExamGenerator -e ../examGenScripts/testDummyExam.exm -s 1234
+
 The file *testDummyExam.pdf* will be generated if no syntax errors have occurred in the exam script.
 
 Use the *-d* option for generating detailed debug info in the *ExamGenerator.log* file:
