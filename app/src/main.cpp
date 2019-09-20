@@ -9,7 +9,6 @@
 #include "RandomProfile.h"
 #include "Reader.h"
 #include "Seed.h"
-#include "hcExam/hcExamDummy.h"
 
 #include <algorithm>
 #include <boost/filesystem.hpp>

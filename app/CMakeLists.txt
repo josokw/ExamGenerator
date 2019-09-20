@@ -18,7 +18,6 @@ include_directories(examGen)
 include_directories(examGenC)
 include_directories(examGenLogic)
 include_directories(parser)
-include_directories(src/hcExam)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
 message("==== Source dir: ${CMAKE_SOURCE_DIR}")
@@ -38,8 +37,6 @@ file(
     examGenLogic/*.h
     parser/*.cpp 
     parser/*.h 
-    src/hcExam/*.cpp
-    src/hcExam/*.h
 )
 
 message("==== ExamGenerator sources: ${EXAMGENERATOR_SOURCES}")
