@@ -50,7 +50,8 @@ CTestTestfile.cmake
 !.vscode/extensions.json
 
 # build dir
-build/*
+app/build/*
+test/build/*
 
 # Executable
 app/bin/*
@@ -64,8 +65,10 @@ test/bin/*
 generatedExam.tex
 
 # Doxygen
-docs/html/*
+doc/html/*
 
-# Loging
+# Logging
 ExamGenerator.log
-examGen/IGenerator
+
+# Generated pdfs
+*.pdf
