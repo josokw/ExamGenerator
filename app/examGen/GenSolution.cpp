@@ -12,12 +12,12 @@ GenSolution::GenSolution(GenExam *pExam)
 {
    type_ = "GenSolution";
 
-   LOGD(id_ + ", initialised");
+   LOGD(id_ + ", initialised", 2);
 }
 
 IGenPtr_t GenSolution::copy() const
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_, 3);
 
    std::shared_ptr<GenSolution> p(new GenSolution(*this));
    return p;
@@ -38,7 +38,7 @@ std::ostream &GenSolution::write(std::ostream &os, int Level) const
 
 void GenSolution::prepare()
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_, 3);
 
    auto size = pExam_->size();
    
@@ -64,7 +64,7 @@ void GenSolution::prepare()
 
 void GenSolution::generate(std::ostream &os)
 {
-   LOGD(type_ + " : " + id_);
+   LOGD(type_ + " : " + id_, 3);
 
    prepare();
 

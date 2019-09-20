@@ -25,7 +25,7 @@
 namespace bpo = boost::program_options;
 namespace bfs = boost::filesystem;
 
-/// @todo Implement generating answers pdf document.
+/// \todo Implement generating answers pdf document.
 int main(int argc, char *argv[])
 {
    try {
@@ -41,8 +41,8 @@ int main(int argc, char *argv[])
                           "input seed for random generator");
       descr.add_options()("exam,e", bpo::value<std::string>(),
                           "input exam specification file name");
-      descr.add_options()("debug,d", "set logger in debug mode");
-      // descr.add_options()("hce,c", "execute hard coded exam");
+      descr.add_options()("debug,d", bpo::value<unsigned int>(),
+                          "set logger in debug level mode");
 
       bpo::variables_map var_map;
       bpo::store(bpo::parse_command_line(argc, argv, descr), var_map);
@@ -73,6 +73,14 @@ int main(int argc, char *argv[])
          exit(EXIT_FAILURE); //================================================>
       }
       if (var_map.count("debug")) {
+         auto level{var_map["debug"].as<unsigned int>()};
+         if (level < 1 or level > 3) {
+            std::cerr << "\n\tERROR: debug level = " << level << " is wrong\n"
+                      << std::endl;
+            LOGE("Debug level not correct");
+            exit(EXIT_FAILURE); //=============================================>
+         }
+         Logger::instance().setLevel(level);
          Logger::instance().setDebugMode();
       }
 
@@ -136,11 +144,6 @@ int main(int argc, char *argv[])
                    << ExamScriptFileName.string() << "' does not exists\n\n";
          exit(EXIT_FAILURE); //================================================>
       }
-
-      // if (var_map.count("hce")) {
-      //    LOGI("Hard coded exam");
-      //    hcExamDummy(LaTeXgeneratedExamFile);
-      // }
 
       // Start generating exam based on script
       LOGI("Start reading exam script: " + ExamScriptFileName.string());

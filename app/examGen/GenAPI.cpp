@@ -11,9 +11,9 @@ GenAPI::GenAPI(const std::string &returnType, const std::string &signature,
    , signature_{signature}
    , description_{description}
 {
-   type_ = "GenAPI";
+   type_ = __func__;
 
-   LOGD(id_ + ", initialised");
+   LOGD(id_ + ", initialised", 2);
 }
 
 IGenPtr_t GenAPI::copy() const
@@ -28,7 +28,7 @@ void GenAPI::generate(std::ostream &os)
    signature_ = std::string(signature_.begin() + 1, signature_.end() - 1);
    description_ = std::string(description_.begin() + 1, description_.end() - 1);
 
-   LOGD(type_ + ": " + id_ + ", " + returnType_ + " " + signature_);
+   LOGD(type_ + ": " + id_ + ", " + returnType_ + " " + signature_, 3);
 
    os << "\n\\vskip 0.4mm\n"
          "\\begin{tabular*}{0.8\\textwidth}{@{\\extracolsep{\\fill}} | r | "

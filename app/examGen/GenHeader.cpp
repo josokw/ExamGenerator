@@ -16,9 +16,9 @@ GenHeader::GenHeader(const std::string &id)
    , Other{}
    , BoxedText{}
 {
-   type_ = "GenHeader";
+   type_ = __func__;
 
-   LOGD(id_ + ", initialised");
+   LOGD(id_ + ", initialised", 2);
 }
 
 IGenPtr_t GenHeader::copy() const
@@ -29,7 +29,7 @@ IGenPtr_t GenHeader::copy() const
 
 void GenHeader::generate(std::ostream &os)
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_, 3);
 
    os << "\\noindent\n";
    if (not School.empty()) {

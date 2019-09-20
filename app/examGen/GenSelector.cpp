@@ -15,7 +15,7 @@ GenSelector::GenSelector(const std::string &id)
 {
    type_ = "GenSelector";
 
-   LOGD(id_ + ", initialised");
+   LOGD(id_ + ", initialised", 2);
 }
 
 IGenPtr_t GenSelector::copy() const
@@ -29,7 +29,7 @@ IGenPtr_t GenSelector::copy() const
 void GenSelector::add(IGenPtr_t pGen)
 {
    LOGD(type_ + ": " + id_ + ", wants to add " + pGen->getType() + " " +
-        pGen->getID());
+        pGen->getID(), 3);
 
    allGenerators_.push_back(pGen);
    // for calculation a next permutation
@@ -38,7 +38,7 @@ void GenSelector::add(IGenPtr_t pGen)
 
 void GenSelector::selectR(unsigned int n)
 {
-   LOGD(type_ + " : " + id_ + ", n = " + std::to_string(n));
+   LOGD(type_ + " : " + id_ + ", n = " + std::to_string(n), 3);
 
    next_permutation(begin(allGenerators_), end(allGenerators_));
    generators_.clear();

@@ -55,6 +55,7 @@ Logger::Logger()
    , logFilename_{APPNAME ".log"}
    , logFile_{logFilename_}
    , inDebugMode_{false}
+   , level_{3}
 {
    if (!logFile_) {
       std::cerr << "\n\tERROR cannot create logfile\n";

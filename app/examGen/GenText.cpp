@@ -10,7 +10,7 @@ GenText::GenText(const std::string& id, const std::string &text)
 {
    type_ = "GenText";
 
-   LOGD(id_ + ", initialised");
+   LOGD(id_ + ", initialised", 2);
 }
 
 IGenPtr_t GenText::copy() const
@@ -28,7 +28,7 @@ std::ostream &GenText::write(std::ostream &os, int level) const
 
 void GenText::generate(std::ostream &os)
 {
-   LOGD(type_ + ": " + id_ + ", text = " + text_.substr(0, 20) + "...");
+   LOGD(type_ + ": " + id_ + ", text = " + text_.substr(0, 20) + "...", 3);
 
    os << '{' << text_ << '}';
 }

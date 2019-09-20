@@ -198,7 +198,7 @@ struct ExamBuilder {
       vars_p.add("AppName", APPNAME);
       vars_p.add("Version", VERSION);
 
-      LOGD("initialised");
+      LOGD("initialised", 2);
    }
 
    // Helper functions
@@ -231,7 +231,7 @@ struct ExamBuilder {
       *(text.end() - 1) = ' ';
       text += "\n";
 
-      LOGD(text);
+      LOGD(text, 3);
    }
 
    void do_addNewCodeLine(const char * /* begin */, const char * /* end */)
@@ -244,13 +244,13 @@ struct ExamBuilder {
       //*(text.end()-1) = ' ';
 
       auto context = util::removeNewLines(util::limitSize(text, 60));
-      LOGD(context);
+      LOGD(context, 3);
    }
 
    void do_assignment(const char *begin, const char * /* end */)
    {
       auto context = util::removeNewLines(util::limitSize(begin, 60));
-      LOGD(context);
+      LOGD(context, 3);
 
       if (!itemScope.empty()) {
          lhs = itemScope + "." + lhs;
@@ -268,7 +268,7 @@ struct ExamBuilder {
    void do_retrieve(std::string &s)
    {
       auto context = util::removeNewLines(util::limitSize(s, 60));
-      LOGD(context);
+      LOGD(context, 3);
 
       rhs.append(" ").append(s);
    }
@@ -276,7 +276,7 @@ struct ExamBuilder {
    void do_createExam(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context);
+      LOGD(context, 3);
 
       if (not itemScope.empty()) {
          LOGE(id_ + ", Exam '" + id_ + "' should be declared global!");
@@ -296,7 +296,7 @@ struct ExamBuilder {
    void do_createExams(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context);
+      LOGD(context, 3);
 
       std::vector<std::shared_ptr<GenExams>> &ProductLocal(Product);
 
@@ -318,14 +318,14 @@ struct ExamBuilder {
    void do_createItem(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context);
+      LOGD(context, 3);
 
       if (idGeneratorIsUnique(id_, begin, end)) {
          p_actualItem = std::shared_ptr<GenItem>(new GenItem(id_));
          bsc::add(generators_p, id_.c_str(),
                   std::static_pointer_cast<IGenerator>(p_actualItem));
          itemScope = id_;
-         LOGD("set itemScope = " + itemScope);
+         LOGD("set itemScope = " + itemScope, 3);
          bsc::add(generators_p, (id_ + std::string(".level")).c_str(),
                   static_cast<IGenPtr_t>((*p_actualItem)[0]));
          bsc::add(generators_p, (id_ + std::string(".stem")).c_str(),
@@ -337,7 +337,7 @@ struct ExamBuilder {
    void do_createObject(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context);
+      LOGD(context, 3);
 
       if (idGeneratorIsUnique(id_, begin, end)) {
          if (type == "Selector") {
@@ -400,7 +400,7 @@ struct ExamBuilder {
    void do_createHeader(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context);
+      LOGD(context, 3);
 
       if (idGeneratorIsUnique(id_, begin, end)) {
          p_actualHeader = std::shared_ptr<GenHeader>(new GenHeader(id_));
@@ -419,7 +419,7 @@ struct ExamBuilder {
    void do_createOption(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context);
+      LOGD(context, 3);
 
       addItemScope(lhs);
       if (idGeneratorIsUnique(lhs, begin, end)) {
@@ -439,7 +439,7 @@ struct ExamBuilder {
    void do_setOptionCorrect(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context);
+      LOGD(context, 3);
 
       try {
          addItemScope(lhs);
@@ -465,7 +465,7 @@ struct ExamBuilder {
    void do_createGen(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context);
+      LOGD(context, 3);
 
       addItemScope(id_);
       if (idGeneratorIsUnique(id_, begin, end)) {
@@ -512,7 +512,7 @@ struct ExamBuilder {
    void do_addTextToGen(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context);
+      LOGD(context, 3);
 
       addItemScope(lhs);
       if (auto ppGenLHS = idGeneratorIsAvailable(lhs, begin, end)) {
@@ -524,7 +524,7 @@ struct ExamBuilder {
    void do_addTextToStem(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context);
+      LOGD(context, 3);
 
       addItemScope(lhs);
       if (auto ppGenLHS = idGeneratorIsAvailable(lhs, begin, end)) {
@@ -536,7 +536,7 @@ struct ExamBuilder {
    void do_setLevelOfItem(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context);
+      LOGD(context, 3);
 
       addItemScope(lhs);
       if (auto ppGenLHS = idGeneratorIsAvailable(lhs, begin, end)) {
@@ -550,7 +550,7 @@ struct ExamBuilder {
    void do_addGenToGen(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context);
+      LOGD(context, 3);
 
       addItemScope(lhs);
       addItemScope(rhs);
@@ -576,7 +576,7 @@ struct ExamBuilder {
                      } else {
                         /// @todo Remove prepare(), only used by #GenTwoC
                         LOGD("Parser: copy() used, for " +
-                             (*ppGenRHS)->getID());
+                             (*ppGenRHS)->getID(), 3);
                         (*ppGenRHS)->prepare();
                         auto pGenRHScopy = (*ppGenRHS)->copy();
                         (*pGenExams)[par_]->add(pGenRHScopy);
@@ -596,7 +596,7 @@ struct ExamBuilder {
                } else {
                   /// @todo Remove prepare(), only used by #GenTwoC
                   (*ppGenRHS)->prepare();
-                  LOGD("Parser: copy() used, for " + (*ppGenRHS)->getID());
+                  LOGD("Parser: copy() used, for " + (*ppGenRHS)->getID(), 3);
                   auto pGenRHScopy = (*ppGenRHS)->copy();
                   (*ppGenLHS)->add(pGenRHScopy);
                }
@@ -609,7 +609,7 @@ struct ExamBuilder {
    void do_addFunctorResultToGen(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context);
+      LOGD(context, 3);
 
       addItemScope(lhs);
       addItemScope(rhs);
@@ -672,13 +672,13 @@ struct ExamBuilder {
    void do_endOfSpec(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context);
+      LOGD(context, 3);
    }
 
    void do_localFunctionCall(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context);
+      LOGD(context, 3);
 
       try {
          /// @bug Workaround: remove empty strings from parList
@@ -714,7 +714,7 @@ struct ExamBuilder {
    void do_memberFunctionCall(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context);
+      LOGD(context, 3);
 
       try {
          /// @bug Workaround: remove empty strings from parList
@@ -783,7 +783,7 @@ struct ExamBuilder {
    void do_functionCall(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context);
+      LOGD(context, 3);
 
       try {
          /// @bug Workaround: remove empty strings from parList
@@ -821,15 +821,15 @@ struct ExamBuilder {
    {
       if (!itemScope.empty()) {
          id = itemScope + "." + id;
-         LOGD("itemScope = " + itemScope + "  id = " + id);
+         LOGD("itemScope = " + itemScope + "  id = " + id, 3);
       } else {
-         LOGD("id = " + id);
+         LOGD("id = " + id, 3);
       }
    }
 
    std::vector<std::shared_ptr<GenExams>> getProduct()
    {
-      LOGD("size = " + std::to_string(Product.size()));
+      LOGD("size = " + std::to_string(Product.size()), 3);
 
       return Product;
    }
@@ -858,7 +858,7 @@ struct ExamSpecParser : public bsc::grammar<ExamSpecParser> {
    ExamSpecParser(ExamBuilder &pb)
       : pb_(pb)
    {
-      LOGD("initialised");
+      LOGD("initialised", 2);
    }
 
    template <typename ScannerT> struct definition {

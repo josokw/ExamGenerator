@@ -21,12 +21,12 @@ GenLogicExprAON::GenLogicExprAON(const std::string &id)
 {
    type_ = __func__;
 
-   LOGD(id_ + ", initialised");
+   LOGD(id_ + ", initialised", 2);
 }
 
 void GenLogicExprAON::prepare()
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_, 3);
 
    auto pText = std::make_shared<GenText>(
       id_ + ".txt",

@@ -19,18 +19,23 @@ public:
 
    void setFilename(const std::string &filename);
    void setDebugMode(bool on = true);
+   void setLevel(int level) { level_ = level; }
    void log(const std::string &message);
    void log(const char *message);
-   void logDebug(const std::string &message)
+   void logDebug(const std::string &message, int level)
    {
-      if (inDebugMode_) {
-         log(message);
+      if (level >= level_) {
+         if (inDebugMode_) {
+            log(message);
+         }
       }
    }
-   void logDebug(const char *message)
+   void logDebug(const char *message, int level)
    {
-      if (inDebugMode_) {
-         log(message);
+      if (level >= level_) {
+         if (inDebugMode_) {
+            log(message);
+         }
       }
    }
 
@@ -42,6 +47,7 @@ private:
    std::string logFilename_;
    std::ofstream logFile_;
    bool inDebugMode_;
+   int level_;
 };
 
 #endif // LOGGER_H

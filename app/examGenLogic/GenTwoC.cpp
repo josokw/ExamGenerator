@@ -18,12 +18,12 @@ GenTwoC::GenTwoC()
 {
    type_ = __func__;
 
-   LOGD(id_ + ", initialised");
+   LOGD(id_ + ", initialised", 2);
 }
 
 void GenTwoC::prepare()
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_, 3);
 
    auto N = -randomProfile_s.generate(R0_s);
 

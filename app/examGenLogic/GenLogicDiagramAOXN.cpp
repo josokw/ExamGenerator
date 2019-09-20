@@ -179,12 +179,12 @@ GenLogicDiagramAOXN::GenLogicDiagramAOXN()
    addToOptions(m_pO3);
    addToOptions(m_pO4);
 
-   LOGD(id_ + ", initialised");
+   LOGD(id_ + ", initialised", 2);
 }
 
 void GenLogicDiagramAOXN::prepare()
 {
-   LOGD(type_ + "; " + id_);
+   LOGD(type_ + "; " + id_, 3);
 }
 
 bool GenLogicDiagramAOXN::logicD(bool b1, bool b2, bool b3)

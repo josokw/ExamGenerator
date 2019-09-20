@@ -18,12 +18,12 @@ GenNestedFor::GenNestedFor(const std::string &id)
 {
    type_ = __func__;
 
-   LOGD(id_ + ", intialised");
+   LOGD(id_ + ", intialised", 2);
 }
 
 void GenNestedFor::prepare()
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_, 3);
 
    auto pText = std::make_shared<GenText>(id_ + ".txt",
       "What is the value of the variable $result$ after "

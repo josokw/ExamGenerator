@@ -10,12 +10,12 @@ GenImage::GenImage(const std::string &id, const std::string &fileName)
 {
    type_ = "GenImage";
 
-   LOGD(id_ + ", initialised");
+   LOGD(id_ + ", initialised", 2);
 }
 
 IGenPtr_t GenImage::copy() const
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_, 3);
 
    std::shared_ptr<GenImage> p(new GenImage(id_, fileName_));
    return p;
@@ -23,7 +23,7 @@ IGenPtr_t GenImage::copy() const
 
 void GenImage::generate(std::ostream &os)
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_, 3);
    
    os << "\n\\begin{figure}[h]\n\\begin{center} "
          "\\includegraphics[height=50mm]{"

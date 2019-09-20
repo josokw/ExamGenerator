@@ -27,12 +27,12 @@ GenOptions::GenOptions(const std::string &id)
 {
    type_ = __func__;
 
-   LOGD(id_ + " initialised");
+   LOGD(id_ + " initialised", 2);
 }
 
 IGenPtr_t GenOptions::copy() const
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_, 3);
 
    std::shared_ptr<GenOptions> p(new GenOptions(*this));
    for_each(p->generators_.begin(), p->generators_.end(),
@@ -43,7 +43,7 @@ IGenPtr_t GenOptions::copy() const
 void GenOptions::add(IGenPtr_t pGen)
 {
    LOGD(type_ + ": " + id_ + ", wants to add " + pGen->getType() + " " +
-        pGen->getID());
+        pGen->getID(), 3);
 
    if (std::shared_ptr<GenOption> pOption =
           std::dynamic_pointer_cast<GenOption>(pGen)) {
@@ -56,7 +56,7 @@ void GenOptions::add(IGenPtr_t pGen)
 
 void GenOptions::generate(std::ostream &os)
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_, 3);
 
    if (!preProcessing_.empty()) {
       os << preProcessing_ << "\n";
@@ -93,7 +93,7 @@ void GenOptions::add(std::shared_ptr<GenOption> &pOption, bool isCorrect)
 
 void GenOptions::shuffle()
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_, 3);
 
    auto rgen = [=](int i) { return genrnd_.generate(i); };
 
@@ -102,7 +102,7 @@ void GenOptions::shuffle()
 
 void GenOptions::sort()
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_, 3);
 
    std::stable_sort(begin(getGenerators()), end(getGenerators()), lessLength);
 }

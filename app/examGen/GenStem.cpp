@@ -13,7 +13,7 @@ GenStem::GenStem(const std::string &id)
 {
    type_ = "GenStem";
 
-   LOGD(id_ + " initialised");
+   LOGD(id_ + " initialised", 2);
 }
 
 IGenPtr_t GenStem::copy() const
@@ -27,7 +27,7 @@ IGenPtr_t GenStem::copy() const
 void GenStem::add(IGenPtr_t pGen)
 {
    LOGD(type_ + ": " + id_ + ", wants to add " + pGen->getType() + " " +
-        pGen->getID());
+        pGen->getID(), 3);
 
    auto *p = pGen.get();
    if (GenText *pText = dynamic_cast<GenText *>(p)) {
@@ -48,7 +48,7 @@ void GenStem::add(IGenPtr_t pGen)
 
 void GenStem::generate(std::ostream &os)
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_, 3);
 
    for (auto &gen : generators_) {
       if (gen == nullptr) {

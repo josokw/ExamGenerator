@@ -177,7 +177,7 @@ GenLogicDiagramAON::GenLogicDiagramAON()
    addToOptions(m_pO3);
    addToOptions(m_pO4);
 
-   LOGD(id_ + ", initialised");
+   LOGD(id_ + ", initialised", 2);
 }
 
 // IGenPtr_t GenLogicDiagramAON::copy() const
@@ -189,7 +189,7 @@ GenLogicDiagramAON::GenLogicDiagramAON()
 
 void GenLogicDiagramAON::prepare()
 {
-   LOGD(type_ + "; " + id_);
+   LOGD(type_ + "; " + id_, 3);
 }
 
 bool GenLogicDiagramAON::logicD(bool b1, bool b2, bool b3)

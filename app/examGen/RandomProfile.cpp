@@ -9,18 +9,18 @@
 RandomProfile::RandomProfile()
    : genrnd_{getSeed()}
 {
-   LOGD(", initialised");
+   LOGD(", initialised", 2);
 }
 
 RandomProfile::RandomProfile(unsigned long sd)
    : genrnd_{sd}
 {
-   LOGD(", initialised, seed = " + std::to_string(seed));
+   LOGD(", initialised, seed = " + std::to_string(seed), 2);
 }
 
 void RandomProfile::generate(const std::vector<RandomProfile::range_t> &ranges)
 {
-   LOGD("");
+   LOGD("", 3);
 
    profile_.clear();
    for (auto &r : ranges) {
@@ -37,21 +37,21 @@ void RandomProfile::generate(std::vector<fullR_t> &fullRs)
 {
    int result = generate(std::get<0>(fullRs[0]));
 
-   LOGD("result = " + std::to_string(result));
+   LOGD("result = " + std::to_string(result), 3);
 }
 
 int RandomProfile::generate(const RandomProfile::range_t &range)
 {
    int result{genrnd_.generate(range.second, range.first)};
 
-   LOGD("Random value (range) = " + std::to_string(result));
+   LOGD("Random value (range) = " + std::to_string(result), 3);
 
    return result;
 }
 
 int RandomProfile::generate(fullR_t &fullR)
 {
-   LOGD("");
+   LOGD("", 3);
    int result = generate(std::get<0>(fullR));
    int historyDepth = std::get<3>(fullR);
    int historySize = std::get<2>(fullR).size();
@@ -73,7 +73,7 @@ int RandomProfile::generate(fullR_t &fullR)
    std::get<1>(fullR) = result;
    std::get<2>(fullR).push_front(result);
 
-   LOGD("Random value (fullR) = " + std::to_string(result));
+   LOGD("Random value (fullR) = " + std::to_string(result), 3);
 
    return result;
 }

@@ -27,12 +27,12 @@ IGenerator::IGenerator(const std::string &id)
 
 IGenerator::~IGenerator()
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_, 1);
 }
 
 std::ostream &IGenerator::write(std::ostream &os, int level) const
 {
-   LOGD(type_ + ": " + id_ + ", level = " + std::to_string(level));
+   LOGD(type_ + ": " + id_ + ", level = " + std::to_string(level), 3);
 
    const std::string INDENTATION(level * 2, ' ');
    os << INDENTATION << type_ << " '" << id_ << "' " << this;
@@ -44,7 +44,7 @@ void IGenerator::setID(const std::string &id)
 {
    id_ = id;
 
-   LOGD(type_ + ": updated id_ = " + id_);
+   LOGD(type_ + ": updated id_ = " + id_, 3);
 }
 
 void IGenerator::setLevel(int level)

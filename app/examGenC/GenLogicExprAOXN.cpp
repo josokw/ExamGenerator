@@ -18,12 +18,12 @@ GenLogicExprAOXN::GenLogicExprAOXN()
 {
    type_ = __func__;
 
-   LOGD(id_);
+   LOGD(id_, 2);
 }
 
 void GenLogicExprAOXN::prepare()
 {
-   LOGD(type_ + ": " + id_);
+   LOGD(type_ + ": " + id_, 3);
 
    auto pText = std::make_shared<GenText>(id_ + ".txt",
       "\\needspace{8cm} The variables $x$, $y$, $z$ and $result$ are all "
