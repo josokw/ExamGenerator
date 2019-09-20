@@ -9,7 +9,7 @@
 
 void hcExam01(std::ofstream &LaTeXfile)
 {
-   LOGD("Generating LaTeX started");
+   LOGD("Generating LaTeX started", 3);
 
    const bool IS_CORRECT{true};
 
@@ -61,5 +61,5 @@ void hcExam01(std::ofstream &LaTeXfile)
 
    //    pMCtst->generate(TexFile);
 
-   LOGD("Generating LaTeX ready");
+   LOGD("Generating LaTeX ready", 3);
 }
