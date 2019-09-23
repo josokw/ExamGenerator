@@ -439,7 +439,6 @@ struct ExamBuilder {
    void do_setOptionCorrect(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context, 3);
 
       try {
          addItemScope(lhs);
@@ -448,6 +447,7 @@ struct ExamBuilder {
             if (GenOption *pOption =
                    dynamic_cast<GenOption *>((*ppIGen).get())) {
                pOption->setIsCorrect();
+               LOGI(pOption->getID() + " is correct");
             } else {
                LOGE(id_ + ", option '" + lhs + "' could not set to be correct");
                messages_.push_back(Reader::message_t(

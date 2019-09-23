@@ -27,6 +27,7 @@ void Reader::read()
    copy(std::istream_iterator<char>(input_), std::istream_iterator<char>(),
         back_inserter(examScriptText_));
    examScriptText_.push_back('\0');
+   LOGI("------ Reading ready");
 }
 
 std::vector<std::shared_ptr<GenExams>> Reader::parse()
@@ -35,6 +36,8 @@ std::vector<std::shared_ptr<GenExams>> Reader::parse()
    ExamBuilder pb(messages_);
    skipparser skip;
    ExamSpecParser parser(pb);
+
+   LOGI("------ Parsing started");
 
    try {
       const static std::string LINE(75, '-');
@@ -86,6 +89,8 @@ std::vector<std::shared_ptr<GenExams>> Reader::parse()
          pb.Product.clear();
       }
    }
+   
+   LOGI("------ Parsing ready");
 
    return pb.getProduct();
 }

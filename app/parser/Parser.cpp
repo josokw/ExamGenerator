@@ -4,13 +4,6 @@
 
 int line = 0;
 
-void print(const char *begin, const char *end)
-{
-   std::string str(begin, end);
-   std::cout << "--- Info "
-             << " " << line << ": " << str << std::endl;
-}
-
 void linecount(const char *, const char *)
 {
    ++line;
@@ -34,13 +27,14 @@ bool ExamBuilder::idGeneratorIsUnique(const std::string &id, const char *begin,
 
 IGenPtr_t *ExamBuilder::idGeneratorIsAvailable(const std::string &id,
                                                const char *begin,
-                                               const char * /* end */)
+                                               const char *end)
 {
-   auto context = util::removeNewLines(util::limitSize(begin, 60));
+   // auto context = util::removeNewLines(util::limitSize(begin, 60));
    auto ppIGen = bsc::find(generators_p, id.c_str());
 
    if (nullptr == ppIGen) {
-      LOGE("generator '" + id + "' does not exists, line = " + context);
+      LOGE("generator '" + id +
+           "' does not exists, line = " + std::to_string(line));
       messages_.push_back(Reader::message_t(
          'E', 0, begin, "Generator '" + id + "' does not exists."));
    }
