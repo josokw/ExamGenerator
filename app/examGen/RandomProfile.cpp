@@ -9,7 +9,7 @@
 RandomProfile::RandomProfile()
    : genrnd_{getSeed()}
 {
-   LOGD(", initialised", 2);
+   LOGD(", initialised, seed = " + std::to_string(seed), 2);
 }
 
 RandomProfile::RandomProfile(unsigned long sd)

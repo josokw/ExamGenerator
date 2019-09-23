@@ -45,7 +45,7 @@ void GenOption::add(IGenPtr_t pGen)
 void GenOption::generate(std::ostream &os)
 {
    auto context = util::removeNewLines(util::limitSize(text_, 60));
-   LOGD(type_ + ": " + id_ + ", " + context + " ...", 3);
+   LOGD(type_ + ": " + id_ + " = " + context + " ...", 3);
 
    if (text_.empty()) {
       os << ".\\\\[-1.0cm]\n";

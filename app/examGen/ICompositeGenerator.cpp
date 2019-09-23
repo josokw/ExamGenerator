@@ -14,8 +14,6 @@ ICompositeGenerator::ICompositeGenerator(const std::string &id)
 
 void ICompositeGenerator::generate(std::ostream &os)
 {
-   LOGD(type_ + ": " + id_, 3);
-
    for (auto &gnrt : generators_) {
       LOGCW(gnrt == nullptr, type_ + ": " + id_ + ", missing generator");
       if (gnrt != nullptr) {

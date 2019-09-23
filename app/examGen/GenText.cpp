@@ -28,7 +28,7 @@ std::ostream &GenText::write(std::ostream &os, int level) const
 
 void GenText::generate(std::ostream &os)
 {
-   LOGD(type_ + ": " + id_ + ", text = " + text_.substr(0, 20) + "...", 3);
+   LOGD(type_ + ": " + id_ + " = " + text_.substr(0, 20) + "...", 3);
 
    os << '{' << text_ << '}';
 }

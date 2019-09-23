@@ -25,8 +25,8 @@ IGenPtr_t GenCodeText::copy() const
 void GenCodeText::generate(std::ostream &os)
 {
    auto context = util::removeNewLines(util::limitSize(codeText_, 60));
-   LOGD(type_ + ": " + id_ + ", '" + programmingLanguage_ +
-        "' code text = " + context, 3);
+   LOGD(type_ + ": " + id_ + ", '" + programmingLanguage_ + "' = " + context,
+        3);
 
    os << "\\lstset{ language = " << programmingLanguage_ << "}\n"
       << "\\begin{lstlisting}\n"

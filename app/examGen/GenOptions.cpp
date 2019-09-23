@@ -27,7 +27,7 @@ GenOptions::GenOptions(const std::string &id)
 {
    type_ = __func__;
 
-   LOGD(id_ + " initialised", 2);
+   LOGD(id_ + " initialised, seed = " + std::to_string(seed), 2);
 }
 
 IGenPtr_t GenOptions::copy() const

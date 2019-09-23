@@ -198,7 +198,7 @@ struct ExamBuilder {
       vars_p.add("AppName", APPNAME);
       vars_p.add("Version", VERSION);
 
-      LOGD("initialised", 2);
+      LOGI("initialised");
    }
 
    // Helper functions
@@ -243,8 +243,8 @@ struct ExamBuilder {
       // text.replace( = ' ';
       //*(text.end()-1) = ' ';
 
-      auto context = util::removeNewLines(util::limitSize(text, 60));
-      LOGD(context, 3);
+      // auto context = util::removeNewLines(util::limitSize(text, 60));
+      // LOGD(context, 3);
    }
 
    void do_assignment(const char *begin, const char * /* end */)
@@ -550,13 +550,14 @@ struct ExamBuilder {
    void do_addGenToGen(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context, 3);
 
       addItemScope(lhs);
       addItemScope(rhs);
 
       if (auto ppGenLHS = idGeneratorIsAvailable(lhs, begin, end)) {
+         LOGD(lhs + " is available (lhs)", 3);
          if (auto ppGenRHS = idGeneratorIsAvailable(rhs, begin, end)) {
+            LOGD(rhs + " is available (rhs)", 3);
             if (isArrayElement_) {
                isArrayElement_ = false;
                if ((*ppGenLHS)->getType() == "GenExams[]") {
@@ -835,8 +836,7 @@ struct ExamBuilder {
    }
 };
 
-extern int line;
-void print(const char *begin, const char *end);
+// void print(const char *begin, const char *end);
 void linecount(const char *, const char *);
 
 struct skipparser : public bsc::grammar<skipparser> {
@@ -853,10 +853,10 @@ struct skipparser : public bsc::grammar<skipparser> {
 };
 
 struct ExamSpecParser : public bsc::grammar<ExamSpecParser> {
-   ExamBuilder &pb_;
+   ExamBuilder &examBuilder_;
 
-   ExamSpecParser(ExamBuilder &pb)
-      : pb_(pb)
+   ExamSpecParser(ExamBuilder &examBuilder)
+      : examBuilder_{examBuilder}
    {
       LOGD("initialised", 2);
    }
@@ -864,7 +864,7 @@ struct ExamSpecParser : public bsc::grammar<ExamSpecParser> {
    template <typename ScannerT> struct definition {
       definition(ExamSpecParser const &self)
       {
-         ExamBuilder &pb = self.pb_;
+         ExamBuilder &pb = self.examBuilder_;
 
          keywords = "Item", "Header", "Text", "API", "Selector", "stem",
          "level";
