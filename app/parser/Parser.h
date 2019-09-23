@@ -276,7 +276,7 @@ struct ExamBuilder {
    void do_createExam(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context, 3);
+      LOGI(id_);
 
       if (not itemScope.empty()) {
          LOGE(id_ + ", Exam '" + id_ + "' should be declared global!");
@@ -296,7 +296,7 @@ struct ExamBuilder {
    void do_createExams(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context, 3);
+      LOGI(id_ + " type = " + type);
 
       std::vector<std::shared_ptr<GenExams>> &ProductLocal(Product);
 
@@ -318,7 +318,7 @@ struct ExamBuilder {
    void do_createItem(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context, 3);
+      LOGI(id_);
 
       if (idGeneratorIsUnique(id_, begin, end)) {
          p_actualItem = std::shared_ptr<GenItem>(new GenItem(id_));
@@ -337,7 +337,7 @@ struct ExamBuilder {
    void do_createObject(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context, 3);
+      LOGI(id_ + " type = " + type);
 
       if (idGeneratorIsUnique(id_, begin, end)) {
          if (type == "Selector") {
@@ -575,8 +575,8 @@ struct ExamBuilder {
                         (*pGenExams)[par_]->add(*ppGenRHS);
                      } else {
                         /// @todo Remove prepare(), only used by #GenTwoC
-                        LOGD("Parser: copy() used, for " +
-                             (*ppGenRHS)->getID(), 3);
+                        LOGD("Parser: copy() used, for " + (*ppGenRHS)->getID(),
+                             3);
                         (*ppGenRHS)->prepare();
                         auto pGenRHScopy = (*ppGenRHS)->copy();
                         (*pGenExams)[par_]->add(pGenRHScopy);
@@ -609,7 +609,7 @@ struct ExamBuilder {
    void do_addFunctorResultToGen(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGD(context, 3);
+      LOGI(id_ + " type = " + type);
 
       addItemScope(lhs);
       addItemScope(rhs);
@@ -829,7 +829,7 @@ struct ExamBuilder {
 
    std::vector<std::shared_ptr<GenExams>> getProduct()
    {
-      LOGD("size = " + std::to_string(Product.size()), 3);
+      LOGI("size = " + std::to_string(Product.size()));
 
       return Product;
    }

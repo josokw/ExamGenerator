@@ -39,15 +39,13 @@ void Logger::setDebugMode(bool on)
 void Logger::log(const std::string &message)
 {
    std::lock_guard<std::mutex> lock(logMutex_);
-   logFile_ << timepointAsString(std::chrono::system_clock::now()) << "  "
-            << message << std::endl;
+   logFile_ << message << std::endl;
 }
 
 void Logger::log(const char *message)
 {
    std::lock_guard<std::mutex> lock(logMutex_);
-   logFile_ << timepointAsString(std::chrono::system_clock::now()) << "  "
-            << message << std::endl;
+   logFile_ << message << std::endl;
 }
 
 Logger::Logger()
@@ -61,5 +59,6 @@ Logger::Logger()
       std::cerr << "\n\tERROR cannot create logfile\n";
    } else {
       LOGI("LOGGER filename: " + logFilename_.c_str());
+      LOGI("Date: " + timepointAsString(std::chrono::system_clock::now()));
    }
 }
