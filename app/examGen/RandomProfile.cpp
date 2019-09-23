@@ -44,17 +44,21 @@ int RandomProfile::generate(const RandomProfile::range_t &range)
 {
    int result{genrnd_.generate(range.second, range.first)};
 
-   LOGD("Random value (range) = " + std::to_string(result), 3);
+   LOGD("Random value (in range " + std::to_string(range.first) + "-" +
+           std::to_string(range.second) + ") = " + std::to_string(result),
+        3);
 
    return result;
 }
 
 int RandomProfile::generate(fullR_t &fullR)
 {
-   LOGD("", 3);
    int result = generate(std::get<0>(fullR));
    int historyDepth = std::get<3>(fullR);
    int historySize = std::get<2>(fullR).size();
+
+   LOGI("historyDepth = " + std::to_string(historyDepth) +
+        " historySize = " + std::to_string(historySize));
 
    historyDepth = std::min(historyDepth, historySize);
    if (historyDepth > 0) {
@@ -73,7 +77,7 @@ int RandomProfile::generate(fullR_t &fullR)
    std::get<1>(fullR) = result;
    std::get<2>(fullR).push_front(result);
 
-   LOGD("Random value (fullR) = " + std::to_string(result), 3);
+   LOGI("Random value (fullR) = " + std::to_string(result));
 
    return result;
 }
