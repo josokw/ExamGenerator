@@ -4,7 +4,7 @@
 GenNull::GenNull()
    : ILeafGenerator{}
 {
-   type_ = "GenNull";
+   type_ = __func__;
 
    LOGD(id_ + " initialised", 2);
 }
