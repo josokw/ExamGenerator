@@ -49,16 +49,27 @@
 #include "GenExam.h"
 #include "GenHeader.h"
 #include "GenItem.h"
+#include "GenNull.h"
 #include "GenOption.h"
 #include "GenSolution.h"
 #include "GenText.h"
+#include "GeneratorFactory.h"
 #include "Log.h"
 #include "hcExam01.h"
 
+#include <memory>
 #include <vector>
 
 void hcExamDummy(std::ofstream &LaTeXfile)
 {
+   LOGI("GenFactory init");
+
+   GeneratorFactory genfac;
+   auto p = std::make_shared<GenNull>();
+   genfac.addGenerator(std::string("GenNull"), p);
+   genfac.addGenerator(std::string("GenNull"), p);
+   auto p2 = genfac.create("Null");
+
    LOGI("Generating LaTeX file started");
 
    const bool IS_CORRECT{true};
@@ -83,7 +94,8 @@ void hcExamDummy(std::ofstream &LaTeXfile)
       auto pItem = std::make_shared<GenItem>();
       pItem->setID("I1");
 
-      auto pText = std::make_shared<GenText>("txt", 
+      auto pText = std::make_shared<GenText>(
+         "txt",
          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus "
          "fermentum nibh nunc, non viverra sapien volutpat sit amet. Maecenas "
          "at arcu?");
@@ -109,11 +121,12 @@ void hcExamDummy(std::ofstream &LaTeXfile)
    {
       auto pItem = std::make_shared<GenItem>();
       pItem->setID("I2");
-      auto pText = std::make_shared<GenText>("txt",
+      auto pText = std::make_shared<GenText>(
+         "txt",
          "Fusce in magna erat. Cras turpis est, posuere id arcu ut, semper "
          "lobortis dui. Phasellus urna turpis, pharetra eu ipsum sodales, "
          "venenatis sodales enim?");
-      //pText->setID("I2.text");
+      // pText->setID("I2.text");
       pItem->addToStem(pText);
 
       auto pO1 = std::make_shared<GenOption>("02.1", "Shuffle Option 1.");
@@ -136,7 +149,8 @@ void hcExamDummy(std::ofstream &LaTeXfile)
    {
       auto pItem = std::make_shared<GenItem>();
       pItem->setID("I3");
-      auto pText = std::make_shared<GenText>("pText",
+      auto pText = std::make_shared<GenText>(
+         "pText",
          "Fusce in magna erat. Cras turpis est, semper "
          "lobortis dui. Phasellus urna turpis, eu ipsum sodales, "
          "venenatis sodales enim?");
@@ -165,7 +179,8 @@ void hcExamDummy(std::ofstream &LaTeXfile)
    {
       auto pItem = std::make_shared<GenItem>();
       pItem->setID("I4a");
-      auto pText = std::make_shared<GenText>("text",
+      auto pText = std::make_shared<GenText>(
+         "text",
          "Fusce in magna erat. Cras turpis est, semper "
          "lobortis dui. Phasellus urna turpis, eu ipsum sodales, "
          "venenatis sodales enim?");
@@ -192,7 +207,8 @@ void hcExamDummy(std::ofstream &LaTeXfile)
    {
       auto pItem = std::make_shared<GenItem>();
       pItem->setID("I4b");
-      auto pText = std::make_shared<GenText>("text",
+      auto pText = std::make_shared<GenText>(
+         "text",
          "Fusce in magna erat. Cras turpis est, semper "
          "lobortis dui. Phasellus urna turpis, eu ipsum sodales, "
          "venenatis sodales enim?");

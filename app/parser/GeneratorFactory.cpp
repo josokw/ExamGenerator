@@ -1,5 +1,6 @@
 #include "GeneratorFactory.h"
 #include "IGenerator.h"
+#include "Log.h"
 
 #include <iostream>
 
@@ -8,26 +9,19 @@
 #define SET_FNAME(name) static const char *const FNAME = name
 #define ID_FNAME "'" + m_ID + "'  " + string(FNAME)
 
-using namespace std;
-
-GeneratorFactory::GeneratorFactory() {}
-
-GeneratorFactory::~GeneratorFactory() {}
-
 IGenPtr_t GeneratorFactory::create(const std::string &Key) const
 {
-   return m_Factory.create(Key);
+   return factory_.create(Key);
 }
 
-void GeneratorFactory::addGenerator(const std::string &Key,
+void GeneratorFactory::addGenerator(const std::string &key,
                                     IGenPtr_t pGenerator)
 {
-   if (m_Factory.keyIsAlreadyRegistered(Key)) {
-      // throw XSyntax("Command identifier '" + Key + "' is not unique, "
-      //  "already registered");
-      //  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   LOGD("key = " + key + " generator id = " + pGenerator->getID(), 3);
+   if (factory_.keyIsAlreadyRegistered(key)) {
+     LOGW("Command identifier '" + key + "' is not unique, already registered");
    }
-   m_Factory.addToRegistry(Key, pGenerator);
+   factory_.addToRegistry(key, pGenerator);
 }
 
 /*
@@ -80,8 +74,3 @@ CommandStrings.begin(); Command != CommandStrings.end();
   return FullCommands;
 }
 */
-
-void GeneratorFactory::clear()
-{
-   m_Factory.clearRegistry();
-}
