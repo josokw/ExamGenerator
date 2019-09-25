@@ -6,10 +6,8 @@
 #include <string>
 #include <vector>
 
-using defaultKey_t = std::string;
-
 /// This template class is usable for creating concrete factory classes.
-/// BaseTypeToBeManufactured must provide a virtual memberfunction create() for
+/// IType must provide a virtual memberfunction create() for
 /// polymorphic creating.
 /// The Key class must be able to be used as a key in a std::map, i.e. it must:
 ///   - implement copy and assignment semantics
@@ -17,40 +15,45 @@ using defaultKey_t = std::string;
 ///
 /// Default Key type is std::string. The factory becomes the owner of
 /// registrated objects.
-/// @short For creating concrete factory classes.
-/// @author Jos Onokiewicz
-template <class BaseTypeToBeManufactured, typename Key = defaultKey_t>
-class GenericFactory
+///
+/// \short Template class for creating concrete factory classes.
+template <typename IType, typename KeyType = std::string>
+class GenericFactory final
 {
 public:
-   GenericFactory();
-   virtual ~GenericFactory();
+   GenericFactory() = default;
+   GenericFactory(const GenericFactory &) = delete;
+   GenericFactory &operator=(const GenericFactory &) = delete;
+   GenericFactory(const GenericFactory &&) = delete;
+   GenericFactory &operator=(const GenericFactory &&) = delete;
+   ~GenericFactory() = default;
 
-   /// Add new command to registry.
-   void addToRegistry(const Key &key,
-                      std::shared_ptr<BaseTypeToBeManufactured> tbm);
+   void addToRegistry(const KeyType &key, std::shared_ptr<IType> pIType)
+   {
+      registry_[key] = std::move(pIType);
+   }
+
    /// Check registry if key is already registered.
-   bool keyIsAlreadyRegistered(const Key &key) const;
-   /// Registry will be cleared, all prototype objects will be dealocated.
-   void clearRegistry();
+   bool keyIsAlreadyRegistered(const KeyType &key) const
+   {
+      return registry_.find(key) != end(registry_);
+   }
+
    /// Client code is responsible for checking 0 valued returned pointer!
-   std::shared_ptr<BaseTypeToBeManufactured> create(const Key &key) const;
-   /// Retrieve all keys in a vector.
-   std::vector<Key> getRegistryKeys() const;
+   std::shared_ptr<IType> create(const KeyType &key) const
+   {
+      std::shared_ptr<IType> pIType{nullptr};
+      auto iter = registry_.find(key);
+
+      if (iter != end(registry_)) {
+         pIType = iter->second->copy();
+      }
+
+      return pIType;
+   }
 
 private:
-   typedef std::map<const Key, std::shared_ptr<BaseTypeToBeManufactured>>
-      registry_t;
-   typedef typename registry_t::iterator Ir_t;
-
-   registry_t m_Registry;
-
-   /// Not allowed, do not define.
-   GenericFactory(const GenericFactory &f);
-   /// Not allowed, do not define.
-   GenericFactory &operator=(const GenericFactory &sf);
+   std::map<const KeyType, std::shared_ptr<IType>> registry_;
 };
-
-#include "GenericFactory_tmp.h"
 
 #endif
