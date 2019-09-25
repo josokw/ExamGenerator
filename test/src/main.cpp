@@ -11,10 +11,11 @@
 #include "Seed.h"
 #include "hcExam/hcExamDummy.h"
 
-#include <algorithm>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/program_options.hpp>
+
+#include <algorithm>
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
@@ -25,58 +26,20 @@
 namespace bpo = boost::program_options;
 namespace bfs = boost::filesystem;
 
-/// @todo Implement generating answers pdf document.
+std::tuple<bfs::path> processCLI(int argc, char *argv[]);
+
 int main(int argc, char *argv[])
 {
    try {
       LOGI(APPNAME " v" VERSION " started");
 
       bfs::path currentInitialDir(bfs::initial_path());
-      bfs::path ExamScriptFileName;
-      bpo::options_description descr("\n" APPNAME " v" VERSION);
+      auto [examScriptFileName] = processCLI(argc, argv);
 
-      descr.add_options()("help,h", "show help message");
-      descr.add_options()("version,v", "print version string");
-      descr.add_options()("seed,s", bpo::value<long int>(),
-                          "input seed for random generator");
-      // descr.add_options()("exam,e", bpo::value<std::string>(),
-      //                     "input exam specification file name");
-      descr.add_options()("debug,d", "set logger in debug mode");
-      descr.add_options()("hce,c", "execute hard coded exam");
-
-      bpo::variables_map var_map;
-      bpo::store(bpo::parse_command_line(argc, argv, descr), var_map);
+      std::cout << "- " << APPNAME << " v" << VERSION << " started in "
+                << currentInitialDir << std::endl;
 
       LOGI("Current dir: " + currentInitialDir.string());
-
-      if (var_map.count("help")) {
-         std::cout << descr << std::endl;
-         return 0;
-      }
-      if (var_map.count("version")) {
-         std::cout << APPNAME " v" VERSION << std::endl;
-         return 0;
-      }
-      if (var_map.count("seed")) {
-         setSeed(var_map["seed"].as<long int>());
-      } else {
-         setSeed(SEED_DEFAULT);
-      }
-      LOGI("seed = " + std::to_string(getSeed()));
-      // if (var_map.count("exam")) {
-      //    ExamScriptFileName = var_map["exam"].as<std::string>();
-      //    LOGI("Exam script = " + ExamScriptFileName.string());
-      // } else {
-      //    std::cerr << "\n\tERROR: input exam specification file name
-      //    missing\n"
-      //              << descr << std::endl;
-      //    LOGE("Exam script file name missing in command line");
-      //    exit(EXIT_FAILURE);
-      //    //================================================>
-      // }
-      if (var_map.count("debug")) {
-         Logger::instance().setDebugMode();
-      }
 
       std::cout << "- " << APPNAME << " v" << VERSION << " started in "
                 << currentInitialDir << std::endl;
@@ -95,7 +58,7 @@ int main(int argc, char *argv[])
       const bfs::path LaTeXdocExamFileName(EXAM_LATEX_FILENAME);
       const bfs::path LaTeXdocExamAnswersFileName(EXAM_ANSWERS_LATEX_FILENAME);
 
-      const bfs::path ExamPDFfilename{ExamScriptFileName.filename().stem()};
+      const bfs::path ExamPDFfilename{examScriptFileName.filename().stem()};
 
       const std::string LaTeXcommandExam(
          "pdflatex -enable-write18 -jobname=" + ExamPDFfilename.string() +
@@ -140,10 +103,8 @@ int main(int argc, char *argv[])
       //    //================================================>
       // }
 
-      // if (var_map.count("hce")) {
       LOGI("Hard coded exam");
       hcExamDummy(LaTeXgeneratedExamFile);
-      // }
 
       // Start generating exam based on script
       // LOGI("Start reading exam script: " + ExamScriptFileName.string());
@@ -163,7 +124,8 @@ int main(int argc, char *argv[])
 
       //    LaTeXgeneratedExamFile.close();
       //    //  LaTeXgeneratedExamAnswersFile.close();
-      //    LOGI("Generated LaTeX file: " + LaTeXgeneratedExamFileName.string());
+      //    LOGI("Generated LaTeX file: " +
+      //    LaTeXgeneratedExamFileName.string());
 
       //    std::cout << "- LaTeX file generated\n";
       //    std::cout << "- Started PDF exam file generation\n";
@@ -195,4 +157,54 @@ int main(int argc, char *argv[])
    std::cout << "\nBye... :-) \n\n";
 
    return 0;
+}
+
+std::tuple<bfs::path> processCLI(int argc, char *argv[])
+{
+   bfs::path currentInitialDir(bfs::initial_path());
+   bfs::path examScriptFileName;
+   bpo::options_description descr("\n" APPNAME " v" VERSION);
+
+   descr.add_options()("help,h", "show help message");
+   descr.add_options()("version,v", "print version string");
+   descr.add_options()("seed,s", bpo::value<long int>(),
+                       "input seed for random generator");
+   descr.add_options()("debug,d", bpo::value<unsigned int>(),
+                       "set logger in debug level mode");
+
+   bpo::variables_map var_map;
+   bpo::store(bpo::parse_command_line(argc, argv, descr), var_map);
+
+   LOGI("Current dir: " + currentInitialDir.string());
+
+   if (var_map.count("help")) {
+      std::cout << descr << std::endl;
+      exit(EXIT_SUCCESS); //===================================================>
+   }
+
+   if (var_map.count("version")) {
+      std::cout << APPNAME " v" VERSION << std::endl;
+      exit(EXIT_SUCCESS); //===================================================>
+   }
+
+   if (var_map.count("seed")) {
+      setSeed(var_map["seed"].as<long int>());
+   } else {
+      setSeed(SEED_DEFAULT);
+   }
+   LOGI("seed = " + std::to_string(getSeed()));
+
+   if (var_map.count("debug")) {
+      auto level{var_map["debug"].as<unsigned int>()};
+      if (level < 1 or level > 3) {
+         std::cerr << "\n\tERROR: debug level = " << level << " is wrong\n"
+                   << std::endl;
+         LOGE("Debug level not correct");
+         exit(EXIT_FAILURE); //================================================>
+      }
+      Logger::instance().setLevel(level);
+      Logger::instance().setDebugMode();
+   }
+
+   return std::tuple<bfs::path>(examScriptFileName);
 }
