@@ -21,7 +21,6 @@
 #include "GenStem.h"
 #include "GenText.h"
 #include "GenTwoC.h"
-#include "GeneratorFactory.h"
 #include "Log.h"
 #include "RandomProfile.h"
 #include "Reader.h"
@@ -33,6 +32,7 @@
 #include <boost/spirit/include/classic_if.hpp>
 #include <boost/spirit/include/classic_lists.hpp>
 #include <boost/spirit/include/classic_symbols.hpp>
+
 #include <functional>
 #include <iostream>
 #include <stdexcept>
@@ -78,8 +78,6 @@ struct ExamBuilder {
 
    bsc::symbols<std::string> vars_p;
    bsc::symbols<IGenPtr_t> generators_p;
-
-   GeneratorFactory genFactory;
 
    std::function<void(const char *, const char *)> errorMessage;
    std::function<void(const char *, const char *)> initText;
