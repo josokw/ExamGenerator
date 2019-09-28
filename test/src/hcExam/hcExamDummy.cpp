@@ -45,15 +45,17 @@
 // fermentum. Aliquam in sapien eu nisl varius pulvinar.
 
 #include "GenAPI.h"
+#include "GenCFactory.h"
 #include "GenCodeText.h"
 #include "GenExam.h"
+#include "GenExams.h"
 #include "GenHeader.h"
 #include "GenItem.h"
+#include "GenLogicFactory.h"
 #include "GenNull.h"
 #include "GenOption.h"
 #include "GenSolution.h"
 #include "GenText.h"
-#include "GeneratorFactory.h"
 #include "Log.h"
 #include "hcExam01.h"
 
@@ -64,19 +66,15 @@ void hcExamDummy(std::ofstream &LaTeXfile)
 {
    LOGI("GenFactory init");
 
-   GeneratorFactory genfac;
-   auto p = std::make_shared<GenNull>();
-   genfac.addGenerator(std::string("GenNull"), p);
-   genfac.addGenerator(std::string("GenNull"), p);
-   auto p2 = genfac.create("Null");
+   GenLogicFactory genLogicFactory;
+   GenCFactory genCFactory;
 
    LOGI("Generating LaTeX file started");
 
    const bool IS_CORRECT{true};
 
    std::vector<message_t> messages;
-
-   std::shared_ptr<GenExam> pExam(new GenExam("DummyExam", messages));
+   std::shared_ptr<GenExam> pExam(new GenExam("TestExam ", messages));
 
    {
       // Header ----------------------------------------------------------------
@@ -85,7 +83,7 @@ void hcExamDummy(std::ofstream &LaTeXfile)
       pHeader->School = "School dummy";
       pHeader->Course = "Magic dummy";
       pHeader->Lecturer = "Code Warrier";
-      pHeader->Other = "1th January 2020";
+      pHeader->Other = "1 January 2020";
       pHeader->BoxedText = "Success!";
 
       pExam->add(pHeader);
@@ -143,7 +141,7 @@ void hcExamDummy(std::ofstream &LaTeXfile)
       pExam->add(pItem);
    }
 
-   std::cerr << "\n" << *pExam << std::endl;
+   // std::cerr << "\n" << *pExam << std::endl;
 
    // Item #3 ------------------------------------------------------------------
    {
@@ -172,7 +170,7 @@ void hcExamDummy(std::ofstream &LaTeXfile)
       pExam->add(pItem);
    }
 
-   std::cerr << "\n" << *pExam << std::endl;
+   // std::cerr << "\n" << *pExam << std::endl;
 
    // Item #4a
    // ------------------------------------------------------------------
@@ -241,6 +239,24 @@ void hcExamDummy(std::ofstream &LaTeXfile)
 
       pExam->add(pItem);
    }
+
+   // std::cerr << "\n" << *pExam << std::endl;
+
+   auto p1 = genLogicFactory.create("LogicDiagramAON");
+   p1->setID("LdAON1");
+   pExam->add(p1);
+  
+   auto p2 = genLogicFactory.create("TwoC");
+   p2->setID("TwoC1");
+   p2->prepare();
+   pExam->add(p2);
+   
+   auto p3 = genCFactory.create("NestedFor");
+   p3->setID("NF1");
+   p3->prepare();
+   pExam->add(p3);
+
+   std::cerr << "\n" << *pExam << std::endl;
 
    // Generate exam LaTeX text -------------------------------------------------
    pExam->generate(LaTeXfile);

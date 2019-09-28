@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
       //      LaTeXoutputDir / "generatedExamAnswers.tex");
 
       LOGI("Generated LaTeX exam file: " +
-           (LaTeXoutputDir / "generatedExam.tex").string());
+           (LaTeXoutputDir / "generatedTestExam.tex").string());
       //   LOGI("Generated LaTeX exam answers file: " +
       //        (LaTeXoutputDir / "generatedExamAnswers.tex").string());
 
@@ -114,27 +114,27 @@ int main(int argc, char *argv[])
       // auto scriptedTests(reader.parse());
 
       // if (!scriptedTests.empty()) {
-      //    std::cout << "- Generating scripted exams" << std::endl;
+         // std::cout << "- Generating scripted exams" << std::endl;
 
-      //    LOGI("Start generating LaTeX exam file: " +
-      //         LaTeXgeneratedExamFileName.string());
-      //    for (auto &st : scriptedTests) {
-      //       st->generate(LaTeXgeneratedExamFile);
-      //    }
+         LOGI("Start generating LaTeX exam file: " +
+              LaTeXgeneratedExamFileName.string());
+         // for (auto &st : scriptedTests) {
+         //    st->generate(LaTeXgeneratedExamFile);
+         // }
 
-      //    LaTeXgeneratedExamFile.close();
-      //    //  LaTeXgeneratedExamAnswersFile.close();
-      //    LOGI("Generated LaTeX file: " +
-      //    LaTeXgeneratedExamFileName.string());
+         LaTeXgeneratedExamFile.close();
+         //  LaTeXgeneratedExamAnswersFile.close();
+         LOGI("Generated LaTeX file: " +
+         LaTeXgeneratedExamFileName.string());
 
-      //    std::cout << "- LaTeX file generated\n";
-      //    std::cout << "- Started PDF exam file generation\n";
-      //    LOGI("LaTeX to pdf command: " + LaTeXcommandExam);
-      //    // Generate DVI file
-      //    system(LaTeXcommandExam.c_str());
-      //    std::cout << "\n- PDF exam file generated\n\n";
-      //    //  system(LaTeXcommandExamAnswers.c_str());
-      //    //  std::cout << "\n- PDF exam answers file generated\n\n";
+         std::cout << "- LaTeX file generated\n";
+         std::cout << "- Started PDF exam file generation\n";
+         LOGI("LaTeX to pdf command: " + LaTeXcommandExam);
+         // Generate DVI file
+         system(LaTeXcommandExam.c_str());
+         std::cout << "\n- PDF exam file generated\n\n";
+         //  system(LaTeXcommandExamAnswers.c_str());
+         //  std::cout << "\n- PDF exam answers file generated\n\n";
       // } else {
       //    std::cout << "\n- No PDF exam file generated\n\n";
       //    LOGE("No PDF exam file generated");
@@ -162,7 +162,7 @@ int main(int argc, char *argv[])
 std::tuple<bfs::path> processCLI(int argc, char *argv[])
 {
    bfs::path currentInitialDir(bfs::initial_path());
-   bfs::path examScriptFileName;
+   bfs::path examScriptFileName{"testExam.exm"};
    bpo::options_description descr("\n" APPNAME " v" VERSION);
 
    descr.add_options()("help,h", "show help message");
