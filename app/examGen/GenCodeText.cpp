@@ -13,7 +13,7 @@ GenCodeText::GenCodeText(const std::string &id,
 {
    type_ = __func__;
 
-   LOGD(id_ + " initialised", 2);
+   LOGD("'" + id_ + "' initialised", 2);
 }
 
 IGenPtr_t GenCodeText::copy() const
@@ -25,7 +25,7 @@ IGenPtr_t GenCodeText::copy() const
 void GenCodeText::generate(std::ostream &os)
 {
    auto context = util::removeNewLines(util::limitSize(codeText_, 60));
-   LOGD(type_ + ": " + id_ + ", '" + programmingLanguage_ + "' = " + context,
+   LOGD(type_ + ": '" + id_ + "', '" + programmingLanguage_ + "' = " + context,
         3);
 
    os << "\\lstset{ language = " << programmingLanguage_ << "}\n"

@@ -13,19 +13,25 @@ RandomProfile::fullR_t GenNestedFor::R1_s(RandomProfile::range_t(0, 1), 0,
 RandomProfile::fullR_t GenNestedFor::R2_s(RandomProfile::range_t(2, 3), 0,
                                           std::list<int>(), 1);
 
+GenNestedFor::GenNestedFor()
+   : GenNestedFor{"NOT-DEFINED"}
+{
+}
+
 GenNestedFor::GenNestedFor(const std::string &id)
    : GenItem{id}
 {
    type_ = __func__;
 
-   LOGD(id_ + ", intialised", 2);
+   LOGD("'" + id_ + "', intialised", 2);
 }
 
 void GenNestedFor::prepare()
 {
-   LOGD(type_ + ": " + id_, 3);
+   LOGD(type_ + ": '" + id_ + "'", 3);
 
-   auto pText = std::make_shared<GenText>(id_ + ".txt",
+   auto pText = std::make_shared<GenText>(
+      id_ + ".txt",
       "What is the value of the variable $result$ after "
       "executing the following nested for loop:");
    addToStem(pText);

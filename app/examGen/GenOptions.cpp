@@ -27,12 +27,12 @@ GenOptions::GenOptions(const std::string &id)
 {
    type_ = __func__;
 
-   LOGD(id_ + " initialised, seed = " + std::to_string(seed), 2);
+   LOGD("'" + id_ + "' initialised, seed = " + std::to_string(seed), 2);
 }
 
 IGenPtr_t GenOptions::copy() const
 {
-   LOGD(type_ + ": " + id_, 3);
+   LOGD(type_ + ": '" + id_ + "'", 3);
 
    std::shared_ptr<GenOptions> p(new GenOptions(*this));
    for_each(p->generators_.begin(), p->generators_.end(),
@@ -42,21 +42,21 @@ IGenPtr_t GenOptions::copy() const
 
 void GenOptions::add(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": " + id_ + ", wants to add " + pGen->getType() + " " +
+   LOGD(type_ + ": '" + id_ + "', wants to add " + pGen->getType() + " " +
         pGen->getID(), 3);
 
    if (std::shared_ptr<GenOption> pOption =
           std::dynamic_pointer_cast<GenOption>(pGen)) {
       generators_.push_back(pGen);
    } else {
-      LOGE(type_ + ": " + id_ + ", " + pGen->getID() +
+      LOGE(type_ + ": '" + id_ + "', " + pGen->getID() +
            " not allowed for adding");
    }
 }
 
 void GenOptions::generate(std::ostream &os)
 {
-   LOGD(type_ + ": " + id_, 3);
+   LOGD(type_ + ": '" + id_ + "'", 3);
 
    if (!preProcessing_.empty()) {
       os << preProcessing_ << "\n";

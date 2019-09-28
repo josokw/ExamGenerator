@@ -18,7 +18,7 @@ GenHeader::GenHeader(const std::string &id)
 {
    type_ = __func__;
 
-   LOGD(id_ + ", initialised", 2);
+   LOGD("'" + id_ + "', initialised", 2);
 }
 
 IGenPtr_t GenHeader::copy() const
@@ -29,7 +29,7 @@ IGenPtr_t GenHeader::copy() const
 
 void GenHeader::generate(std::ostream &os)
 {
-   LOGD(type_ + ": " + id_, 3);
+   LOGD(type_ + ": '" + id_ + "'", 3);
 
    os << "\\noindent\n";
    if (not School.empty()) {

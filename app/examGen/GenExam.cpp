@@ -69,90 +69,95 @@ std::ostream &GenExam::write(std::ostream &os, int level) const
 
 void GenExam::add(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": " + id_ + ", wants to add " + pGen->getType() + " " +
-        pGen->getID(), 3);
+   if (nullptr != pGen) {
+      LOGD(type_ + ": " + id_ + ", wants to add " + pGen->getType() + " '" +
+              pGen->getID() + "'",
+           3);
 
-   if (auto pHeader = std::dynamic_pointer_cast<GenHeader>(pGen)) {
-      if (!headerIsAdded_) {
-         generators_.push_back(pGen);
-         headerIsAdded_ = true;
-         headerIndex_ = generators_.size() - 1;
-      } else {
-         LOGE(id_ + ", a header is already added");
-         messages_.push_back(message_t(
-            'E', 0, 0, "A header '" + getID() + "' is already added"));
-      }
-   } else {
-      if (auto pItem = std::dynamic_pointer_cast<GenItem>(pGen)) {
+      if (auto pHeader = std::dynamic_pointer_cast<GenHeader>(pGen)) {
          if (!headerIsAdded_) {
-            LOGE(id_ + ", a header is missing");
-            messages_.push_back(
-               message_t('E', 0, 0, "A header '" + getID() + "' is missing"));
+            generators_.push_back(pGen);
+            headerIsAdded_ = true;
+            headerIndex_ = generators_.size() - 1;
+         } else {
+            LOGE(id_ + ", a header is already added");
+            messages_.push_back(message_t(
+               'E', 0, 0, "A header '" + getID() + "' is already added"));
          }
+      } else {
+         if (auto pItem = std::dynamic_pointer_cast<GenItem>(pGen)) {
+            if (!headerIsAdded_) {
+               LOGE(id_ + ", a header is missing");
+               messages_.push_back(message_t(
+                  'E', 0, 0, "A header '" + getID() + "' is missing"));
+            }
 
-         // Start counting number of correct options, should be >= 1.
-         if (auto pOptions =
-                std::dynamic_pointer_cast<GenOptions>((*pItem)[1])) {
-            int nIsCorrect = 0;
-            for (size_t i = 0; i < pOptions->size(); ++i) {
-               if (auto pOption =
-                      std::dynamic_pointer_cast<GenOption>((*pOptions)[i])) {
-                  if (pOption->getIsCorrect()) {
-                     ++nIsCorrect;
+            // Start counting number of correct options, should be >= 1.
+            if (auto pOptions =
+                   std::dynamic_pointer_cast<GenOptions>((*pItem)[1])) {
+               int nIsCorrect = 0;
+               for (size_t i = 0; i < pOptions->size(); ++i) {
+                  if (auto pOption =
+                         std::dynamic_pointer_cast<GenOption>((*pOptions)[i])) {
+                     if (pOption->getIsCorrect()) {
+                        ++nIsCorrect;
+                     }
                   }
                }
-            }
-            pLastAddedItem_ = pItem;
-            generators_.push_back(pLastAddedItem_);
-            ++indexLastAddedItem_;
-            pItem->setIndex(indexLastAddedItem_);
-            if (nIsCorrect == 0) {
-               LOGE(id_ + "No option for item '" + pItem->getID() +
-                    "' is correct");
-               messages_.push_back(message_t(
-                  'E', 0, 0,
-                  "No option for item '" + pItem->getID() + "' is correct"));
+               pLastAddedItem_ = pItem;
+               generators_.push_back(pLastAddedItem_);
+               ++indexLastAddedItem_;
+               pItem->setIndex(indexLastAddedItem_);
+               if (nIsCorrect == 0) {
+                  LOGE(id_ + "No option for item '" + pItem->getID() +
+                       "' is correct");
+                  messages_.push_back(message_t(
+                     'E', 0, 0,
+                     "No option for item '" + pItem->getID() + "' is correct"));
+               }
+            } else {
+               LOGE(id_ + ", no GenOptions object available");
+               messages_.push_back(
+                  message_t('E', 0, 0, "No GenOptions object available."));
             }
          } else {
-            LOGE(id_ + ", no GenOptions object available");
-            messages_.push_back(
-               message_t('E', 0, 0, "No GenOptions object available."));
-         }
-      } else {
-         if (auto pOption = std::dynamic_pointer_cast<GenOption>(pGen)) {
-            generators_.push_back(pGen);
-         } else {
-            if (auto pText = std::dynamic_pointer_cast<GenText>(pGen)) {
+            if (auto pOption = std::dynamic_pointer_cast<GenOption>(pGen)) {
                generators_.push_back(pGen);
             } else {
-               if (auto pCodeText =
-                      std::dynamic_pointer_cast<GenCodeText>(pGen)) {
+               if (auto pText = std::dynamic_pointer_cast<GenText>(pGen)) {
                   generators_.push_back(pGen);
                } else {
-                  if (auto pImage = std::dynamic_pointer_cast<GenImage>(pGen)) {
+                  if (auto pCodeText =
+                         std::dynamic_pointer_cast<GenCodeText>(pGen)) {
                      generators_.push_back(pGen);
                   } else {
-                     if (auto pSelector =
-                            std::dynamic_pointer_cast<GenSelector>(pGen)) {
-                        // Do not add a Selector object but add Selector
-                        // contents
-                        for (size_t i = 0; i < pSelector->size(); ++i) {
-                           add((*pSelector)[i]);
-                        }
-                        // cout << *this << endl;
+                     if (auto pImage =
+                            std::dynamic_pointer_cast<GenImage>(pGen)) {
+                        generators_.push_back(pGen);
                      } else {
-                        if (auto pSol =
-                               std::dynamic_pointer_cast<GenSolution>(pGen)) {
-                           if (indexLastAddedItem_ > 0) {
-                              generators_.push_back(pGen);
-                           } else {
-                              LOGE(id_ +
-                                   ", no items available for generating "
-                                   "solution");
+                        if (auto pSelector =
+                               std::dynamic_pointer_cast<GenSelector>(pGen)) {
+                           // Do not add a Selector object but add Selector
+                           // contents
+                           for (size_t i = 0; i < pSelector->size(); ++i) {
+                              add((*pSelector)[i]);
                            }
+                           // cout << *this << endl;
                         } else {
-                           LOGE(id_ + ",  generator '" + pGen->getID() +
-                                "' type not allowed for adding");
+                           if (auto pSol =
+                                  std::dynamic_pointer_cast<GenSolution>(
+                                     pGen)) {
+                              if (indexLastAddedItem_ > 0) {
+                                 generators_.push_back(pGen);
+                              } else {
+                                 LOGE(id_ +
+                                      ", no items available for generating "
+                                      "solution");
+                              }
+                           } else {
+                              LOGE(id_ + ",  generator '" + pGen->getID() +
+                                   "' type not allowed for adding");
+                           }
                         }
                      }
                   }
