@@ -23,7 +23,7 @@ GenTwoC::GenTwoC()
 
 void GenTwoC::prepare()
 {
-   LOGD(type_ + ": " + id_, 3);
+   LOGD(type_ + ": '" + id_ + "'", 3);
 
    auto N = -randomProfile_s.generate(R0_s);
 
