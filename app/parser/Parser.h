@@ -255,7 +255,7 @@ struct ExamBuilder {
       }
       auto p = bsc::find(vars_p, lhs.c_str());
       if (p) {
-         LOGE(id_ + ", constant '" + lhs + "' already exists!");
+         LOGE("'" + id_ + "', constant '" + lhs + "' already exists!");
          messages_.push_back(Reader::message_t(
             'E', 0, begin, "Constant '" + lhs + "' already exists!"));
       } else {
@@ -294,7 +294,7 @@ struct ExamBuilder {
    void do_createExams(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGI(id_ + " type = " + type);
+      LOGI("'" + id_ + "' type = " + type);
 
       std::vector<std::shared_ptr<GenExams>> &ProductLocal(Product);
 
@@ -316,7 +316,7 @@ struct ExamBuilder {
    void do_createItem(const char *begin, const char *end)
    {
       auto context = util::removeNewLines(util::limitSize(begin, end, 60));
-      LOGI(id_);
+      LOGI("'" + id_ + "'");
 
       if (idGeneratorIsUnique(id_, begin, end)) {
          p_actualItem = std::shared_ptr<GenItem>(new GenItem(id_));
@@ -445,9 +445,10 @@ struct ExamBuilder {
             if (GenOption *pOption =
                    dynamic_cast<GenOption *>((*ppIGen).get())) {
                pOption->setIsCorrect();
-               LOGI(pOption->getID() + " is correct");
+               LOGI("'" + pOption->getID() + "' is correct");
             } else {
-               LOGE(id_ + ", option '" + lhs + "' could not set to be correct");
+               LOGE("'" + id_ + "', option '" + lhs +
+                    "' could not set to be correct");
                messages_.push_back(Reader::message_t(
                   'E', 0, begin,
                   "Option '" + lhs + "' could not set to be correct"));
@@ -820,9 +821,9 @@ struct ExamBuilder {
    {
       if (!itemScope.empty()) {
          id = itemScope + "." + id;
-         LOGD("itemScope = " + itemScope + "  id = " + id, 3);
+         LOGD("itemScope = " + itemScope + "  id = '" + id + "'", 3);
       } else {
-         LOGD("id = " + id, 3);
+         LOGD("id = '" + id + "'", 3);
       }
    }
 

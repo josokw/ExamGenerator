@@ -42,15 +42,15 @@ IGenPtr_t GenOptions::copy() const
 
 void GenOptions::add(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": '" + id_ + "', wants to add " + pGen->getType() + " " +
-        pGen->getID(), 3);
+   LOGD(type_ + ": '" + id_ + "', wants to add " + pGen->getType() + " '" +
+        pGen->getID() + "'", 3);
 
    if (std::shared_ptr<GenOption> pOption =
           std::dynamic_pointer_cast<GenOption>(pGen)) {
       generators_.push_back(pGen);
    } else {
-      LOGE(type_ + ": '" + id_ + "', " + pGen->getID() +
-           " not allowed for adding");
+      LOGE(type_ + ": '" + id_ + "', '" + pGen->getID() +
+           "' not allowed for adding");
    }
 }
 
@@ -93,7 +93,7 @@ void GenOptions::add(std::shared_ptr<GenOption> &pOption, bool isCorrect)
 
 void GenOptions::shuffle()
 {
-   LOGD(type_ + ": " + id_, 3);
+   LOGD(type_ + ": '" + id_ + "'", 3);
 
    auto rgen = [=](int i) { return genrnd_.generate(i); };
 

@@ -15,7 +15,7 @@ ICompositeGenerator::ICompositeGenerator(const std::string &id)
 void ICompositeGenerator::generate(std::ostream &os)
 {
    for (auto &gnrt : generators_) {
-      LOGCW(gnrt == nullptr, type_ + ": " + id_ + ", missing generator");
+      LOGCW(gnrt == nullptr, type_ + ": '" + id_ + "', missing generator");
       if (gnrt != nullptr) {
          gnrt->prepare();
          gnrt->generate(os);
@@ -28,7 +28,7 @@ std::ostream &ICompositeGenerator::write(std::ostream &os, int level) const
    os << "\n";
    for (auto &gen : generators_) {
       if (gen == nullptr) {
-         LOGE(type_ + ": " + id_ + ", gen == nullptr");
+         LOGE(type_ + ": '" + id_ + "', gen == nullptr");
       } else {
          gen->write(os, level + 1);
       }

@@ -10,7 +10,7 @@ GenImage::GenImage(const std::string &id, const std::string &fileName)
 {
    type_ = "GenImage";
 
-   LOGD(id_ + ", initialised", 2);
+   LOGD("'" + id_ + "', initialised", 2);
 }
 
 IGenPtr_t GenImage::copy() const

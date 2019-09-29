@@ -71,7 +71,8 @@ void GenItem::add(IGenPtr_t pGen)
                    std::dynamic_pointer_cast<GenAPI>(pGen)) {
                generators_.push_back(pGen);
             } else {
-               LOGE(id_ + ",  " + pGen->getType() + " not allowed for adding");
+               LOGE("'" + id_ + "', " + pGen->getType() +
+                    " not allowed for adding");
             }
          }
       }
@@ -123,8 +124,8 @@ void GenItem::setIndex(int index)
 
 void GenItem::addToStem(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": '" + id_ + "', to add " + pGen->getType() + " " +
-           pGen->getID(),
+   LOGD(type_ + ": '" + id_ + "', to add " + pGen->getType() + " '" +
+           pGen->getID() + "'",
         3);
 
    IGenerator *p = pGen.get();
@@ -137,8 +138,8 @@ void GenItem::addToStem(IGenPtr_t pGen)
          if (dynamic_cast<GenAPI *>(p)) {
             generators_[0]->add(pGen);
          } else {
-            LOGE(type_ + ": '" + id_ + "', " + pGen->getID() +
-                 " not allowed for adding to a stem");
+            LOGE(type_ + ": '" + id_ + "', '" + pGen->getID() +
+                 "' not allowed for adding to a stem");
          }
       }
    }
@@ -153,12 +154,14 @@ void GenItem::setAsLastItem() const
 
 void GenItem::addToOptions(std::shared_ptr<GenOption> pOption, bool isCorrect)
 {
-   LOGD(type_ + ": '" + id_ + "', wants to add " + pOption->getType() + " " +
-           pOption->getID(),
+   LOGD(type_ + ": '" + id_ + "', wants to add " + pOption->getType() + " '" +
+           pOption->getID() + "'",
         3);
 
    if (isCorrect) {
       pOption->setIsCorrect();
+      LOGD(type_ + ": '" + id_ + "': '" + pOption->getID() + "' is set correct",
+           3);
    }
    generators_[1]->add(IGenPtr_t(pOption));
 }
@@ -218,7 +221,7 @@ std::ostream &GenItem::write(std::ostream &os, int level) const
 
 void GenItem::prepare()
 {
-   LOGD(type_ + ": " + id_, 3);
+   LOGD(type_ + ": '" + id_ + "'", 3);
 
    if (shuffleON_) {
       std::shared_ptr<GenOptions> pOptions =

@@ -11,9 +11,9 @@ GenOption::GenOption(const std::string &id, const std::string &text)
    , isCorrect_{false}
    , text_{text}
 {
-   type_ = "GenOption";
+   type_ = __func__;
 
-   LOGD(id_ + ", initialised", 2);
+   LOGD("'" + id_ + "', initialised", 2);
 }
 
 IGenPtr_t GenOption::copy() const
@@ -26,8 +26,9 @@ IGenPtr_t GenOption::copy() const
 
 void GenOption::add(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": " + id_ + ", wants to add " + pGen->getType() + " " +
-        pGen->getID(), 3);
+   LOGD(type_ + ": " + id_ + ", wants to add " + pGen->getType() + " '" +
+           pGen->getID() + "'",
+        3);
 
    if (std::shared_ptr<GenText> pText =
           std::dynamic_pointer_cast<GenText>(pGen)) {
@@ -37,7 +38,7 @@ void GenOption::add(IGenPtr_t pGen)
              std::dynamic_pointer_cast<GenCodeText>(pGen)) {
          generators_.push_back(pGen);
       } else {
-         LOGE(id_ + ",  " + pGen->getType() + " not allowed for adding");
+         LOGE("'" + id_ + "',  " + pGen->getType() + " not allowed for adding");
       }
    }
 }
@@ -45,7 +46,7 @@ void GenOption::add(IGenPtr_t pGen)
 void GenOption::generate(std::ostream &os)
 {
    auto context = util::removeNewLines(util::limitSize(text_, 60));
-   LOGD(type_ + ": " + id_ + " = " + context + " ...", 3);
+   LOGD(type_ + ": '" + id_ + "' = " + context + " ...", 3);
 
    if (text_.empty()) {
       os << ".\\\\[-1.0cm]\n";

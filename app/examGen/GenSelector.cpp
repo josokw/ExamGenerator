@@ -13,9 +13,9 @@ GenSelector::GenSelector()
 GenSelector::GenSelector(const std::string &id)
    : ICompositeGenerator{id}
 {
-   type_ = "GenSelector";
+   type_ = __func__;
 
-   LOGD(id_ + ", initialised", 2);
+   LOGD("'" + id_ + "', initialised", 2);
 }
 
 IGenPtr_t GenSelector::copy() const
@@ -28,7 +28,7 @@ IGenPtr_t GenSelector::copy() const
 
 void GenSelector::add(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": " + id_ + ", wants to add " + pGen->getType() + " " +
+   LOGD(type_ + ": '" + id_ + "', wants to add " + pGen->getType() + " " +
         pGen->getID(), 3);
 
    allGenerators_.push_back(pGen);
@@ -38,7 +38,7 @@ void GenSelector::add(IGenPtr_t pGen)
 
 void GenSelector::selectR(unsigned int n)
 {
-   LOGD(type_ + " : " + id_ + ", n = " + std::to_string(n), 3);
+   LOGD(type_ + ": '" + id_ + "', n = " + std::to_string(n), 3);
 
    next_permutation(begin(allGenerators_), end(allGenerators_));
    generators_.clear();

@@ -23,14 +23,9 @@ void RandomProfile::generate(const std::vector<RandomProfile::range_t> &ranges)
    LOGD("", 3);
 
    profile_.clear();
-   for (auto &r : ranges) {
+   for (const auto &r : ranges) {
       profile_.push_back(generate(r));
    }
-   //    auto ciRanges = cbegin(ranges);
-   //    while (ciRanges != ranges.end()) {
-   //       profile_.push_back(generate(*ciRanges));
-   //       ++ciRanges;
-   //    }
 }
 
 void RandomProfile::generate(std::vector<fullR_t> &fullRs)

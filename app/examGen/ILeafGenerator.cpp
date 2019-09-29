@@ -13,5 +13,5 @@ ILeafGenerator::ILeafGenerator(const std::string &id)
 
 void ILeafGenerator::add(IGenPtr_t pIGen)
 {
-   LOGE(type_ + ": " + id_ + ", adding is not allowed");
+   LOGE(type_ + ": '" + id_ + "', adding is not allowed");
 }

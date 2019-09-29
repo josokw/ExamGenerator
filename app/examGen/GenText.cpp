@@ -8,9 +8,9 @@ GenText::GenText(const std::string& id, const std::string &text)
    : ILeafGenerator{id}
    , text_{text}
 {
-   type_ = "GenText";
+   type_ = __func__;
 
-   LOGD(id_ + ", initialised", 2);
+   LOGD("'" + id_ + "', initialised", 2);
 }
 
 IGenPtr_t GenText::copy() const
@@ -28,7 +28,7 @@ std::ostream &GenText::write(std::ostream &os, int level) const
 
 void GenText::generate(std::ostream &os)
 {
-   LOGD(type_ + ": " + id_ + " = " + text_.substr(0, 20) + "...", 3);
+   LOGD(type_ + ": '" + id_ + "' = " + text_.substr(0, 20) + "...", 3);
 
    os << '{' << text_ << '}';
 }

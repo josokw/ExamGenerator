@@ -11,9 +11,9 @@ GenStem::GenStem(const std::string &id)
    : ICompositeGenerator{id}
    , index_{0}
 {
-   type_ = "GenStem";
+   type_ = __func__;
 
-   LOGD(id_ + " initialised", 2);
+   LOGD("'" + id_ + "' initialised", 2);
 }
 
 IGenPtr_t GenStem::copy() const
@@ -26,7 +26,7 @@ IGenPtr_t GenStem::copy() const
 
 void GenStem::add(IGenPtr_t pGen)
 {
-   LOGD(type_ + ": " + id_ + ", wants to add " + pGen->getType() + " " +
+   LOGD(type_ + ": '" + id_ + "', wants to add " + pGen->getType() + " " +
         pGen->getID(), 3);
 
    auto *p = pGen.get();
@@ -39,7 +39,7 @@ void GenStem::add(IGenPtr_t pGen)
          if (GenAPI *pAPI = dynamic_cast<GenAPI *>(p)) {
             generators_.push_back(pGen);
          } else {
-            LOGE(type_ + ": " + id_ + ", " + pGen->getID() +
+            LOGE(type_ + ": '" + id_ + "', " + pGen->getID() +
                  " not allowed for adding");
          }
       }
@@ -48,7 +48,7 @@ void GenStem::add(IGenPtr_t pGen)
 
 void GenStem::generate(std::ostream &os)
 {
-   LOGD(type_ + ": " + id_, 3);
+   LOGD(type_ + ": '" + id_ + "'", 3);
 
    for (auto &gen : generators_) {
       if (gen == nullptr) {

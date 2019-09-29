@@ -69,8 +69,9 @@ std::ostream &GenExam::write(std::ostream &os, int level) const
 
 void GenExam::add(IGenPtr_t pGen)
 {
+   LOGD(type_ + ": '" + id_ + "', wants to add ", 3);
    if (nullptr != pGen) {
-      LOGD(type_ + ": " + id_ + ", wants to add " + pGen->getType() + " '" +
+      LOGD(type_ + ": '" + id_ + "', wants to add " + pGen->getType() + " '" +
               pGen->getID() + "'",
            3);
 
@@ -109,14 +110,14 @@ void GenExam::add(IGenPtr_t pGen)
                ++indexLastAddedItem_;
                pItem->setIndex(indexLastAddedItem_);
                if (nIsCorrect == 0) {
-                  LOGE(id_ + "No option for item '" + pItem->getID() +
+                  LOGE("'" + id_ + "' no option for item '" + pItem->getID() +
                        "' is correct");
                   messages_.push_back(message_t(
                      'E', 0, 0,
                      "No option for item '" + pItem->getID() + "' is correct"));
                }
             } else {
-               LOGE(id_ + ", no GenOptions object available");
+               LOGE("'" + id_ + "', no GenOptions object available");
                messages_.push_back(
                   message_t('E', 0, 0, "No GenOptions object available."));
             }
