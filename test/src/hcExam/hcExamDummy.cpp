@@ -113,8 +113,6 @@ void hcExamDummy(std::ofstream &LaTeXfile)
       pExam->add(pItem);
    }
 
-   std::cerr << "\n" << *pExam << std::endl;
-
    // Item #2 ------------------------------------------------------------------
    {
       auto pItem = std::make_shared<GenItem>();
@@ -140,8 +138,6 @@ void hcExamDummy(std::ofstream &LaTeXfile)
 
       pExam->add(pItem);
    }
-
-   // std::cerr << "\n" << *pExam << std::endl;
 
    // Item #3 ------------------------------------------------------------------
    {
@@ -169,8 +165,6 @@ void hcExamDummy(std::ofstream &LaTeXfile)
 
       pExam->add(pItem);
    }
-
-   // std::cerr << "\n" << *pExam << std::endl;
 
    // Item #4a
    // ------------------------------------------------------------------
@@ -239,8 +233,6 @@ void hcExamDummy(std::ofstream &LaTeXfile)
 
       pExam->add(pItem);
    }
-
-   // std::cerr << "\n" << *pExam << std::endl;
 
    auto p1 = genLogicFactory.create("LogicDiagramAON");
    p1->setID("LdAON1");
