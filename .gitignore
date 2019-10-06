@@ -64,9 +64,6 @@ test/bin/*
 *.log
 generatedExam.tex
 
-# Doxygen
-doc/html/*
-
 # Logging
 ExamGenerator.log
 
