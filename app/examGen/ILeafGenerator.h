@@ -12,7 +12,7 @@ class ILeafGenerator : public IGenerator
 public:
    ILeafGenerator();
    explicit ILeafGenerator(const std::string &id);
-   virtual ~ILeafGenerator() = default;
+   ~ILeafGenerator() override = default;
    //    ILeafGenerator(const ILeafGenerator &other) = delete;
    ILeafGenerator &operator=(ILeafGenerator &other) = delete;
 

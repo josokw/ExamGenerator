@@ -14,9 +14,9 @@ class GenHeader : public ILeafGenerator
 public:
    GenHeader();
    GenHeader(const std::string &id);
-   virtual ~GenHeader() = default;
+   ~GenHeader() override = default;
 
-   IGenPtr_t copy() const override;
+   [[nodiscard]] IGenPtr_t copy() const override;
    void generate(std::ostream &os) override;
    std::ostream &write(std::ostream &os, int level = 0) const override;
 

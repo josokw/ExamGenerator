@@ -9,9 +9,9 @@ class GenImage : public ILeafGenerator
 {
 public:
    GenImage(const std::string &id, const std::string &fileName);
-   virtual ~GenImage() = default;
+   ~GenImage() override = default;
 
-   IGenPtr_t copy() const override;
+   [[nodiscard]] IGenPtr_t copy() const override;
    void generate(std::ostream &os) override;
    std::ostream &write(std::ostream &os, int level = 0) const override;
 

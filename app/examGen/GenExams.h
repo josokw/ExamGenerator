@@ -13,7 +13,7 @@ class GenExams : public ICompositeGenerator
 public:
    GenExams(const std::string &id, std::vector<Reader::message_t> &messages,
             int nExams = 1);
-   virtual ~GenExams() = default;
+   ~GenExams() override = default;
 
    void add(IGenPtr_t pGen) override;
    void generate(std::ostream &os) override;

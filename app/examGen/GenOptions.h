@@ -14,9 +14,9 @@ class GenOptions : public ICompositeGenerator
 {
 public:
    GenOptions(const std::string &id);
-   virtual ~GenOptions() = default;
+   ~GenOptions() override = default;
 
-   IGenPtr_t copy() const override;
+   [[nodiscard]] IGenPtr_t copy() const override;
    void add(IGenPtr_t pGen) override;
    void generate(std::ostream &os) override;
    std::ostream &write(std::ostream &os, int level = 0) const override;

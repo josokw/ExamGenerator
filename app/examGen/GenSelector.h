@@ -16,14 +16,14 @@ class GenSelector : public ICompositeGenerator
 public:
    GenSelector();
    GenSelector(const std::string &id);
-   virtual ~GenSelector() = default;
+   ~GenSelector() override = default;
 
-   IGenPtr_t copy() const override;
+   [[nodiscard]] IGenPtr_t copy() const override;
    void add(IGenPtr_t pGen) override;
    // virtual void generate(std::ostream& os);
    std::ostream &write(std::ostream &os, int level = 0) const override;
 
-   int sizeAll() const { return allGenerators_.size(); }
+   [[nodiscard]] int sizeAll() const { return allGenerators_.size(); }
    void selectR(unsigned int n);
 
 protected:

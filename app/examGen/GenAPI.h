@@ -10,9 +10,9 @@ class GenAPI : public ILeafGenerator
 public:
    GenAPI(const std::string &returnType, const std::string &signature,
           const std::string &description);
-   virtual ~GenAPI() = default;
+   ~GenAPI() override = default;
 
-   IGenPtr_t copy() const override;
+   [[nodiscard]] IGenPtr_t copy() const override;
    void generate(std::ostream &os) override;
    std::ostream &write(std::ostream &os, int level = 0) const override;
 

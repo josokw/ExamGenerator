@@ -19,9 +19,9 @@ class GenItem : public ICompositeGenerator
 public:
    GenItem();
    GenItem(const std::string &id);
-   virtual ~GenItem() = default;
+   ~GenItem() override = default;
 
-   IGenPtr_t copy() const override;
+   [[nodiscard]] IGenPtr_t copy() const override;
    void add(IGenPtr_t pGen) override;
    void generate(std::ostream &os) override;
    std::ostream &write(std::ostream &os, int Level = 0) const override;

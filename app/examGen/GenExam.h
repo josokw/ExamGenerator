@@ -18,14 +18,14 @@ class GenExam : public ICompositeGenerator
 {
 public:
    GenExam(const std::string &id, std::vector<message_t> &messages);
-   virtual ~GenExam();
+   ~GenExam() override;
 
-   IGenPtr_t copy() const override;
+   [[nodiscard]] IGenPtr_t copy() const override;
    void add(IGenPtr_t pGen) override;
    void generate(std::ostream &os) override;
    std::ostream &write(std::ostream &os, int level = 0) const override;
 
-   IGenPtr_t getHeader() const
+   [[nodiscard]] IGenPtr_t getHeader() const
    {
       return (headerIsAdded_) ? generators_[headerIndex_] : nullptr;
    }

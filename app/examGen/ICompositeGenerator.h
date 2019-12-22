@@ -16,18 +16,28 @@ class ICompositeGenerator : public IGenerator
 public:
    ICompositeGenerator();
    explicit ICompositeGenerator(const std::string &id);
-   virtual ~ICompositeGenerator() = default;
+   ~ICompositeGenerator() override = default;
    //    ICompositeGenerator(const ICompositeGenerator &other) = delete;
    //    ICompositeGenerator &operator=(ICompositeGenerator &other) = delete;
 
    void generate(std::ostream &os) override;
    std::ostream &write(std::ostream &os, int level = 0) const override;
 
-   IGenPtr_t operator[](int index) { return generators_.at(index); }
-   std::vector<IGenPtr_t> &getGenerators() { return generators_; }
-   const std::vector<IGenPtr_t> &getGenerators() const { return generators_; }
-   size_t size() const { return generators_.size(); }
-   void clear() { generators_.clear(); }
+   [[nodiscard]] IGenPtr_t operator[](int index)
+   {
+      return generators_.at(index);
+   }
+   [[nodiscard]] std::vector<IGenPtr_t> &getGenerators() {
+      return generators_;
+   }
+   [[nodiscard]] const std::vector<IGenPtr_t> &getGenerators() const
+   {
+      return generators_;
+   }
+   [[nodiscard]] size_t size() const { return generators_.size(); } void clear()
+   {
+      generators_.clear();
+   }
 
 protected:
    std::vector<IGenPtr_t> generators_;

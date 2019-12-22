@@ -10,9 +10,9 @@ class GenCodeText : public ILeafGenerator
 public:
    GenCodeText(const std::string &id, const std::string &programmingLanguage,
                const std::string &codeText);
-   virtual ~GenCodeText() = default;
+   ~GenCodeText() override = default;
 
-   IGenPtr_t copy() const override;
+   [[nodiscard]] IGenPtr_t copy() const override;
    void generate(std::ostream &os) override;
    std::ostream &write(std::ostream &os, int level = 0) const override;
 

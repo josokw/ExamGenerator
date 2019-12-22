@@ -14,9 +14,9 @@ class GenSolution : public ILeafGenerator
 {
 public:
    GenSolution(GenExam *pExam);
-   virtual ~GenSolution() = default;
+   ~GenSolution() override = default;
 
-   IGenPtr_t copy() const override;
+   [[nodiscard]] IGenPtr_t copy() const override;
    std::ostream &write(std::ostream &os, int level) const override;
    void prepare() override;
    void generate(std::ostream &os) override;
