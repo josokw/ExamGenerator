@@ -53,6 +53,8 @@ Use the *-d* option for generating detailed debug info in the *ExamGenerator.log
 
 Read the file *..../examGenScripts/testDummyExam.exm* for the syntax.
 
-Every Exam object should have a header.
-Every header has the next text fields: *school*, *course*, *lecturer*, *date* and *boxedtext*.
-Every exam question is represented by an *Item*. ....
+- Every .exm script should start with the declaration of an Exam object or an  array of fixed size of Exam objects.
+- Every Exam should have a header, add 1 header to every Exam object.
+- Every header has the next text fields: *school*, *course*, *lecturer*, *date* and *boxedtext*.
+- Every exam question is represented by an *Item*.
+- An exam consists of 1 or more items.
