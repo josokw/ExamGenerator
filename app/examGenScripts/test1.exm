@@ -49,7 +49,7 @@
 // test.exm v0.5: Multiple Choice Test,
 // showing the syntax of the specification script language.
 //
-// ExamGenerator v0.8
+// ExamGenerator v0.9.6
 //---------------------------------------------------------------------------------------
 
 Exam mct;

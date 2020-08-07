@@ -875,18 +875,18 @@ struct ExamSpecParser : public bsc::grammar<ExamSpecParser> {
 
          std::string TEST;
 
-         // GenExam
-         // 1 Header
+         // Exam or Exam[n]
+         // 1 or n Headers
          //    Header: SchoolName + CourseName + LecturerName + Date +
          //    BoxedText
-         // n Items
+         // m Items
          //    Item: Stem + 3..5 Options
          //       Stem: Text + CodeText + APIdoc
          //       Option: Text + CodeText + APIdoc
          // Selector
 
          main =
-            (+Exam |
+            (Exam |
              Error[bsc::assign_a(pb.error_, ExamBuilder::ERROR::EXM_EXPECTED)]
                   [pb.errorMessage]) >>
             *(Header | Item | Declaration | CodeText | Image | APIdoc | Add |
