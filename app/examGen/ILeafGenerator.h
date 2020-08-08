@@ -11,7 +11,7 @@ class ILeafGenerator : public IGenerator
 {
 public:
    ILeafGenerator();
-   explicit ILeafGenerator(const std::string &id);
+   explicit ILeafGenerator(std::string_view id);
    ~ILeafGenerator() override = default;
    //    ILeafGenerator(const ILeafGenerator &other) = delete;
    ILeafGenerator &operator=(ILeafGenerator &other) = delete;

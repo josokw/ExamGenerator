@@ -6,7 +6,7 @@ ILeafGenerator::ILeafGenerator()
 {
 }
 
-ILeafGenerator::ILeafGenerator(const std::string &id)
+ILeafGenerator::ILeafGenerator(std::string_view id)
    : IGenerator{id}
 {
 }

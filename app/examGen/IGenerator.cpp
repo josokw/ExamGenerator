@@ -16,7 +16,7 @@ IGenerator::IGenerator()
 {
 }
 
-IGenerator::IGenerator(const std::string &id)
+IGenerator::IGenerator(std::string_view id)
    : ranges_{}
    , RSelectors_{}
    , type_{__func__}

@@ -15,7 +15,7 @@ class ICompositeGenerator : public IGenerator
 {
 public:
    ICompositeGenerator();
-   explicit ICompositeGenerator(const std::string &id);
+   explicit ICompositeGenerator(std::string_view id);
    ~ICompositeGenerator() override = default;
    //    ICompositeGenerator(const ICompositeGenerator &other) = delete;
    //    ICompositeGenerator &operator=(ICompositeGenerator &other) = delete;

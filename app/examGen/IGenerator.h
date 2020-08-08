@@ -32,7 +32,7 @@ class IGenerator
 
 public:
    IGenerator();
-   explicit IGenerator(const std::string &id);
+   explicit IGenerator(std::string_view id);
    virtual ~IGenerator();
    //    IGenerator(const IGenerator &other) = delete;
    IGenerator &operator=(const IGenerator &other) = delete;

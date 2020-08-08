@@ -5,7 +5,7 @@
 
 namespace latex {
 
-std::string LogicBlock(const std::string &Type, int posX, int posY, int size);
+std::string LogicBlock(std::string_view Type, int posX, int posY, int size);
 std::string LogicEquate(int posX, int posY, int size);
 
 } // namespace latex

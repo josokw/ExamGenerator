@@ -6,7 +6,7 @@ ICompositeGenerator::ICompositeGenerator()
 {
 }
 
-ICompositeGenerator::ICompositeGenerator(const std::string &id)
+ICompositeGenerator::ICompositeGenerator(std::string_view id)
    : IGenerator{id}
    , generators_{}
 {
