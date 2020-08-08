@@ -164,6 +164,10 @@ std::tuple<bfs::path> processCLI(int argc, char *argv[])
                        "input exam specification file name");
    descr.add_options()("debug,d", bpo::value<unsigned int>(),
                        "set logger in debug level mode");
+   descr.add_options()("levelmin", bpo::value<unsigned int>(),
+                       "set minimal level (not implemented)");
+   descr.add_options()("levelmax", bpo::value<unsigned int>(),
+                       "set maximal level (not implemented)");
 
    bpo::variables_map var_map;
    bpo::store(bpo::parse_command_line(argc, argv, descr), var_map);
