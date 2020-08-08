@@ -3,7 +3,7 @@
 
 #include <string>
 
-std::string latex::LogicBlock(std::string_view Type, int posX, int posY,
+std::string latex::LogicBlock(const std::string &type, int posX, int posY,
                               int size)
 {
    std::string result;
@@ -26,7 +26,7 @@ std::string latex::LogicBlock(std::string_view Type, int posX, int posY,
 
             "\\put(" +
             std::to_string(posX + size / 2) + "," +
-            std::to_string(posY + size / 2) + "){\\makebox(0,0)[cc]{" + Type +
+            std::to_string(posY + size / 2) + "){\\makebox(0,0)[cc]{" + type +
             "}}\n";
 
    return result;
