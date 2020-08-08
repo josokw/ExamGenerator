@@ -19,11 +19,12 @@ bool lessLength(IGenPtr_t i1, IGenPtr_t i2)
 
 } // namespace
 
+GenRandom GenOptions::genrnd_s{getSeed() + 12345};
+
 GenOptions::GenOptions(const std::string &id)
    : ICompositeGenerator{id}
    , preProcessing_{}
    , postProcessing_{}
-   , genrnd_{getSeed() + 12345}
 {
    type_ = __func__;
 
@@ -43,7 +44,8 @@ IGenPtr_t GenOptions::copy() const
 void GenOptions::add(IGenPtr_t pGen)
 {
    LOGD(type_ + ": '" + id_ + "', wants to add " + pGen->getType() + " '" +
-        pGen->getID() + "'", 3);
+           pGen->getID() + "'",
+        3);
 
    if (std::shared_ptr<GenOption> pOption =
           std::dynamic_pointer_cast<GenOption>(pGen)) {
@@ -95,7 +97,7 @@ void GenOptions::shuffle()
 {
    LOGD(type_ + ": '" + id_ + "'", 3);
 
-   auto rgen = [=](int i) { return genrnd_.generate(i); };
+   auto rgen = [=](int i) { return genrnd_s.generate(i); };
 
    std::random_shuffle(begin(getGenerators()), end(getGenerators()), rgen);
 }

@@ -74,11 +74,12 @@ std::vector<std::shared_ptr<GenExams>> Reader::parse()
 
    for (auto &msg : messages_) {
       int lineNumber = 0;
-      if (std::get<2>(msg) != 0) {
-         lineNumber = std::count(static_cast<const char *>(&examScriptText_[0]),
-                                 std::get<2>(msg), '\n') +
-                      1;
-      }
+      /// \todo solve crash
+      // if (std::get<2>(msg) != 0) {
+      //    lineNumber = std::count(static_cast<const char *>(&examScriptText_[0]),
+      //                            std::get<2>(msg), '\n') +
+      //                 1;
+      // }
       std::get<1>(msg) = lineNumber;
    }
 

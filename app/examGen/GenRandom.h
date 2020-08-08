@@ -26,7 +26,7 @@ public:
 
 private:
    inline static std::string rDNA_s{"rDNA-" VERSION};
-   /// Standard pseudo-random number engine, reproducable, portable
+   /// Standard pseudo-random number engine, reproducible, portable
    std::minstd_rand prnEng_;
 };
 

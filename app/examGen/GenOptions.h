@@ -38,9 +38,9 @@ public:
    }
 
 private:
+   static GenRandom genrnd_s;
    std::string preProcessing_;
    std::string postProcessing_;
-   GenRandom genrnd_;
 };
 
 #endif

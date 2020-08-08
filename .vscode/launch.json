@@ -9,11 +9,12 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/app/bin/ExamGenerator",
-            "args": ["-d", 
-                     "3",
-                     "-e",
-                     "../examGenScripts/test1.exm"
-                    ],
+            "args": [
+                "-d",
+                "3",
+                "-e",
+                "../examGenScripts/test1.exm"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/bin",
             "environment": [],
@@ -27,17 +28,17 @@
                 }
             ]
         },
-
         {
             "name": "test2.exm",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/app/bin/ExamGenerator",
-            "args": ["-d",
-                     "3",
-                     "-e",
-                     "../examGenScripts/test2.exm"
-                    ],
+            "args": [
+                "-d",
+                "3",
+                "-e",
+                "../examGenScripts/test2.exm"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/app/bin",
             "environment": [],
@@ -51,17 +52,17 @@
                 }
             ]
         },
-
         {
             "name": "test3.exm",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/app/bin/ExamGenerator",
-            "args": ["-d", 
-                     "3",
-                     "-e",
-                     "../examGenScripts/test3.exm"
-                    ],
+            "args": [
+                "-d",
+                "3",
+                "-e",
+                "../examGenScripts/test3.exm"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/app/bin",
             "environment": [],
@@ -74,7 +75,30 @@
                     "ignoreFailures": true
                 }
             ]
-        }
-
+        },
+        {
+            "name": "test4.exm",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/app/bin/ExamGenerator",
+            "args": [
+                "-d",
+                "3",
+                "-e",
+                "../examGenScripts/test4.exm"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/app/bin",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
     ]
 }
