@@ -28,7 +28,8 @@ IGenPtr_t GenCFactory::create(const std::string &key) const
 
 void GenCFactory::addGenerator(const std::string &key, IGenPtr_t pGenerator)
 {
-   LOGD("key = " + key + " generator id = " + pGenerator->getID(), 3);
+   LOGD("key = " + key + " generator id = " + pGenerator->getID(),
+        3);
 
    if (factory_.keyIsAlreadyRegistered(key)) {
       LOGW("Generator '" + key + "' is not unique, already registered");

@@ -8,7 +8,7 @@
 class GenOption : public ICompositeGenerator
 {
 public:
-   GenOption(const std::string &id, const std::string &text);
+   GenOption(std::string_view id, std::string_view text);
    ~GenOption() override = default;
 
    [[nodiscard]] IGenPtr_t copy() const;

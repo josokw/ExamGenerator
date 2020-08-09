@@ -56,7 +56,7 @@ std::vector<std::string> util::toTruthTable(util::bool2Pars_t boolExpr)
    return result;
 }
 
-std::string util::removeNewLines(const std::string &str)
+std::string util::removeNewLines(std::string_view str)
 {
    std::string result;
 

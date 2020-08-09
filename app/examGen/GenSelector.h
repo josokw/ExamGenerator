@@ -15,7 +15,7 @@ class GenSelector : public ICompositeGenerator
 {
 public:
    GenSelector();
-   GenSelector(const std::string &id);
+   GenSelector(std::string_view id);
    ~GenSelector() override = default;
 
    [[nodiscard]] IGenPtr_t copy() const override;

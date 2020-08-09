@@ -8,7 +8,7 @@
 class GenImage : public ILeafGenerator
 {
 public:
-   GenImage(const std::string &id, const std::string &fileName);
+   GenImage(std::string_view id, std::string_view fileName);
    ~GenImage() override = default;
 
    [[nodiscard]] IGenPtr_t copy() const override;

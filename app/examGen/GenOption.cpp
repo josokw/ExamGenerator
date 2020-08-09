@@ -6,7 +6,7 @@
 
 #include <string>
 
-GenOption::GenOption(const std::string &id, const std::string &text)
+GenOption::GenOption(std::string_view id, std::string_view text)
    : ICompositeGenerator{id}
    , isCorrect_{false}
    , text_{text}

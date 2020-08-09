@@ -8,7 +8,7 @@ GenHeader::GenHeader()
 {
 }
 
-GenHeader::GenHeader(const std::string &id)
+GenHeader::GenHeader(std::string_view id)
    : ILeafGenerator{id}
    , School{}
    , Course{}

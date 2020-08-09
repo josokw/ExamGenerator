@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <string>
 
-GenStem::GenStem(const std::string &id)
+GenStem::GenStem(std::string_view id)
    : ICompositeGenerator{id}
    , index_{0}
 {

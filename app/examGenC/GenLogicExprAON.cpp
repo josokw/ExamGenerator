@@ -15,7 +15,7 @@ GenLogicExprAON::GenLogicExprAON()
 {
 }
 
-GenLogicExprAON::GenLogicExprAON(const std::string &id)
+GenLogicExprAON::GenLogicExprAON(std::string_view id)
    : GenItem{id}
    , AON_{randomProfile_s.generate(R0_s)}
 {

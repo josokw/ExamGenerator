@@ -49,9 +49,9 @@ public:
    /// Writes status to os stream.
    virtual std::ostream &write(std::ostream &os, int level = 0) const;
 
-   const std::string &getType() const { return type_; }
-   void setID(const std::string &id);
-   const std::string &getID() const { return id_; }
+   std::string getType() const { return type_; }
+   void setID(std::string_view id);
+   std::string getID() const { return id_; }
    void setLevel(int level);
    int getLevel() const { return level_; }
 

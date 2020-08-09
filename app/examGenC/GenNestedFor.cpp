@@ -18,7 +18,7 @@ GenNestedFor::GenNestedFor()
 {
 }
 
-GenNestedFor::GenNestedFor(const std::string &id)
+GenNestedFor::GenNestedFor(std::string_view id)
    : GenItem{id}
 {
    type_ = __func__;

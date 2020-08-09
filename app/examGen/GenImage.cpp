@@ -3,7 +3,7 @@
 
 #include <string>
 
-GenImage::GenImage(const std::string &id, const std::string &fileName)
+GenImage::GenImage(std::string_view id, std::string_view fileName)
    : ILeafGenerator{id}
    , fileName_{fileName}
    , caption_{}

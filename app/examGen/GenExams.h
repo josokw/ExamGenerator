@@ -11,14 +11,14 @@
 class GenExams : public ICompositeGenerator
 {
 public:
-   GenExams(const std::string &id, std::vector<Reader::message_t> &messages,
+   GenExams(std::string_view id, std::vector<Reader::message_t> &messages,
             int nExams = 1);
    ~GenExams() override = default;
 
    void add(IGenPtr_t pGen) override;
    void generate(std::ostream &os) override;
    std::ostream &write(std::ostream &os, int Level = 0) const override;
-   void setID(const std::string &id);
+   void setID(std::string_view id);
 
 private:
    virtual IGenPtr_t copy() const { return nullptr; }

@@ -5,7 +5,7 @@
 
 #include <exception>
 
-GenExams::GenExams(const std::string &id,
+GenExams::GenExams(std::string_view id,
                    std::vector<Reader::message_t> &messages, int nExams)
    : ICompositeGenerator{id}
 {
@@ -32,7 +32,8 @@ void GenExams::generate(std::ostream &os)
 void GenExams::add(IGenPtr_t pGen)
 {
    LOGD(type_ + ": '" + id_ + "', wants to add " + pGen->getType() + " " +
-        pGen->getID(), 3);
+           pGen->getID(),
+        3);
 
    for (auto &gen : generators_) {
       gen->add(pGen->copy());
@@ -47,14 +48,15 @@ std::ostream &GenExams::write(std::ostream &os, int level) const
    return os;
 }
 
-void GenExams::setID(const std::string &id)
+void GenExams::setID(std::string_view id)
 {
-   LOGD(type_ + ": " + id_ + ", id = " + id, 3);
+   LOGD(type_ + ": " + id_ + ", id = " + std::string(id), 3);
 
    int index = 0;
 
    id_ = id;
    for (auto &gen : generators_) {
-      gen->setID(id + std::string("[" + std::string(1, ('0' + index++)) + "]"));
+      gen->setID(std ::string(id) +
+                 std::string("[" + std::string(1, ('0' + index++)) + "]"));
    }
 }

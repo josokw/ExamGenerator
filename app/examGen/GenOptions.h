@@ -13,7 +13,7 @@ class GenOption;
 class GenOptions : public ICompositeGenerator
 {
 public:
-   GenOptions(const std::string &id);
+   GenOptions(std::string_view id);
    ~GenOptions() override = default;
 
    [[nodiscard]] IGenPtr_t copy() const override;
@@ -28,11 +28,11 @@ public:
    /// Sort options on size.
    void sort();
 
-   void setPreProcessing(const std::string &preProcessing)
+   void setPreProcessing(std::string_view preProcessing)
    {
       preProcessing_ = preProcessing;
    }
-   void setPostProcessing(const std::string &postProcessing)
+   void setPostProcessing(std::string_view postProcessing)
    {
       postProcessing_ = postProcessing;
    }

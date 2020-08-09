@@ -7,7 +7,7 @@
 class GenText : public ILeafGenerator
 {
 public:
-   GenText(const std::string &id, const std::string &text);
+   GenText(std::string_view id, std::string_view text);
    ~GenText() override = default;
 
    [[nodiscard]] IGenPtr_t copy() const override;

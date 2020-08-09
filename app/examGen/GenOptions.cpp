@@ -21,7 +21,7 @@ bool lessLength(IGenPtr_t i1, IGenPtr_t i2)
 
 GenRandom GenOptions::genrnd_s{getSeed() + 12345};
 
-GenOptions::GenOptions(const std::string &id)
+GenOptions::GenOptions(std::string_view id)
    : ICompositeGenerator{id}
    , preProcessing_{}
    , postProcessing_{}

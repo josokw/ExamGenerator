@@ -17,7 +17,7 @@ typedef std::tuple<char, int, const char *, std::string> message_t;
 class GenExam : public ICompositeGenerator
 {
 public:
-   GenExam(const std::string &id, std::vector<message_t> &messages);
+   GenExam(std::string_view id, std::vector<message_t> &messages);
    ~GenExam() override;
 
    [[nodiscard]] IGenPtr_t copy() const override;
@@ -25,11 +25,9 @@ public:
    void generate(std::ostream &os) override;
    std::ostream &write(std::ostream &os, int level = 0) const override;
 
-   [[nodiscard]] IGenPtr_t getHeader() const
-   {
+   [[nodiscard]] IGenPtr_t getHeader() const {
       return (headerIsAdded_) ? generators_[headerIndex_] : nullptr;
-   }
-   void setLastItem();
+   } void setLastItem();
 
 private:
    static int nExams_s;

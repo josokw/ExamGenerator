@@ -16,7 +16,7 @@
 
 int GenExam::nExams_s = 0;
 
-GenExam::GenExam(const std::string &id, std::vector<message_t> &messages)
+GenExam::GenExam(std::string_view id, std::vector<message_t> &messages)
    : ICompositeGenerator{id}
    , messages_{messages}
    , headerIsAdded_{false}

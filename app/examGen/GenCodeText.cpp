@@ -4,9 +4,9 @@
 
 #include <string>
 
-GenCodeText::GenCodeText(const std::string &id,
-                         const std::string &programmingLanguage,
-                         const std::string &codeText)
+GenCodeText::GenCodeText(std::string_view id,
+                         std::string_view programmingLanguage,
+                         std::string_view codeText)
    : ILeafGenerator{id}
    , programmingLanguage_{programmingLanguage}
    , codeText_{codeText}

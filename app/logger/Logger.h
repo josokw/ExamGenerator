@@ -20,9 +20,9 @@ public:
    void setFilename(const std::string &filename);
    void setDebugMode(bool on = true);
    void setLevel(int level) { level_ = level; }
-   void log(const std::string &message);
+   void log(std::string_view message);
    void log(const char *message);
-   void logDebug(const std::string &message, int level)
+   void logDebug(std::string_view message, int level)
    {
       if (level >= level_) {
          if (inDebugMode_) {

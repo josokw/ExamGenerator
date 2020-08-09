@@ -36,7 +36,7 @@ void Logger::setDebugMode(bool on)
    }
 }
 
-void Logger::log(const std::string &message)
+void Logger::log(std::string_view message)
 {
    std::lock_guard<std::mutex> lock(logMutex_);
    logFile_ << message << std::endl;

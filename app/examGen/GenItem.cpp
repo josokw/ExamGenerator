@@ -25,7 +25,7 @@ GenItem::GenItem()
 {
 }
 
-GenItem::GenItem(const std::string &id)
+GenItem::GenItem(std::string_view id)
    : ICompositeGenerator{id}
    , index_{0}
    , isLastItem_{false}
@@ -166,7 +166,7 @@ void GenItem::addToOptions(std::shared_ptr<GenOption> pOption, bool isCorrect)
    generators_[1]->add(IGenPtr_t(pOption));
 }
 
-void GenItem::setPreProOptions(const std::string &preProcessing)
+void GenItem::setPreProOptions(std::string_view preProcessing)
 {
    LOGD(type_ + ": '" + id_ + "'", 3);
 
@@ -175,7 +175,7 @@ void GenItem::setPreProOptions(const std::string &preProcessing)
    pOptions->setPreProcessing(preProcessing);
 }
 
-void GenItem::setPostProOptions(const std::string &postProcessing)
+void GenItem::setPostProOptions(std::string_view postProcessing)
 {
    LOGD(type_ + ": '" + id_ + "'", 3);
 

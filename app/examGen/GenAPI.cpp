@@ -4,8 +4,8 @@
 #include <sstream>
 #include <vector>
 
-GenAPI::GenAPI(const std::string &returnType, const std::string &signature,
-               const std::string &description)
+GenAPI::GenAPI(std::string_view returnType, std::string_view signature,
+               std::string_view description)
    : ILeafGenerator{}
    , returnType_{returnType}
    , signature_{signature}

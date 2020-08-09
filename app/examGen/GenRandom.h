@@ -22,7 +22,7 @@ public:
       return rnd;
    }
 
-   static const std::string &rDNA() { return rDNA_s; }
+   static std::string_view rDNA() { return rDNA_s; }
 
 private:
    inline static std::string rDNA_s{"rDNA-" VERSION};

@@ -10,7 +10,7 @@ GenSelector::GenSelector()
 {
 }
 
-GenSelector::GenSelector(const std::string &id)
+GenSelector::GenSelector(std::string_view id)
    : ICompositeGenerator{id}
 {
    type_ = __func__;

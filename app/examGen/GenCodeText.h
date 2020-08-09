@@ -8,8 +8,8 @@
 class GenCodeText : public ILeafGenerator
 {
 public:
-   GenCodeText(const std::string &id, const std::string &programmingLanguage,
-               const std::string &codeText);
+   GenCodeText(std::string_view id, std::string_view programmingLanguage,
+               std::string_view codeText);
    ~GenCodeText() override = default;
 
    [[nodiscard]] IGenPtr_t copy() const override;

@@ -8,8 +8,8 @@
 class GenAPI : public ILeafGenerator
 {
 public:
-   GenAPI(const std::string &returnType, const std::string &signature,
-          const std::string &description);
+   GenAPI(std::string_view returnType, std::string_view signature,
+          std::string_view description);
    ~GenAPI() override = default;
 
    [[nodiscard]] IGenPtr_t copy() const override;

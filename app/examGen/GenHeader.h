@@ -13,7 +13,7 @@ class GenHeader : public ILeafGenerator
 {
 public:
    GenHeader();
-   GenHeader(const std::string &id);
+   GenHeader(std::string_view id);
    ~GenHeader() override = default;
 
    [[nodiscard]] IGenPtr_t copy() const override;

@@ -8,7 +8,7 @@ class GenNestedFor final : public GenItem
 {
 public:
    GenNestedFor();
-   GenNestedFor(const std::string & id);
+   GenNestedFor(std::string_view  id);
    virtual ~GenNestedFor() = default;
 
 protected:

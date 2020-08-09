@@ -18,7 +18,7 @@ class GenItem : public ICompositeGenerator
 {
 public:
    GenItem();
-   GenItem(const std::string &id);
+   GenItem(std::string_view id);
    ~GenItem() override = default;
 
    [[nodiscard]] IGenPtr_t copy() const override;
@@ -31,8 +31,8 @@ public:
    void setAsLastItem() const;
    void addToOptions(std::shared_ptr<GenOption> pOption,
                      bool isCorrect = false);
-   void setPreProOptions(const std::string &preProcessing);
-   void setPostProOptions(const std::string &postProcessing);
+   void setPreProOptions(std::string_view preProcessing);
+   void setPostProOptions(std::string_view postProcessing);
    void setLevel(int level);
    /// Set shuffle status for generating options
    void shuffleON();

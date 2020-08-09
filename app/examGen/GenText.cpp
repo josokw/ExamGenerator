@@ -4,7 +4,7 @@
 
 #include <string>
 
-GenText::GenText(const std::string& id, const std::string &text)
+GenText::GenText(std::string_view id, std::string_view text)
    : ILeafGenerator{id}
    , text_{text}
 {

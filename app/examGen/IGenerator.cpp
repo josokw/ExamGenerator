@@ -40,7 +40,7 @@ std::ostream &IGenerator::write(std::ostream &os, int level) const
    return os;
 }
 
-void IGenerator::setID(const std::string &id)
+void IGenerator::setID(std::string_view id)
 {
    id_ = id;
 
