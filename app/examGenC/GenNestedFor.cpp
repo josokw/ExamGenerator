@@ -23,7 +23,7 @@ GenNestedFor::GenNestedFor(std::string_view id)
 {
    type_ = __func__;
 
-   LOGD("'" + id_ + "', intialised", 2);
+   LOGD("'" + id_ + "', initialised", 2);
 }
 
 void GenNestedFor::prepare()
@@ -50,23 +50,39 @@ void GenNestedFor::prepare()
    std::string sjMax{std::to_string(jMax)};
 
    auto pCodeText =
-      std::make_shared<GenCodeText>(id_ + ".ctxt", "c",
-                                    "int i = 0;\n"
-                                    "int j = 0;\n"
-                                    "int result = " +
-                                       sinitResult +
-                                       ";\n\n"
-                                       "for (i = " +
-                                       siStart + "; i < " + siMax +
-                                       "; i++)\n"
-                                       "{\n"
-                                       "   for (j = " +
-                                       sjStart + "; j < " + sjMax +
-                                       "; j++)\n"
-                                       "   {\n"
-                                       "      result = result * 2;\n"
-                                       "   }\n"
-                                       "}\n");
+      // ANSI-C
+      // std::make_shared<GenCodeText>(id_ + ".ctxt", "c",
+      //                               "int i = 0;\n"
+      //                               "int j = 0;\n"
+      //                               "int result = " +
+      //                                  sinitResult +
+      //                                  ";\n\n"
+      //                                  "for (i = " +
+      //                                  siStart + "; i < " + siMax +
+      //                                  "; i++)\n"
+      //                                  "{\n"
+      //                                  "   for (j = " +
+      //                                  sjStart + "; j < " + sjMax +
+      //                                  "; j++)\n"
+      //                                  "   {\n"
+      //                                  "      result = result * 2;\n"
+      //                                  "   }\n"
+      //                                  "}\n");
+   std::make_shared<GenCodeText>(id_ + ".ctxt", "c",
+                                 "int result = " +
+                                    sinitResult +
+                                    ";\n\n"
+                                    "for (int i = " +
+                                    siStart + "; i < " + siMax +
+                                    "; i++)\n"
+                                    "{\n"
+                                    "   for (int j = " +
+                                    sjStart + "; j < " + sjMax +
+                                    "; j++)\n"
+                                    "   {\n"
+                                    "      result = result * 2;\n"
+                                    "   }\n"
+                                    "}\n");
 
    addToStem(pCodeText);
 
